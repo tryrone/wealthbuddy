@@ -75,6 +75,9 @@ const Login = () => (
             Sign Up
           </Link>
         </p>
+        <Link to="/forgot-pass" className="text-wb-primary text-center">
+           <p> Forgot password?</p>
+          </Link>
       </div>
     </div>
   </section>
