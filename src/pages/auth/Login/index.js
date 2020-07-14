@@ -30,7 +30,7 @@ const Login = () => (
         </p>
       </div>
 
-      <form onSubmit={() => null} className="flex flex-col items-center">
+      <form onSubmit={() => {}} className="flex flex-col items-center">
         <fieldset className="mb-5">
           <label className="block text-xs mb-2">Email</label>
           <input
@@ -54,18 +54,20 @@ const Login = () => (
         </fieldset>
 
         <fieldset className="w-full justify-between flex items-center">
-          <Link
+          {/* <Link
             to="/forgot-password"
             className="forgot-password text-gray-500 "
           >
             Forgot Password?
-          </Link>
+          </Link> */}
         </fieldset>
+        <Link to="/main-dash">
         <button
           className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
         >
           Login
         </button>
+        </Link>
       </form>
 
       <div className="mt-8 ">
@@ -75,7 +77,7 @@ const Login = () => (
             Sign Up
           </Link>
         </p>
-        <Link to="/forgot-pass" className="text-wb-primary text-center">
+        <Link to="/forgot-pass" className="forgot-password text-gray-500 text-center">
            <p> Forgot password?</p>
           </Link>
       </div>
