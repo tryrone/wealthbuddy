@@ -1,5 +1,5 @@
-import axios from '~/services/api';
-import urls from '~/constants/url';
+import axios from 'services/api';
+import urls from "../../constants/urls";
 
 export const getCustomerSavings = (params) => {
   return axios.post(urls.getCustomerSavings, params);
@@ -14,5 +14,5 @@ export const getAllSavings = (params) => {
 };
 
 export const getSavingsConfiguration = (params) => {
-  return axios.post(urls.getSavingsConfiguration, params);
+  return axios.get(urls.getSavingsConfiguration, params);
 };

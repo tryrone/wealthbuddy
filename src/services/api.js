@@ -1,5 +1,5 @@
 import axios from "axios";
-// import store from "~/state/store";
+import store from "state/store";
 
 const Axios = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -15,12 +15,12 @@ const Axios = axios.create({
 
 Axios.interceptors.request.use(
   async (config) => {
-    // const state = store.getState();
-    // const { token: jwtToken } = state.account;
-    //
-    // if (jwtToken) {
-    //   config.headers.Authorization = `Bearer ${jwtToken}`;
-    // }
+    const state = store.getState();
+    const { jwtToken } = state.user.data;
+
+    if (jwtToken) {
+      config.headers.Authorization = `Bearer ${jwtToken}`;
+    }
 
     return config;
   },

@@ -2,7 +2,7 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { SIGN_UP } from "./types";
 import { processError } from "state/ducks/api/actions";
 import { signUpStart, signUpSuccess, signUpFail } from "./actions";
-import Customer from "constants/urls";
+import { Customer } from "services/network";
 
 function* operation({ payload, meta }) {
   yield put(signUpStart());

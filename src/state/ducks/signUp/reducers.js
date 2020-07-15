@@ -12,11 +12,13 @@ export default function rootReducer(baseState = initialState, action) {
     case SIGN_UP_START: {
       return produce(baseState, draftState => {
         draftState.loading = true;
+        draftState.error = null;
       });
     }
     case SIGN_UP_SUCCESS: {
       return produce(baseState, draftState => {
-        draftState.loading = true;
+        draftState.loading = false;
+        draftState.error = null;
         draftState.data = action.payload;
       });
     }

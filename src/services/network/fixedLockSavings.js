@@ -1,5 +1,5 @@
-import axios from '~/services/api';
-import urls from '~/constants/url';
+import axios from 'services/api';
+import urls from "../../constants/urls";
 
 export const createFixedLocked = (params) => {
   return axios.post(urls.createFixedLocked, params);

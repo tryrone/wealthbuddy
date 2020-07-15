@@ -1,5 +1,5 @@
-import axios from '~/services/api';
-import urls from '~/constants/url';
+import axios from 'services/api';
+import urls from "../../constants/urls";
 
 export const login = (params) => {
   return axios.post(urls.login, params);
@@ -34,7 +34,7 @@ export const getCustomerCards = (params) => {
 };
 
 export const getDashboard = (params) => {
-  return axios.post(urls.getDashboard, params);
+  return axios.get(urls.getDashboard, params);
 };
 
 export const uploadProfilePicture = (params) => {
@@ -66,7 +66,7 @@ export const saveProfile = (params) => {
 };
 
 export const getBankList = (params) => {
-  return axios.post(urls.getBankList, params);
+  return axios.get(urls.getBankList, params);
 };
 
 export const getUserBanks = (params) => {

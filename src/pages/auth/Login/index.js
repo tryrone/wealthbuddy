@@ -15,7 +15,7 @@ const Login = () => (
     </div>
 
     <div
-      className={`auth-modal flex flex-col items-center bg-white fadeIn ${"login-fieldset onboarding-wrap"}`}
+      className={`auth-modal flex flex-col items-center bg-white fadeIn ${"user-fieldset onboarding-wrap"}`}
     >
       <div className="flex flex-col items-center mb-6">
         <i className="w-10 mb-4">
