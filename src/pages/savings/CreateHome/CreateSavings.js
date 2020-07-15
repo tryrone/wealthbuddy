@@ -1,4 +1,4 @@
-import React, { Fragment ,useState} from 'react';
+import React, { Fragment ,useEffect} from 'react';
 import { Link } from "react-router-dom";
 import personalSavings from "../../../assets/img/personalIcon.png";
 import fixedSavings from "../../../assets/img/fixedIcon.png";
@@ -20,16 +20,26 @@ const options = [
 ];
 
  const CreateSavings =()=> {
-    const [modal,showModal ] = useState(false);
+
+    useEffect(() => {
+        document.querySelector(".floor").classList.add("hide");
+    }, []);
     
+    const modesAl =()=>{
+        document.querySelector(".floor").classList.add("block");
+        document.querySelector(".flare").classList.add("hide");
+        document.querySelector(".modal").classList.add("modal-active");
+    }
 
     return (
         <Fragment>
-            {
-                modal ?
-                  <CreatePersonalSavingsModal  />     
-                :
-                <div className="px-12 fadeIn">
+            
+
+                <div className="floor ">
+                <CreatePersonalSavingsModal  /> 
+                </div>
+
+                <div className="px-12 flare fadeIn">
                 <div className="page-heading mb-12 flex flex-col">
                     <h1 className="text-4xl mb-6 font-medium">
                         Savings
@@ -41,7 +51,7 @@ const options = [
                 <div className="flex-grow flex justify-center items-start">
                     <div className="create-saving--overview">
                         <div className="flex justify-between create-savings flex-wrap">
-                            <div onClick={()=>{showModal(true)}} className="card flex items-center">
+                            <div onClick={()=>{modesAl()}} className="card flex items-center">
                                 <div className="savings-image">
                                     <img src={personalSavings} alt={`Wealth Buddy Personal savings`} />
                                 </div>
@@ -66,7 +76,7 @@ const options = [
                     </div>
                 </div>
             </div>
-            }
+        
         
         </Fragment>
     )

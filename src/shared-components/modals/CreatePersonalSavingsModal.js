@@ -39,7 +39,7 @@ const closeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24
 
  const CreatePersonalSavingsModal=(props)=> {
     useEffect(() => {
-        document.querySelector(".modal").classList.add("modal-active");
+        // document.querySelector(".modal").classList.add("modal-active");
         // closeModalOnClick(closeModal)
         
     }, []);
