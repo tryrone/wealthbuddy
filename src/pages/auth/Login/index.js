@@ -61,7 +61,7 @@ const Login = () => (
             Forgot Password?
           </Link> */}
         </fieldset>
-        <Link to="/main-dash">
+        <Link to="/dashboard">
         <button
           className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
         >

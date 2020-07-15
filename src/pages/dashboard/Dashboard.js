@@ -1,9 +1,10 @@
 import React from 'react';
-import { Route, } from "react-router-dom";
+import { Route, Switch} from "react-router-dom";
 import MobileNav from './components/MobileNav';
 import NavBar from './components/NavBar';
 import Header from './components/Header';
 import DasboardHome from './components/DasboardHome';
+import Savings from 'pages/savings';
 
 const mobileMenu = false;
 const newUser = false;
@@ -22,12 +23,20 @@ const newUser = false;
             <section className={`flex-grow ${newUser === false ? "existing-entry" : "new-user"}`}>
                     <Header />
                     <React.Fragment>
+                    <Switch>
+                                <Route exact path="/dashboard">
+                                    <DasboardHome />
+                                </Route>
+
+                                <Route path="/dashboard/savings">
+                                    <Savings/>
+                                </Route>
+
+                                </Switch>
                         {
                         // newUser === false ?
                             // <Switch>
-                                <Route exact path="/main-dash">
-                                    <DasboardHome />
-                                </Route>
+                                
                                 // <Route exact path={`${path}`}>
                                 //     <DashboardHome />
                                 // </Route>

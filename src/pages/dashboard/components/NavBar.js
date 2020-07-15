@@ -45,7 +45,7 @@ const NavMenuItems = ({ name, icon, path }) => {
                 </i>
                 <span>{name}</span>
             </NavLink>
-        </li>
+        </li> 
     )
 }
 
