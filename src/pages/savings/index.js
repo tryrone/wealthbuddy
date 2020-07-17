@@ -13,8 +13,12 @@ const Savings=()=> {
         </Route>
 
         <Route path="/dashboard/savings/create"> 
-            <CreateHome />
+            <CreateHome /> 
         </Route>
+
+        {/* <Route path={`${path}/view/:id`} > 
+            <ViewSaving savings={savings} />
+        </Route> */}
             
         </Switch>
     )

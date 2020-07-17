@@ -1,6 +1,6 @@
 import React from 'react';
 import CreatePersonalSavings from '../CreatePersonalSavings';
-import ConfirmPersonalSavings from '../ConfirmPersonalSavings';
+// import ConfirmPersonalSavings from '../ConfirmPersonalSavings';
 
 
 const PersonalSavings =()=> {
@@ -8,9 +8,9 @@ const PersonalSavings =()=> {
         <React.Fragment>
             <div className="px-12 ">
                 <CreatePersonalSavings />
-                <ConfirmPersonalSavings  />
+                {/* <ConfirmPersonalSavings  />  */}
             </div>
-        </React.Fragment>
+        </React.Fragment> 
     )
 }
 export default  PersonalSavings;

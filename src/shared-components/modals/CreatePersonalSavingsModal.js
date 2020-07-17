@@ -71,14 +71,14 @@ const closeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24
                             <div className="proceed-body">
                                 <Link to={{
                                     pathname: '/dashboard/savings/create/personal',
-                                    state: { params: { name: "" } }
+                                    state: { params: { name: "" } } 
                                 }} 
                                 // onClick={closeModal} className="card card-label addNewSavings card-padding mb-0 flex justify-center items-center">
                                  className="card card-label addNewSavings card-padding mb-0 flex justify-center items-center">
                                     <div className="flex flex-col items-center text-black">
                                         <span className="" dangerouslySetInnerHTML={{ __html: addFundIcon }}></span>
                                         <h5 className="card-header color-primary mt-3 font-medium ">Customize</h5>
-                                    </div>
+                                    </div> 
                                 </Link>
                             </div>
                         </div>
