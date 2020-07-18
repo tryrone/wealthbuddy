@@ -6,6 +6,7 @@ import SignUp from "pages/auth/signUp";
 import ForgotPassword from "pages/auth/ForgotPassword/ForgotPassword";
 import ForgotPassTwo from "pages/auth/ForgotPassword/ForgotPassTwo";
 import Dashboard from "pages/dashboard/Dashboard";
+import VerifyEmail from "pages/auth/VerifyEmail/VerifyEmail";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/signup" component={SignUp}/>
         <Route path="/forgot-pass" component={ForgotPassword}/>
         <Route path="/forgot-two" component={ForgotPassTwo}/>
+        <Route path="/verify" component={VerifyEmail}/>
         <Route path="/dashboard">
             <Dashboard  />
         </Route>
