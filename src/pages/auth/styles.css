@@ -1,18 +1,18 @@
 .auth-modal {
   width: 100%;
   max-width: 629px;
-  box-shadow: 0 4px 51px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   padding: 40px 51px 70px;
   border-radius: 14px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.onboarding-wrap {
-  min-height: 560px;
-  display: flex;
-  align-items: center;
-}
+/*.onboarding-wrap {*/
+/*  min-height: 560px;*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*}*/
 
 .leafy-bg {
   background-image: url("../../assets/img/left_leaf.svg"),

@@ -1,9 +1,19 @@
 import axios from "axios";
 import store from "state/store";
 
+const transformResponse = (data) => {
+    let response = JSON.parse(data);
+
+    if (response.status === false) {
+        throw Error(response.message);
+    }
+
+    return response;
+};
+
 const Axios = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
-  timeout: 10 * 1000,
+  timeout: 15 * 1000,
   credentials: "same-origin",
   headers: {
     "Content-Type": "application/json",
@@ -11,6 +21,7 @@ const Axios = axios.create({
     "Access-Control-Allow-Origin": "*",
     crossorigin: "true",
   },
+  transformResponse: [transformResponse],
 });
 
 Axios.interceptors.request.use(
@@ -31,7 +42,13 @@ Axios.interceptors.request.use(
 );
 
 Axios.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (response.data.status === false) {
+      return Promise.reject(response);
+    }
+
+    return response;
+  },
 
   async (error) => {
     if (error.response && error.response.status === 403) {

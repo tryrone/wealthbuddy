@@ -14870,7 +14870,7 @@ html{
 }
 
 body,html{
-  font-family:'Gotham Rounded',sans-serif;
+  font-family:"Gotham Rounded",sans-serif;
   font-size:16px;
   color:#000;
   background-color:#f6f7fb;
@@ -14892,7 +14892,12 @@ a{
   cursor:pointer;
   border:1px solid;
   line-height:1;
-  outline:0!important
+  outline:0!important;
+  transition:background-color .2s ease-in
+}
+
+.wealth-buddy--cta:disabled{
+  background-color:#dbe9ae
 }
 
 .card{
@@ -15409,7 +15414,7 @@ iframe{
 }
 
 .pretty.p-switch .state:before{
-  content:'';
+  content:"";
   border:1px solid #bdc3c7;
   border-radius:60px;
   width:2em;
@@ -15436,7 +15441,7 @@ iframe{
 }
 
 .pretty .state label:after,.pretty .state label:before{
-  content:'';
+  content:"";
   width:16px;
   height:16px;
   display:block;
@@ -17058,7 +17063,7 @@ fieldset{
 .login-fieldset fieldset.is-six--code input{
   width:calc(16.6667% - 8px)!important;
   height:48px!important;
-  font-family:'Gotham Rounded',sans-serif!important;
+  font-family:"Gotham Rounded",sans-serif!important;
   font-size:16px!important;
   font-weight:500;
   font-weight:500;

@@ -1,35 +1,43 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
-import Logo from "static/logo.svg";
-import "../styles.css";
-import Loading from "../../../shared-components/Loading";
+import Icon from "assets/img/passwordIcon.png";
+import "../../styles.css";
+import Loading from "shared-components/Loading";
 import * as yup from "yup";
 import { Field, Form, Formik } from "formik";
 import { connect } from "react-redux";
-import { login } from "../../../state/ducks/user/actions";
+import { login } from "state/ducks/user/actions";
+import { Link } from "react-router-dom";
 
 const initialValues = {
-  email: "",
   password: "",
+  confirmPassword: "",
 };
 
 const validationSchema = yup.object().shape({
-  email: yup.string().label("Email").email().required(),
   password: yup.string().label("Password").required(),
+  confirmPassword: yup
+    .string()
+    .label("Password")
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required(),
 });
 
-const Login = ({ history, loading, error, dispatchLogin }) => (
+const SignUpSetPassword = ({ history, loading, error, dispatchLogin }) => (
   <section className="h-screen w-full setup-screens flex flex-col justify-center items-center leafy-bg">
-    <div className="flex flex-col items-center bg-white fadeIn login-fieldset onboarding-wrap auth-modal">
-      <div className="flex flex-col items-center mb-6">
+    <div className="flex flex-col items-center bg-white fadeIn login-fieldset auth-modal">
+      <div className="flex flex-col items-center setup-success mb-6">
         <i className="w-10 mb-4">
-          <img src={Logo} alt="" />
+          <img src={Icon} alt="" />
         </i>
-        <h1 className="text-2xl font-medium">Sign in</h1>
+        <h1 className="text-xl font-medium mb-2">Set Password</h1>
+        <p className="text-gray-500 text-center leading-normal">
+          Enter a password that will be easy for you and difficult for others to
+          remember
+        </p>
       </div>
 
       {loading ? (
-        <Loading text="Logging you in" />
+        <Loading text="Verifying your password" />
       ) : (
         <Fragment>
           {error && (
@@ -56,20 +64,9 @@ const Login = ({ history, loading, error, dispatchLogin }) => (
                     onSubmit={handleSubmit}
                   >
                     <fieldset className="mb-5">
-                      <label className="block text-xs mb-2">Email</label>
-                      <Field
-                        placeholder="my@email.com"
-                        type="email"
-                        id="email"
-                        name="email"
-                        className="block w-72 text-xs p-3 border border-gray-400 rounded"
-                      />
-                    </fieldset>
-
-                    <fieldset className="mb-5">
                       <label className="block text-xs mb-2">Password</label>
                       <Field
-                        placeholder="********"
+                        placeholder="Enter Password"
                         type="password"
                         id="password"
                         name="password"
@@ -77,30 +74,32 @@ const Login = ({ history, loading, error, dispatchLogin }) => (
                       />
                     </fieldset>
 
-                    <fieldset className="w-full justify-between flex items-center">
-                      <Link
-                        to="/forgot-password"
-                        className="forgot-password text-gray-500 "
-                      >
-                        Forgot Password?
-                      </Link>
+                    <fieldset className="mb-5">
+                      <label className="block text-xs mb-2">Password</label>
+                      <Field
+                        placeholder="Re-Enter Password"
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        className="block w-72 text-xs p-3 border border-gray-400 rounded"
+                      />
                     </fieldset>
 
                     <button
-                        type="submit"
-                        className="mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm"
-                        onSubmit={handleSubmit}
-                        disabled={!isValid}
+                      type="submit"
+                      className="mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm"
+                      onSubmit={handleSubmit}
+                      disabled={!isValid}
                     >
-                      Login
+                      Done
                     </button>
                   </Form>
 
                   <div className="mt-8 ">
                     <p className="text-sm text-gray-500">
-                      Don't have an account?{" "}
-                      <Link to="/auth/sign-up" className="text-wb-primary">
-                        Sign Up
+                      Already have an account?{" "}
+                      <Link to="/auth/login" className="text-wb-primary">
+                        Sign In
                       </Link>
                     </p>
                   </div>
@@ -123,4 +122,4 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchLogin: (payload, meta) => dispatch(login(payload, meta)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpSetPassword);
