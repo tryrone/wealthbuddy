@@ -11,6 +11,8 @@ import { cardsSagas } from "./ducks/cards";
 import { bankAccountsSagas } from "./ducks/bankAccounts";
 import { fundWalletWithExistingCardSagas } from "./ducks/fundWalletWithExistingCard";
 import { addBankAccountSagas } from "./ducks/addBankAccount";
+import { addBvnSagas } from "./ducks/addBvn";
+import { saveProfileSagas } from "./ducks/saveProfile";
 
 export default function* rootSaga() {
   yield fork(apiSagas);
@@ -25,4 +27,6 @@ export default function* rootSaga() {
   yield fork(bankAccountsSagas);
   yield fork(fundWalletWithExistingCardSagas);
   yield fork(addBankAccountSagas);
+  yield fork(addBvnSagas);
+  yield fork(saveProfileSagas);
 }

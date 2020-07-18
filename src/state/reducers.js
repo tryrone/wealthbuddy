@@ -12,6 +12,8 @@ import fundWalletWithExistingCardReducer from "./ducks/fundWalletWithExistingCar
 import addBankAccountReducer from "./ducks/addBankAccount";
 import startVerifyEmailReducer from "./ducks/startVerifyEmail";
 import completeVerifyEmailReducer from "./ducks/completeVerifyEmail";
+import addBvnReducer from "./ducks/addBvn";
+import saveProfileReducer from "./ducks/saveProfile";
 
 export default combineReducers({
   user: userReducer,
@@ -27,4 +29,6 @@ export default combineReducers({
   addBankAccount: addBankAccountReducer,
   startVerifyEmail: startVerifyEmailReducer,
   completeVerifyEmail: completeVerifyEmailReducer,
+  addBvn: addBvnReducer,
+  saveProfile: saveProfileReducer,
 });
