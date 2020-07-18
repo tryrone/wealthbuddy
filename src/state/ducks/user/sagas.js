@@ -12,7 +12,7 @@ function* login({ payload, meta }) {
     let { data } = response.data;
     data.jwtToken = response.headers["token"];
     yield put(loginSuccess(data));
-    yield meta.history.push("/dashboard");
+    // yield meta.history.push("/dashboard");
   } catch (error) {
     yield put(loginFail(error.message));
   }
