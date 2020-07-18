@@ -1,22 +1,11 @@
 import React from "react";
-import LeafLeftSvg from "shared-components/svgs/LeafLeftSvg";
-import LeafRightSvg from "shared-components/svgs/LeafRightSvg";
 import { Link } from "react-router-dom";
 import Logo from "static/logo.svg";
 import "pages/auth/styles.css";
 
 const Login = () => (
-  <section className="h-screen w-screen setup-screens flex flex-col justify-center items-center">
-    <div className="leaf-left">
-      <LeafLeftSvg />
-    </div>
-    <div className="leaf-right">
-      <LeafRightSvg />
-    </div>
-
-    <div
-      className={`auth-modal flex flex-col items-center bg-white fadeIn ${"user-fieldset onboarding-wrap"}`}
-    >
+  <section className="h-screen w-screen setup-screens flex flex-col justify-center items-center leafy-bg">
+    <div className="flex flex-col items-center bg-white fadeIn login-fieldset onboarding-wrap auth-modal">
       <div className="flex flex-col items-center mb-6">
         <i className="w-10 mb-4">
           <img src={Logo} alt="" />
@@ -54,32 +43,27 @@ const Login = () => (
         </fieldset>
 
         <fieldset className="w-full justify-between flex items-center">
-          {/* <Link
+          <Link
             to="/forgot-password"
             className="forgot-password text-gray-500 "
           >
             Forgot Password?
-          </Link> */}
+          </Link>
         </fieldset>
         <Link to="/dashboard">
-        <button
-          className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
-        >
-          Login
-        </button>
+          <button className="mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm">
+            Login
+          </button>
         </Link>
       </form>
 
       <div className="mt-8 ">
         <p className="text-sm text-gray-500">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-wb-primary">
+          <Link to="/auth/sign-up" className="text-wb-primary">
             Sign Up
           </Link>
         </p>
-        <Link to="/forgot-pass" className="forgot-password text-gray-500 text-center">
-           <p> Forgot password?</p>
-          </Link>
       </div>
     </div>
   </section>

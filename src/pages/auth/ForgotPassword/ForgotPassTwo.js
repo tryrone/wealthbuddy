@@ -6,7 +6,7 @@ import LeafRightSvg from 'shared-components/svgs/LeafRightSvg';
 // import Loading from 'shared-components/Loading';
 
 
-function ForgotPassTwo() {
+function ForgotPasswordSuccess() {
     return (
         <section className="h-screen w-screen setup-screens flex flex-col justify-center items-center">
             <div className="leaf-left">
@@ -27,7 +27,7 @@ function ForgotPassTwo() {
 
                    <h1 className="text-2xl font-medium">Success</h1>
                  <p className="text-center mt-3 text-gray-500 leading-normal">A default password has been sent to your email</p>
-             
+
                  <Link to="/" className="mt-4 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm">
                 Proceed to Login</Link>
 
@@ -38,15 +38,15 @@ function ForgotPassTwo() {
                </p>
             </div>
              </div>
-             
-                
-           
+
+
+
 
             </section>
 
 
 
-       
+
     )
 }
-export default  ForgotPassTwo;
+export default  ForgotPasswordSuccess;
