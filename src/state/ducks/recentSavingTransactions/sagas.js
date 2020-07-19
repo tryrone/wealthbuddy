@@ -11,7 +11,7 @@ function* operation() {
   yield put(getRecentSavingTransactionsDataStart());
 
   try {
-    const response = yield call(Savings.getCustomerSavings);
+    const response = yield call(Savings.getSavingsTransactions);
     let { data } = response.data;
     yield put(getRecentSavingTransactionsDataSuccess(data));
   } catch (error) {

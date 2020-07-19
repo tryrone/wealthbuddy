@@ -14892,8 +14892,7 @@ a{
   cursor:pointer;
   border:1px solid;
   line-height:1;
-  outline:0!important;
-  transition:background-color .2s ease-in
+  outline:0!important
 }
 
 .wealth-buddy--cta:disabled{
@@ -14902,7 +14901,7 @@ a{
 
 .card{
   background:#fff;
-  box-shadow:0 4px 20px rgba(0,0,0,.08);
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
   border-radius:14px
 }
 
@@ -15292,7 +15291,7 @@ select{
 .header-wrap .header-search{
   height:48px;
   background:#fff;
-  box-shadow:0 4px 20px rgba(0,0,0,.06);
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
   border-radius:3px;
   width:100%
 }
@@ -15300,17 +15299,18 @@ select{
 .search-field{
   width:100%;
   margin-right:40px;
-  max-width:717px
+  max-width:50%
 }
 
 .header-wrap{
-  padding-top:25px;
+  padding-top:19px;
   position:fixed;
   top:0;
   z-index:9;
   background:#f6f7fb;
-  padding-bottom:20px!important;
-  right:0
+  padding-bottom:19px!important;
+  right:0;
+  border-bottom:1px solid rgba(203,213,224,.25)
 }
 
 .search-field{
@@ -15846,7 +15846,7 @@ a:focus{
   border-top-left-radius:0;
   border-top-right-radius:0;
   z-index:9;
-  max-height:250px;
+  max-height:220px;
   overflow-x:hidden;
   overflow-y:scroll
 }
@@ -15862,6 +15862,12 @@ a:focus{
 
 .dropdown-details{
   font-weight:400
+}
+
+.dropdown-item--title{
+  font-size:.875rem;
+  font-weight:500;
+  color:rgba(0,0,0,.8)
 }
 
 .fieldset{
@@ -16169,7 +16175,7 @@ a:focus{
 }
 
 .existing-entry{
-  margin-top:115px
+  margin-top:130px
 }
 
 .text-4xl{
@@ -16359,11 +16365,11 @@ form.create-card{
 }
 
 .bg-wb-overlay{
-  background-color:rgba(0,0,0,.6)
+  background-color:rgba(0,0,0,.8)
 }
 
 .w65+.w35{
-  margin-left:00px;
+  margin-left:0;
   margin-right:0
 }
 
@@ -16405,9 +16411,8 @@ form.create-card{
 .confirm-wrap{
   margin-bottom:25px;
   background:#fff;
-  border-radius:8px;
-  border:1px solid rgba(0,0,0,.1);
-  box-shadow:0 4px 6px rgba(0,0,0,.06);
+  border-top:1px solid rgba(0,0,0,.1);
+  border-bottom:1px solid rgba(0,0,0,.1);
   padding:25px 20px
 }
 
@@ -16549,7 +16554,8 @@ form.create-card{
 }
 
 .notification-icon{
-  margin-left:35px
+  margin-left:35px;
+  width:calc(50% - 105px)
 }
 
 .personal-inner--icon{
@@ -16558,7 +16564,7 @@ form.create-card{
 
 .mobile-header--wrap{
   background:#fff;
-  box-shadow:0 4px 20px rgba(0,0,0,.08);
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
   height:68px
 }
 
@@ -16658,7 +16664,7 @@ form.create-card{
 nav figure>img{
   height:91px;
   width:91px;
-  box-shadow:0 4px 20px rgba(0,0,0,.08);
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
   border-radius:100px
 }
 
@@ -17463,6 +17469,144 @@ nav .user-no--picture{
   display:flex
 }
 
+.receive-update p{
+  padding-right:20px
+}
+
+.successBadge{
+  background:rgba(153,191,23,.27);
+  color:#000!important
+}
+
+.wealth-buddy--cta.opaque{
+  pointer-events:none
+}
+
+.user-progress--bar{
+  height:11px;
+  background:rgba(130,130,130,.5);
+  width:100%;
+  border-radius:100px;
+  margin-top:7px;
+  position:relative
+}
+
+.status-progress{
+  width:100%;
+  padding-right:50px;
+  max-width:400px
+}
+
+.user-single--progress{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  background:#00b394;
+  border-radius:100px
+}
+
+.color-green{
+  color:#00b394
+}
+
+.dropdown-item--title.text-sm{
+  font-size:.75rem;
+  font-weight:400
+}
+
+.single-user--card{
+  background:linear-gradient(360deg,#e2574c -44.29%,#f4b459 136.25%);
+  box-shadow:0 4px 15px rgba(0,0,0,.15);
+  border-radius:5px;
+  padding:30px;
+  width:calc(50% - 18px);
+  min-height:220px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  margin-bottom:35px
+}
+
+.user-card--wrap{
+  max-width:900px;
+  display:flex;
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom:-35px
+}
+
+.single-card--details{
+  width:calc(25% - 20px);
+  justify-content:space-between;
+  text-align:right;
+  align-items:center;
+  letter-spacing:5px;
+  font-weight:700
+}
+
+.single-dot{
+  display:flex
+}
+
+.single-card--excerpt img{
+  height:20px;
+  width:auto
+}
+
+.card-main--heading{
+  font-size:1.25rem
+}
+
+.user-card--heading{
+  margin-bottom:30px
+}
+
+.user-card--heading .plus{
+  height:40px;
+  width:40px
+}
+
+.single-bank{
+  background:#e5e6eb;
+  box-shadow:0 4px 15px rgba(0,0,0,.04)
+}
+
+.user-bank--name{
+  font-size:1.35rem;
+  letter-spacing:2px
+}
+
+.single-bank .single-card--excerpt{
+  font-weight:400;
+  letter-spacing:2px
+}
+
+.notification-icon--inline{
+  display:flex;
+  justify-content:flex-end
+}
+
+.auth-modal .empty-bank--icon{
+  height:120px;
+  width:120px;
+  min-height:120px;
+  min-width:120px
+}
+
+.plus-wrap{
+  cursor:pointer
+}
+
+.doc-status--icon svg{
+  width:30px;
+  height:30px
+}
+
+.account-content{
+  flex-wrap:wrap
+}
+
 @media only screen and (min-width:768px) and (max-width:1366px){
   body,html{
     font-size:14.6px
@@ -18163,7 +18307,9 @@ nav .user-no--picture{
   }
 
   .profile-left--wrap{
-    width:100%
+    width:100%;
+    border-right:0;
+    padding-right:0
   }
 
   .documentation-content,.profile-wrap{
@@ -18250,10 +18396,95 @@ nav .user-no--picture{
     height:70px;
     width:100%
   }
+
+  .account-content{
+    flex-wrap:wrap
+  }
+
+  .settings-fields--wrap .wealth-buddy--cta{
+    margin-right:auto
+  }
+
+  .profile-tab--wrap li{
+    min-width:39.5%
+  }
+
+  .profile-tab--wrap{
+    overflow-x:scroll;
+    -ms-overflow-style:none;
+    scrollbar-width:none
+  }
+
+  .profile-tab--wrap::-webkit-scrollbar{
+    display:none
+  }
+
+  .single-user--card{
+    width:100%;
+    margin-bottom:20px;
+    padding:20px;
+    min-height:180px
+  }
+
+  .user-card--wrap{
+    margin-bottom:-20px
+  }
+
+  .user-bank--name{
+    font-size:1.15rem
+  }
+
+  .single-card--excerpt span{
+    font-size:.875rem;
+    letter-spacing:1px
+  }
+
+  .selector-inactive{
+    display:none
+  }
+
+  .profile-right--wrap{
+    display:none;
+    margin-top:0
+  }
+
+  .tab-is--active{
+    display:block
+  }
+
+  .back-to--mobile{
+    width:76px;
+    height:30px;
+    background:#99bf18;
+    border-radius:500px;
+    font-weight:500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    margin-bottom:40px
+  }
+
+  .back-to--mobile path{
+    fill:#fff
+  }
+
+  .back-to--mobile svg{
+    height:12px;
+    width:auto
+  }
+
+  .button-is--active{
+    display:flex
+  }
+
+  .settings-fields--wrap .wealth-buddy--cta{
+    margin-right:auto
+  }
 }
 
 @media only screen and (min-width:768px){
-  .new-user .header-wrap{
+  .back-to--mobile,.new-user .header-wrap{
     display:none!important
   }
 }

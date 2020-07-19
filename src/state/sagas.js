@@ -1,7 +1,7 @@
 import { fork } from "redux-saga/effects";
 import { apiSagas } from "./ducks/api";
 import { userSagas } from "./ducks/user";
-import { signUpSagas } from "./ducks/signUp";
+import { createUserSagas } from "./ducks/createUser";
 import { dashboardSagas } from "./ducks/dashboard";
 import { customerSavingsSagas } from "./ducks/customerSavings";
 import { recentSavingTransactionsSagas } from "./ducks/recentSavingTransactions";
@@ -11,13 +11,15 @@ import { cardsSagas } from "./ducks/cards";
 import { bankAccountsSagas } from "./ducks/bankAccounts";
 import { fundWalletWithExistingCardSagas } from "./ducks/fundWalletWithExistingCard";
 import { addBankAccountSagas } from "./ducks/addBankAccount";
+import { startVerifyEmailSagas } from "./ducks/startVerifyEmail";
+import { completeVerifyEmailSagas } from "./ducks/completeVerifyEmail";
 import { addBvnSagas } from "./ducks/addBvn";
 import { saveProfileSagas } from "./ducks/saveProfile";
 
 export default function* rootSaga() {
   yield fork(apiSagas);
   yield fork(userSagas);
-  yield fork(signUpSagas);
+  yield fork(createUserSagas);
   yield fork(dashboardSagas);
   yield fork(customerSavingsSagas);
   yield fork(recentSavingTransactionsSagas);
@@ -27,6 +29,8 @@ export default function* rootSaga() {
   yield fork(bankAccountsSagas);
   yield fork(fundWalletWithExistingCardSagas);
   yield fork(addBankAccountSagas);
+  yield fork(startVerifyEmailSagas);
+  yield fork(completeVerifyEmailSagas);
   yield fork(addBvnSagas);
   yield fork(saveProfileSagas);
 }

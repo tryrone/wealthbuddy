@@ -1,12 +1,12 @@
 import {
-  COMPLETE_VERIFY_EMAIL_COMPLETE,
+  COMPLETE_VERIFY_EMAIL_START,
   COMPLETE_VERIFY_EMAIL_SUCCESS,
   COMPLETE_VERIFY_EMAIL_FAIL,
   COMPLETE_VERIFY_EMAIL,
 } from "./types";
 
-export const completeVerifyEmailComplete = () => ({
-  type: COMPLETE_VERIFY_EMAIL_COMPLETE,
+export const completeVerifyEmailStart = () => ({
+  type: COMPLETE_VERIFY_EMAIL_START,
 });
 
 export const completeVerifyEmailSuccess = (payload) => ({
@@ -26,7 +26,7 @@ export const completeVerifyEmail = (payload, meta) => ({
 });
 
 export default {
-  completeVerifyEmailComplete,
+  completeVerifyEmailStart,
   completeVerifyEmailSuccess,
   completeVerifyEmailFail,
   completeVerifyEmail,
