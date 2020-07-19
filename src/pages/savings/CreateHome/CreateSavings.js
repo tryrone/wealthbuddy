@@ -36,7 +36,7 @@ const options = [
             
 
                 <div className="floor ">
-                <CreatePersonalSavingsModal  /> 
+                <CreatePersonalSavingsModal  />  
                 </div>
 
                 <div className="px-12 flare fadeIn">

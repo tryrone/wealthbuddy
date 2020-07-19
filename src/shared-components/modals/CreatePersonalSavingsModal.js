@@ -43,14 +43,14 @@ const closeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24
         // closeModalOnClick(closeModal)
         
     }, []);
-
+ 
     const closeModal=()=>{
         return document.querySelector(".modal").classList.remove("modal-active");
         
     }
 
     return ( 
-        <div  class="modal fixed inset-0 bg-wb-overlay flex justify-center items-center">
+        <div onClick={closeModal}  class="modal fixed inset-0 bg-wb-overlay flex justify-center items-center">
                   
         <AuthModal className="login-fieldset personal-wrap"> 
             {/* <div className="closeModal" dangerouslySetInnerHTML={{ __html: closeIcon }} onClick={closeModal}></div> */}
