@@ -1,7 +1,7 @@
 import { fork } from "redux-saga/effects";
 import { apiSagas } from "./ducks/api";
 import { userSagas } from "./ducks/user";
-import { signUpSagas } from "./ducks/signUp";
+import { createUserSagas } from "./ducks/createUser";
 import { dashboardSagas } from "./ducks/dashboard";
 import { customerSavingsSagas } from "./ducks/customerSavings";
 import { recentSavingTransactionsSagas } from "./ducks/recentSavingTransactions";
@@ -19,7 +19,7 @@ import { saveProfileSagas } from "./ducks/saveProfile";
 export default function* rootSaga() {
   yield fork(apiSagas);
   yield fork(userSagas);
-  yield fork(signUpSagas);
+  yield fork(createUserSagas);
   yield fork(dashboardSagas);
   yield fork(customerSavingsSagas);
   yield fork(recentSavingTransactionsSagas);

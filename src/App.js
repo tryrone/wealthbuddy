@@ -2,7 +2,7 @@ import React from "react";
 import { Provider as StoreProvider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "state/store";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import "./styles/index.css";
 import AuthRoutes from "./routes/AuthRoutes";
 import DashboardRoutes from "./routes/DashboardRoutes";

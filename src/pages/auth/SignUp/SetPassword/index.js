@@ -5,18 +5,17 @@ import Loading from "shared-components/Loading";
 import * as yup from "yup";
 import { Field, Form, Formik } from "formik";
 import { connect } from "react-redux";
-import { login } from "state/ducks/user/actions";
+import { createUser } from "state/ducks/createUser/actions";
 import { Link, Redirect } from "react-router-dom";
-import { completeVerifyEmail } from "../../../../state/ducks/completeVerifyEmail/actions";
 
 const initialValues = {
   password: "",
-  confirmPassword: "",
+  comparePassword: "",
 };
 
 const validationSchema = yup.object().shape({
   password: yup.string().label("Password").required(),
-  confirmPassword: yup
+  comparePassword: yup
     .string()
     .label("Password")
     .oneOf([yup.ref("password"), null], "Passwords must match")
@@ -27,16 +26,24 @@ const SignUpSetPassword = ({
   history,
   loading,
   error,
-  verificationID,
-  dispatchLogin,
+  signUpParams,
+  dispatchCreateUser,
 }) => {
   const handleOnSubmit = (formValues, formikProps) => {
-    const payload = { ...formValues, verificationID };
+    const payload = {
+      ...formValues,
+      lastName: signUpParams.lastName,
+      otherNames: signUpParams.otherNames,
+      phoneNumber: signUpParams.phoneNumber,
+      email: signUpParams.email,
+      emailVerificationID: signUpParams.emailVerificationID,
+    };
+
     const meta = { formikProps, history };
-    dispatchCompleteVerifyEmail(payload, meta);
+    dispatchCreateUser(payload, meta);
   };
 
-  if (!verificationID) {
+  if (!signUpParams.emailVerificationID) {
     return <Redirect to="/auth/sign-up" />;
   }
 
@@ -91,12 +98,14 @@ const SignUpSetPassword = ({
                       </fieldset>
 
                       <fieldset className="mb-5">
-                        <label className="block text-xs mb-2">Password</label>
+                        <label className="block text-xs mb-2">
+                          Confirm Password
+                        </label>
                         <Field
                           placeholder="Re-Enter Password"
                           type="password"
-                          id="confirmPassword"
-                          name="confirmPassword"
+                          id="comparePassword"
+                          name="comparePassword"
                           className="block w-72 text-xs p-3 border border-gray-400 rounded"
                         />
                       </fieldset>
@@ -131,13 +140,13 @@ const SignUpSetPassword = ({
 };
 
 const mapStateToProps = (state) => ({
-  loading: state.user.loginLoading,
-  error: state.user.loginError,
-  verificationID: state.signUpParams.emailVerificationID,
+  loading: state.createUser.login,
+  error: state.createUser.login,
+  signUpParams: state.signUpParams,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchLogin: (payload, meta) => dispatch(login(payload, meta)),
+  dispatchCreateUser: (payload, meta) => dispatch(createUser(payload, meta)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpSetPassword);
