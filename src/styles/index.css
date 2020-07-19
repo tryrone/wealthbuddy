@@ -14870,7 +14870,7 @@ html{
 }
 
 body,html{
-  font-family:'Gotham Rounded',sans-serif;
+  font-family:"Gotham Rounded",sans-serif;
   font-size:16px;
   color:#000;
   background-color:#f6f7fb;
@@ -14895,9 +14895,13 @@ a{
   outline:0!important
 }
 
+.wealth-buddy--cta:disabled{
+  background-color:#ccdf8c
+}
+
 .card{
   background:#fff;
-  box-shadow:0 4px 20px rgba(0,0,0,.08);
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
   border-radius:14px
 }
 
@@ -15287,7 +15291,7 @@ select{
 .header-wrap .header-search{
   height:48px;
   background:#fff;
-  box-shadow:0 4px 20px rgba(0,0,0,.06);
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
   border-radius:3px;
   width:100%
 }
@@ -15410,7 +15414,7 @@ iframe{
 }
 
 .pretty.p-switch .state:before{
-  content:'';
+  content:"";
   border:1px solid #bdc3c7;
   border-radius:60px;
   width:2em;
@@ -15437,7 +15441,7 @@ iframe{
 }
 
 .pretty .state label:after,.pretty .state label:before{
-  content:'';
+  content:"";
   width:16px;
   height:16px;
   display:block;
@@ -16560,7 +16564,7 @@ form.create-card{
 
 .mobile-header--wrap{
   background:#fff;
-  box-shadow:0 4px 20px rgba(0,0,0,.08);
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
   height:68px
 }
 
@@ -16660,7 +16664,7 @@ form.create-card{
 nav figure>img{
   height:91px;
   width:91px;
-  box-shadow:0 4px 20px rgba(0,0,0,.08);
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
   border-radius:100px
 }
 
@@ -17065,7 +17069,7 @@ fieldset{
 .login-fieldset fieldset.is-six--code input{
   width:calc(16.6667% - 8px)!important;
   height:48px!important;
-  font-family:'Gotham Rounded',sans-serif!important;
+  font-family:"Gotham Rounded",sans-serif!important;
   font-size:16px!important;
   font-weight:500;
   font-weight:500;

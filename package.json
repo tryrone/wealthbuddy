@@ -69,6 +69,7 @@
     "postcss-inline-media": "^1.3.0",
     "postcss-nested": "^4.2.3",
     "postcss-simple-vars": "^5.0.2",
+    "react-context-devtool": "^2.0.0",
     "tailwindcss": "^1.4.6"
   }
 }

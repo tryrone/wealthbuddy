@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { notificationIcon, searchIcon } from "assets/exports";
 import WealthLogo from "assets/img/wealthBuddy-logo.svg";
 import { connect } from "react-redux";
@@ -7,7 +7,7 @@ const Header = ({ dashboard }) => {
   const handleToggle = () => {};
 
   return (
-    <React.Fragment>
+    <Fragment>
       <div className="flex justify-between px-12 pb-12 header-wrap items-center">
         <div className="search-field">
           <input className="header-search" type="search" placeholder="Search" />
@@ -45,7 +45,7 @@ const Header = ({ dashboard }) => {
               <div className="icon" />
             </div>
           </div>
-          <img className="wealth-mobile--icon" src={WealthLogo} />
+          <img className="wealth-mobile--icon" src={WealthLogo} alt="" />
         </div>
         <div className="notification-icon">
           <span
@@ -54,7 +54,7 @@ const Header = ({ dashboard }) => {
           />
         </div>
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

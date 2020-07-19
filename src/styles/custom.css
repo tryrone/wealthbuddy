@@ -44,7 +44,7 @@ a {
 
 .card {
   background: #ffffff;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   border-radius: 14px;
 }
 
@@ -437,7 +437,7 @@ select {
 .header-wrap .header-search {
   height: 48px;
   background: #ffffff;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   border-radius: 3px;
   width: 100%;
 }
@@ -1958,7 +1958,7 @@ form.create-card {
 
 .mobile-header--wrap {
   background: #ffffff;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   height: 68px;
 }
 
@@ -2061,7 +2061,7 @@ form.create-card {
 nav figure > img {
   height: 91px;
   width: 91px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   border-radius: 100px;
 }
 
