@@ -8,7 +8,6 @@ const DashboardHome = () => {
   return (
     <div className="px-12 flex flex-col fadeIn">
       <h1 className="text-4xl mb-6 font-medium">Overview</h1>
-
       <div className="flex-wrap flex justify-between max-cards">
         <div className="flex home-card summary-analysis">
           <DashboardSummary />

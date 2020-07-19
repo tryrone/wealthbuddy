@@ -72,9 +72,6 @@ const NavBar = ({ user, dispatchLogout }) => {
           <figcaption className="font-medium text-center">
             {`${customerDetails.otherNames} ${customerDetails.lastName}`}
           </figcaption>
-          <figcaption className="text-xs mt-2">
-            {customerDetails.email}
-          </figcaption>
         </figure>
       </div>
       <ul
