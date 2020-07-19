@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React from 'react'
 import Icon from "../../../assets/img/emailConfirm.png"
 // import { useForm } from 'react-hook-form'
 // import { navigate } from 'hookrouter'
@@ -6,7 +6,8 @@ import Icon from "../../../assets/img/emailConfirm.png"
 import Loading from '../../../shared-components/Loading'
 // import { urls } from '../../../modules/network/url'
 // import { StateContext } from '../../../contextApi'
-import { useHistory, Link, Redirect } from "react-router-dom";
+// import { useHistory, Link, Redirect } from "react-router-dom";
+import { Link  } from "react-router-dom";
 import ReactCodeInput from "react-code-input";
 
 const loading = false;
@@ -83,7 +84,7 @@ const Form = () => {
                     <fieldset className="is-six--code">
                         <ReactCodeInput type='number' placeholder="*" fields={6}  />
                     </fieldset>
-                    <Link to="/">
+                    <Link to="/forgot-two">
                     <button className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm opaque`}>
                         Confirm
                     </button>
@@ -112,7 +113,7 @@ const Heading = () => {
     return (
         <div className="flex flex-col items-center setup-success mb-6">
             <i className="w-10 mb-4">
-                <img src={Icon} />
+                <img src={Icon} alt="" />
             </i>
             <h1 className="text-xl font-medium mb-2">Confirm your email address</h1>
             <p className="text-center text-gray-500 leading-normal">
@@ -122,7 +123,7 @@ const Heading = () => {
     )
 }
 
-const VerifyEmail = ({ }) => {
+const VerifyEmail = () => {
     return (
         <>
         <div className={`auth-modal flex flex-col my-40 items-center bg-white fadeIn login-fieldset onboarding-wrap`}>

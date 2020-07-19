@@ -11,7 +11,7 @@ const Header =()=> {
     return (
         <React.Fragment>
         {/* Desktop Header */}
-        <div className="flex justify-between px-12 pb-12 header-wrap items-center">
+        <div className="flex justify-between px-12 pb-12 header-wrap items-center" >
             <div className="search-field">
                 <input className="header-search" type="search" placeholder="Search" />
                 <span className="search-header" dangerouslySetInnerHTML={{ __html: searchIcon }}></span>
