@@ -1,6 +1,6 @@
 import produce from "immer";
 import {
-  COMPLETE_VERIFY_EMAIL_COMPLETE,
+  COMPLETE_VERIFY_EMAIL_START,
   COMPLETE_VERIFY_EMAIL_SUCCESS,
   COMPLETE_VERIFY_EMAIL_FAIL,
 } from "./types";
@@ -13,7 +13,7 @@ const initialState = {
 
 export default function rootReducer(baseState = initialState, action) {
   switch (action.type) {
-    case COMPLETE_VERIFY_EMAIL_COMPLETE: {
+    case COMPLETE_VERIFY_EMAIL_START: {
       return produce(baseState, (draftState) => {
         draftState.loading = true;
         draftState.error = null;

@@ -1,24 +1,28 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { START_VERIFY_EMAIL } from "./types";
-// import { processError } from "state/ducks/api/actions";
 import {
   startVerifyEmailStart,
   startVerifyEmailSuccess,
   startVerifyEmailFail,
 } from "./actions";
 import { Customer } from "services/network";
+import {
+  saveEmailVerificationId,
+  savePersonalDetails,
+} from "../signUpParams/actions";
 
 function* operation({ payload, meta }) {
   yield put(startVerifyEmailStart());
+  yield put(savePersonalDetails(payload));
 
   try {
     const response = yield call(Customer.startVerifyEmail, payload);
-    let { status } = response.data;
-    yield put(startVerifyEmailSuccess(status));
-    // yield meta.history.push("/dashboard");
+    let { verificationID } = response.data;
+    yield put(saveEmailVerificationId({ verificationID }));
+    yield put(startVerifyEmailSuccess());
+    yield meta.history.push("/auth/sign-up/verify-email");
   } catch (error) {
-    // yield put(processError({ error, formikProps: meta.formikProps }));
-    yield put(startVerifyEmailFail(error));
+    yield put(startVerifyEmailFail(error.message));
   }
 }
 

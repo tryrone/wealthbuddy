@@ -19,7 +19,7 @@ const SummaryFeeds = ({ updateFeeds }) => (
     <h1 className="text-4xl mb-5 font-medium card-header">Your Update Feeds</h1>
 
     <div className="flex flex-col justify-center items-start">
-        {updateFeeds.map((feed) => (<FeedItem feed={feed} />))}
+        {updateFeeds.map((feed, index) => (<FeedItem key={index} feed={feed} />))}
     </div>
   </div>
 );

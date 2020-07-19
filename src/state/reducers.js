@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import userReducer from "./ducks/user";
 import signUpReducer from "./ducks/signUp";
+import signUpParamsReducer from "./ducks/signUpParams";
 import dashboardReducer from "./ducks/dashboard";
 import customerSavingsReducer from "./ducks/customerSavings";
 import recentSavingTransactionsReducer from "./ducks/recentSavingTransactions";
@@ -18,6 +19,7 @@ import saveProfileReducer from "./ducks/saveProfile";
 export default combineReducers({
   user: userReducer,
   signUp: signUpReducer,
+  signUpParams: signUpParamsReducer,
   dashboard: dashboardReducer,
   customerSavings: customerSavingsReducer,
   recentSavingTransactions: recentSavingTransactionsReducer,
