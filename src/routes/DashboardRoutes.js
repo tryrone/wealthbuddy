@@ -3,7 +3,7 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import MobileNav from "../pages/dashboard/components/MobileNav";
 import NavBar from "../pages/dashboard/components/NavBar";
 import Header from "../pages/dashboard/components/Header";
-import DashboardHome from "../pages/dashboard/components/DasboardHome";
+import DashboardHome from "../pages/dashboard/components/DashboardHome";
 import Savings from "../pages/savings";
 import { connect } from "react-redux";
 

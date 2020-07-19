@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import MobileNav from "./components/MobileNav";
 import NavBar from "./components/NavBar";
 import Header from "./components/Header";
-import DasboardHome from "./components/DasboardHome";
+import DashboardHome from "./components/DashboardHome";
 import Savings from "pages/savings";
 
 const mobileMenu = false;
@@ -30,7 +30,7 @@ function Dashboard() {
         <React.Fragment>
           <Switch>
             <Route exact path="/dashboard">
-              <DasboardHome />
+              <DashboardHome />
             </Route>
 
             <Route path="/dashboard/savings">

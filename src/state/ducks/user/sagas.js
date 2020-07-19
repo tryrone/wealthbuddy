@@ -1,6 +1,13 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { LOGIN } from "./types";
-import { loginStart, loginSuccess, loginFail } from "./actions";
+import {LOGIN, LOGOUT} from "./types";
+import {
+  loginStart,
+  loginSuccess,
+  loginFail,
+  logoutStart,
+  logoutSuccess,
+  logoutFail,
+} from "./actions";
 import { Customer } from "services/network";
 
 function* login({ payload, meta }) {
@@ -8,16 +15,28 @@ function* login({ payload, meta }) {
 
   try {
     const response = yield call(Customer.login, payload);
-    console.log(response);
     let { data } = response.data;
     data.jwtToken = response.headers["token"];
     yield put(loginSuccess(data));
-    // yield meta.history.push("/dashboard");
+    yield meta.history.push("/dashboard");
   } catch (error) {
     yield put(loginFail(error.message));
   }
 }
 
+function* logout({ payload, meta }) {
+  yield put(logoutStart());
+
+  try {
+    sessionStorage.removeItem('persist:root');
+    yield put(logoutSuccess());
+    yield meta.history.push("/auth/login");
+  } catch (error) {
+    yield put(logoutFail(error.message));
+  }
+}
+
 export default function* saga() {
   yield takeLatest(LOGIN, login);
+  yield takeLatest(LOGOUT, logout);
 }

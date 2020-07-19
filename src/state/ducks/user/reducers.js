@@ -1,9 +1,18 @@
 import produce from "immer";
-import { LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL } from "./types";
+import {
+  LOGIN_START,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT_START,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAIL,
+} from "./types";
 
 const initialState = {
   loginLoading: false,
   loginError: null,
+  logoutLoading: false,
+  logoutError: null,
   data: {
     email: "",
     phoneNumber: "",
@@ -53,9 +62,9 @@ const initialState = {
     },
     utilityBillUploadStatus: {
       isUploaded: null,
-      approvalStatus: null
+      approvalStatus: null,
     },
-    jwtToken: null
+    jwtToken: null,
   },
 };
 
@@ -78,6 +87,25 @@ export default function rootReducer(baseState = initialState, action) {
         draftState.loginLoading = false;
         draftState.data = initialState.data;
         draftState.loginError = action.payload;
+      });
+    }
+    case LOGOUT_START: {
+      return produce(baseState, (draftState) => {
+        draftState.logoutLoading = true;
+        draftState.logoutError = null;
+      });
+    }
+    case LOGOUT_SUCCESS: {
+      return produce(baseState, (draftState) => {
+        draftState.logoutLoading = false;
+        draftState.data = initialState.data;
+      });
+    }
+    case LOGOUT_FAIL: {
+      return produce(baseState, (draftState) => {
+        draftState.logoutLoading = false;
+        draftState.data = initialState.data;
+        draftState.logoutError = action.payload;
       });
     }
     default:

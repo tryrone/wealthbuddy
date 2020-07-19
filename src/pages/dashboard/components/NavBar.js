@@ -10,8 +10,9 @@ import { NavLink } from "react-router-dom";
 import Logout from "shared-components/svgs/Logout";
 import NavShape from "shared-components/svgs/NavShape";
 import LegalIcon from "shared-components/svgs/LegalIcon";
-import { login } from "../../../state/ducks/user/actions";
+import { logout } from "../../../state/ducks/user/actions";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const menuItems = [
   {
@@ -47,7 +48,8 @@ const NavMenuItem = ({ name, icon, path }) => (
   </li>
 );
 
-const NavBar = ({ user }) => {
+const NavBar = ({ user, dispatchLogout }) => {
+  const history = useHistory();
   const { customerDetails } = user;
 
   return (
@@ -98,20 +100,19 @@ const NavBar = ({ user }) => {
       </ul>
       <ul className="extra-nav--item mb-5">
         <li className="nav-extra">
-          <span>
-            <span className="extra-icon">
-              <LegalIcon />
-            </span>
-            Legal
+          <span className="extra-icon">
+            <LegalIcon />
           </span>
+          Legal
         </li>
-        <li className="nav-extra">
-          <span>
-            <span className="extra-icon">
-              <Logout />
-            </span>
-            Sign Out
+        <li
+          className="nav-extra"
+          onClick={() => dispatchLogout(null, { history })}
+        >
+          <span className="extra-icon">
+            <Logout />
           </span>
+          Sign Out
         </li>
       </ul>
       <div className="flex w-full watermark">
@@ -130,7 +131,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchLogin: (payload, meta) => dispatch(login(payload, meta)),
+  dispatchLogout: (payload, meta) => dispatch(logout(payload, meta)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
