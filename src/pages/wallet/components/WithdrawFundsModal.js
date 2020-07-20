@@ -1,16 +1,16 @@
 import React, {  useState,useEffect, Fragment } from 'react'
-import AuthModal from '../../../../shared-components/authModal/AuthModal'
+import AuthModal from '../../../shared-components/authModal/AuthModal'
 // import { StateContext } from '../../contextApi';
 // import { checkEmpty } from '../../../../utilities';
 // import { emptyObject, closeModalOnClick, formatMoney, checkEmpty } from '../../modules/utilities';
-import CardIcon from "../../../../assets/img/cardIcon.png"
+import CardIcon from "../../../assets/img/cardIcon.png"
 // import { urls } from '../../modules/network/url';
 // import { postCall } from '../../modules/network';
-import Loading from '../../../../shared-components/Loading'
+import Loading from '../../../shared-components/Loading'
 // import WalletDropdown from '../dropdown/walletDropdown';
 // import { Link } from "react-router-dom"
-import BankListDropdown from '../../walletDropdown/BankListDropDown';
-import EmptyBank from '../../../../shared-components/empty/bankEmpty';
+import BankListDropdown from '../walletDropdown/BankListDropDown';
+import EmptyBank from '../../../shared-components/empty/bankEmpty';
 
 const Heading = () => {
     // const [{ successModal }] = useContext(StateContext)
@@ -32,7 +32,7 @@ const userBanks =[1];
 const loading = false;
 const loginError = false;
 
-const WithdrawFunds = (props) => {
+const WithdrawFundsModal = (props) => {
     useEffect(() => {
         document.querySelector(".modal").classList.add("modal-active");
         // closeModalOnClick(closeModal)
@@ -166,10 +166,10 @@ const WithdrawFunds = (props) => {
     return (
             <div   class="modal fixed inset-0 bg-wb-overlay flex justify-center items-center">
         <Fragment>
-            
+
                 <AuthModal className="login-fieldset">
                     <Heading />
-  
+
                     <React.Fragment>
 
                         {loading ? (
@@ -194,11 +194,11 @@ const WithdrawFunds = (props) => {
                                 </fieldset>
                                 <div className="mt-6 w-full">
                                     <label className="block text-xs mb-2">Bank</label>
-                                    
+
                                     <div className="fieldset">
                                         <BankListDropdown title="Select Bank" />
                                     </div>
-                                    
+
                                 </div>
                                 <div className="nav-buttons flex justify-center">
                                     <div  onClick={closeModal} className=" w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm">
@@ -221,4 +221,4 @@ const WithdrawFunds = (props) => {
     )
 }
 
-export default WithdrawFunds;
+export default WithdrawFundsModal;

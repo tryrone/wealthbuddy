@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import MobileNav from "../pages/dashboard/components/MobileNav";
-import NavBar from "../pages/dashboard/components/NavBar";
-import Header from "../pages/dashboard/components/Header";
-import DashboardHome from "../pages/dashboard/components/DashboardHome";
-import Savings from "../pages/savings";
+import MobileNav from "pages/dashboard/components/MobileNav";
+import NavBar from "pages/dashboard/components/NavBar";
+import Header from "pages/dashboard/components/Header";
+import DashboardHome from "pages/dashboard/components/DashboardHome";
+import Savings from "pages/savings";
 import { connect } from "react-redux";
-import Wallet from "../pages/wallet";
-import FundWallet from "../pages/wallet/components/fundWallet/FundWallet";
-import WithdrawFunds from "../pages/wallet/components/withdrawFunds/WithdrawFunds";
+import FundWalletModal from "pages/wallet/components/FundWalletModal";
+import WithdrawFundsModal from "pages/wallet/components/WithdrawFundsModal";
+import Wallet from "pages/wallet";
 
 const mobileMenu = false;
 
@@ -35,12 +35,12 @@ const DashboardRoutes = ({ user }) => {
           <Route exact path={`${path}/`} component={DashboardHome} />
           <Route path={`${path}/savings`} component={Savings} />
 
-          <Route path={`${path}/wallet`}>
+          <Route exact path={`${path}/wallet`}>
             <Wallet show={showModal} show2={showModal2} />
           </Route>
 
-          {mode ? <FundWallet show={showModal} /> : null}
-          {modeTwo ? <WithdrawFunds show2={showModal2} /> : null}
+          {mode ? <FundWalletModal show={showModal} /> : null}
+          {modeTwo ? <WithdrawFundsModal show2={showModal2} /> : null}
         </Switch>
       </section>
     </div>

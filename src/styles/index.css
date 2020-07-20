@@ -16379,8 +16379,7 @@ form.create-card{
 }
 
 .min-wallet{
-  height:calc(40rem - 0px)!important;
-  overflow:hidden
+  height:calc(40rem - 0px)!important
 }
 
 .min-screen{

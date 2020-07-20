@@ -6,7 +6,6 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import "./styles/index.css";
 import AuthRoutes from "./routes/AuthRoutes";
 import DashboardRoutes from "./routes/DashboardRoutes";
-import Dashboard from "./pages/dashboard/Dashboard";
 
 function App() {
   return (
@@ -17,7 +16,6 @@ function App() {
             <Switch>
               <Route path="/auth" component={AuthRoutes} />
               <Route path="/dashboard" component={DashboardRoutes} />
-              <Route path="/dashboard2" component={Dashboard} />
             </Switch>
           </main>
         </BrowserRouter>
