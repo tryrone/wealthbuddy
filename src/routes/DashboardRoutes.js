@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import Wallet from "../pages/wallet";
 import FundWallet from "../pages/wallet/components/fundWallet/FundWallet";
 import WithdrawFunds from "../pages/wallet/components/withdrawFunds/WithdrawFunds";
+import Settings from "pages/settings";
 
 const mobileMenu = false;
 
@@ -37,6 +38,9 @@ const DashboardRoutes = ({ user }) => {
 
           <Route path={`${path}/wallet`}>
             <Wallet show={showModal} show2={showModal2} />
+          </Route>
+          <Route path={`${path}/settings`}>
+            <Settings/>
           </Route>
 
           {mode ? <FundWallet show={showModal} /> : null}

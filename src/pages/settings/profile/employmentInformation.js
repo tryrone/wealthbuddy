@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 // import { Link, useHistory } from "react-router-dom"
 import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 // import DatePicker, { utils } from 'react-modern-calendar-datepicker';
-import { StateContext } from '../../../../../contextApi/index';
+// import { StateContext } from '../../../../../contextApi/index';
 
 const EmploymentInformation = (props) => {
     // const [{ profile, otherInfo }, dispatch] = useContext(StateContext);

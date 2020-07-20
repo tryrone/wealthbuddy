@@ -8,7 +8,7 @@ import Savings from "pages/savings";
 import Wallet from "pages/wallet";
 import FundWallet from "pages/wallet/components/fundWallet/FundWallet";
 import WithdrawFunds from "pages/wallet/components/withdrawFunds/WithdrawFunds";
-// import Settings from "pages/settings";
+import Settings from "pages/settings";
 
 const mobileMenu = false;
 const newUser = false;
@@ -51,9 +51,9 @@ function Dashboard() {
               <Wallet show={showModal} show2={showModal2} />
             </Route>
 
-            {/* <Route path={`/dashboard/settings`}>
+            <Route path="/dashboard/settings">
                 <Settings />
-            </Route> */}
+            </Route> 
 
 
           </Switch>

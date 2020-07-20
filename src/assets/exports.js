@@ -221,3 +221,7 @@ export const pencil = `<svg width="16" height="16" viewBox="0 0 16 16" fill="non
 </svg>
 `
 
+export const cardDot = `<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="5" cy="5" r="5" fill="white"/>
+</svg>
+`

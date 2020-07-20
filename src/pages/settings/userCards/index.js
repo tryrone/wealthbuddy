@@ -4,18 +4,18 @@ import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 // import DatePicker, { utils } from 'react-modern-calendar-datepicker';
 // import { StateContext } from '../../../../../contextApi/index';
 // import NumberFormat from 'react-number-format';
-// import Trash from "../../../../../assets/img/trash.svg"
-// import Mastercard from "../../../../../assets/img/mastercard.svg"
+import Trash from "../../../assets/img/trash.svg"
+import Mastercard from "../../../assets/img/mastercard.svg"
 // import Visa from "../../../../../assets/img/visa.svg"
 // import Verve from "../../../../../assets/img/verve.svg"
-import Plus from "../../../../../assets/img/plus.svg"
-// import { cardDot } from '../../../../../assets/exports';
+import Plus from "../../../assets/img/plus.svg"
+import { cardDot } from '../../../assets/exports';
 
 const UserCards = (props) => {
     // const [{ profile, fundSavings, cardModal }, dispatch] = useContext(StateContext);
     // console.log(fundSavings.cards)
 
-    // const n = 4; // Or something else
+    const n = 4; // Or something else
 
 
     // const showCard = () => {
@@ -30,6 +30,9 @@ const UserCards = (props) => {
     //     })
     // }
 
+    const fundSavings={
+        cards:[1,1]
+    }
     return (
 
         <Fragment>
@@ -39,7 +42,7 @@ const UserCards = (props) => {
                     <h3 className="card-main--heading font-medium">Your Debit Cards</h3>
                     <div className="plus-wrap"><img className="plus" src={Plus} alt={`Meristem`} /></div>
                 </div>
-                {/* <div className="flex justify-between flex-wrap">
+                <div className="flex justify-between flex-wrap">
                     {
                         fundSavings.cards.map((item, i) =>
                             <div className="single-user--card" key={i}>
@@ -57,22 +60,22 @@ const UserCards = (props) => {
                                         {[...Array(n)].map((e, i) => <span className="single-dot" key={i} dangerouslySetInnerHTML={{ __html: cardDot }}></span>)}
                                     </div>
                                     <div className="single-card--details">
-                                        {item.lastFourDigit}
+                                        {3234}
                                     </div>
                                 </div>
                                 <div className="single-card--excerpt flex justify-between items-center">
                                     <div className="flex items-center font-medium text-white">
                                         <span className="mr-2">EXPIRES</span>
-                                        <span>{item.expiryMonth}/{item.expiryYear}</span>
+                                        <span>04/2021</span>
                                     </div>
                                     <div className="text-white">
-                                        <img src={item.brand.toLowerCase() === "mastercard" ? Mastercard : item.brand.toLowerCase() === "visa" ? Visa : Verve} alt={`Meristem Wealth Buddy Cards`} />
+                                        <img src={ Mastercard} alt={`Meristem Wealth Buddy Cards`} />
                                     </div>
                                 </div>
                             </div>
                         )
                     }
-                </div> */}
+                </div>
 
             </div>
         </Fragment>
