@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import DropdownArrowDownIcon from "shared-components/svgs/DropdownArrowDownIcon";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { ADD_NEW_CARD } from "constants/strings";
 
 const PaymentCardDropdown = ({
   cards,
@@ -34,7 +35,7 @@ const PaymentCardDropdown = ({
     label: card.bank,
     value: card.id,
   }));
-  const addNewCard = { label: "Add New Card", value: "ADD_NEW_CARD" };
+  const addNewCard = { label: "Add New Card", value: ADD_NEW_CARD };
   const items = [].concat(addNewCard).concat(mappedCards);
 
   const selectedItem = items.find((item) => item.value === selectedItemId);

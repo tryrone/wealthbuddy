@@ -14,8 +14,7 @@ function* operation({ payload, meta }) {
   try {
     const response = yield call(Customer.verifyFundWalletWithNewCard, payload);
     let { status } = response.data;
-    yield meta.closeFundWalletModal();
-    yield meta.showSuccessModal();
+    yield meta.completePaystackPayment();
     yield put(getDashboardData());
     yield put(verifyFundWalletWithNewCardSuccess(status));
   } catch (error) {

@@ -1,15 +1,16 @@
 import React, { Fragment, useEffect } from "react";
+import { connect } from "react-redux";
+import { Field, Form, Formik } from "formik";
+import * as yup from "yup";
+import { useHistory } from "react-router-dom";
 import CardIcon from "assets/img/cardIcon.png";
 import WalletDropdown from "pages/wallet/components/dropdowns/PaymentCardDropdown";
 import Loading from "shared-components/Loading";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
-import { connect } from "react-redux";
 import { fundWalletWithExistingCard } from "state/ducks/fundWalletWithExistingCard/actions";
+import { startFundWalletWithNewCard } from "state/ducks/startFundWalletWithNewCard/actions";
 import { closeModalOnOutsideClick } from "utils";
-import { Field, Form, Formik } from "formik";
-import * as yup from "yup";
-import { useHistory } from "react-router-dom";
-import { startFundWalletWithNewCard } from "../../../state/ducks/startFundWalletWithNewCard/actions";
+import { ADD_NEW_CARD } from "constants/strings";
 
 const initialValues = {
   amount: "",
@@ -28,6 +29,7 @@ const FundWalletModal = ({
   startFundWithNewCardError,
   setAmount,
   closeModal,
+  continueToPaystack,
   showSuccessModal,
   dispatchFundWalletWithExistingCard,
   dispatchStartFundWalletWithNewCard,
@@ -47,7 +49,6 @@ const FundWalletModal = ({
       formikProps,
       history,
       closeFundWalletModal: closeModal,
-      showSuccessModal,
     };
 
     let params = {
@@ -55,12 +56,16 @@ const FundWalletModal = ({
       customerCardDataID: formValues.customerCardDataID,
     };
 
-    if (formValues.customerCardDataID === "ADD_NEW_CARD") {
+    setAmount(params.amount);
+
+    if (formValues.customerCardDataID === ADD_NEW_CARD) {
       params = { amount: params.amount, saveCard: true };
-      dispatchStartFundWalletWithNewCard(params, meta);
+      dispatchStartFundWalletWithNewCard(params, {
+        ...meta,
+        continueToPaystack,
+      });
     } else {
-      setAmount(params.amount);
-      dispatchFundWalletWithExistingCard(params, meta);
+      dispatchFundWalletWithExistingCard(params, { ...meta, showSuccessModal });
     }
   };
 

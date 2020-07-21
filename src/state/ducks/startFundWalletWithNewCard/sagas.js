@@ -6,17 +6,15 @@ import {
   startFundWalletWithNewCardFail,
 } from "./actions";
 import { Customer } from "services/network";
-import {getDashboardData} from "../dashboard/actions";
 
 function* operation({ payload, meta }) {
   yield put(startFundWalletWithNewCardStart());
 
   try {
     const response = yield call(Customer.startFundWalletWithNewCard, payload);
-    let { status } = response.data;
+    let { status, data } = response.data;
     yield meta.closeFundWalletModal();
-    yield meta.showSuccessModal();
-    yield put(getDashboardData());
+    yield meta.continueToPaystack(data.data.reference);
     yield put(startFundWalletWithNewCardSuccess(status));
   } catch (error) {
     yield put(startFundWalletWithNewCardFail(error.response));

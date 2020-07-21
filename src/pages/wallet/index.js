@@ -6,13 +6,12 @@ import TransactionHistory from "./components/TransactionHistory";
 import FundWalletModal from "./components/FundWalletModal";
 import SuccessModal from "shared-components/modals/SuccessModal";
 import CardIcon from "assets/img/cardIcon.png";
-import { formatCurrency, getReference } from "utils";
-import Loading from "shared-components/Loading";
-import { PaystackButton } from "react-paystack";
+import { formatCurrency } from "utils";
 import { connect } from "react-redux";
-import { startFundWalletWithNewCard } from "state/ducks/startFundWalletWithNewCard/actions";
+import PaystackModal from "./components/PaystackModal";
+import { verifyFundWalletWithNewCard } from "state/ducks/verifyFundWalletWithNewCard/actions";
 
-const Wallet = () => {
+const Wallet = ({ dispatchVerifyFundWalletWithNewCard }) => {
   const [isFundWalletModalOpen, setFundWalletModalOpen] = useState(false);
   const openFundWalletModal = () => setFundWalletModalOpen(true);
   const closeFundWalletModal = () => setFundWalletModalOpen(false);
@@ -20,6 +19,28 @@ const Wallet = () => {
   const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
   const showSuccessModal = () => setSuccessModalOpen(true);
   const closeSuccessModal = () => setSuccessModalOpen(false);
+
+  const [isPaystackModalOpen, setPaystackModalOpen] = useState(false);
+  const showPaystackModal = () => setPaystackModalOpen(true);
+  const closePaystackModal = () => setPaystackModalOpen(false);
+
+  const [tranxRef, setTranxRef] = useState("");
+
+  const continueToPaystack = (tranxRef) => {
+    setTranxRef(tranxRef);
+    showPaystackModal();
+  };
+
+  const completePaystackPayment = () => {
+    closePaystackModal();
+    showSuccessModal();
+  };
+
+  const handlePaystackSuccess = () => {
+    const params = { transactionReference: tranxRef };
+    const meta = { completePaystackPayment };
+    dispatchVerifyFundWalletWithNewCard(params, meta);
+  };
 
   const [amount, setAmount] = useState(0);
 
@@ -50,8 +71,18 @@ const Wallet = () => {
         <FundWalletModal
           setAmount={setAmount}
           closeModal={closeFundWalletModal}
+          continueToPaystack={continueToPaystack}
           showSuccessModal={showSuccessModal}
         />
+      )}
+
+      {isPaystackModalOpen && (
+          <PaystackModal
+              amount={amount}
+              tranxRef={tranxRef}
+              onSuccess={handlePaystackSuccess}
+              onClose={closePaystackModal}
+          />
       )}
 
       {isSuccessModalOpen && (
@@ -68,33 +99,19 @@ const Wallet = () => {
           closeModal={closeSuccessModal}
         />
       )}
-
-      {/*<div className="modal modal-active fixed inset-0 bg-wb-overlay flex justify-center items-center">*/}
-      {/*  /!*<Loading text="" />*!/*/}
-      {/*  <PaystackButton*/}
-      {/*    className="payButton"*/}
-      {/*    // callback={callback}*/}
-      {/*    // close={close}*/}
-      {/*    disabled={false}*/}
-      {/*    embed={false}*/}
-      {/*    reference={getReference()}*/}
-      {/*    email={"ashd@sdjh.com"}*/}
-      {/*    amount={parseFloat(2000 * 100)}*/}
-      {/*    publicKey={process.env.PAYSTACK_TEST_KEY}*/}
-      {/*  />*/}
-      {/*</div>*/}
     </Fragment>
   );
 };
 
 const mapStateToProps = (state) => ({
+  customerDetails: state.user.data.customerDetails,
   startFundWithNewCardLoading: state.startFundWalletWithNewCard.loading,
   startFundWithNewCardError: state.startFundWalletWithNewCard.error,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchStartFundWalletWithNewCard: (payload, meta) =>
-    dispatch(startFundWalletWithNewCard(payload, meta)),
+  dispatchVerifyFundWalletWithNewCard: (payload, meta) =>
+    dispatch(verifyFundWalletWithNewCard(payload, meta)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
