@@ -87,12 +87,7 @@ const PaymentCardDropdown = ({
 
 PaymentCardDropdown.propTypes = {
   onSelectItem: PropTypes.func.isRequired,
-  selectedItemId: PropTypes.string.isRequired,
-  optionIdKey: PropTypes.string,
-};
-
-PaymentCardDropdown.defaultProps = {
-  optionIdKey: "id",
+  selectedItemId: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({

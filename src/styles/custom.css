@@ -3287,6 +3287,11 @@ nav .user-no--picture {
   height: auto;
 }
 
+.empty-modal .closeModal svg {
+  width: 24px !important;
+  height: auto;
+}
+
 .empty-modal .card-header {
   font-size: 1.1rem;
   margin-bottom: -15px;

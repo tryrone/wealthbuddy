@@ -1,6 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { ADD_BANK_ACCOUNT } from "./types";
-// import { processError } from "state/ducks/api/actions";
 import {
   addBankAccountStart,
   addBankAccountSuccess,
@@ -15,9 +14,7 @@ function* operation({ payload, meta }) {
     const response = yield call(Customer.addBankAccount, payload);
     let { status } = response.data;
     yield put(addBankAccountSuccess(status));
-    // yield meta.history.push("/dashboard");
   } catch (error) {
-    // yield put(processError({ error, formikProps: meta.formikProps }));
     yield put(addBankAccountFail(error));
   }
 }

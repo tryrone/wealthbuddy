@@ -3,13 +3,15 @@ import WalletSummary from "./components/WalletSummary";
 import WalletActions from "./components/WalletActions";
 import StickyBox from "react-sticky-box";
 import TransactionHistory from "./components/TransactionHistory";
-import FundWalletModal from "./components/FundWalletModal";
+import FundWalletModal from "./components/fundWallet/FundWalletModal";
 import SuccessModal from "shared-components/modals/SuccessModal";
 import CardIcon from "assets/img/cardIcon.png";
 import { formatCurrency } from "utils";
 import { connect } from "react-redux";
-import PaystackModal from "./components/PaystackModal";
+import PaystackModal from "./components/fundWallet/PaystackModal";
 import { verifyFundWalletWithNewCard } from "state/ducks/verifyFundWalletWithNewCard/actions";
+import NoBankYetModal from "./components/withdrawFunds/NoBankYetModal";
+import AddBankModal from "./components/withdrawFunds/AddBankModal";
 
 const Wallet = ({ dispatchVerifyFundWalletWithNewCard }) => {
   const [isFundWalletModalOpen, setFundWalletModalOpen] = useState(false);
@@ -44,6 +46,22 @@ const Wallet = ({ dispatchVerifyFundWalletWithNewCard }) => {
 
   const [amount, setAmount] = useState(0);
 
+  const [isNoBankYetModalOpen, setNoBankYetModalOpen] = useState(false);
+  const openNoBankYetModal = () => setNoBankYetModalOpen(true);
+  const closeNoBankYetModal = () => setNoBankYetModalOpen(false);
+
+  const [isAddBankModalOpen, setAddBankModalOpen] = useState(false);
+  const closeAddBankModal = () => setAddBankModalOpen(false);
+
+  const openWithdrawFundsModal = () => {
+    openNoBankYetModal();
+  };
+
+  const continueToAddBankDetails = () => {
+    setNoBankYetModalOpen(false);
+    setAddBankModalOpen(true);
+  };
+
   return (
     <Fragment>
       <div className="px-12 flex flex-col fadeIn">
@@ -55,7 +73,10 @@ const Wallet = ({ dispatchVerifyFundWalletWithNewCard }) => {
               <div className=" w-transaction--max  w-full">
                 <div className="flex flex-col">
                   <WalletSummary />
-                  <WalletActions openFundWalletModal={openFundWalletModal} />
+                  <WalletActions
+                    openFundWalletModal={openFundWalletModal}
+                    openWithdrawFundsModal={openWithdrawFundsModal}
+                  />
                 </div>
               </div>
             </StickyBox>
@@ -77,12 +98,12 @@ const Wallet = ({ dispatchVerifyFundWalletWithNewCard }) => {
       )}
 
       {isPaystackModalOpen && (
-          <PaystackModal
-              amount={amount}
-              tranxRef={tranxRef}
-              onSuccess={handlePaystackSuccess}
-              onClose={closePaystackModal}
-          />
+        <PaystackModal
+          amount={amount}
+          tranxRef={tranxRef}
+          onSuccess={handlePaystackSuccess}
+          onClose={closePaystackModal}
+        />
       )}
 
       {isSuccessModalOpen && (
@@ -99,6 +120,15 @@ const Wallet = ({ dispatchVerifyFundWalletWithNewCard }) => {
           closeModal={closeSuccessModal}
         />
       )}
+
+      {isNoBankYetModalOpen && (
+        <NoBankYetModal
+          closeModal={closeNoBankYetModal}
+          continueToAddBankDetails={continueToAddBankDetails}
+        />
+      )}
+
+      {isAddBankModalOpen && <AddBankModal closeModal={closeAddBankModal} />}
     </Fragment>
   );
 };

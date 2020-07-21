@@ -1,16 +1,16 @@
 import React, { useState, useEffect, Fragment } from "react";
-import AuthModal from "../../../shared-components/authModal/AuthModal";
+import AuthModal from "../../../../shared-components/authModal/AuthModal";
 // import { StateContext } from '../../contextApi';
 // import { checkEmpty } from '../../../../utilities';
 // import { emptyObject, closeModalOnClick, formatMoney, checkEmpty } from '../../modules/utilities';
-import CardIcon from "../../../assets/img/cardIcon.png";
+import CardIcon from "../../../../assets/img/cardIcon.png";
 // import { urls } from '../../modules/network/url';
 // import { postCall } from '../../modules/network';
-import Loading from "../../../shared-components/Loading";
+import Loading from "../../../../shared-components/Loading";
 // import WalletDropdown from '../dropdowns/walletDropdown';
 // import { Link } from "react-router-dom"
-import BankListDropdown from "./dropdowns/BankListDropDown";
-import EmptyBank from "../../../shared-components/empty/bankEmpty";
+import BankListDropdown from "../withdrawFunds/BankListDropDown";
+import EmptyBank from "../../../../shared-components/empty/bankEmpty";
 
 const Heading = () => {
   // const [{ successModal }] = useContext(StateContext)
