@@ -69,20 +69,20 @@ const Wallet = () => {
         />
       )}
 
-      <div className="modal modal-active fixed inset-0 bg-wb-overlay flex justify-center items-center">
-        {/*<Loading text="" />*/}
-        <PaystackButton
-          className="payButton"
-          // callback={callback}
-          // close={close}
-          disabled={false}
-          embed={false}
-          reference={getReference()}
-          email={"ashd@sdjh.com"}
-          amount={parseFloat(2000 * 100)}
-          publicKey={process.env.PAYSTACK_TEST_KEY}
-        />
-      </div>
+      {/*<div className="modal modal-active fixed inset-0 bg-wb-overlay flex justify-center items-center">*/}
+      {/*  /!*<Loading text="" />*!/*/}
+      {/*  <PaystackButton*/}
+      {/*    className="payButton"*/}
+      {/*    // callback={callback}*/}
+      {/*    // close={close}*/}
+      {/*    disabled={false}*/}
+      {/*    embed={false}*/}
+      {/*    reference={getReference()}*/}
+      {/*    email={"ashd@sdjh.com"}*/}
+      {/*    amount={parseFloat(2000 * 100)}*/}
+      {/*    publicKey={process.env.PAYSTACK_TEST_KEY}*/}
+      {/*  />*/}
+      {/*</div>*/}
     </Fragment>
   );
 };

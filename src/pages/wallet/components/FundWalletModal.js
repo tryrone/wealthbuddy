@@ -30,6 +30,7 @@ const FundWalletModal = ({
   closeModal,
   showSuccessModal,
   dispatchFundWalletWithExistingCard,
+  dispatchStartFundWalletWithNewCard,
 }) => {
   const history = useHistory();
 
@@ -56,6 +57,7 @@ const FundWalletModal = ({
 
     if (formValues.customerCardDataID === "ADD_NEW_CARD") {
       params = { amount: params.amount, saveCard: true };
+      dispatchStartFundWalletWithNewCard(params, meta);
     } else {
       setAmount(params.amount);
       dispatchFundWalletWithExistingCard(params, meta);
@@ -79,16 +81,16 @@ const FundWalletModal = ({
           </p>
         </div>
 
-        {fundWithExistingCardLoading ? (
+        {fundWithExistingCardLoading || startFundWithNewCardLoading ? (
           <div className="flex flex-col items-center mt-8">
             <Loading text="Funding Wallet" />
           </div>
         ) : (
           <Fragment>
-            {fundWithExistingCardError && (
+            {(fundWithExistingCardError || startFundWithNewCardError) && (
               <div className="w-72 text-xs text-left mt-8 ">
                 <p className="w-full p-3 bg-red-200 text-red-700 rounded text-center font-medium">
-                  {fundWithExistingCardError}
+                  {fundWithExistingCardError || startFundWithNewCardError}
                 </p>
               </div>
             )}

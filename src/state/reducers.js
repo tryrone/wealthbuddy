@@ -17,6 +17,7 @@ import addBvnReducer from "./ducks/addBvn";
 import saveProfileReducer from "./ducks/saveProfile";
 import startFundWalletWithNewCardReducer from "./ducks/startFundWalletWithNewCard";
 import verifyFundWalletWithNewCardReducer from "./ducks/verifyFundWalletWithNewCard";
+import applicationBootstrapReducer from "./ducks/applicationBootstrap";
 
 export default combineReducers({
   user: userReducer,
@@ -37,4 +38,5 @@ export default combineReducers({
   saveProfile: saveProfileReducer,
   startFundWalletWithNewCard: startFundWalletWithNewCardReducer,
   verifyFundWalletWithNewCard: verifyFundWalletWithNewCardReducer,
+  applicationBootstrap: applicationBootstrapReducer,
 });

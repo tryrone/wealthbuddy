@@ -8,39 +8,27 @@ import DashboardHome from "pages/dashboard/components/DashboardHome";
 import Savings from "pages/savings";
 import Wallet from "pages/wallet";
 import Loader from "../shared-components/Loader";
-import { getDashboardData } from "../state/ducks/dashboard/actions";
-import { getCardsData } from "../state/ducks/cards/actions";
-import { getCustomerSavingsData } from "../state/ducks/customerSavings/actions";
-import { getRecentSavingTransactionsData } from "../state/ducks/recentSavingTransactions/actions";
-import { getSavingsConfigurationData } from "../state/ducks/savingsConfiguration/actions";
-import { getBankAccountsData } from "../state/ducks/bankAccounts/actions";
+import { getApplicationBootstrapData } from "state/ducks/applicationBootstrap/actions";
 
 const mobileMenu = false;
 
-const DashboardRoutes = ({ user, ...props }) => {
+const DashboardRoutes = ({
+  user,
+  applicationBootstrapLoading,
+  applicationBootstrapComplete,
+  dispatchApplicationBootstrapData,
+}) => {
   let { path } = useRouteMatch();
 
-  const loading =
-    props.dashboardLoading ||
-    props.cardsLoading ||
-    props.customerSavingsLoading ||
-    props.recentSavingTransactionsLoading ||
-    props.bankAccountsLoading;
-
   useEffect(() => {
-    props.dispatchGetDashboardData();
-    props.dispatchGetCardsData();
-    props.dispatchGetCustomerSavingsData();
-    props.dispatchGetRecentSavingTransactionsData();
-    props.dispatchGetSavingsConfigurationData();
-    props.dispatchGetBankAccountsData();
+    dispatchApplicationBootstrapData();
   }, []);
 
   const userIsNew = !(user.isBVNAdded && user.isCardAdded);
 
   return (
     <Fragment>
-      {!loading ? (
+      {!applicationBootstrapLoading || applicationBootstrapComplete ? (
         <Fragment>
           <div className="flex">
             {mobileMenu && <MobileNav />}
@@ -68,23 +56,13 @@ const DashboardRoutes = ({ user, ...props }) => {
 
 const mapStateToProps = (state) => ({
   user: state.user.data,
-  dashboardLoading: state.dashboard.loading,
-  cardsLoading: state.cards.loading,
-  customerSavingsLoading: state.customerSavings.loading,
-  recentSavingTransactionsLoading: state.recentSavingTransactions.loading,
-  savingsConfigurationLoading: state.savingsConfiguration.loading,
-  bankAccountsLoading: state.bankAccounts.loading,
+  applicationBootstrapLoading: state.applicationBootstrap.loading,
+  applicationBootstrapComplete: state.applicationBootstrap.completed,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchGetDashboardData: () => dispatch(getDashboardData()),
-  dispatchGetCardsData: () => dispatch(getCardsData()),
-  dispatchGetCustomerSavingsData: () => dispatch(getCustomerSavingsData()),
-  dispatchGetRecentSavingTransactionsData: () =>
-    dispatch(getRecentSavingTransactionsData()),
-  dispatchGetSavingsConfigurationData: () =>
-    dispatch(getSavingsConfigurationData()),
-  dispatchGetBankAccountsData: () => dispatch(getBankAccountsData()),
+  dispatchApplicationBootstrapData: () =>
+    dispatch(getApplicationBootstrapData()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardRoutes);
