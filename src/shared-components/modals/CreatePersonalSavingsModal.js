@@ -15,7 +15,7 @@ import businessIcon from "../../assets/img/businessIcon.svg";
 // import { urls } from '../../modules/network/url';
 // import { postCall } from '../../modules/network';
 // import Loading from '../../shared-components/Loading'
-// import WalletDropdown from '../dropdown/walletDropdown';
+// import WalletDropdown from '../dropdowns/walletDropdown';
 import { Link } from "react-router-dom"
 import { addFundIcon } from '../../assets/exports';
 import AuthModal from 'shared-components/authModal/AuthModal';
@@ -41,18 +41,18 @@ const closeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24
     useEffect(() => {
         // document.querySelector(".modal").classList.add("modal-active");
         // closeModalOnClick(closeModal)
-        
+
     }, []);
- 
+
     const closeModal=()=>{
         return document.querySelector(".modal").classList.remove("modal-active");
-        
+
     }
 
-    return ( 
+    return (
         <div onClick={closeModal}  class="modal fixed inset-0 bg-wb-overlay flex justify-center items-center">
-                  
-        <AuthModal className="login-fieldset personal-wrap"> 
+
+        <AuthModal className="login-fieldset personal-wrap">
             {/* <div className="closeModal" dangerouslySetInnerHTML={{ __html: closeIcon }} onClick={closeModal}></div> */}
             <div className="closeModal" onClick={closeModal}  dangerouslySetInnerHTML={{ __html: closeIcon }} ></div>
             <div className="proceed-personal--wrap flex justify-between">
@@ -71,14 +71,14 @@ const closeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24
                             <div className="proceed-body">
                                 <Link to={{
                                     pathname: '/dashboard/savings/create/personal',
-                                    state: { params: { name: "" } } 
-                                }} 
+                                    state: { params: { name: "" } }
+                                }}
                                 // onClick={closeModal} className="card card-label addNewSavings card-padding mb-0 flex justify-center items-center">
                                  className="card card-label addNewSavings card-padding mb-0 flex justify-center items-center">
                                     <div className="flex flex-col items-center text-black">
                                         <span className="" dangerouslySetInnerHTML={{ __html: addFundIcon }}></span>
                                         <h5 className="card-header color-primary mt-3 font-medium ">Customize</h5>
-                                    </div> 
+                                    </div>
                                 </Link>
                             </div>
                         </div>

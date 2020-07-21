@@ -1,16 +1,15 @@
 import React, { Fragment } from "react";
-import { addFundIcon, arrowRight } from "../../../assets/exports";
+import { addFundIcon, arrowRight } from "assets/exports";
 
-const WalletActions = (props) => {
-  const showFundWallet = () => props.show(true);
-  const showWithdrawFunds = () => props.show2(true);
+const WalletActions = ({ openFundWalletModal }) => {
+  const showWithdrawFunds = () => null;
 
   return (
     <Fragment>
       <div className="wallet-action--wrap">
         <div
           className="wallet-action flex items-center card justify-between"
-          onClick={() => showFundWallet()}
+          onClick={openFundWalletModal}
         >
           <div className="flex items-center ">
             <span

@@ -9,7 +9,7 @@ const BankListDropdown = (props) => {
     //     listOpen: false,
     //     headerTitle: props.title,
     //     initialItems: props.list,
-    //     items: props.list, 
+    //     items: props.list,
     //     key: "",
     //     bankName: "",
     //     bankCode: ""
@@ -23,7 +23,7 @@ const BankListDropdown = (props) => {
     //         mounted.current = true;
     //     } else {
     //         const { listOpen } = state
-          
+
     //             if (listOpen) {
     //                 window.addEventListener('click', close);
     //             }
@@ -31,7 +31,7 @@ const BankListDropdown = (props) => {
     //                 window.removeEventListener('click', close);
     //                 document.body.classList.remove("modal-active");
     //             }
-          
+
     //     }
     //     return () => {
     //         window.removeEventListener('click', close);
@@ -50,7 +50,7 @@ const BankListDropdown = (props) => {
 
     // useEffect(() => {
     //     dispatch({
-    //         type: "CHANGE_WALLET_CARD", 
+    //         type: "CHANGE_WALLET_CARD",
     //         newPayload: state.key
     //     });
 
@@ -67,7 +67,7 @@ const BankListDropdown = (props) => {
     // const selectItem = (name, id) => {
 
     //     dispatch({
-    //         type: "CHANGE_BANK_DETAILS", 
+    //         type: "CHANGE_BANK_DETAILS",
     //         newPayload: {
     //             bankCode: "",
     //             bankName: ""
@@ -83,10 +83,10 @@ const BankListDropdown = (props) => {
     //     //     bankCode: id
     //     // });
     // }
-    
+
     // useEffect(() => {
     //     dispatch({
-    //         type: "CHANGE_BANK_DETAILS", 
+    //         type: "CHANGE_BANK_DETAILS",
     //         newPayload: {
     //             bankCode: state.bankCode,
     //             bankName: state.bankName
@@ -94,9 +94,9 @@ const BankListDropdown = (props) => {
     //     });
 
     // }, [state.bankName])
-    
 
-    // const toggleList = () => {   
+
+    // const toggleList = () => {
     //         setState(prevState => ({
     //             ...prevState,
     //             listOpen: !prevState.listOpen,
@@ -114,19 +114,19 @@ const BankListDropdown = (props) => {
     //         items: items
     //     });
     // }
-         
-    
+
+
 
 
     // const { listOpen, headerTitle } = state;
     const items = [];
 
     const [view2 ,setView] = useState(false);
-   
-    const toggle = (value)=>{ 
+
+    const toggle = (value)=>{
           setView(!value)
       }
-    
+
     return (
         <React.Fragment>
             <div className="fund-dropdown">
@@ -139,14 +139,14 @@ const BankListDropdown = (props) => {
                     }></div>
                 </div>
             </div>
-            { // <ul className="buddy-dropdown-list basic-dropdown" onClick={e => e.stopPropagation()}>
+            { // <ul className="buddy-dropdowns-list basic-dropdowns" onClick={e => e.stopPropagation()}>
                 view2 ?
                 <ul className="buddy-dropdown-list basic-dropdown">
                     {/* {state.items.map((item, i) => ( */}
                         <React.Fragment>
 
                             <li className="buddy-dropdown-item">
-                            {/* <li className="buddy-dropdown-item" onClick={() => selectItem(item.name, item.code, item.longcode, state.initialItems)}> */}
+                            {/* <li className="buddy-dropdowns-item" onClick={() => selectItem(item.name, item.code, item.longcode, state.initialItems)}> */}
                                 <p className="dropdown-details">
                                     <span className='dropdown-item--title text-semi-bold'>{`item.name`}</span>
                                 </p>

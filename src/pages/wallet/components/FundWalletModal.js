@@ -1,97 +1,159 @@
 import React, { Fragment, useEffect } from "react";
-import AuthModal from "shared-components/authModal/AuthModal";
 import CardIcon from "assets/img/cardIcon.png";
-import WalletDropdown from "pages/wallet/walletDropdown/WalletDropdown";
+import WalletDropdown from "pages/wallet/components/dropdowns/PaymentCardDropdown";
+import Loading from "shared-components/Loading";
+import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
+import { connect } from "react-redux";
+import { fundWalletWithExistingCard } from "state/ducks/fundWalletWithExistingCard/actions";
+import { closeModalOnOutsideClick } from "utils";
+import { Field, Form, Formik } from "formik";
+import * as yup from "yup";
+import { useHistory } from "react-router-dom";
 
-const Heading = () => {
-  return (
-    <div className="flex flex-col items-center mb-0">
-      <i className="w-20 mb-4">
-        <img src={CardIcon} alt="" />
-      </i>
-      <h1 className="text-2xl font-medium mb-2">Fund wallet</h1>
-      <p className="text-center text-gray-500 leading-normal">
-        As simple as investing your savings and we will help you grow from
-        there.
-      </p>
-    </div>
-  );
+const initialValues = {
+  amount: "",
+  customerCardDataID: "",
 };
 
-const loading = false;
-const loginError = false;
+const validationSchema = yup.object().shape({
+  amount: yup.string().label("Amount").required(),
+  customerCardDataID: yup.string().label("Card").required(),
+});
 
-const FundWalletModal = (props) => {
+const FundWalletModal = ({
+  loading,
+  error,
+  setAmount,
+  closeModal,
+  showSuccessModal,
+  dispatchFundWalletWithExistingCard,
+}) => {
+  const history = useHistory();
+
   useEffect(() => {
     document.querySelector(".modal").classList.add("modal-active");
-    // closeModalOnClick(closeModal)
-    // return () => {
-    //     document.querySelector(".modal").classList.remove("modal-active")
-    // }
-  }, []);
+    closeModalOnOutsideClick(closeModal);
+    return () => {
+      document.querySelector(".modal").classList.remove("modal-active");
+    };
+  }, [0]);
 
-  const closeModal = () => {
-    props.show(false);
-    // return document.querySelector(".modal").classList.remove("modal-active");
+  const handleOnSubmit = (formValues, formikProps) => {
+    const meta = {
+      formikProps,
+      history,
+      closeFundWalletModal: closeModal,
+      showSuccessModal,
+    };
+
+    const params = {
+      amount: parseFloat(formValues.amount.replace(/(?!\.)\D/g, "")),
+      customerCardDataID: formValues.customerCardDataID,
+    };
+
+    setAmount(params.amount);
+    dispatchFundWalletWithExistingCard(params, meta);
   };
 
   return (
-    <div class="modal fixed inset-0 bg-wb-overlay flex justify-center items-center">
-      <AuthModal className="login-fieldset">
-        <Heading />
+    <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
+      <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset">
+        <span className="closeModal" onClick={closeModal}>
+          <CloseModalIcon />
+        </span>
+        <div className="flex flex-col items-center mb-0">
+          <i className="w-20 mb-4">
+            <img src={CardIcon} alt="" />
+          </i>
+          <h1 className="text-2xl font-medium mb-2">Fund wallet</h1>
+          <p className="text-center text-gray-500 leading-normal">
+            As simple as investing your savings and we will help you grow from
+            there.
+          </p>
+        </div>
 
         {loading ? (
-          <div className="mt-8 flex flex-col items-center">
-            {/* <Loading text="Funding Wallet" />  */}
+          <div className="flex flex-col items-center mt-8">
+            <Loading text="Funding Wallet" />
           </div>
         ) : (
           <Fragment>
-            {loginError ? (
-              <div className="w-72 mb-8 text-xs text-left">
+            {error && (
+              <div className="w-72 text-xs text-left mt-8 ">
                 <p className="w-full p-3 bg-red-200 text-red-700 rounded text-center font-medium">
-                  loginError
+                  {error}
                 </p>
               </div>
-            ) : (
-              ""
             )}
-            <form>
-              <fieldset className="selectFund w-full">
-                <label className="block text-xs mb-2">Amount</label>
-                {/* <input placeholder="eg: 20,000" type="text" name="amount" value={state.amount} onChange={handleChange} className="block w-full text-xs p-3 border border-gray-400 rounded" /> */}
-                <input
-                  placeholder="eg: 20,000"
-                  type="text"
-                  name="amount"
-                  className="block w-full text-xs p-3 border border-gray-400 rounded"
-                />
-              </fieldset>
-              <div className="mt-6 w-full">
-                <label className="block text-xs mb-2">Select Card</label>
-                <div className="fieldset">
-                  <WalletDropdown title="Select Option" />
-                </div>
-              </div>
-              <div className="nav-buttons flex justify-center">
-                <div
-                  onClick={closeModal}
-                  className=" w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
-                >
-                  Back
-                </div>
-                {/* <button className={` w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm ${checkEmpty(state) === true && "opaque"}`} onClick={checkEmpty(state) === false && proceed}> */}
-                <button
-                  className={` w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm opaque`}
-                >
-                  Proceed
-                </button>
-              </div>
-            </form>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              validateOnMount={true}
+              onSubmit={handleOnSubmit}
+            >
+              {({ handleSubmit, isValid, setFieldValue, values }) => {
+                return (
+                  <Form
+                    className="flex flex-col items-center"
+                    onSubmit={handleSubmit}
+                  >
+                    <fieldset className="mt-6 w-full">
+                      <label className="block text-xs mb-2">Amount</label>
+                      <Field
+                        placeholder="eg: 20,000"
+                        type="text"
+                        id="amount"
+                        name="amount"
+                        className="block w-72 text-xs p-3 border border-gray-400 rounded"
+                      />
+                    </fieldset>
+                    <div className="mt-6 w-full">
+                      <label className="block text-xs mb-2">Select Card</label>
+                      <div className="fieldset">
+                        <WalletDropdown
+                          selectedItemId={values.customerCardDataID}
+                          optionIdKey="id"
+                          onSelectItem={(item) =>
+                            setFieldValue("customerCardDataID", item.value)
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="nav-buttons flex justify-center">
+                      <div
+                        onClick={closeModal}
+                        className=" w-40 border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
+                      >
+                        Back
+                      </div>
+                      <button
+                        type="submit"
+                        className="w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm"
+                        onSubmit={handleSubmit}
+                        disabled={!isValid}
+                      >
+                        Proceed
+                      </button>
+                    </div>
+                  </Form>
+                );
+              }}
+            </Formik>
           </Fragment>
         )}
-      </AuthModal>
+      </div>
     </div>
   );
 };
 
-export default FundWalletModal;
+const mapStateToProps = (state) => ({
+  loading: state.fundWalletWithExistingCard.loading,
+  error: state.fundWalletWithExistingCard.error,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatchFundWalletWithExistingCard: (payload, meta) =>
+    dispatch(fundWalletWithExistingCard(payload, meta)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FundWalletModal);

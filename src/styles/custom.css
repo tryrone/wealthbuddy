@@ -3269,6 +3269,7 @@ nav .user-no--picture {
   position: absolute;
   right: 20px;
   top: 25px;
+  cursor: pointer;
 }
 
 .user-no--picture {
