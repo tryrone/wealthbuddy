@@ -21,11 +21,11 @@ export const addBvn = (params) => {
   return axios.post(urls.addBvn, params);
 };
 
-export const startFundNewCard = (params) => {
+export const startFundWalletWithNewCard = (params) => {
   return axios.post(urls.startFundNewCard, params);
 };
 
-export const verifyFundNewCard = (params) => {
+export const verifyFundWalletWithNewCard = (params) => {
   return axios.post(urls.verifyFundNewCard, params);
 };
 

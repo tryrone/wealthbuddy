@@ -15,6 +15,8 @@ import startVerifyEmailReducer from "./ducks/startVerifyEmail";
 import completeVerifyEmailReducer from "./ducks/completeVerifyEmail";
 import addBvnReducer from "./ducks/addBvn";
 import saveProfileReducer from "./ducks/saveProfile";
+import startFundWalletWithNewCardReducer from "./ducks/startFundWalletWithNewCard";
+import verifyFundWalletWithNewCardReducer from "./ducks/verifyFundWalletWithNewCard";
 
 export default combineReducers({
   user: userReducer,
@@ -33,4 +35,6 @@ export default combineReducers({
   completeVerifyEmail: completeVerifyEmailReducer,
   addBvn: addBvnReducer,
   saveProfile: saveProfileReducer,
+  startFundWalletWithNewCard: startFundWalletWithNewCardReducer,
+  verifyFundWalletWithNewCard: verifyFundWalletWithNewCardReducer,
 });

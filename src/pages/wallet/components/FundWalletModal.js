@@ -9,6 +9,7 @@ import { closeModalOnOutsideClick } from "utils";
 import { Field, Form, Formik } from "formik";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
+import { startFundWalletWithNewCard } from "../../../state/ducks/startFundWalletWithNewCard/actions";
 
 const initialValues = {
   amount: "",
@@ -21,8 +22,10 @@ const validationSchema = yup.object().shape({
 });
 
 const FundWalletModal = ({
-  loading,
-  error,
+  fundWithExistingCardLoading,
+  fundWithExistingCardError,
+  startFundWithNewCardLoading,
+  startFundWithNewCardError,
   setAmount,
   closeModal,
   showSuccessModal,
@@ -46,13 +49,17 @@ const FundWalletModal = ({
       showSuccessModal,
     };
 
-    const params = {
+    let params = {
       amount: parseFloat(formValues.amount.replace(/(?!\.)\D/g, "")),
       customerCardDataID: formValues.customerCardDataID,
     };
 
-    setAmount(params.amount);
-    dispatchFundWalletWithExistingCard(params, meta);
+    if (formValues.customerCardDataID === "ADD_NEW_CARD") {
+      params = { amount: params.amount, saveCard: true };
+    } else {
+      setAmount(params.amount);
+      dispatchFundWalletWithExistingCard(params, meta);
+    }
   };
 
   return (
@@ -72,16 +79,16 @@ const FundWalletModal = ({
           </p>
         </div>
 
-        {loading ? (
+        {fundWithExistingCardLoading ? (
           <div className="flex flex-col items-center mt-8">
             <Loading text="Funding Wallet" />
           </div>
         ) : (
           <Fragment>
-            {error && (
+            {fundWithExistingCardError && (
               <div className="w-72 text-xs text-left mt-8 ">
                 <p className="w-full p-3 bg-red-200 text-red-700 rounded text-center font-medium">
-                  {error}
+                  {fundWithExistingCardError}
                 </p>
               </div>
             )}
@@ -147,13 +154,17 @@ const FundWalletModal = ({
 };
 
 const mapStateToProps = (state) => ({
-  loading: state.fundWalletWithExistingCard.loading,
-  error: state.fundWalletWithExistingCard.error,
+  fundWithExistingCardLoading: state.fundWalletWithExistingCard.loading,
+  fundWithExistingCardError: state.fundWalletWithExistingCard.error,
+  startFundWithNewCardLoading: state.startFundWalletWithNewCard.loading,
+  startFundWithNewCardError: state.startFundWalletWithNewCard.error,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchFundWalletWithExistingCard: (payload, meta) =>
     dispatch(fundWalletWithExistingCard(payload, meta)),
+  dispatchStartFundWalletWithNewCard: (payload, meta) =>
+    dispatch(startFundWalletWithNewCard(payload, meta)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FundWalletModal);

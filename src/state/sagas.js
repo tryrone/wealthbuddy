@@ -15,6 +15,8 @@ import { startVerifyEmailSagas } from "./ducks/startVerifyEmail";
 import { completeVerifyEmailSagas } from "./ducks/completeVerifyEmail";
 import { addBvnSagas } from "./ducks/addBvn";
 import { saveProfileSagas } from "./ducks/saveProfile";
+import { startFundWalletWithNewCardSagas } from "./ducks/startFundWalletWithNewCard";
+import { verifyFundWalletWithNewCardSagas } from "./ducks/verifyFundWalletWithNewCard";
 
 export default function* rootSaga() {
   yield fork(apiSagas);
@@ -33,4 +35,6 @@ export default function* rootSaga() {
   yield fork(completeVerifyEmailSagas);
   yield fork(addBvnSagas);
   yield fork(saveProfileSagas);
+  yield fork(startFundWalletWithNewCardSagas);
+  yield fork(verifyFundWalletWithNewCardSagas);
 }
