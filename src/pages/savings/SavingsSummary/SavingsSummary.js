@@ -9,7 +9,7 @@ import { Link } from "react-router-dom"
  function SavingsSummary() {
     return (
         // <Link to={`/dashboard/savings/view/${savingsData.savingsID}`} className="flex flex-col card flex-summary white-card card-x--padding">
-        <Link to="" className="flex flex-col card flex-summary white-card card-x--padding">
+        <Link to="/dashboard/savings/view" className="flex flex-col card flex-summary white-card card-x--padding">
         <div className="flex justify-between items-center card-margin--x">
             <div className=" flex justify-between items-center w-full">
                 <div className="text-savings--summary w-full flex align-items-center">

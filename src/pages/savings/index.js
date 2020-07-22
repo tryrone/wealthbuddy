@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route} from "react-router-dom";
 import SavingsHome from './SavingsHome';
 import CreateHome from './CreateHome/CreateHome';
+import ViewSaving from './ViewSavings/ViewSavings';
 
 const Savings=()=> {
     return (
@@ -16,9 +17,9 @@ const Savings=()=> {
             <CreateHome /> 
         </Route>
 
-        {/* <Route path={`${path}/view/:id`} > 
-            <ViewSaving savings={savings} />
-        </Route> */}
+        <Route path={`/dashboard/savings/view`} > 
+            <ViewSaving  />
+        </Route>
             
         </Switch>
     )

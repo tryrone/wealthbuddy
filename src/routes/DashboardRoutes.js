@@ -1,14 +1,15 @@
 import React, { Fragment, useEffect } from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import { connect } from "react-redux";
+import { getApplicationBootstrapData } from "state/ducks/applicationBootstrap/actions";
 import MobileNav from "pages/dashboard/components/MobileNav";
 import NavBar from "pages/dashboard/components/NavBar";
 import Header from "pages/dashboard/components/Header";
+import Loader from "../shared-components/Loader";
 import DashboardHome from "pages/dashboard/components/DashboardHome";
 import Savings from "pages/savings";
 import Wallet from "pages/wallet";
-import Loader from "../shared-components/Loader";
-import { getApplicationBootstrapData } from "state/ducks/applicationBootstrap/actions";
+import Settings from "pages/settings";
 
 const mobileMenu = false;
 
@@ -43,6 +44,7 @@ const DashboardRoutes = ({
                 <Route exact path={`${path}/`} component={DashboardHome} />
                 <Route path={`${path}/savings`} component={Savings} />
                 <Route exact path={`${path}/wallet`} component={Wallet} />
+                <Route exact path={`${path}/settings`} component={Settings} />
               </Switch>
             </section>
           </div>
