@@ -9,7 +9,7 @@ import CardIcon from "../../../../assets/img/cardIcon.png";
 import Loading from "../../../../shared-components/Loading";
 // import WalletDropdown from '../dropdowns/walletDropdown';
 // import { Link } from "react-router-dom"
-import BankListDropdown from "../withdrawFunds/BankListDropDown";
+// import BankListDropdown from "../withdrawFunds/BankListDropDown";
 import EmptyBank from "../../../../shared-components/empty/bankEmpty";
 
 const Heading = () => {
@@ -195,7 +195,7 @@ const WithdrawFundsModal = (props) => {
                     <label className="block text-xs mb-2">Bank</label>
 
                     <div className="fieldset">
-                      <BankListDropdown title="Select Bank" />
+                      {/*<BankListDropdown title="Select Bank" />*/}
                     </div>
                   </div>
                   <div className="nav-buttons flex justify-center">

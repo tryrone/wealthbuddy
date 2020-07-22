@@ -76,3 +76,11 @@ export const getUserBanks = (params) => {
 export const addBankAccount = (params) => {
   return axios.post(urls.addBankAccount, params);
 };
+
+export const sendToken = (params) => {
+  return axios.post(urls.sendToken, params);
+};
+
+export const verifyAddBankAccount = (params) => {
+  return axios.post(urls.verifyAddBankAccount, params);
+};

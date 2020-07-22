@@ -19,7 +19,7 @@ function* operation({ payload, meta }) {
     yield put(getDashboardData());
     yield put(fundWalletWithExistingCardSuccess(status));
   } catch (error) {
-    yield put(fundWalletWithExistingCardFail(error.response));
+    yield put(fundWalletWithExistingCardFail(error.message));
   }
 }
 

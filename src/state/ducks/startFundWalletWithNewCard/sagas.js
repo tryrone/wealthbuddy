@@ -17,7 +17,7 @@ function* operation({ payload, meta }) {
     yield meta.continueToPaystack(data.data.reference);
     yield put(startFundWalletWithNewCardSuccess(status));
   } catch (error) {
-    yield put(startFundWalletWithNewCardFail(error.response));
+    yield put(startFundWalletWithNewCardFail(error.message));
   }
 }
 

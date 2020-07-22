@@ -2,10 +2,9 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import DropdownArrowDownIcon from "shared-components/svgs/DropdownArrowDownIcon";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { ADD_NEW_CARD } from "constants/strings";
 
-const BankDropdown = ({
-  cards,
+const BankListDropdown = ({
+  banks,
   onSelectItem: onSelectItemUserDefined,
   selectedItemId,
 }) => {
@@ -31,15 +30,13 @@ const BankDropdown = ({
     };
   });
 
-  const mappedCards = cards.map((card) => ({
-    label: card.bank,
-    value: card.id,
+  const items = banks.map((bank) => ({
+    label: bank.name,
+    value: bank.code,
   }));
-  const addNewCard = { label: "Add New Card", value: ADD_NEW_CARD };
-  const items = [].concat(addNewCard).concat(mappedCards);
 
-  const selectedItem = items.find((item) => item.value === selectedItemId);
-  const dropdownTitle = selectedItem ? selectedItem.label : "Select Option";
+  const selectedItem = items.find((bank) => bank.value === selectedItemId);
+  const dropdownTitle = selectedItem ? selectedItem.label : "Select Bank";
 
   const onSelectItem = (item) => {
     onSelectItemUserDefined(item);
@@ -85,13 +82,13 @@ const BankDropdown = ({
   );
 };
 
-BankDropdown.propTypes = {
+BankListDropdown.propTypes = {
   onSelectItem: PropTypes.func.isRequired,
   selectedItemId: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  cards: state.cards.data,
+  banks: state.bankList.data,
 });
 
-export default connect(mapStateToProps)(BankDropdown);
+export default connect(mapStateToProps)(BankListDropdown);

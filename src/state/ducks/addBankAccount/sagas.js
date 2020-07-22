@@ -12,10 +12,11 @@ function* operation({ payload, meta }) {
 
   try {
     const response = yield call(Customer.addBankAccount, payload);
-    let { status } = response.data;
-    yield put(addBankAccountSuccess(status));
+    let { data } = response.data;
+    meta.markAsValid();
+    yield put(addBankAccountSuccess(data));
   } catch (error) {
-    yield put(addBankAccountFail(error));
+    yield put(addBankAccountFail(error.message));
   }
 }
 

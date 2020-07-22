@@ -6,6 +6,7 @@ import TransactionHistory from "./components/TransactionHistory";
 import FundWalletModal from "./components/fundWallet/FundWalletModal";
 import SuccessModal from "shared-components/modals/SuccessModal";
 import CardIcon from "assets/img/cardIcon.png";
+import BankIconSuccess from "assets/img/bankIconSuccess.png";
 import { formatCurrency } from "utils";
 import { connect } from "react-redux";
 import PaystackModal from "./components/fundWallet/PaystackModal";
@@ -60,6 +61,16 @@ const Wallet = ({ dispatchVerifyFundWalletWithNewCard }) => {
   const continueToAddBankDetails = () => {
     setNoBankYetModalOpen(false);
     setAddBankModalOpen(true);
+  };
+
+  const [isAddBankSuccessModalOpen, setAddBankSuccessModalOpen] = useState(
+    false
+  );
+  const closeAddBankSuccessModal = () => setAddBankSuccessModalOpen(false);
+
+  const showAddBankSuccess = () => {
+    setAddBankModalOpen(false);
+    setAddBankSuccessModalOpen(true);
   };
 
   return (
@@ -128,7 +139,22 @@ const Wallet = ({ dispatchVerifyFundWalletWithNewCard }) => {
         />
       )}
 
-      {isAddBankModalOpen && <AddBankModal closeModal={closeAddBankModal} />}
+      {isAddBankModalOpen && (
+        <AddBankModal
+          closeModal={closeAddBankModal}
+          showAddBankSuccess={showAddBankSuccess}
+        />
+      )}
+
+      {isAddBankSuccessModalOpen && (
+        <SuccessModal
+          title="Success"
+          subtitle="You have successfully added a Bank Account."
+          icon={BankIconSuccess}
+          buttonTitle="Done"
+          closeModal={closeAddBankSuccessModal}
+        />
+      )}
     </Fragment>
   );
 };

@@ -38,7 +38,9 @@ const urls = {
     saveProfile: "/api/Customer/updateothercustomerinfo",
     getBankList: "/api/Customer/getbanklist",
     getUserBanks: "/api/Customer/getbankaccount",
-    addBankAccount:"/api/Customer/AddBankAccount"
+    addBankAccount:"/api/Customer/AddBankAccount",
+    sendToken: "/api/Customer/sendtoken",
+    verifyAddBankAccount: "/api/Customer/VerifyAddbankAccount",
 }
 
 export default urls;

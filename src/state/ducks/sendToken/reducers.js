@@ -1,38 +1,31 @@
 import produce from "immer";
-import {
-  ADD_BANK_ACCOUNT_START,
-  ADD_BANK_ACCOUNT_SUCCESS,
-  ADD_BANK_ACCOUNT_FAIL,
-} from "./types";
+import { SEND_TOKEN_START, SEND_TOKEN_SUCCESS, SEND_TOKEN_FAIL } from "./types";
 
 const initialState = {
   loading: false,
   error: null,
   data: {
-    accountNumber: "",
-    accountName: "",
-    id: "",
-    bankId: "",
-  }
+    tokenReference: "",
+  },
 };
 
 export default function rootReducer(baseState = initialState, action) {
   switch (action.type) {
-    case ADD_BANK_ACCOUNT_START: {
+    case SEND_TOKEN_START: {
       return produce(baseState, (draftState) => {
         draftState.loading = true;
         draftState.error = null;
         draftState.data = initialState.data;
       });
     }
-    case ADD_BANK_ACCOUNT_SUCCESS: {
+    case SEND_TOKEN_SUCCESS: {
       return produce(baseState, (draftState) => {
         draftState.loading = false;
         draftState.error = null;
         draftState.data = action.payload;
       });
     }
-    case ADD_BANK_ACCOUNT_FAIL: {
+    case SEND_TOKEN_FAIL: {
       return produce(baseState, (draftState) => {
         draftState.loading = false;
         draftState.error = action.payload;
