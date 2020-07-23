@@ -20,7 +20,7 @@ import toaster from "toasted-notes";
 import "toasted-notes/src/styles.css";
 
 
-const ViewSaving = (props) => {
+const ViewSavings = (props) => {
     // const [{ withdrawSavings }, dispatch] = useContext(StateContext);
     // const [state, setState] = useState({
     //     savingsArray: [],
@@ -184,9 +184,9 @@ const ViewSaving = (props) => {
                                         <div className=" flex flex-col justify-center items-center items-center w-full">
 
                                             <div className="image-saving--summary">
-                                               
+
                                                     <img src={personalSavings} alt={"Wealth Buddy"} />
-                                                
+
                                                 {/* {getSingleItemArray.imageURL !== "" ?
                                                     <img src={getSingleItemArray.imageURL} alt={"Wealth Buddy"} /> :
                                                     <img src={getSingleItemArray.savingsType === 1 ? personalSavings : getSingleItemArray.savingsType === 2 ? fixedSavings : getSingleItemArray.savingsType === 3 ? fixedFlexSavings : groupSavings} alt={"Wealth Buddy"} />
@@ -324,4 +324,4 @@ const ViewSaving = (props) => {
     )
 }
 
-export default ViewSaving;
+export default ViewSavings;

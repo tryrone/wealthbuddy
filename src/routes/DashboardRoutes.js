@@ -7,7 +7,7 @@ import NavBar from "pages/dashboard/components/NavBar";
 import Header from "pages/dashboard/components/Header";
 import Loader from "../shared-components/Loader";
 import DashboardHome from "pages/dashboard/components/DashboardHome";
-import Savings from "pages/savings";
+import Savings from "routes/SavingsRoutes";
 import Wallet from "pages/wallet";
 import Settings from "pages/settings";
 
@@ -34,11 +34,7 @@ const DashboardRoutes = ({
           <div className="flex">
             {mobileMenu && <MobileNav />}
             <NavBar />
-            <section
-              className={`flex-grow ${
-                userIsNew ? "new-user" : "existing-entry"
-              }`}
-            >
+            <section className={`flex-grow ${userIsNew ? "new-user" : "existing-entry"}`}>
               <Header />
               <Switch>
                 <Route exact path={`${path}/`} component={DashboardHome} />
