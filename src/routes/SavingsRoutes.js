@@ -16,7 +16,7 @@ const Savings = () => {
   return (
     <Switch>
       <Route exact path={`${path}`} component={SavingsHome} />
-      <Route path={`${path}/view`} component={ViewSavings} />
+      <Route path={`${path}/view/:savingsId`} component={ViewSavings} />
       <Route exact path={`${path}/create`} component={CreateSavings}/>
       <Route path="${path}/create/personal" component={PersonalSavings}/>
       <Route path="${path}/create/fixed" component={FixedSavings}/>

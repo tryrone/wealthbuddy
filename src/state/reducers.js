@@ -20,6 +20,7 @@ import verifyFundWalletWithNewCardReducer from "./ducks/verifyFundWalletWithNewC
 import applicationBootstrapReducer from "./ducks/applicationBootstrap";
 import sendTokenReducer from "./ducks/sendToken";
 import verifyAddBankAccountReducer from "./ducks/verifyAddBankAccount";
+import getAllSavingsReducer from "./ducks/getAllSavings";
 
 export default combineReducers({
   user: userReducer,
@@ -43,4 +44,5 @@ export default combineReducers({
   applicationBootstrap: applicationBootstrapReducer,
   sendToken: sendTokenReducer,
   verifyAddBankAccount: verifyAddBankAccountReducer,
+  getAllSavings: getAllSavingsReducer,
 });

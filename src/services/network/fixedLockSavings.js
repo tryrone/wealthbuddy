@@ -1,22 +1,22 @@
 import axios from 'services/api';
 import urls from "../../constants/urls";
 
-export const createFixedLocked = (params) => {
-  return axios.post(urls.createFixedLocked, params);
+export const createFixedLocked = (data) => {
+  return axios.post(urls.createFixedLocked, data);
 };
 
-export const startFixedLockWithdraw = (params) => {
-  return axios.post(urls.startFixedLockWithdraw, params);
+export const startFixedLockWithdraw = (data) => {
+  return axios.post(urls.startFixedLockWithdraw, data);
 };
 
-export const completeFixedLockWithdraw = (params) => {
-  return axios.post(urls.completeFixedLockWithdraw, params);
+export const completeFixedLockWithdraw = (data) => {
+  return axios.post(urls.completeFixedLockWithdraw, data);
 };
 
-export const startCancelFixedLockSavings = (params) => {
-  return axios.post(urls.startCancelFixedLockSavings, params);
+export const startCancelFixedLockSavings = (data) => {
+  return axios.post(urls.startCancelFixedLockSavings, data);
 };
 
-export const completeCancelFixedLockSavings = (params) => {
-  return axios.post(urls.completeCancelFixedLockSavings, params);
+export const completeCancelFixedLockSavings = (data) => {
+  return axios.post(urls.completeCancelFixedLockSavings, data);
 };

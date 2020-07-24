@@ -20,6 +20,7 @@ import { verifyFundWalletWithNewCardSagas } from "./ducks/verifyFundWalletWithNe
 import { applicationBootstrapSagas } from "./ducks/applicationBootstrap";
 import { sendTokenSagas } from "./ducks/sendToken";
 import { verifyAddBankAccountSagas } from "./ducks/verifyAddBankAccount";
+import { getAllSavingsSagas } from "./ducks/getAllSavings";
 
 export default function* rootSaga() {
   yield fork(apiSagas);
@@ -43,4 +44,5 @@ export default function* rootSaga() {
   yield fork(applicationBootstrapSagas);
   yield fork(sendTokenSagas);
   yield fork(verifyAddBankAccountSagas);
+  yield fork(getAllSavingsSagas);
 }

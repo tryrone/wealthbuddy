@@ -1,22 +1,22 @@
 import axios from 'services/api';
 import urls from "../../constants/urls";
 
-export const createFixedFlexible = (params) => {
-  return axios.post(urls.createFixedFlexible, params);
+export const createFixedFlexible = (data) => {
+  return axios.post(urls.createFixedFlexible, data);
 };
 
-export const startFixedFlexibleWithdraw = (params) => {
-  return axios.post(urls.startFixedFlexibleWithdraw, params);
+export const startFixedFlexibleWithdraw = (data) => {
+  return axios.post(urls.startFixedFlexibleWithdraw, data);
 };
 
-export const completeFixedFlexibleWithdraw = (params) => {
-  return axios.post(urls.completeFixedFlexibleWithdraw, params);
+export const completeFixedFlexibleWithdraw = (data) => {
+  return axios.post(urls.completeFixedFlexibleWithdraw, data);
 };
 
-export const startCancelFixedFlexibleSavings = (params) => {
-  return axios.post(urls.startCancelFixedFlexibleSavings, params);
+export const startCancelFixedFlexibleSavings = (data) => {
+  return axios.post(urls.startCancelFixedFlexibleSavings, data);
 };
 
-export const completeCancelFixedFlexibleSavings = (params) => {
-  return axios.post(urls.completeCancelFixedFlexibleSavings, params);
+export const completeCancelFixedFlexibleSavings = (data) => {
+  return axios.post(urls.completeCancelFixedFlexibleSavings, data);
 };
