@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
 
-const AddBankProviderContext = createContext({});
+const AddBankContext = createContext({});
 
-export default AddBankProviderContext;
+export default AddBankContext;
