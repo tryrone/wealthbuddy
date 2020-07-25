@@ -13,7 +13,6 @@ function* operation({ payload, meta }) {
   try {
     const response = yield call(Customer.startFundWalletWithNewCard, payload);
     let { status, data } = response.data;
-    yield meta.closeFundWalletModal();
     yield meta.continueToPaystack(data.data.reference);
     yield put(startFundWalletWithNewCardSuccess(status));
   } catch (error) {

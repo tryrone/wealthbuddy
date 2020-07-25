@@ -9,7 +9,7 @@ import AddBankModal from "./components/AddBankModal";
 import WithdrawFundsSuccess from "./components/WithdrawFundsSuccess";
 import AddBankSuccess from "./components/AddBankSuccess";
 
-const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard }) => {
+const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
   const [state, setState] = useState({
     tranxRef: "",
     amount: 0,
@@ -30,7 +30,11 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard }) => {
   };
 
   const showSuccessModal = () => {
-    setState({ ...state, isSuccessModalOpen: true });
+    setState({
+      ...state,
+      isSuccessModalOpen: true,
+      isFundWalletModalOpen: false,
+    });
   };
 
   const closeSuccessModal = () => {
@@ -69,17 +73,27 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard }) => {
     setState({ ...state, isAddBankSuccessModalOpen: false });
   };
 
-  const setTranxRef = (tranxRef) => setState({ ...state, tranxRef });
   const setAmount = (amount) => setState({ ...state, amount });
 
+  const openWithdrawFundsModal = () => {
+    openNoBankYetModal();
+  };
+
   const continueToPaystack = (tranxRef) => {
-    setTranxRef(tranxRef);
-    showPaystackModal();
+    setState({
+      ...state,
+      tranxRef: tranxRef,
+      isFundWalletModalOpen: false,
+      isPaystackModalOpen: true,
+    });
   };
 
   const completePaystackPayment = () => {
-    closePaystackModal();
-    showSuccessModal();
+    setState({
+      ...state,
+      isPaystackModalOpen: false,
+      isSuccessModalOpen: true,
+    });
   };
 
   const handlePaystackSuccess = () => {
@@ -89,13 +103,19 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard }) => {
   };
 
   const continueToAddBankDetails = () => {
-    closeNoBankYetModal();
-    openAddBankModal();
+    setState({
+      ...state,
+      isNoBankYetModalOpen: false,
+      isAddBankModalOpen: true,
+    });
   };
 
   const showAddBankSuccess = () => {
-    closeAddBankModal();
-    showAddBankSuccessModal();
+    setState({
+      ...state,
+      isAddBankModalOpen: false,
+      isAddBankSuccessModalOpen: true,
+    });
   };
 
   const contextValues = {
@@ -112,8 +132,8 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard }) => {
     closeAddBankModal,
     showAddBankSuccessModal,
     closeAddBankSuccessModal,
-    setTranxRef,
     setAmount,
+    openWithdrawFundsModal,
     continueToPaystack,
     completePaystackPayment,
     handlePaystackSuccess,
@@ -123,7 +143,11 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard }) => {
 
   return (
     <Fragment>
-      <AddBankContext.Provider value={contextValues}>
+      <AddBankContext.Provider
+        value={contextValues}
+        displayName="Add Bank Context"
+      >
+        {props.children}
         <FundWalletModal />
         <PaystackModal />
         <WithdrawFundsSuccess />

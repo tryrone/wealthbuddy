@@ -39,19 +39,17 @@ const FundWalletModal = ({
     showSuccessModal,
   } = useContext(AddBankContext);
 
-  if (!isFundWalletModalOpen) {
-    return null;
-  }
-
   const history = useHistory();
 
   useEffect(() => {
-    document.querySelector(".modal").classList.add("modal-active");
-    closeModalOnOutsideClick(closeFundWalletModal);
-    return () => {
-      document.querySelector(".modal").classList.remove("modal-active");
-    };
-  }, [0]);
+    if (isFundWalletModalOpen) {
+      closeModalOnOutsideClick(closeFundWalletModal);
+    }
+  }, [isFundWalletModalOpen]);
+
+  if (!isFundWalletModalOpen) {
+    return null;
+  }
 
   const handleOnSubmit = (formValues, formikProps) => {
     const meta = { formikProps, history, closeFundWalletModal };

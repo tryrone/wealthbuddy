@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { connect } from "react-redux";
-import { PaystackButton } from "react-paystack";
+import { PaystackButton, usePaystackPayment } from "react-paystack";
 import Loading from "shared-components/Loading";
 import AddBankContext from "contexts/AddBankContext";
 
@@ -13,15 +13,29 @@ const PaystackModal = ({ customerDetails, verifyFundWithNewCardLoading }) => {
     closePaystackModal,
   } = useContext(AddBankContext);
 
+  const config = {
+    reference: tranxRef,
+    email: customerDetails.email,
+    amount: amount * 100,
+    publicKey: process.env.REACT_APP_PAYSTACK_TEST_KEY,
+    onSuccess: handlePaystackSuccess,
+    onClose: closePaystackModal,
+  };
+
+  const initializePayment = usePaystackPayment(config);
+
+  useEffect(() => {
+    if (isPaystackModalOpen) {
+      initializePayment();
+      // setTimeout(() => {
+      //   document.querySelector(".payButton").click();
+      // }, 1000);
+    }
+  }, [isPaystackModalOpen]);
+
   if (!isPaystackModalOpen) {
     return null;
   }
-
-  useEffect(() => {
-    setTimeout(() => {
-      document.querySelector(".payButton").click();
-    }, 100);
-  }, []);
 
   return (
     <div className="modal modal-active fixed inset-0 bg-wb-overlay flex justify-center items-center">
@@ -30,7 +44,7 @@ const PaystackModal = ({ customerDetails, verifyFundWithNewCardLoading }) => {
       ) : (
         <PaystackButton
           className="payButton"
-          text=""
+          text="PAY"
           disabled={false}
           embed={false}
           reference={tranxRef}

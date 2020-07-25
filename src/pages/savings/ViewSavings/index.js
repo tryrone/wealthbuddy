@@ -1,31 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { logo } from "assets/exports";
-import { getDesiredTime } from "utilities";
-import personalSavings from "assets/img/personalIcon.png";
 import { useParams } from "react-router-dom";
 import Loading from "shared-components/Loading";
 import "react-perfect-scrollbar/dist/css/styles.css";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import EmptyCard from "shared-components/empty/empty-card";
 import "toasted-notes/src/styles.css";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import MainDetails from "./components/MainDetails";
-import { formatCurrency } from "utils";
-import { getAllSavingsData } from "state/ducks/getAllSavings/actions";
+import TransactionHistory from "./components/TransactionHistory";
+import { fetchSavingsById } from "state/slices/savings";
+import { unwrapResult } from "@reduxjs/toolkit";
+import produce from "immer";
+import CancelSavingsModal from "./components/StartCancelSavingsModal";
+import {
+  completeCancelSavings,
+  startCancelSavings,
+} from "state/slices/savings";
+import CancelSavingsSuccess from "./components/CancelSavingsSuccess";
 
-const ViewSavings = ({
-  customerSavings,
-  savingsTransactions,
-  dispatchGetAllSavings,
-}) => {
+const ViewSavings = ({ customerSavings, history }) => {
   const { savingsId } = useParams();
-  const [transactionsLoaded] = useState(true);
+  const dispatch = useDispatch();
+
+  const savings =
+    customerSavings.find((savingsItem) => {
+      return savingsItem.savingsID === savingsId;
+    }) || {};
+
+  const [state, setState] = useState({
+    transactionsLoaded: false,
+    savingsTransactions: [],
+    isStartCancelSavingsModalVisible: false,
+    amountToDisburse: 0,
+    isCancelSavingsSuccessModalVisible: false,
+  });
 
   useEffect(() => {
-    dispatchGetAllSavings({ params: { savingsId } });
+    dispatch(fetchSavingsById(savingsId))
+      .then(unwrapResult)
+      .then((data) =>
+        setState(
+          produce((draft) => {
+            draft.transactionsLoaded = true;
+            draft.savingsTransactions = data || [];
+          })
+        )
+      );
   }, []);
 
-  const groups = savingsTransactions.reduce((groups, transactions) => {
+  const groups = state.savingsTransactions.reduce((groups, transactions) => {
     const date = transactions.creationDate.split("T")[0];
     if (!groups[date]) {
       groups[date] = [];
@@ -41,113 +63,99 @@ const ViewSavings = ({
     };
   });
 
-  // const proceed = () => {
-  //     dispatch({
-  //         type: "CHANGE_WITHDRAW_SAVINGS",
-  //         newPayload: {
-  //             ...withdrawSavings,
-  //             type: getSingleItemArray.savingsType,
-  //             modal: true,
-  //             id: savingsId,
-  //             name: getSingleItemArray.name,
-  //             balance: getSingleItemArray.amountSaved
-  //         }
-  //     });
-  // }
+  const startCancelProcess = () => {
+    dispatch(startCancelSavings(savings))
+      .then(unwrapResult)
+      .then((data) => {
+        setState(
+          produce((draft) => {
+            draft.isStartCancelSavingsModalVisible = true;
+            draft.amountToDisburse = data.amountToDisburse;
+          })
+        );
+      });
+  };
+
+  const completeCancelProcess = () => {
+    dispatch(completeCancelSavings(savings))
+      .then(unwrapResult)
+      .then((data) => {
+        setState(
+          produce((draft) => {
+            draft.isStartCancelSavingsModalVisible = false;
+            draft.isCancelSavingsSuccessModalVisible = true;
+          })
+        );
+      });
+  };
+
+  const closeStartCancelSavingsModal = () => {
+    setState(
+      produce((draft) => {
+        draft.isStartCancelSavingsModalVisible = false;
+      })
+    );
+  };
+
+  const closeStartCancelSavingsSuccessModal = () => {
+    setState(
+      produce((draft) => {
+        draft.isCancelSavingsSuccessModalVisible = false;
+      })
+    );
+
+    history.push("/dashboard/savings");
+  };
 
   return (
-    <div className="px-12 pb-12 inner-savings--wrap flex-wrap flex justify-between">
-      {customerSavings.length > 0 && transactionsLoaded ? (
-        <React.Fragment>
-          <div className="w65">
-            <div className="view-savings--wrap">
-              <MainDetails />
-            </div>
-          </div>
-
-          <div className="w35">
-            <div className="card card-padding w-full has-scrollBar single-savings--scroll">
-              <div className="card-label">
-                <h1 className="text-4xl mb-6 font-medium card-header">
-                  Transaction history
-                </h1>
+    <Fragment>
+      <div className="px-12 pb-12 inner-savings--wrap flex-wrap flex justify-between">
+        {customerSavings.length > 0 && state.transactionsLoaded ? (
+          <React.Fragment>
+            <div className="w65">
+              <div className="view-savings--wrap">
+                <MainDetails
+                  savings={savings}
+                  startCancelSavings={startCancelProcess}
+                />
               </div>
-              <PerfectScrollbar>
-                {groupedTransactions.length === 0 ? (
-                  <EmptyCard
-                    title="Nothing to see here yet."
-                    message="Find any of your savings plan to and see you your transactions history here."
-                  />
-                ) : (
-                  <React.Fragment>
-                    {groupedTransactions.map((item, key) => (
-                      <React.Fragment key={key}>
-                        <div className="transaction-wealth--padding">
-                          <div className="transaction--heading card-padding transaction-padding">
-                            <h4 className="transaction-range--header">
-                              {3005060}
-                            </h4>
-                          </div>
-                          {item.transactions.map((items, key) => (
-                            <div
-                              key={key}
-                              className="transaction-body flex justify-between items-center card-padding transaction-padding"
-                            >
-                              <div className="left-tran--summary flex align-items-center">
-                                <div className="trans-image">
-                                  <img src={personalSavings} alt="" />
-                                </div>
-                                <div className="flex flex-col justify-center">
-                                  <p className="tran-single--title font-medium">
-                                    {`${getDesiredTime(items.creationDate)}`}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="right-tran--summary">
-                                <h3
-                                  className={`tran-single--title card-header flex font-medium ${
-                                    items.action === 2 ? "" : "color-red"
-                                  }`}
-                                >
-                                  {`${
-                                    items.action === 2 ? "+" : "-"
-                                  }₦${formatCurrency(items.amount)}`}
-                                </h3>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </React.Fragment>
-                    ))}
-                  </React.Fragment>
-                )}
-              </PerfectScrollbar>
+            </div>
+
+            <div className="w35">
+              <TransactionHistory groupedTransactions={groupedTransactions} />
+            </div>
+          </React.Fragment>
+        ) : (
+          <div className="flex flex-col justify-center min-screen items-center">
+            <div className="flex flex-col justify-center items-center">
+              <i
+                className="w-10 mb-4"
+                dangerouslySetInnerHTML={{ __html: logo }}
+              />
+              <Loading text="" />
             </div>
           </div>
-        </React.Fragment>
-      ) : (
-        <div className="flex flex-col justify-center min-screen items-center">
-          <div className="flex flex-col justify-center items-center">
-            <i
-              className="w-10 mb-4"
-              dangerouslySetInnerHTML={{ __html: logo }}
-            />
-            <Loading text="" />
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+
+      <CancelSavingsModal
+        isVisible={state.isStartCancelSavingsModalVisible}
+        closeModal={closeStartCancelSavingsModal}
+        amountToDisburse={state.amountToDisburse}
+        completeCancelSavings={completeCancelProcess}
+      />
+
+      <CancelSavingsSuccess
+        isVisible={state.isCancelSavingsSuccessModalVisible}
+        closeModal={closeStartCancelSavingsSuccessModal}
+        amountToDisburse={state.amountToDisburse}
+      />
+    </Fragment>
   );
 };
 
 const mapStateToProps = (state) => ({
   customerSavings: state.customerSavings.data,
-  savingsTransactions: state.getAllSavings.data,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchGetAllSavings: (payload, meta) =>
-    dispatch(getAllSavingsData(payload, meta)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ViewSavings);
+export default connect(mapStateToProps)(ViewSavings);

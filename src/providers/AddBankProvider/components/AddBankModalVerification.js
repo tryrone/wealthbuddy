@@ -50,7 +50,7 @@ const AddBankModalVerification = ({
         <Alert color="blue" message="Verifying Bank Account" />
       )}
       {addBankAccountError && (
-        <Alert color="red" message={addBankAccount.error} />
+        <Alert color="red" message={addBankAccountError} />
       )}
       {addBankAccountData.accountName && (
         <Alert color="green" message={addBankAccountData.accountName} />

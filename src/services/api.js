@@ -10,10 +10,10 @@ const transformResponse = (data) => {
 
     return response;
 };
- 
+
 const Axios = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
-  timeout: 30 * 1000,
+  timeout: 120 * 1000,
   credentials: "same-origin",
   headers: {
     "Content-Type": "application/json",

@@ -4,11 +4,11 @@ import SuccessModal from "shared-components/modals/SuccessModal";
 import BankIconSuccess from "assets/img/bankIconSuccess.png";
 
 const AddBankSuccess = () => {
-  const { isSuccessModalOpen, closeAddBankSuccessModal } = useContext(
+  const { isAddBankSuccessModalOpen, closeAddBankSuccessModal } = useContext(
     AddBankContext
   );
 
-  if (!isSuccessModalOpen) {
+  if (!isAddBankSuccessModalOpen) {
     return null;
   }
 

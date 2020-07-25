@@ -1,4 +1,4 @@
-import axios from 'services/api';
+import axios from "services/api";
 import urls from "../../constants/urls";
 
 export const createFixedLocked = (data) => {
@@ -13,10 +13,10 @@ export const completeFixedLockWithdraw = (data) => {
   return axios.post(urls.completeFixedLockWithdraw, data);
 };
 
-export const startCancelFixedLockSavings = (data) => {
-  return axios.post(urls.startCancelFixedLockSavings, data);
+export const startCancelFixedLockSavings = (savingsID) => {
+  return axios.post(urls.startCancelFixedLockSavings, { savingsID });
 };
 
-export const completeCancelFixedLockSavings = (data) => {
-  return axios.post(urls.completeCancelFixedLockSavings, data);
+export const completeCancelFixedLockSavings = (savingsID) => {
+  return axios.post(urls.completeCancelFixedLockSavings, { savingsID });
 };

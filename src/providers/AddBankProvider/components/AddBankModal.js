@@ -38,12 +38,10 @@ const AddBankModal = ({ sendTokenLoading, dispatchSendToken }) => {
     showAddBankSuccess,
   } = useContext(AddBankContext);
 
-  if (!isAddBankModalOpen) {
-    return null;
-  }
-
   useEffect(() => {
-    closeModalOnOutsideClick(closeAddBankModal);
+    if (isAddBankModalOpen) {
+      closeModalOnOutsideClick(closeAddBankModal);
+    }
   }, [0]);
 
   const [bankId, setBankId] = useState(null);
@@ -53,6 +51,10 @@ const AddBankModal = ({ sendTokenLoading, dispatchSendToken }) => {
     const meta = { formikProps, setTokenReference };
     dispatchSendToken(formValues, meta);
   };
+
+  if (!isAddBankModalOpen) {
+    return null;
+  }
 
   return (
     <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">

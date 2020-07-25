@@ -34,10 +34,13 @@ export default function rootReducer(baseState = initialState, action) {
       });
     }
     case GET_DASHBOARD_DATA_SUCCESS: {
+      let data = action.payload;
+      data.savingsTransactions = data.savingsTransactions || [];
+
       return produce(baseState, (draftState) => {
         draftState.loading = false;
         draftState.error = null;
-        draftState.data = action.payload;
+        draftState.data = data;
       });
     }
     case GET_DASHBOARD_DATA_FAIL: {

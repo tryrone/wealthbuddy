@@ -5,27 +5,19 @@ import personalSavings from "assets/img/personalIcon.png";
 import fixedSavings from "assets/img/fixedIcon.png";
 import groupSavings from "assets/img/groupIcon.png";
 import fixedFlexSavings from "assets/img/fixedFlex.png";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import "toasted-notes/src/styles.css";
 import { connect } from "react-redux";
 import { formatCurrency } from "utils";
+import classNames from "classnames";
 
-const MainDetails = ({ customerSavings }) => {
-  const { savingsId } = useParams();
-
-  const getSingleItemArray = customerSavings.find(
-    (savingsItem) => savingsItem.savingsID === savingsId
-  );
-
-  const progressPercentage =
-    (getSingleItemArray.amountSaved / getSingleItemArray.amountToSave) * 100;
-
-  const dateStatus =
-    new Date(getSingleItemArray.estimatedTerminationDate) > new Date();
+const MainDetails = ({ savings, startCancelSavings, startCancelLoading }) => {
+  const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
+  const dateStatus = new Date(savings.estimatedTerminationDate) > new Date();
 
   const savingsIcon = () => {
-    switch (getSingleItemArray) {
+    switch (savings) {
       case 1:
         return personalSavings;
       case 2:
@@ -37,7 +29,6 @@ const MainDetails = ({ customerSavings }) => {
     }
   };
 
-  const cancel = () => null;
   const proceed = () => null;
 
   // const proceed = () => {
@@ -45,74 +36,14 @@ const MainDetails = ({ customerSavings }) => {
   //         type: "CHANGE_WITHDRAW_SAVINGS",
   //         newPayload: {
   //             ...withdrawSavings,
-  //             type: getSingleItemArray.savingsType,
+  //             type: savings.savingsType,
   //             modal: true,
   //             id: savingsId,
-  //             name: getSingleItemArray.name,
-  //             balance: getSingleItemArray.amountSaved
+  //             name: savings.name,
+  //             balance: savings.amountSaved
   //         }
   //     });
   // }
-
-  // const cancel = async (e) => {
-  //     e.target.classList.add("loading");
-  //     let url;
-  //     if (getSingleItemArray.savingsType === 1) {
-  //         url = urls.startCancelPersonalSavings
-  //     }
-  //     else if (getSingleItemArray.savingsType === 3) {
-  //         url = urls.startCancelFixedFlexibleSavings
-  //     }
-  //     else if (getSingleItemArray.savingsType === 2) {
-  //         url = urls.startCancelFixedLockSavings
-  //     }
-  //     else {
-  //         url = urls.startCancelPersonalSavings
-  //     }
-
-  //     setTimeout(async () => {
-  //         const data = {
-  //             savingsID: getSingleItemArray.savingsID
-  //         }
-  //         const finalData = JSON.stringify(data);
-  //         const response = await postCall(url, finalData);
-
-  //         if (response === "Token Expired") {
-  //             forceLogout()
-  //         }
-  //         else if (response !== false && typeof response !== "undefined" && response.data.status === true) {
-  //             dispatch({
-  //                 type: "CHANGE_CANCEL_SAVINGS",
-  //                 newPayload: {
-  //                     id: getSingleItemArray.savingsID,
-  //                     modal: true,
-  //                     amount: response.data.data.amountToDisburse,
-  //                     type: getSingleItemArray.savingsType
-  //                 }
-  //             });
-  //         }
-  //         else {
-  //             toaster.notify(response.data.message, {
-  //                 position: "bottom",
-  //                 duration: null
-  //             });
-  //         }
-  //         Array.from(document.querySelectorAll(".loading")).forEach(
-  //             element => {
-  //                 element.classList.remove("loading")
-  //             }
-  //         );
-  //     }, 1000);
-  // }
-
-  const savings = [1, 2, 3];
-
-  const state = {
-    status: true,
-  };
-
-  const finalArray = [1, 1];
-  const transactions = [1, 1, 1];
 
   return (
     <div className="card card-padding min-card w-full flex flex-col justify-between">
@@ -132,8 +63,8 @@ const MainDetails = ({ customerSavings }) => {
         <div className="flex flex-col justify-center items-center card-margin--x pb-14">
           <div className=" flex flex-col justify-center items-center items-center w-full">
             <div className="image-saving--summary">
-              {getSingleItemArray.imageURL !== "" ? (
-                <img src={getSingleItemArray.imageURL} alt="" />
+              {savings.imageURL !== "" ? (
+                <img src={savings.imageURL} alt="" />
               ) : (
                 <img src={savingsIcon()} alt="" />
               )}
@@ -143,17 +74,17 @@ const MainDetails = ({ customerSavings }) => {
                 <div className="flex justify-center text-center align-items-center">
                   <div className="flex flex-col justify-center">
                     <p className="savings-inner--title font-medium text-gray-300">
-                      {`${getSingleItemArray.name}`}
+                      {`${savings.name}`}
                     </p>
                     <h1 className="mt-3 mb-4 text-4xl font-medium">
-                      {`₦${formatCurrency(getSingleItemArray.amountToSave)}`}
+                      {`₦${formatCurrency(savings.amountToSave)}`}
                     </h1>
                     <p className="savings-inner--title font-medium color-black mb-4">{`${
-                      getSingleItemArray.savingsType === 1
+                      savings.savingsType === 1
                         ? "Personal Target Savings"
-                        : getSingleItemArray.savingsType === 2
+                        : savings.savingsType === 2
                         ? "Fixed Lock Savings"
-                        : getSingleItemArray.savingsType === 3
+                        : savings.savingsType === 3
                         ? "Fixed Flexible Savings"
                         : "Group Savings"
                     }`}</p>
@@ -171,7 +102,7 @@ const MainDetails = ({ customerSavings }) => {
                       {`${formatCurrency(progressPercentage)}% achieved`}
                     </p>
                     <p className="color-black">
-                      {`₦${formatCurrency(getSingleItemArray.amountSaved)}`}
+                      {`₦${formatCurrency(savings.amountSaved)}`}
                     </p>
                   </div>
                 </div>
@@ -179,34 +110,33 @@ const MainDetails = ({ customerSavings }) => {
             </div>
           </div>
           <div className="nav-buttons flex justify-center">
-            {getSingleItemArray.savingsType !== 2 && (
+            {savings.savingsType !== 2 && (
               <div
-                className={`w-40  border-b text-center bg-white cta-del leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm`}
-                onClick={getSingleItemArray.savingsType !== 2 && cancel}
+                className={classNames({
+                  "w-40 border-b text-center bg-white cta-del leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm": true,
+                  loading: startCancelLoading,
+                })}
+                onClick={savings.savingsType !== 2 && startCancelSavings}
               >
                 Cancel <span className="loader" />
               </div>
             )}
-            {getSingleItemArray.savingsType !== 2 ? (
+            {savings.savingsType !== 2 ? (
               <button
-                className={` w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta cta-black text-white rounded-sm ${
-                  getSingleItemArray.amountSaved === 0 ? "opaque" : ""
+                className={`w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta cta-black text-white rounded-sm ${
+                  savings.amountSaved === 0 ? "opaque" : ""
                 }`}
-                onClick={getSingleItemArray.amountSaved === 0 ? null : proceed}
+                onClick={savings.amountSaved === 0 ? null : proceed}
               >
                 Withdraw
               </button>
             ) : (
               <button
                 className={` w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta cta-black text-white rounded-sm ${
-                  getSingleItemArray.amountSaved === 0 || dateStatus
-                    ? "opaque"
-                    : ""
+                  savings.amountSaved === 0 || dateStatus ? "opaque" : ""
                 }`}
                 onClick={
-                  getSingleItemArray.amountSaved === 0 || dateStatus
-                    ? null
-                    : proceed
+                  savings.amountSaved === 0 || dateStatus ? null : proceed
                 }
               >
                 Withdraw
@@ -221,11 +151,11 @@ const MainDetails = ({ customerSavings }) => {
               Contribution
             </h5>
             <h1 className="mt-3 font-medium">{`₦${formatMoney(
-              getSingleItemArray.installmentalContribution
+              savings.installmentalContribution
             )}/${
-              getSingleItemArray.schedule === 2
+              savings.schedule === 2
                 ? "Week"
-                : getSingleItemArray.schedule === 3
+                : savings.schedule === 3
                 ? "Month"
                 : "Day"
             }`}</h1>
@@ -235,9 +165,7 @@ const MainDetails = ({ customerSavings }) => {
               Interest Rate
             </h5>
             <h1 className="mt-3 font-medium">{`${
-              getSingleItemArray.interestRate === 0
-                ? "N/A"
-                : getSingleItemArray.interestRate + "%"
+              savings.interestRate === 0 ? "N/A" : savings.interestRate + "%"
             }`}</h1>
           </div>
           <div className="savings-inner--item">
@@ -245,7 +173,7 @@ const MainDetails = ({ customerSavings }) => {
               Start Date
             </h5>
             <h1 className=" mt-3 font-medium">
-              {getHumanDate(getSingleItemArray.startDate)}
+              {getHumanDate(savings.startDate)}
             </h1>
           </div>
         </div>
@@ -256,16 +184,16 @@ const MainDetails = ({ customerSavings }) => {
               Maturity Date
             </h5>
             <h1 className="mt-3 font-medium">{`${getHumanDate(
-              getSingleItemArray.estimatedTerminationDate
+              savings.estimatedTerminationDate
             )}`}</h1>
           </div>
-          {getSingleItemArray.interestRate !== 0 && (
+          {savings.interestRate !== 0 && (
             <div className="savings-inner--item">
               <h5 className="savings-inner--subtitle text-gray-300 text-xs">
                 Interest Earned
               </h5>
               <h1 className="mt-3 font-medium color-primary">{`₦${formatMoney(
-                getSingleItemArray.totalInterestEarned
+                savings.totalInterestEarned
               )}`}</h1>
             </div>
           )}
@@ -277,6 +205,7 @@ const MainDetails = ({ customerSavings }) => {
 
 const mapStateToProps = (state) => ({
   customerSavings: state.customerSavings.data,
+  startCancelLoading: state.savings.startCancelLoading,
 });
 
 export default connect(mapStateToProps)(MainDetails);

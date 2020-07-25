@@ -21,6 +21,7 @@ import applicationBootstrapReducer from "./ducks/applicationBootstrap";
 import sendTokenReducer from "./ducks/sendToken";
 import verifyAddBankAccountReducer from "./ducks/verifyAddBankAccount";
 import getAllSavingsReducer from "./ducks/getAllSavings";
+import savings from "./slices/savings";
 
 export default combineReducers({
   user: userReducer,
@@ -45,4 +46,5 @@ export default combineReducers({
   sendToken: sendTokenReducer,
   verifyAddBankAccount: verifyAddBankAccountReducer,
   getAllSavings: getAllSavingsReducer,
+  savings: savings.reducer,
 });
