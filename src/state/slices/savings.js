@@ -5,9 +5,9 @@ import {
   FixedFlexibleSavings,
   FixedLockSavings,
 } from "services/network";
-import {getDashboardData} from "../ducks/dashboard/actions";
-import {getRecentSavingTransactionsData} from "../ducks/recentSavingTransactions/actions";
-import {getCustomerSavingsData} from "../ducks/customerSavings/actions";
+import { getDashboardData } from "../ducks/dashboard/actions";
+import { getRecentSavingTransactionsData } from "../ducks/recentSavingTransactions/actions";
+import { getCustomerSavingsData } from "../ducks/customerSavings/actions";
 
 const initialState = {
   fetchByIdLoading: false,
@@ -19,6 +19,9 @@ const initialState = {
   completeCancelLoading: false,
   completeCancelError: null,
   completeCancelEntities: [],
+  startWithdrawLoading: false,
+  startWithdrawError: null,
+  startWithdrawEntities: [],
 };
 
 export const fetchSavingsById = createAsyncThunk(
@@ -74,6 +77,28 @@ export const completeCancelSavings = createAsyncThunk(
   }
 );
 
+export const startWithdrawSavings = createAsyncThunk(
+  "savings/startWithdraw",
+  async ({ savingsType, formValues }) => {
+    let requestStartWithdraw;
+
+    if (savingsType === 1) {
+      requestStartWithdraw =
+        PersonalTargetSavings.startPersonalTargetWithdrawal;
+    } else if (savingsType === 2) {
+      requestStartWithdraw = FixedLockSavings.startFixedLockWithdraw;
+    } else if (savingsType === 3) {
+      requestStartWithdraw = FixedFlexibleSavings.startFixedFlexibleWithdraw;
+    } else {
+      requestStartWithdraw =
+        PersonalTargetSavings.startPersonalTargetWithdrawal;
+    }
+
+    const response = await requestStartWithdraw(formValues);
+    return response.data.data;
+  }
+);
+
 const savings = createSlice({
   name: "savings",
   initialState,
@@ -90,7 +115,7 @@ const savings = createSlice({
     [fetchSavingsById.rejected]: (state, action) => {
       state.fetchByIdEntities = null;
       state.fetchByIdLoading = false;
-      state.fetchByIdError = action.fetchByIdError;
+      state.fetchByIdError = action.error;
     },
     [startCancelSavings.pending]: (state) => {
       state.startCancelLoading = true;
@@ -104,7 +129,7 @@ const savings = createSlice({
     [startCancelSavings.rejected]: (state, action) => {
       state.startCancelEntities = null;
       state.startCancelLoading = false;
-      state.startCancelError = action.fetchByIdError;
+      state.startCancelError = action.error;
     },
     [completeCancelSavings.pending]: (state) => {
       state.completeCancelLoading = true;
@@ -118,7 +143,21 @@ const savings = createSlice({
     [completeCancelSavings.rejected]: (state, action) => {
       state.completeCancelEntities = null;
       state.completeCancelLoading = false;
-      state.completeCancelError = action.fetchByIdError;
+      state.completeCancelError = action.error;
+    },
+    [startWithdrawSavings.pending]: (state) => {
+      state.startWithdrawLoading = true;
+      state.startWithdrawError = null;
+    },
+    [startWithdrawSavings.fulfilled]: (state, action) => {
+      state.startWithdrawEntities = action.payload;
+      state.startWithdrawLoading = false;
+      state.startWithdrawError = null;
+    },
+    [startWithdrawSavings.rejected]: (state, action) => {
+      state.startWithdrawEntities = null;
+      state.startWithdrawLoading = false;
+      state.startWithdrawError = action.error.message;
     },
   },
 });

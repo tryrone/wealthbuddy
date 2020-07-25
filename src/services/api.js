@@ -1,14 +1,19 @@
 import axios from "axios";
 import store from "state/store";
+import { history } from "../App";
 
 const transformResponse = (data) => {
-    let response = JSON.parse(data);
+  let response = data;
 
-    if (response.status === false) {
-        throw Error(response.message);
-    }
+  try {
+    response = JSON.parse(data);
+  } catch (e) {}
 
-    return response;
+  if (typeof response === "object" && response.status === false) {
+    throw Error(response.message);
+  }
+
+  return response;
 };
 
 const Axios = axios.create({
@@ -51,9 +56,11 @@ Axios.interceptors.response.use(
   },
 
   async (error) => {
-    if (error.response && error.response.status === 403) {
-      localStorage.removeItem("persist:root");
+    if (error.message.includes("401")) {
+      sessionStorage.removeItem("persist:root");
+      history.push("/auth/login");
     }
+
     return Promise.reject(error);
   }
 );

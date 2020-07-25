@@ -16,6 +16,7 @@ import {
   startCancelSavings,
 } from "state/slices/savings";
 import CancelSavingsSuccess from "./components/CancelSavingsSuccess";
+import StartWithdrawSavingsModal from "./components/StartWithdrawSavingsModal";
 
 const ViewSavings = ({ customerSavings, history }) => {
   const { savingsId } = useParams();
@@ -29,9 +30,10 @@ const ViewSavings = ({ customerSavings, history }) => {
   const [state, setState] = useState({
     transactionsLoaded: false,
     savingsTransactions: [],
-    isStartCancelSavingsModalVisible: false,
     amountToDisburse: 0,
+    isStartCancelSavingsModalVisible: false,
     isCancelSavingsSuccessModalVisible: false,
+    isStartWithdrawSavingsModalVisible: false,
   });
 
   useEffect(() => {
@@ -107,6 +109,22 @@ const ViewSavings = ({ customerSavings, history }) => {
     history.push("/dashboard/savings");
   };
 
+  const startWithdrawProcess = () => {
+    setState(
+      produce((draft) => {
+        draft.isStartWithdrawSavingsModalVisible = true;
+      })
+    );
+  };
+
+  const closeStartWithdrawSavingsModalVisible = () => {
+    setState(
+      produce((draft) => {
+        draft.isStartWithdrawSavingsModalVisible = false;
+      })
+    );
+  };
+
   return (
     <Fragment>
       <div className="px-12 pb-12 inner-savings--wrap flex-wrap flex justify-between">
@@ -116,6 +134,7 @@ const ViewSavings = ({ customerSavings, history }) => {
               <div className="view-savings--wrap">
                 <MainDetails
                   savings={savings}
+                  startWithdrawSavings={startWithdrawProcess}
                   startCancelSavings={startCancelProcess}
                 />
               </div>
@@ -149,6 +168,12 @@ const ViewSavings = ({ customerSavings, history }) => {
         isVisible={state.isCancelSavingsSuccessModalVisible}
         closeModal={closeStartCancelSavingsSuccessModal}
         amountToDisburse={state.amountToDisburse}
+      />
+
+      <StartWithdrawSavingsModal
+        isVisible={state.isStartWithdrawSavingsModalVisible}
+        closeModal={closeStartWithdrawSavingsModalVisible}
+        savings={savings}
       />
     </Fragment>
   );

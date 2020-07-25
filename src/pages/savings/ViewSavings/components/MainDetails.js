@@ -12,7 +12,12 @@ import { connect } from "react-redux";
 import { formatCurrency } from "utils";
 import classNames from "classnames";
 
-const MainDetails = ({ savings, startCancelSavings, startCancelLoading }) => {
+const MainDetails = ({
+  savings,
+  startCancelSavings,
+  startCancelLoading,
+  startWithdrawSavings,
+}) => {
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
   const dateStatus = new Date(savings.estimatedTerminationDate) > new Date();
 
@@ -28,22 +33,6 @@ const MainDetails = ({ savings, startCancelSavings, startCancelLoading }) => {
         return groupSavings;
     }
   };
-
-  const proceed = () => null;
-
-  // const proceed = () => {
-  //     dispatch({
-  //         type: "CHANGE_WITHDRAW_SAVINGS",
-  //         newPayload: {
-  //             ...withdrawSavings,
-  //             type: savings.savingsType,
-  //             modal: true,
-  //             id: savingsId,
-  //             name: savings.name,
-  //             balance: savings.amountSaved
-  //         }
-  //     });
-  // }
 
   return (
     <div className="card card-padding min-card w-full flex flex-col justify-between">
@@ -126,7 +115,9 @@ const MainDetails = ({ savings, startCancelSavings, startCancelLoading }) => {
                 className={`w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta cta-black text-white rounded-sm ${
                   savings.amountSaved === 0 ? "opaque" : ""
                 }`}
-                onClick={savings.amountSaved === 0 ? null : proceed}
+                onClick={
+                  savings.amountSaved === 0 ? null : startWithdrawSavings
+                }
               >
                 Withdraw
               </button>
@@ -136,7 +127,9 @@ const MainDetails = ({ savings, startCancelSavings, startCancelLoading }) => {
                   savings.amountSaved === 0 || dateStatus ? "opaque" : ""
                 }`}
                 onClick={
-                  savings.amountSaved === 0 || dateStatus ? null : proceed
+                  savings.amountSaved === 0 || dateStatus
+                    ? null
+                    : startWithdrawSavings
                 }
               >
                 Withdraw
