@@ -1,19 +1,18 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import { Field, Form, Formik } from "formik";
-import * as yup from "yup";
 import CardIcon from "assets/img/cardIcon.png";
 import Loading from "shared-components/Loading";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
-import { fundWalletWithExistingCard } from "state/ducks/fundWalletWithExistingCard/actions";
-import { startFundWalletWithNewCard } from "state/ducks/startFundWalletWithNewCard/actions";
-import NumberFormat from "react-number-format";
+import { formatCurrency } from "utils";
 
 const WithdrawalSummaryModal = ({
   isVisible,
   closeModal,
-  startFundWithNewCardLoading,
-  startFundWithNewCardError,
+  savings,
+  withdrawalDetails,
+  completeWithdrawSavings,
+  completeWithdrawLoading,
+  completeWithdrawError,
 }) => {
   if (!isVisible) {
     return null;
@@ -32,16 +31,16 @@ const WithdrawalSummaryModal = ({
           <h1 className="text-2xl font-medium mb-2">Withdraw from savings</h1>
         </div>
 
-        {startFundWithNewCardLoading ? (
+        {completeWithdrawLoading ? (
           <div className="flex flex-col items-center mt-8">
             <Loading text="Funding Wallet" />
           </div>
         ) : (
           <Fragment>
-            {startFundWithNewCardError && (
+            {completeWithdrawError && (
               <div className="w-72 text-xs text-left mt-8 ">
                 <p className="w-full p-3 bg-red-200 text-red-700 rounded text-center font-medium">
-                  {startFundWithNewCardError}
+                  {completeWithdrawError}
                 </p>
               </div>
             )}
@@ -51,17 +50,17 @@ const WithdrawalSummaryModal = ({
                   <div className="confirm-item">
                     <span className="plan-name">Goal Name</span>
                     <span className="plan-type font-medium">
-                      {withdrawSavings.name}
+                      {savings.name}
                     </span>
                   </div>
                   <div className="confirm-item">
                     <span className="plan-name">Goal Type</span>
                     <span className="plan-type font-medium">
-                      {withdrawSavings.type === 1
+                      {savings.savingsType === 1
                         ? "Personal Target Savings"
-                        : withdrawSavings.type === 2
+                        : savings.savingsType === 2
                         ? "Fixed Flexible Savings"
-                        : withdrawSavings.type === 3
+                        : savings.savingsType === 3
                         ? "Fixed Lock Saving"
                         : "Group Savings"}
                     </span>
@@ -69,19 +68,31 @@ const WithdrawalSummaryModal = ({
                   <div className="confirm-item">
                     <span className="plan-name">Amount to withdraw</span>
                     <span className="plan-type font-medium">
-                      {`₦${formatMoney(
-                        confirmWithdrawSavings.data.amountToDisburse
-                      )}`}
+                      {`₦${formatCurrency(withdrawalDetails.amountToDisburse)}`}
                     </span>
                   </div>
                   <div className="confirm-item">
                     <span className="plan-name">Penalty</span>
                     <span className="plan-type font-medium color-red">
-                      {`₦${formatMoney(confirmWithdrawSavings.data.penalty)}`}
+                      {`₦${formatCurrency(withdrawalDetails.penalty)}`}
                     </span>
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="nav-buttons flex justify-center">
+              <div
+                onClick={closeModal}
+                className=" w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
+              >
+                Cancel
+              </div>
+              <button
+                className={` w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
+                onClick={completeWithdrawSavings}
+              >
+                Proceed
+              </button>
             </div>
           </Fragment>
         )}
@@ -91,20 +102,8 @@ const WithdrawalSummaryModal = ({
 };
 
 const mapStateToProps = (state) => ({
-  fundWithExistingCardLoading: state.fundWalletWithExistingCard.loading,
-  fundWithExistingCardError: state.fundWalletWithExistingCard.error,
-  startFundWithNewCardLoading: state.startFundWalletWithNewCard.loading,
-  startFundWithNewCardError: state.startFundWalletWithNewCard.error,
+  completeWithdrawLoading: state.savings.completeWithdrawLoading,
+  completeWithdrawError: state.savings.completeWithdrawError,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchFundWalletWithExistingCard: (payload, meta) =>
-    dispatch(fundWalletWithExistingCard(payload, meta)),
-  dispatchStartFundWalletWithNewCard: (payload, meta) =>
-    dispatch(startFundWalletWithNewCard(payload, meta)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WithdrawalSummaryModal);
+export default connect(mapStateToProps)(WithdrawalSummaryModal);

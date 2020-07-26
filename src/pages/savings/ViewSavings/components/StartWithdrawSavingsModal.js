@@ -1,50 +1,35 @@
 import React, { Fragment } from "react";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
 import CardIcon from "assets/img/cardIcon.png";
 import Loading from "shared-components/Loading";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 import NumberFormat from "react-number-format";
-import { startWithdrawSavings } from "state/slices/savings";
-import { unwrapResult } from "@reduxjs/toolkit";
 
 const initialValues = {
   amount: "",
 };
 
-const validationSchema = yup.object().shape({
-  amount: yup.string().label("Amount").required(),
-});
-
 const StartWithdrawSavingsModal = ({
   isVisible,
   closeModal,
   savings,
+  startWithdrawProcess,
   startWithdrawLoading,
   startWithdrawError,
 }) => {
-  const dispatch = useDispatch();
+  const validationSchema = yup.object().shape({
+    amount: yup
+      .number()
+      .max(parseFloat(savings.amountSaved))
+      .label("Amount")
+      .required(),
+  });
 
   if (!isVisible) {
     return null;
   }
-
-  const handleOnSubmit = async (formValues) => {
-    const payload = {
-      savingsType: savings.savingsType,
-      formValues: {
-        amount: parseFloat(formValues.amount),
-        savingsID: savings.savingsID,
-      },
-    };
-
-    try {
-      const resultAction = await dispatch(startWithdrawSavings(payload));
-      const withdrawalInfo = unwrapResult(resultAction);
-      alert(JSON.stringify(withdrawalInfo));
-    } catch (err) {}
-  };
 
   return (
     <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
@@ -80,7 +65,7 @@ const StartWithdrawSavingsModal = ({
               initialValues={initialValues}
               validationSchema={validationSchema}
               validateOnMount={true}
-              onSubmit={handleOnSubmit}
+              onSubmit={startWithdrawProcess}
             >
               {({
                 handleSubmit,
@@ -99,6 +84,7 @@ const StartWithdrawSavingsModal = ({
                       <NumberFormat
                         thousandSeparator={true}
                         placeholder="eg: 20,000"
+                        autoComplete="off"
                         type="text"
                         id="amount"
                         name="amount"

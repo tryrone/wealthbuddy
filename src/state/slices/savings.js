@@ -22,6 +22,9 @@ const initialState = {
   startWithdrawLoading: false,
   startWithdrawError: null,
   startWithdrawEntities: [],
+  completeWithdrawLoading: false,
+  completeWithdrawError: null,
+  completeWithdrawEntities: [],
 };
 
 export const fetchSavingsById = createAsyncThunk(
@@ -99,6 +102,32 @@ export const startWithdrawSavings = createAsyncThunk(
   }
 );
 
+export const completeWithdrawSavings = createAsyncThunk(
+  "savings/completeWithdraw",
+  async ({ savingsType, formValues }, thunkAPI) => {
+    let requestCompleteWithdraw;
+
+    if (savingsType === 1) {
+      requestCompleteWithdraw =
+        PersonalTargetSavings.completePersonalTargetWithdrawal;
+    } else if (savingsType === 2) {
+      requestCompleteWithdraw = FixedLockSavings.completeFixedLockWithdraw;
+    } else if (savingsType === 3) {
+      requestCompleteWithdraw =
+        FixedFlexibleSavings.completeFixedFlexibleWithdraw;
+    } else {
+      requestCompleteWithdraw =
+        PersonalTargetSavings.completePersonalTargetWithdrawal;
+    }
+
+    const response = await requestCompleteWithdraw(formValues);
+
+    thunkAPI.dispatch(getDashboardData());
+
+    return response.data.data;
+  }
+);
+
 const savings = createSlice({
   name: "savings",
   initialState,
@@ -158,6 +187,20 @@ const savings = createSlice({
       state.startWithdrawEntities = null;
       state.startWithdrawLoading = false;
       state.startWithdrawError = action.error.message;
+    },
+    [completeWithdrawSavings.pending]: (state) => {
+      state.completeWithdrawLoading = true;
+      state.completeWithdrawError = null;
+    },
+    [completeWithdrawSavings.fulfilled]: (state, action) => {
+      state.completeWithdrawEntities = action.payload;
+      state.completeWithdrawLoading = false;
+      state.completeWithdrawError = null;
+    },
+    [completeWithdrawSavings.rejected]: (state, action) => {
+      state.completeWithdrawEntities = null;
+      state.completeWithdrawLoading = false;
+      state.completeWithdrawError = action.error.message;
     },
   },
 });
