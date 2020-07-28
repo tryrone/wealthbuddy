@@ -5,6 +5,7 @@ import NavBar from "../pages/dashboard/components/NavBar";
 import Header from "../pages/dashboard/components/Header";
 import DashboardHome from "../pages/dashboard/components/DashboardHome";
 import Savings from "../pages/savings";
+import Investment from "../pages/investment";
 import { connect } from "react-redux";
 import Wallet from "../pages/wallet";
 import FundWallet from "../pages/wallet/components/fundWallet/FundWallet";
@@ -37,6 +38,10 @@ const DashboardRoutes = ({ user }) => {
 
           <Route path={`${path}/wallet`}>
             <Wallet show={showModal} show2={showModal2} />
+          </Route>
+
+          <Route path={`${path}/Investment`}>
+            <Investment />
           </Route>
 
           {mode ? <FundWallet show={showModal} /> : null}
