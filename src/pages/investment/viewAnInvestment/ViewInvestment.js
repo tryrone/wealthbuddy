@@ -1,7 +1,9 @@
 import React from 'react'
 import ViewCard from './component/viewCard/ViewCard';
+import {bulb} from '../imageLinks'
 import TransactionHistory from './component/transactionHistory/TransactionHistory';
 import ViewDetails from './component/viewInvestDetails/ViewDetails';
+import {Link} from 'react-router-dom';
 
 const ViewInvestment=()=> {
     return (
@@ -23,6 +25,19 @@ const ViewInvestment=()=> {
         <div className="flex flex-col w-full mr-5">
             <ViewCard/>
 
+                {/* roll over card */}
+            <div style={{borderColor:"#8CB13D",backgroundColor:"#F9FFEB"}} className="flex flex-col sm:flex-row border border-solid px-6 py-4">
+            <img src={bulb} alt="" className="mr-4" />
+            <div className="">
+                <p className="text-xs">
+                Your investments is now mature and you can 
+                now withdraw or rollover  this investment plan
+                </p>
+
+                <Link to="/dashboard/investment/view-investment/roll-over" style={{color:"#8CB13D"}} className="text-xs mt-4 font-bold">Roll over this plan</Link>
+            </div>
+            </div>
+                {/* roll over card */}
             <div>
                 <ViewDetails/>
             </div>

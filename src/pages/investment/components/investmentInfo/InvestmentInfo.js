@@ -1,10 +1,16 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {financeMan} from '../../imageLinks';
 import NavShape from "../../../../shared-components/svgs/NavShape";
 import Chart from '../Chart';
 import { Link } from 'react-router-dom';
 
-function InvestmentInfo() {
+const InvestmentInfo =(props)=> {
+
+    console.log(props,"just props");
+    useEffect(()=>{ 
+        console.log(props,"my props")
+    }) 
+
     return (
         <div className="px-4 sm:px-12  flex flex-col fadeIn">
             <div className="flex flex-row justify-between content-center sm:w-3/6 items-center  mb-20 ">
@@ -12,7 +18,7 @@ function InvestmentInfo() {
                 <p style={{color:"#999999"}} className="text-xs "> {'>>'} </p>
                 <p style={{color:"#999999"}} className="text-xs ml-4 sm:ml-1">Add new Investment</p>
                 <p style={{color:"#999999"}} className="text-xs"> {'>>'} </p>
-                <p className="text-sm text-black">Meristem Equity Market Fund</p>
+                <p className="text-sm text-black"> Meristem Equity Market Fund</p>
             </div>
            
            <div 

@@ -12,7 +12,7 @@ const InvestModal =(props)=> {
     
    
     
-
+ 
   const onclose=()=>{
     props.myclose(false);
     // console.log(props);
@@ -87,6 +87,11 @@ const InvestModal =(props)=> {
               {/* <p className="text-black text-xs font-bold mt-4 text-left">Select a card</p> */}
               <div className="fieldset w-11/12 mt-2 sm:w-8/12">
               <InvestmentDropdown/>
+              <button 
+                onClick={()=>{onclose()}}
+                className={`mt-6 w-40 text-center leading-loose mx-auto bg-wb-primary wealth-buddy--cta text-white rounded-sm`}>
+                  Done
+                </button>
               </div>
               </Fragment>
               : null

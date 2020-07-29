@@ -22,6 +22,12 @@ const info = require("../../assets/img/info.svg");
 const withblack = require("../../assets/img/withblack.svg");
 const withdram = require("../../assets/img/withdraw.svg");
 const terminate = require("../../assets/img/terminate.svg");
+const bulb = require("../../assets/img/bulb.svg");
+const creditcard = require("../../assets/img/creditcard2.svg");
+const wallet = require("../../assets/img/wallet2.svg");
+const fullterm = require("../../assets/img/fullTerm.svg");
+const partTerm = require("../../assets/img/partTerm.svg");
+const information = require("../../assets/img/information.svg");
 
 module.exports={
     smallDollar,
@@ -46,5 +52,11 @@ module.exports={
     info,
     withblack,
     withdram,
-    terminate
+    terminate,
+    bulb,
+    creditcard,
+    wallet,
+    fullterm,
+    partTerm,
+    information
 }

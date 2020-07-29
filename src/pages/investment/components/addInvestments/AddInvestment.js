@@ -3,7 +3,7 @@ import {handCoin,handHouse,handTree,moneyWheels,moneyBag,pigCoin,storeCoin} from
 import {Link} from 'react-router-dom';
 
 
-export default function AddInvestment() {
+ const AddInvestment =()=> {
     const data = [
         {
             img:handCoin,
@@ -72,7 +72,15 @@ export default function AddInvestment() {
                 {
                     data.map((items)=>{
                         return(
-                            <Link to="/dashboard/investment/invest-info"> 
+                            <Link 
+                            to={{
+                                pathname:"/dashboard/investment/invest-info",
+                                testProps:{
+                                    name:"hello"
+                                }
+                            }}
+                            // to="/dashboard/investment/invest-info" 
+                            > 
                             <div  className="flex card rounded flex-col sm:flex-row  bg-white ">
                         <div style={{background:`${items.color}`}} className="flex justify-center content-center py-6 px-8  items-center">
                             <img src={items.img} style={{height:"50px", width:"50px"}}/>
@@ -109,3 +117,4 @@ export default function AddInvestment() {
         </div>
     )
 }
+export default AddInvestment;

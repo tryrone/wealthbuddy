@@ -24,15 +24,15 @@ export default function ViewCard() {
               </div>
 
                 <div className="flex flex-summary flex-col sm:flex-row justify-between items-center content-center pt-6">
-                    <Link to="/dashboard/investment/fund-investment/existing" className="pl-6 flex items-center content-center">
+                    <Link to="/dashboard/investment/fund-investment/existing" className="pl-2 flex items-center content-center">
                         <img src={fundInvestment} alt="wealth-buddy" className="pr-3"/>
                         <p className="text-white text-base self-center">Fund Investment</p>
                     </Link>
-                    <Link to="#" className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5">
+                    <Link to="/dashboard/investment/view-investment/withdraw" className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5">
                         <img src={withblack} alt="wealth-buddy" className="pr-3"/>
                         <p className="text-white text-base self-center">Withdraw</p>
                     </Link>
-                    <Link to="#" className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5">
+                    <Link to="/dashboard/investment/view-investment/terminate" className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5">
                         <img src={terminate} alt="wealth-buddy" className="pr-3"/>
                         <p className="text-white text-base self-center">Terminate</p>
                     </Link>

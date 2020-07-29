@@ -52,7 +52,7 @@ export default function FundInvestment() {
         
             {/* heading */}
         <p className="text-black font-bold text-2xl text-left">Fund Investment</p>
-            {/* heading end */}
+            {/* heading end */} 
 
             <div className="flex flex-col sm:flex-row">
                     {/* column one */}
