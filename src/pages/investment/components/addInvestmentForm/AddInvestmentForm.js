@@ -1,10 +1,11 @@
 import React,{useState} from 'react';
 import DatePicker from 'react-modern-calendar-datepicker';
 
-import {addPhoto} from '../../imageLinks';
+import {addPhoto,info} from '../../imageLinks';
 import {Link} from 'react-router-dom';
 import 'react-modern-calendar-datepicker/lib/DatePicker.css'
 import InvestModal from '../investModal/InvestModal';
+import StartDropdown from './StartDropdown';
 
 function AddInvestmentForm() {
         const[modal,changeModal]=useState(false)
@@ -40,25 +41,25 @@ function AddInvestmentForm() {
                         // onChange={onGoalNameChange}
                         type="text"
                     />
+                    {/* showing the amount of interest one would have */}
+                    <div className="flex flex-row items-center mt-2 mb-2">
+                    <p className="text-xs ">N0.00 </p>
+                    <p style={{color:"#999999"}} className="text-xs mx-1"> will give you</p> 
+                    <p className="text-xs ">0 units</p>
+                    </div>
+                    {/* showing the amount of interest one would have */}
                 </fieldset>
                     {/* input content end */}
 
                     {/* input two */}
                     <fieldset className="mb-4 w-full px-6 mx-auto">
                             <label className="block text-xs font-medium">
-                                How often do you want to invest?
+                            How long would you want to invest
                             </label>
-                            <select
-                            className="block w-full text-xs mt-2 p-3 border border-gray-400 rounded"
-                            // onChange={onSaveFrequencyChange}
-                            // selected={saveFrequency}
-                            placeholder="How often do you want to invest?"
-                        >
-                            <option value="daily">Daily</option>
-                            <option value="weekly">Weekly</option>
-                            <option value="monthly">Monthly</option>
-                            {/* <option value="yearly">Yearly</option> */}
-                        </select>
+                            <div className="fieldset mt-2 w-full">
+                            <StartDropdown/>
+                            </div>
+
                         </fieldset>
                     {/* input two */}
 
@@ -70,7 +71,7 @@ function AddInvestmentForm() {
                         <DatePicker
                             // value={selectedDay}
                             // onChange={setSelectedDay}
-                            inputPlaceholder="Select a date"
+                            inputPlaceholder="When would you like to start investing?"
                             shouldHighlightWeekends
                             // minimumDate={utils().getToday()}
                             inputClassName="w-full text-xs p-3 border border-gray-400 rounded text-left"
@@ -79,10 +80,43 @@ function AddInvestmentForm() {
                     </fieldset>
                     {/* input three end */}
 
+                    {/* showing the tenors available for MT_LIP */}
+                    <div style={{border:"1px solid #8CB13D", background:"#F9FFEB"}} className="rounded flex flex-col self-center sm:w-8/12 mt-4 p-2 pb-4">
+                        <div className="flex flex-row items-center">
+                            <img src={info} className="h-5 mr-2 w-5"/>
+                            <p style={{color:"#8CB13D"}} className="text-sm font-bold">Available Tenors</p>
+                        </div>
+
+                        <div style={{borderLeft:"0.5px dashed #C3D894"}} className="ml-2 pl-2">
+                            <div className="flex flex-row items-center mt-4">
+                                <div style={{backgroundColor:"#8CB13D",borderRadius:"50%"}} className="h-2 w-2"/>
+                                <p className="ml-4 text-xs">31 days tenor plan</p>
+                            </div>
+                            <div className="flex flex-row items-center mt-4">
+                                <div style={{backgroundColor:"#8CB13D",borderRadius:"50%"}} className="h-2 w-2"/>
+                                <p className="ml-4 text-xs">72 days tenor plan</p>
+                            </div>
+                            <div className="flex flex-row items-center mt-4">
+                                <div style={{backgroundColor:"#8CB13D",borderRadius:"50%"}} className="h-2 w-2"/>
+                                <p className="ml-4 text-xs">180 days tenor plan</p>
+                            </div>
+                            <div className="flex flex-row items-center mt-4">
+                                <div style={{backgroundColor:"#8CB13D",borderRadius:"50%"}} className="h-2 w-2"/>
+                                <p className="ml-4 text-xs">270 days tenor plan</p>
+                            </div>
+                            <div className="flex flex-row items-center mt-4">
+                                <div style={{backgroundColor:"#8CB13D",borderRadius:"50%"}} className="h-2 w-2"/>
+                                <p className="ml-4 text-xs">320 days tenor plan</p>
+                            </div>
+                        </div>
+                    </div>
+                    {/* showing the tenors available for MT_LIP */}
 
 
                 </div>
                     {/* column one end */}
+
+
 
                     {/* column two */}
                 <div style={{border:"1px solid #F1F1F1"}} className="sm:w-1/2 w-auto card sm:w-1/2 pt-24  pb-20  flex flex-col justify-center mt-6 items-center">
