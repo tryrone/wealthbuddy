@@ -15,7 +15,7 @@ import {Link} from 'react-router-dom';
         {
             img:handCoin,
             color:"#CDEBF5",
-            textHead:"Meristem Equity Market Fund",
+            textHead:"Meristem Money Market Fund",
             textRound:"Mutual funds"
         },
 
@@ -23,13 +23,13 @@ import {Link} from 'react-router-dom';
             img:pigCoin,
             color:"#A2E6E0",
             textHead:"Fixed Tip",
-            textRound:"Fixed Tip"
+            textRound:"Fixed Deposits"
         },
         {
             img:handTree,
             color:"#DCCDF5",
-            textHead:"Meristem Equity Market Fund",
-            textRound:"Dollar Investment"
+            textHead:"Treasury Bills",
+            textRound:"Treasury Bills"
         },
 
         {
@@ -42,8 +42,8 @@ import {Link} from 'react-router-dom';
         {
             img:handTree,
             color:"#DCCDF5",
-            textHead:"Meristem Money Market Fund",
-            textRound:"Dollar Investment"
+            textHead:"Dollar Investment Portfolio",
+            textRound:"Foreign Currency"
         },
         {
             img:handHouse,
@@ -61,7 +61,7 @@ import {Link} from 'react-router-dom';
             img:moneyBag,
             color:"#DAFF8A",
             textHead:"Meristem Ethical Earning Portfolio",
-            textRound:"MEEP"
+            textRound:"Ethical"
         },
     ];
     return (
