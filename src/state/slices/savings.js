@@ -1,13 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import {
-  Savings,
-  PersonalTargetSavings,
-  FixedFlexibleSavings,
-  FixedLockSavings,
-} from "services/network";
+import { Savings, PersonalTargetSavings, FixedFlexibleSavings, FixedLockSavings } from "services/network";
 import { getDashboardData } from "../ducks/dashboard/actions";
 import { getRecentSavingTransactionsData } from "../ducks/recentSavingTransactions/actions";
 import { getCustomerSavingsData } from "../ducks/customerSavings/actions";
+import { SavingsType } from "constants/enums";
 
 const initialState = {
   fetchByIdLoading: false,
@@ -40,11 +36,11 @@ export const startCancelSavings = createAsyncThunk(
   async ({ savingsID, savingsType }) => {
     let requestCancel;
 
-    if (savingsType === 1) {
+    if (savingsType === SavingsType.PersonalTargetSavings) {
       requestCancel = PersonalTargetSavings.startCancelPersonalTargetSavings;
-    } else if (savingsType === 2) {
+    } else if (savingsType === SavingsType.FixedLockSavings) {
       requestCancel = FixedLockSavings.startCancelFixedLockSavings;
-    } else if (savingsType === 3) {
+    } else if (savingsType === SavingsType.FixedFlexibleSavings) {
       requestCancel = FixedFlexibleSavings.startCancelFixedFlexibleSavings;
     } else {
       requestCancel = PersonalTargetSavings.startCancelPersonalTargetSavings;
@@ -60,11 +56,11 @@ export const completeCancelSavings = createAsyncThunk(
   async ({ savingsID, savingsType }, thunkAPI) => {
     let requestCancel;
 
-    if (savingsType === 1) {
+    if (savingsType === SavingsType.PersonalTargetSavings) {
       requestCancel = PersonalTargetSavings.completeCancelPersonalTargetSavings;
-    } else if (savingsType === 2) {
+    } else if (savingsType === SavingsType.FixedLockSavings) {
       requestCancel = FixedLockSavings.completeCancelFixedLockSavings;
-    } else if (savingsType === 3) {
+    } else if (savingsType === SavingsType.FixedFlexibleSavings) {
       requestCancel = FixedFlexibleSavings.completeCancelFixedFlexibleSavings;
     } else {
       requestCancel = PersonalTargetSavings.completeCancelPersonalTargetSavings;
@@ -85,12 +81,12 @@ export const startWithdrawSavings = createAsyncThunk(
   async ({ savingsType, formValues }) => {
     let requestStartWithdraw;
 
-    if (savingsType === 1) {
+    if (savingsType === SavingsType.PersonalTargetSavings) {
       requestStartWithdraw =
         PersonalTargetSavings.startPersonalTargetWithdrawal;
-    } else if (savingsType === 2) {
+    } else if (savingsType === SavingsType.FixedLockSavings) {
       requestStartWithdraw = FixedLockSavings.startFixedLockWithdraw;
-    } else if (savingsType === 3) {
+    } else if (savingsType === SavingsType.FixedFlexibleSavings) {
       requestStartWithdraw = FixedFlexibleSavings.startFixedFlexibleWithdraw;
     } else {
       requestStartWithdraw =
@@ -107,12 +103,12 @@ export const completeWithdrawSavings = createAsyncThunk(
   async ({ savingsType, formValues }, thunkAPI) => {
     let requestCompleteWithdraw;
 
-    if (savingsType === 1) {
+    if (savingsType === SavingsType.PersonalTargetSavings) {
       requestCompleteWithdraw =
         PersonalTargetSavings.completePersonalTargetWithdrawal;
-    } else if (savingsType === 2) {
+    } else if (savingsType === SavingsType.FixedLockSavings) {
       requestCompleteWithdraw = FixedLockSavings.completeFixedLockWithdraw;
-    } else if (savingsType === 3) {
+    } else if (savingsType === SavingsType.FixedFlexibleSavings) {
       requestCompleteWithdraw =
         FixedFlexibleSavings.completeFixedFlexibleWithdraw;
     } else {

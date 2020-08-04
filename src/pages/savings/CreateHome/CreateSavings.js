@@ -1,13 +1,13 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import personalSavings from "assets/img/personalIcon.png";
 import fixedSavings from "assets/img/fixedIcon.png";
 import groupSavings from "assets/img/groupIcon.png";
 import groupConSavings from "assets/img/groupConIcon.png";
 import fixedFlexSavings from "assets/img/fixedFlex.png";
-// import saveSavings from "assets/img/saveIcon.svg";
 // import roundRobin from 'assets/img/round-robin.png'
-import CreatePersonalSavingsModal from "shared-components/modals/CreatePersonalSavingsModal";
+// import saveSavings from "assets/img/saveIcon.svg";
+import CreatePersonalSavingsModal from "pages/savings/CreateHome/components/CreatePersonalSavingsModal";
 
 const options = [
   {
@@ -36,26 +36,31 @@ const options = [
     path: "/dashboard/savings/create/group-contributory/1",
     icon: groupConSavings,
   },
-  // { heading: "Round Robin", subheading: "As simple as investing your savings and we will help you grow from there.", path: "/dashboard/savings/create/round-robin/1", icon: roundRobin}
+  // {
+  //   heading: "Round Robin",
+  //   subheading:
+  //     "As simple as investing your savings and we will help you grow from there.",
+  //   path: "/dashboard/savings/create/round-robin/1",
+  //   icon: roundRobin,
+  // },
 ];
 
 const CreateSavings = () => {
-  useEffect(() => {
-    document.querySelector(".floor").classList.add("hide");
-  }, []);
+  const [
+    isCreatePersonalSavingsModalVisible,
+    setCreatePersonalSavingsModalOpen,
+  ] = useState(false);
 
-  const modesAl = () => {
-    document.querySelector(".floor").classList.add("block");
-    document.querySelector(".flare").classList.add("hide");
-    document.querySelector(".modal").classList.add("modal-active");
+  const openCreatePersonalSavingsModal = () => {
+    setCreatePersonalSavingsModalOpen(true);
+  };
+
+  const closeCreatePersonalSavingsModal = () => {
+    setCreatePersonalSavingsModalOpen(false);
   };
 
   return (
     <Fragment>
-      <div className="floor ">
-        <CreatePersonalSavingsModal />
-      </div>
-
       <div className="px-12 flare fadeIn">
         <div className="page-heading mb-12 flex flex-col">
           <h1 className="text-4xl mb-6 font-medium">Savings</h1>
@@ -67,15 +72,13 @@ const CreateSavings = () => {
           <div className="create-saving--overview">
             <div className="flex justify-between create-savings flex-wrap">
               <div
-                onClick={() => {
-                  modesAl();
-                }}
+                onClick={openCreatePersonalSavingsModal}
                 className="card flex items-center"
               >
                 <div className="savings-image">
                   <img
                     src={personalSavings}
-                    alt={`Wealth Buddy Personal savings`}
+                    alt="Wealth Buddy Personal savings"
                   />
                 </div>
                 <div className="savings-items flex h-full flex flex-col items-start justify-center">
@@ -108,7 +111,12 @@ const CreateSavings = () => {
           </div>
         </div>
       </div>
+      <CreatePersonalSavingsModal
+        isVisible={isCreatePersonalSavingsModalVisible}
+        closeModal={closeCreatePersonalSavingsModal}
+      />
     </Fragment>
   );
 };
+
 export default CreateSavings;

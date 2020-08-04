@@ -1,7 +1,7 @@
 import React,{Fragment} from 'react';
-import { logo } from '../../assets/exports';
+import { logo } from '../../../assets/exports';
 import Loading from 'shared-components/Loading';
-import { formatMoney, getHumanDate } from '../../utilities';
+import { formatMoney, getHumanDate } from '../../../utilities';
 
 
 const loading = false;
@@ -46,7 +46,7 @@ const savingsData = true
                                         <img src={UploadIcon} alt="Wealth Buddy" />
                                     </div>
                                 } */}
-                                
+
                                 <div className="savings-heading text-center">
                                     <h5 className="savings-subtitle">
                                         savingsData.name

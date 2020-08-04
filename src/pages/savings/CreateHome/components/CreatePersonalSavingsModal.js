@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-// import { emptyObject, closeModalOnClick, formatMoney, checkEmpty } from 'utilities';
-// import CardIcon from "assets/img/cardIcon.png"
+import React from "react";
 import personalSavings from "assets/img/personalIcon.png";
 import educationIcon from "assets/img/educationIcon.svg";
 import expensesIcon from "assets/img/expensesIcon.svg";
@@ -14,8 +12,8 @@ import miscellaneousIcon from "assets/img/miscelenousIcon.svg";
 import businessIcon from "assets/img/businessIcon.svg";
 import { Link } from "react-router-dom";
 import { addFundIcon } from "assets/exports";
-import AuthModal from "shared-components/authModal/AuthModal";
-import CloseModalIcon from "../svgs/CloseModalIcon";
+import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
+import "../style.css";
 
 const options = [
   { id: 1, title: "Education", icon: educationIcon },
@@ -30,24 +28,17 @@ const options = [
   { id: 10, title: "Miscellaneous", icon: miscellaneousIcon },
 ];
 
-const closeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#99bf18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
-
-const CreatePersonalSavingsModal = (props) => {
-  useEffect(() => {
-    // document.querySelector(".modal").classList.add("modal-active");
-    // closeModalOnClick(closeModal)
-  }, []);
-
-  const closeModal = () => {
-    return document.querySelector(".modal").classList.remove("modal-active");
-  };
+const CreatePersonalSavingsModal = ({ isVisible, closeModal }) => {
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <div
       onClick={closeModal}
-      className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center"
+      className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active"
     >
-      <AuthModal className="login-fieldset personal-wrap">
+      <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset personal-wrap">
         <span className="closeModal" onClick={closeModal}>
           <CloseModalIcon />
         </span>
@@ -58,7 +49,7 @@ const CreatePersonalSavingsModal = (props) => {
                 <img
                   className="inner-proceed--icon"
                   src={personalSavings}
-                  alt={`Wealth Buddy Icon`}
+                  alt=""
                 />
               </div>
               <div className="personal-inner--body">
@@ -114,7 +105,7 @@ const CreatePersonalSavingsModal = (props) => {
             </div>
           </div>
         </div>
-      </AuthModal>
+      </div>
     </div>
   );
 };

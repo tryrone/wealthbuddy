@@ -143,10 +143,7 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
 
   return (
     <Fragment>
-      <AddBankContext.Provider
-        value={contextValues}
-        displayName="Add Bank Context"
-      >
+      <AddBankContext.Provider value={contextValues}>
         {props.children}
         <FundWalletModal />
         <PaystackModal />

@@ -4,3 +4,7 @@
 .block{
     display: block;
 }
+.personal-wrap {
+    max-width: 880px;
+    background-color: #f6f7fb;
+}

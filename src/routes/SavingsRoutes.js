@@ -17,11 +17,11 @@ const Savings = () => {
     <Switch>
       <Route exact path={`${path}`} component={SavingsHome} />
       <Route path={`${path}/view/:savingsId`} component={ViewSavings} />
-      <Route exact path={`${path}/create`} component={CreateSavings}/>
-      <Route path="${path}/create/personal" component={PersonalSavings}/>
-      <Route path="${path}/create/fixed" component={FixedSavings}/>
-      <Route path={`${path}/create/fixed-flexible`} component={FixedFlexibleSavings}/>
-      <Route path={`${path}/create/group-simple`} component={GroupSimple}/>
+      <Route exact path={`${path}/create`} component={CreateSavings} />
+      <Route path={`${path}/create/personal`} component={PersonalSavings} />
+      <Route path={`${path}/create/fixed`} component={FixedSavings} />
+      <Route path={`${path}/create/fixed-flexible`} component={FixedFlexibleSavings} />
+      <Route path={`${path}/create/group-simple`} component={GroupSimple} />
       <Route path={`${path}/create/group-contributory`} component={GroupContributory} />
     </Switch>
   );
