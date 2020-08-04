@@ -225,7 +225,8 @@ const Preview = ({ savingsDetails, setStage, ...props }) => {
                 </ul>
                 <Stage2EditAndAgreement />
                 <div className="nav-buttons flex justify-center">
-                    {loading ? <div className='w-full text-center flex flex-col items-center justify-center'><Loading text="Creating Goal" /></div> : <><button
+                    {loading ? <div className='w-full text-center flex flex-col items-center justify-center'><Loading text="Creating Goal" /></div> : <>
+                    <button
                         className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
                         >
                         Back

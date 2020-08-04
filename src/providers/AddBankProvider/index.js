@@ -8,6 +8,7 @@ import NoBankYetModal from "./components/NoBankYetModal";
 import AddBankModal from "./components/AddBankModal";
 import WithdrawFundsSuccess from "./components/WithdrawFundsSuccess";
 import AddBankSuccess from "./components/AddBankSuccess";
+import produce from "immer";
 
 const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
   const [state, setState] = useState({
@@ -22,78 +23,131 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
   });
 
   const openFundWalletModal = () => {
-    setState({ ...state, isFundWalletModalOpen: true });
+    setState(
+      produce((draftState) => {
+        draftState.isFundWalletModalOpen = true;
+      })
+    );
   };
 
   const closeFundWalletModal = () => {
-    setState({ ...state, isFundWalletModalOpen: false });
+    setState(
+      produce((draftState) => {
+        draftState.isFundWalletModalOpen = false;
+      })
+    );
   };
 
   const showSuccessModal = () => {
-    setState({
-      ...state,
-      isSuccessModalOpen: true,
-      isFundWalletModalOpen: false,
-    });
+    setState(
+      produce((draftState) => {
+        draftState.isSuccessModalOpen = true;
+        draftState.isFundWalletModalOpen = false;
+      })
+    );
   };
 
   const closeSuccessModal = () => {
-    setState({ ...state, isSuccessModalOpen: false });
+    setState(
+      produce((draftState) => {
+        draftState.isSuccessModalOpen = false;
+      })
+    );
   };
 
   const showPaystackModal = () => {
-    setState({ ...state, isPaystackModalOpen: true });
+    setState(
+      produce((draftState) => {
+        draftState.isPaystackModalOpen = true;
+      })
+    );
   };
 
   const closePaystackModal = () => {
-    setState({ ...state, isPaystackModalOpen: false });
+    setState(
+      produce((draftState) => {
+        draftState.isPaystackModalOpen = false;
+      })
+    );
   };
 
   const openNoBankYetModal = () => {
-    setState({ ...state, isNoBankYetModalOpen: true });
+    setState(
+      produce((draftState) => {
+        draftState.isNoBankYetModalOpen = true;
+      })
+    );
   };
 
   const closeNoBankYetModal = () => {
-    setState({ ...state, isNoBankYetModalOpen: false });
+    setState(
+      produce((draftState) => {
+        draftState.isNoBankYetModalOpen = false;
+      })
+    );
   };
 
   const openAddBankModal = () => {
-    setState({ ...state, isAddBankModalOpen: true });
+    setState(
+      produce((draftState) => {
+        draftState.isAddBankModalOpen = true;
+      })
+    );
   };
 
   const closeAddBankModal = () => {
-    setState({ ...state, isAddBankModalOpen: false });
+    setState(
+      produce((draftState) => {
+        draftState.isAddBankModalOpen = false;
+      })
+    );
   };
 
   const showAddBankSuccessModal = () => {
-    setState({ ...state, isAddBankSuccessModalOpen: true });
+    setState(
+      produce((draftState) => {
+        draftState.isAddBankSuccessModalOpen = true;
+      })
+    );
   };
 
   const closeAddBankSuccessModal = () => {
-    setState({ ...state, isAddBankSuccessModalOpen: false });
+    setState(
+      produce((draftState) => {
+        draftState.isAddBankSuccessModalOpen = false;
+      })
+    );
   };
 
-  const setAmount = (amount) => setState({ ...state, amount });
+  const setAmount = (amount) => {
+    setState(
+      produce((draftState) => {
+        draftState.amount = amount;
+      })
+    );
+  };
 
   const openWithdrawFundsModal = () => {
     openNoBankYetModal();
   };
 
   const continueToPaystack = (tranxRef) => {
-    setState({
-      ...state,
-      tranxRef: tranxRef,
-      isFundWalletModalOpen: false,
-      isPaystackModalOpen: true,
-    });
+    setState(
+      produce((draftState) => {
+        draftState.tranxRef = tranxRef;
+        draftState.isFundWalletModalOpen = false;
+        draftState.isPaystackModalOpen = true;
+      })
+    );
   };
 
   const completePaystackPayment = () => {
-    setState({
-      ...state,
-      isPaystackModalOpen: false,
-      isSuccessModalOpen: true,
-    });
+    setState(
+      produce((draftState) => {
+        draftState.isPaystackModalOpen = false;
+        draftState.isSuccessModalOpen = true;
+      })
+    );
   };
 
   const handlePaystackSuccess = () => {
@@ -103,23 +157,32 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
   };
 
   const continueToAddBankDetails = () => {
-    setState({
-      ...state,
-      isNoBankYetModalOpen: false,
-      isAddBankModalOpen: true,
-    });
+    setState(
+      produce((draftState) => {
+        draftState.isNoBankYetModalOpen = false;
+        draftState.isAddBankModalOpen = true;
+      })
+    );
   };
 
   const showAddBankSuccess = () => {
-    setState({
-      ...state,
-      isAddBankModalOpen: false,
-      isAddBankSuccessModalOpen: true,
-    });
+    setState(
+      produce((draftState) => {
+        draftState.isAddBankModalOpen = false;
+        draftState.isAddBankSuccessModalOpen = true;
+      })
+    );
   };
 
   const contextValues = {
-    ...state,
+    tranxRef: state.tranxRef,
+    amount: state.amount,
+    isFundWalletModalOpen: state.isFundWalletModalOpen,
+    isSuccessModalOpen: state.isSuccessModalOpen,
+    isPaystackModalOpen: state.isPaystackModalOpen,
+    isNoBankYetModalOpen: state.isNoBankYetModalOpen,
+    isAddBankModalOpen: state.isAddBankModalOpen,
+    isAddBankSuccessModalOpen: state.isAddBankSuccessModalOpen,
     openFundWalletModal,
     closeFundWalletModal,
     showSuccessModal,

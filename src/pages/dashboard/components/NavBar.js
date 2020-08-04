@@ -118,7 +118,7 @@ const NavBar = ({ user, dispatchLogout }) => {
       </div>
       <span className="navShape">
         <NavShape />
-      </span>
+      </span> 
     </nav>
   );
 };

@@ -34,8 +34,9 @@ export default function rootReducer(baseState = initialState, action) {
       });
     }
     case GET_DASHBOARD_DATA_SUCCESS: {
-      let data = action.payload;
+      const data = action.payload;
       data.savingsTransactions = data.savingsTransactions || [];
+      data.walletTransactions = data.walletTransactions || [];
 
       return produce(baseState, (draftState) => {
         draftState.loading = false;

@@ -1,4 +1,3 @@
-import { createStore, applyMiddleware, compose } from "redux";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import {
   persistStore,
@@ -22,14 +21,7 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 const sagaMiddleware = createSagaMiddleware();
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-// const store = createStore(
-//   persistedReducer,
-//   composeEnhancers(applyMiddleware(...getDefaultMiddleware(), sagaMiddleware))
-// );
 
 const store = configureStore({
   reducer: persistedReducer,

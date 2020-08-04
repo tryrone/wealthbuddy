@@ -52,110 +52,108 @@ const AddBankModal = ({ sendTokenLoading, dispatchSendToken }) => {
     dispatchSendToken(formValues, meta);
   };
 
-  if (!isAddBankModalOpen) {
-    return null;
-  }
-
   return (
-    <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
-      <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset">
-        <span className="closeModal" onClick={closeAddBankModal}>
-          <CloseModalIcon />
-        </span>
+    isAddBankModalOpen && (
+      <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
+        <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset">
+          <span className="closeModal" onClick={closeAddBankModal}>
+            <CloseModalIcon />
+          </span>
 
-        {!tokenReference ? (
-          <Fragment>
-            <div className="flex flex-col items-center mb-0">
-              <i className="w-20 mb-4">
-                <img src={BankIcon} alt="" />
-              </i>
-              <h1 className="text-2xl font-medium mb-2">Add Bank</h1>
-              <p className="text-center text-gray-500 leading-normal">
-                Add a bank account to withdraw your savings and investments
-                after maturity.
-              </p>
-            </div>
-
-            {sendTokenLoading ? (
-              <div className="flex flex-col items-center mt-8">
-                <Loading text="Verifying Bank Account" />
+          {!tokenReference ? (
+            <Fragment>
+              <div className="flex flex-col items-center mb-0">
+                <i className="w-20 mb-4">
+                  <img src={BankIcon} alt="" />
+                </i>
+                <h1 className="text-2xl font-medium mb-2">Add Bank</h1>
+                <p className="text-center text-gray-500 leading-normal">
+                  Add a bank account to withdraw your savings and investments
+                  after maturity.
+                </p>
               </div>
-            ) : (
-              <Fragment>
-                <Formik
-                  initialValues={initialValues}
-                  validationSchema={validationSchema}
-                  validateOnMount={true}
-                  onSubmit={handleOnSubmitAddBank}
-                >
-                  {({ handleSubmit, isValid, setFieldValue, values }) => {
-                    return (
-                      <Form
-                        className="flex flex-col items-center"
-                        onSubmit={handleSubmit}
-                      >
-                        <div className="mt-6 w-full">
-                          <label className="block text-xs mb-2">
-                            Select Bank
-                          </label>
-                          <div className="fieldset">
-                            <BankListDropdown
-                              selectedItemId={values.bankCode}
-                              onSelectItem={(item) => {
-                                setFieldValue("bankName", item.label);
-                                setFieldValue("bankCode", item.value);
-                              }}
+
+              {sendTokenLoading ? (
+                <div className="flex flex-col items-center mt-8">
+                  <Loading text="Verifying Bank Account" />
+                </div>
+              ) : (
+                <Fragment>
+                  <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    validateOnMount={true}
+                    onSubmit={handleOnSubmitAddBank}
+                  >
+                    {({ handleSubmit, isValid, setFieldValue, values }) => {
+                      return (
+                        <Form
+                          className="flex flex-col items-center"
+                          onSubmit={handleSubmit}
+                        >
+                          <div className="mt-6 w-full">
+                            <label className="block text-xs mb-2">
+                              Select Bank
+                            </label>
+                            <div className="fieldset">
+                              <BankListDropdown
+                                selectedItemId={values.bankCode}
+                                onSelectItem={(item) => {
+                                  setFieldValue("bankName", item.label);
+                                  setFieldValue("bankCode", item.value);
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <fieldset className="mt-6 w-full">
+                            <label className="block text-xs mb-2">
+                              Account Number
+                            </label>
+                            <Field
+                              placeholder="Enter Account Number"
+                              type="text"
+                              id="accountNumber"
+                              name="accountNumber"
+                              className="block w-72 text-xs p-3 border border-gray-400 rounded"
                             />
-                          </div>
-                        </div>
-                        <fieldset className="mt-6 w-full">
-                          <label className="block text-xs mb-2">
-                            Account Number
-                          </label>
-                          <Field
-                            placeholder="Enter Account Number"
-                            type="text"
-                            id="accountNumber"
-                            name="accountNumber"
-                            className="block w-72 text-xs p-3 border border-gray-400 rounded"
+                          </fieldset>
+                          <AddBankModalVerification
+                            name="isValid"
+                            setBankId={setBankId}
                           />
-                        </fieldset>
-                        <AddBankModalVerification
-                          name="isValid"
-                          setBankId={setBankId}
-                        />
-                        <div className="nav-buttons flex justify-center">
-                          <div
-                            onClick={closeAddBankModal}
-                            className=" w-40 border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
-                          >
-                            Back
+                          <div className="nav-buttons flex justify-center">
+                            <div
+                              onClick={closeAddBankModal}
+                              className=" w-40 border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
+                            >
+                              Back
+                            </div>
+                            <button
+                              type="submit"
+                              className="w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm"
+                              onSubmit={handleSubmit}
+                              disabled={!isValid}
+                            >
+                              Proceed
+                            </button>
                           </div>
-                          <button
-                            type="submit"
-                            className="w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm"
-                            onSubmit={handleSubmit}
-                            disabled={!isValid}
-                          >
-                            Proceed
-                          </button>
-                        </div>
-                      </Form>
-                    );
-                  }}
-                </Formik>
-              </Fragment>
-            )}
-          </Fragment>
-        ) : (
-          <ConfirmOTP
-            tokenReference={tokenReference}
-            bankId={bankId}
-            showAddBankSuccess={showAddBankSuccess}
-          />
-        )}
+                        </Form>
+                      );
+                    }}
+                  </Formik>
+                </Fragment>
+              )}
+            </Fragment>
+          ) : (
+            <ConfirmOTP
+              tokenReference={tokenReference}
+              bankId={bankId}
+              showAddBankSuccess={showAddBankSuccess}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    )
   );
 };
 

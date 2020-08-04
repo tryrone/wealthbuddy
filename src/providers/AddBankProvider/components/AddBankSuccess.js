@@ -8,18 +8,16 @@ const AddBankSuccess = () => {
     AddBankContext
   );
 
-  if (!isAddBankSuccessModalOpen) {
-    return null;
-  }
-
   return (
-    <SuccessModal
-      title="Success"
-      subtitle="You have successfully added a Bank Account."
-      icon={BankIconSuccess}
-      buttonTitle="Done"
-      closeModal={closeAddBankSuccessModal}
-    />
+    isAddBankSuccessModalOpen && (
+      <SuccessModal
+        title="Success"
+        subtitle="You have successfully added a Bank Account."
+        icon={BankIconSuccess}
+        buttonTitle="Done"
+        closeModal={closeAddBankSuccessModal}
+      />
+    )
   );
 };
 

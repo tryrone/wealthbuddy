@@ -76,10 +76,7 @@ const CreateSavings = () => {
                 className="card flex items-center"
               >
                 <div className="savings-image">
-                  <img
-                    src={personalSavings}
-                    alt="Wealth Buddy Personal savings"
-                  />
+                  <img src={personalSavings} alt="" />
                 </div>
                 <div className="savings-items flex h-full flex flex-col items-start justify-center">
                   <h1 className="font-medium card-header mb-2">
@@ -97,7 +94,7 @@ const CreateSavings = () => {
                   key={index}
                 >
                   <div className="savings-image">
-                    <img src={item.icon} alt={`Wealth Buddy ${item.heading}`} />
+                    <img src={item.icon} alt="" />
                   </div>
                   <div className="savings-items flex h-full flex flex-col items-start justify-center">
                     <h1 className="font-medium card-header mb-2">

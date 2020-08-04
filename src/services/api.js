@@ -1,6 +1,5 @@
 import axios from "axios";
 import store from "state/store";
-import { history } from "../App";
 
 const transformResponse = (data) => {
   let response = data;
@@ -58,7 +57,7 @@ Axios.interceptors.response.use(
   async (error) => {
     if (error.message.includes("401")) {
       sessionStorage.removeItem("persist:root");
-      history.push("/auth/login");
+      //TODO Redirect to login page
     }
 
     return Promise.reject(error);

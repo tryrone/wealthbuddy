@@ -25,6 +25,11 @@ a {
   color: inherit;
 }
 
+.cheching{
+  border:1px solid #8CB13D;
+  background-color: #8cb13d31;
+}
+
 .wealth-buddy--cta {
   min-height: 46px;
   font-weight: 500;

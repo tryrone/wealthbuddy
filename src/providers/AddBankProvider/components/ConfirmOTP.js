@@ -25,7 +25,7 @@ const ConfirmOTP = ({
 }) => {
   const handleOnSubmit = (formValues, formikProps) => {
     const payload = {
-      verificationId: tokenReference,
+      verificationID: tokenReference,
       otp: formValues.otp,
       id: bankId,
     };

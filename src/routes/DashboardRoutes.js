@@ -5,10 +5,11 @@ import { getApplicationBootstrapData } from "state/ducks/applicationBootstrap/ac
 import MobileNav from "pages/dashboard/components/MobileNav";
 import NavBar from "pages/dashboard/components/NavBar";
 import Header from "pages/dashboard/components/Header";
-import Loader from "../shared-components/Loader";
+import Loader from "shared-components/Loader";
 import DashboardHome from "pages/dashboard/components/DashboardHome";
 import Savings from "routes/SavingsRoutes";
 import Wallet from "pages/wallet";
+import Investment from "pages/investment";
 import Settings from "pages/settings";
 
 const mobileMenu = false;
@@ -34,11 +35,16 @@ const DashboardRoutes = ({
           <div className="flex">
             {mobileMenu && <MobileNav />}
             <NavBar />
-            <section className={`flex-grow ${userIsNew ? "new-user" : "existing-entry"}`}>
+            <section
+              className={`flex-grow ${
+                userIsNew ? "new-user" : "existing-entry"
+              }`}
+            >
               <Header />
               <Switch>
-                <Route exact path={`${path}/`} component={DashboardHome} />
+                <Route exact path={`${path}`} component={DashboardHome} />
                 <Route path={`${path}/savings`} component={Savings} />
+                <Route path={`${path}/investment`} component={Investment} />
                 <Route exact path={`${path}/wallet`} component={Wallet} />
                 <Route exact path={`${path}/settings`} component={Settings} />
               </Switch>
