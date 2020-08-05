@@ -56,7 +56,7 @@ const NavBar = ({ account, dispatchLogout }) => {
 
   const handleLogout = () => {
     dispatchLogout();
-    sessionStorage.removeItem('persist:root');
+    sessionStorage.removeItem("persist:root");
     history.push("/auth/login");
   };
 
