@@ -220,7 +220,7 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
 };
 
 const mapStateToProps = (state) => ({
-  customerDetails: state.user.data.customerDetails,
+  customerDetails: state.account.data.customerDetails,
   startFundWithNewCardLoading: state.startFundWalletWithNewCard.loading,
   startFundWithNewCardError: state.startFundWalletWithNewCard.error,
 });

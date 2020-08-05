@@ -31,7 +31,7 @@ const Axios = axios.create({
 Axios.interceptors.request.use(
   async (config) => {
     const state = store.getState();
-    const { jwtToken } = state.user.data;
+    const { jwtToken } = state.account.data;
 
     if (jwtToken) {
       config.headers.Authorization = `Bearer ${jwtToken}`;

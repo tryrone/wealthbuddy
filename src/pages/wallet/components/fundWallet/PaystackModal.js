@@ -40,7 +40,7 @@ const PaystackModal = ({
 };
 
 const mapStateToProps = (state) => ({
-  customerDetails: state.user.data.customerDetails,
+  customerDetails: state.account.data.customerDetails,
   verifyFundWithNewCardLoading: state.verifyFundWalletWithNewCard.loading,
 });
 

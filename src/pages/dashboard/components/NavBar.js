@@ -10,9 +10,10 @@ import { NavLink } from "react-router-dom";
 import Logout from "shared-components/svgs/Logout";
 import NavShape from "shared-components/svgs/NavShape";
 import LegalIcon from "shared-components/svgs/LegalIcon";
-import { logout } from "../../../state/ducks/user/actions";
+import { logout } from "state/slices/account";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import classNames from "classnames";
 
 const menuItems = [
   {
@@ -38,7 +39,7 @@ const menuItems = [
 ];
 
 const NavMenuItem = ({ name, icon, path }) => (
-  <li className=" ">
+  <li>
     <NavLink to={path} className="flex items-center px-6 py-4">
       <i className="inline-block w-8 mr-2">
         <img src={icon} alt="" />
@@ -48,20 +49,23 @@ const NavMenuItem = ({ name, icon, path }) => (
   </li>
 );
 
-const NavBar = ({ user, dispatchLogout }) => {
+const NavBar = ({ account, dispatchLogout }) => {
   const history = useHistory();
-  const { customerDetails } = user;
+  const { customerDetails } = account;
+  const userIsNew = !(account.isBVNAdded && account.isCardAdded);
+
+  const handleLogout = () => {
+    dispatchLogout();
+    sessionStorage.removeItem('persist:root');
+    history.push("/auth/login");
+  };
 
   return (
     <nav className="w-72 desktop-nav h-screen flex flex-col bg-wb-primary justify-between items-center pt-20 pb-5">
       <div className="flex flex-col w-full justify-center items-center mb-12 text-white">
         <figure className="flex flex-col items-center justify-center">
           {customerDetails.picture !== null ? (
-            <img
-              src={customerDetails.picture}
-              alt={`Wealth Buddy Investments`}
-              className="mb-4"
-            />
+            <img src={customerDetails.picture} alt="" className="mb-4" />
           ) : (
             <div className="user-no--picture mb-4">
               {`${customerDetails.otherNames.charAt(
@@ -75,9 +79,10 @@ const NavBar = ({ user, dispatchLogout }) => {
         </figure>
       </div>
       <ul
-        className={`flex-grow navIcons w-full text-white ${
-          !(user.isBVNAdded && user.isCardAdded) ? "menu-inactive" : ""
-        }`}
+        className={classNames({
+          "flex-grow navIcons w-full text-white": true,
+          "menu-inactive": userIsNew,
+        })}
       >
         <li className="cursor-pointer">
           <NavLink
@@ -102,10 +107,7 @@ const NavBar = ({ user, dispatchLogout }) => {
           </span>
           Legal
         </li>
-        <li
-          className="nav-extra"
-          onClick={() => dispatchLogout(null, { history })}
-        >
+        <li className="nav-extra" onClick={handleLogout}>
           <span className="extra-icon">
             <Logout />
           </span>
@@ -118,17 +120,17 @@ const NavBar = ({ user, dispatchLogout }) => {
       </div>
       <span className="navShape">
         <NavShape />
-      </span> 
+      </span>
     </nav>
   );
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user.data,
+  account: state.account.data,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchLogout: (payload, meta) => dispatch(logout(payload, meta)),
+  dispatchLogout: () => dispatch(logout()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

@@ -11,11 +11,12 @@ import Savings from "routes/SavingsRoutes";
 import Wallet from "pages/wallet";
 import Investment from "pages/investment";
 import Settings from "pages/settings";
+import classNames from "classnames";
 
 const mobileMenu = false;
 
 const DashboardRoutes = ({
-  user,
+  account,
   applicationBootstrapLoading,
   applicationBootstrapComplete,
   dispatchApplicationBootstrapData,
@@ -26,7 +27,7 @@ const DashboardRoutes = ({
     dispatchApplicationBootstrapData();
   }, []);
 
-  const userIsNew = !(user.isBVNAdded && user.isCardAdded);
+  const userIsNew = !(account.isBVNAdded && account.isCardAdded);
 
   return (
     <Fragment>
@@ -36,9 +37,11 @@ const DashboardRoutes = ({
             {mobileMenu && <MobileNav />}
             <NavBar />
             <section
-              className={`flex-grow ${
-                userIsNew ? "new-user" : "existing-entry"
-              }`}
+              className={classNames({
+                "flex-grow": true,
+                "new-user": userIsNew,
+                "existing-entry": !userIsNew,
+              })}
             >
               <Header />
               <Switch>
@@ -59,7 +62,7 @@ const DashboardRoutes = ({
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user.data,
+  account: state.account.data,
   applicationBootstrapLoading: state.applicationBootstrap.loading,
   applicationBootstrapComplete: state.applicationBootstrap.completed,
 });

@@ -9,3 +9,13 @@ export const SavingsType = {
   FixedLockSavings: 2,
   FixedFlexibleSavings: 3,
 };
+
+export const InvestmentType = {
+  MutualFunds: 1,
+  FixedDeposits: 2,
+  TreasuryBills: 3,
+  RealEstate: 4,
+  ForeignCurrency: 5,
+  Ethical: 6,
+  Bonds: 7,
+};

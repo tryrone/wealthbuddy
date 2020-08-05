@@ -201,4 +201,4 @@ const savings = createSlice({
   },
 });
 
-export default savings;
+export default savings.reducer;
