@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Logo from "static/logo.svg";
 import "../styles.css";
 import Loading from "shared-components/Loading";
@@ -9,6 +9,9 @@ import { connect } from "react-redux";
 import { login } from "state/slices/account";
 
 const Login = ({ history, loading, error, dispatchLogin }) => {
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: "/dashboard" } };
+
   const initialValues = {
     email: "",
     password: "",
@@ -22,7 +25,7 @@ const Login = ({ history, loading, error, dispatchLogin }) => {
   const handleLogin = async (values) => {
     const resultAction = await dispatchLogin(values);
     if (login.fulfilled.match(resultAction)) {
-      history.push("/dashboard");
+      history.replace(from);
     }
   };
 
