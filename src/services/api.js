@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "state/store";
+import { logout } from "../state/slices/account";
 
 const transformResponse = (data) => {
   let response = data;
@@ -56,8 +57,8 @@ Axios.interceptors.response.use(
 
   async (error) => {
     if (error.message.includes("401")) {
+      store.dispatch(logout());
       sessionStorage.removeItem("persist:root");
-      //TODO Redirect to login page
     }
 
     return Promise.reject(error);
