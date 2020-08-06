@@ -12,8 +12,7 @@ import Wallet from "pages/wallet";
 import Investment from "pages/investment";
 import Settings from "pages/settings";
 import classNames from "classnames";
-
-const mobileMenu = false;
+import NavigationProvider from "providers/NavigationProvider";
 
 const DashboardRoutes = ({
   account,
@@ -32,9 +31,9 @@ const DashboardRoutes = ({
   return (
     <Fragment>
       {!applicationBootstrapLoading || applicationBootstrapComplete ? (
-        <Fragment>
+        <NavigationProvider>
           <div className="flex">
-            {mobileMenu && <MobileNav />}
+            <MobileNav />
             <NavBar />
             <section
               className={classNames({
@@ -53,7 +52,7 @@ const DashboardRoutes = ({
               </Switch>
             </section>
           </div>
-        </Fragment>
+        </NavigationProvider>
       ) : (
         <Loader />
       )}

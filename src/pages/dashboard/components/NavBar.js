@@ -1,46 +1,18 @@
-import React from "react";
-import DashboardIcon from "static/dashboard.svg";
+import React, { useContext } from "react";
 import LetterMark from "static/lettermark.svg";
 import Logo from "static/white_logo.svg";
-import SavingsIcon from "static/savings.svg";
-import InvestmentIcon from "static/investment.png";
-import WalletIcon from "static/wallet.svg";
-import SettingsIcon from "static/settings.svg";
 import { NavLink } from "react-router-dom";
+import LegalIcon from "shared-components/svgs/LegalIcon";
 import Logout from "shared-components/svgs/Logout";
 import NavShape from "shared-components/svgs/NavShape";
-import LegalIcon from "shared-components/svgs/LegalIcon";
-import { logout } from "state/slices/account";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
 import classNames from "classnames";
+import NavigationContext from "contexts/NavigationContext";
+import navbarMenuItems from "config/navbarMenuItems";
 
-const menuItems = [
-  {
-    name: "Savings",
-    icon: SavingsIcon,
-    path: "/dashboard/savings",
-  },
-  {
-    name: "Investment",
-    icon: InvestmentIcon,
-    path: "/dashboard/investment",
-  },
-  {
-    name: "Wallet",
-    icon: WalletIcon,
-    path: "/dashboard/wallet",
-  },
-  {
-    name: "Settings",
-    icon: SettingsIcon,
-    path: "/dashboard/settings",
-  },
-];
-
-const NavMenuItem = ({ name, icon, path }) => (
+const NavMenuItem = ({ name, icon, path, exact }) => (
   <li>
-    <NavLink to={path} className="flex items-center px-6 py-4">
+    <NavLink exact={exact} to={path} className="flex items-center px-6 py-4">
       <i className="inline-block w-8 mr-2">
         <img src={icon} alt="" />
       </i>
@@ -49,16 +21,10 @@ const NavMenuItem = ({ name, icon, path }) => (
   </li>
 );
 
-const NavBar = ({ account, dispatchLogout }) => {
-  const history = useHistory();
+const NavBar = ({ account }) => {
+  const { logoutUser } = useContext(NavigationContext);
   const { customerDetails } = account;
   const userIsNew = !(account.isBVNAdded && account.isCardAdded);
-
-  const handleLogout = () => {
-    dispatchLogout();
-    sessionStorage.removeItem("persist:root");
-    history.push("/auth/login");
-  };
 
   return (
     <nav className="w-72 desktop-nav h-screen flex flex-col bg-wb-primary justify-between items-center pt-20 pb-5">
@@ -84,19 +50,7 @@ const NavBar = ({ account, dispatchLogout }) => {
           "menu-inactive": userIsNew,
         })}
       >
-        <li className="cursor-pointer">
-          <NavLink
-            to={`/dashboard`}
-            exact
-            className="flex items-center px-6 py-4"
-          >
-            <i className="inline-block w-8 mr-2">
-              <img src={DashboardIcon} alt="" />
-            </i>
-            <span>{`Dashboard`}</span>
-          </NavLink>
-        </li>
-        {menuItems.map((item) => (
+        {navbarMenuItems.map((item) => (
           <NavMenuItem key={item.name} {...item} />
         ))}
       </ul>
@@ -107,7 +61,7 @@ const NavBar = ({ account, dispatchLogout }) => {
           </span>
           Legal
         </li>
-        <li className="nav-extra" onClick={handleLogout}>
+        <li className="nav-extra" onClick={logoutUser}>
           <span className="extra-icon">
             <Logout />
           </span>
@@ -129,8 +83,4 @@ const mapStateToProps = (state) => ({
   account: state.account.data,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchLogout: () => dispatch(logout()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps)(NavBar);
