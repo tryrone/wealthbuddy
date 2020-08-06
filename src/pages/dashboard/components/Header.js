@@ -1,10 +1,11 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { notificationIcon, searchIcon } from "assets/exports";
 import WealthLogo from "assets/img/wealthBuddy-logo.svg";
 import { connect } from "react-redux";
+import NavigationContext from "contexts/NavigationContext";
 
 const Header = ({ dashboard }) => {
-  const handleToggle = () => {};
+  const { openMobileNavbar } = useContext(NavigationContext);
 
   return (
     <Fragment>
@@ -39,7 +40,7 @@ const Header = ({ dashboard }) => {
       </div>
 
       <div className="flex justify-between px-12 pb-12 header-wrap mobile-header--wrap items-center">
-        <div className="wealthbuddy-mobile--logo" onClick={handleToggle}>
+        <div className="wealthbuddy-mobile--logo" onClick={openMobileNavbar}>
           <div className="mobile-hamburger">
             <div className={`menu hamburger`}>
               <div className="icon" />
