@@ -262,6 +262,15 @@ const CreatePersonalSavings = ({ savingsConfiguration }) => {
                         </div>
 
                         <ErrorMessage
+                          name="frequency"
+                          render={(errorMessage) => (
+                            <p className="label-error--text mt-3 text-xs color-red font-medium text-center bg-red-200">
+                              {errorMessage}
+                            </p>
+                          )}
+                        />
+
+                        <ErrorMessage
                           name="duration"
                           render={(errorMessage) => (
                             <p className="label-error--text mt-3 text-xs color-red font-medium text-center bg-red-200">
