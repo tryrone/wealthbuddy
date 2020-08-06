@@ -17,7 +17,7 @@ function* operation({ payload, meta }) {
     yield meta.closeFundWalletModal();
     yield meta.showSuccessModal();
     yield put(getDashboardData());
-    yield put(fundWalletWithExistingCardSuccess(status));
+    yield put(fundWalletWithExistingCardSuccess(status)); 
   } catch (error) {
     yield put(fundWalletWithExistingCardFail(error.message));
   }
@@ -26,3 +26,4 @@ function* operation({ payload, meta }) {
 export default function* saga() {
   yield takeLatest(FUND_WALLET_WITH_EXISTING_CARD, operation);
 }
+ 

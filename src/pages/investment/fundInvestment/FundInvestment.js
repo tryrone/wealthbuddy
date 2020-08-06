@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import DatePicker from "react-modern-calendar-datepicker";
-import { addPhoto, dogs, catfish, corn } from "../imageLinks";
+import { addPhoto, dogs, dogsBg, catfish, corn } from "../imageLinks";
 import { Link } from "react-router-dom";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import InvestModal from "../components/investModal/InvestModal";
@@ -180,15 +180,53 @@ export default function FundInvestment() {
         >
           {/* image setting */}
           <div className="w-72 shadow-lg p-2">
-            <div className="h-32 w-full p-8 border-dashed border border-gray-400 rounded flex flex-col justify-center items-center">
+            <div className="h-32 w-full  border-dashed border border-gray-400 rounded flex flex-col justify-center items-center">
               {/* image preview content start */}
 
-              {/* <input className="fileInput"
-                                            type="file"
-                                             accept="image/*" /> */}
+              {/* image setting */}
+              {/* <div className="w-72 shadow-lg p-2"> */}
+                        {/* image preview content start */}
+                 
+                        {/* <div className="personalize--card">
+                        <div className="previewComponent">
+                          <input
+                            className="fileInput"
+                            type="file"
+                            onChange={(e) => handleImageChange(e)}
+                            accept="image/*"
+                          />
+                          <div
+                            className={`${
+                              files.imagePreviewUrl === "" && "drop"
+                            } imgPreview`}
+                          >
+                            {files.imagePreviewUrl ? (
+                              <img src={files.imagePreviewUrl} alt="" />
+                            ) : (
+                              <div className="buddy-image--drop">
+                                <img src={UploadIcon} alt="" />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        {files.imagePreviewUrl ? (
+                          <h3 className="color-secondary personalize-text text-center">
+                            + Change Photo
+                          </h3>
+                        ) : (
+                          <h3 className="color-secondary change-text personalize-text text-center">
+                            Personalise your goal by <br />{" "}
+                            <span>+ Adding a photo.</span>
+                          </h3>
+                        )}
+                      </div>
+            */}
+                        {/* image preview content end */}
+                        {/* </div>  */}
+                    {/* image setting end */}
 
               {/* image preview content end */}
-              <img src={addPhoto} alt="" />
+              <img src={dogsBg} alt="" className="w-full h-full"/>
             </div>
           </div>
           {/* image setting end */}

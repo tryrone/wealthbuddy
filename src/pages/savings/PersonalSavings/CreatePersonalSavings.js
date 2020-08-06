@@ -326,6 +326,7 @@ const CreatePersonalSavings = ({ savingsConfiguration }) => {
                   </div>
                   <div className="card create-card flex flex-col justify-between">
                     <div>
+                      {/* IMAGE INPUT */}
                       <div className="personalize--card mb-5">
                         <div className="previewComponent">
                           <input
@@ -359,7 +360,7 @@ const CreatePersonalSavings = ({ savingsConfiguration }) => {
                           </h3>
                         )}
                       </div>
-
+                      {/* IMAGE INPUT */}
                       <div className="image-footer mt-12 ">
                         <div className="flex items-center justify-between pb-6">
                           <div className="confirm-automation flex items-center">

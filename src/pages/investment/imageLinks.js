@@ -28,8 +28,10 @@ const wallet = require("../../assets/img/wallet2.svg");
 const fullterm = require("../../assets/img/fullTerm.svg");
 const partTerm = require("../../assets/img/partTerm.svg");
 const information = require("../../assets/img/information.svg");
+const dogsBg = require("../../assets/img/dogsBg.png");
 
 module.exports={
+    dogsBg,
     smallDollar,
     fundInvestment,
     addInvestment,

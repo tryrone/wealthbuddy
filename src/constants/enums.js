@@ -5,7 +5,7 @@ export const SavingsFrequency = {
 };
 
 export const SavingsType = {
-  PersonalTargetSavings: 1,
+  PersonalTargetSavings: 1, 
   FixedLockSavings: 2,
   FixedFlexibleSavings: 3,
 };

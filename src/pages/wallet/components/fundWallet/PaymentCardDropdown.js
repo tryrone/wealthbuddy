@@ -87,7 +87,7 @@ const PaymentCardDropdown = ({
 
 PaymentCardDropdown.propTypes = {
   onSelectItem: PropTypes.func.isRequired,
-  selectedItemId: PropTypes.string.isRequired
+  selectedItemId: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({

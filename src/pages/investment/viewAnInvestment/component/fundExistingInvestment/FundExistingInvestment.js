@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import DatePicker from 'react-modern-calendar-datepicker';
 
-import {addPhoto,dogs,catfish,corn} from '../../../imageLinks';
+import {addPhoto,dogs,dogsBg,catfish,corn} from '../../../imageLinks';
 import {Link} from 'react-router-dom';
 import 'react-modern-calendar-datepicker/lib/DatePicker.css'
 import InvestModal from '../../../components/investModal/InvestModal';
@@ -90,7 +90,7 @@ export default function FundExistingInvestment() {
                     
                     {/* image setting */}
                         <div className="w-72 shadow-lg p-2">
-                        <div className="h-32 w-full p-8 border-dashed border border-gray-400 rounded flex flex-col justify-center items-center"> 
+                        <div className="h-32 w-full border-dashed border border-gray-400 rounded flex flex-col justify-center items-center"> 
                         {/* image preview content start */}
                  
                                         {/* <input className="fileInput"
@@ -98,7 +98,7 @@ export default function FundExistingInvestment() {
                                              accept="image/*" /> */}
                                            
                         {/* image preview content end */}
-                        <img src={addPhoto} alt=""/>
+                        <img src={dogsBg} alt="" className="w-full h-full"/>
                         </div>
                         </div> 
                     {/* image setting end */}

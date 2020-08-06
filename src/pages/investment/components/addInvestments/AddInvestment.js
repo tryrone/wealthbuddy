@@ -1,22 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {handCoin,handHouse,handTree,moneyWheels,moneyBag,pigCoin,storeCoin} from '../../imageLinks';
+import {getInvestmentConfigurations} from '../../../../state/slices/investments'
+import { connect, useDispatch } from "react-redux";
 import {Link} from 'react-router-dom';
 
 
- const AddInvestment =()=> {
+ const AddInvestment =({investmentConfigurationData})=> {
+
+    const dispatch = useDispatch()
+
+      useEffect(()=>{
+        dispatch(getInvestmentConfigurations())
+      },[]); 
+
     const data = [
         {
             img:handCoin,
             color:"#CDEBF5",
             textHead:"Meristem Equity Market Fund",
-            textRound:"Mutual funds"
+            textRound:"Mutual funds",
+            type:1
         },
 
         {
             img:handCoin,
             color:"#CDEBF5",
             textHead:"Meristem Money Market Fund",
-            textRound:"Mutual funds"
+            textRound:"Mutual funds",
+            type:1
         },
 
         {
@@ -28,28 +39,30 @@ import {Link} from 'react-router-dom';
         {
             img:handTree,
             color:"#DCCDF5",
-            textHead:"Treasury Bills",
-            textRound:"Treasury Bills"
+            textHead:"Meristem Equity Market Fund",
+            textRound:"Dollar Investment",
+        
         },
 
         {
             img:storeCoin,
             color:"#FFDEAD",
             textHead:"MT-LIP(Treasury Bills)",
-            textRound:"Treasury Bills"
+            textRound:"Treasury Bills",
+            type:3,
         },
 
         {
             img:handTree,
             color:"#DCCDF5",
-            textHead:"Dollar Investment Portfolio",
-            textRound:"Foreign Currency"
+            textHead:"Meristem Money Market Fund",
+            textRound:"Dollar Investment"
         },
         {
             img:handHouse,
             color:"#B8DDE9",
-            textHead:"Real Estate Advantage Portfolio",
-            textRound:"REAP"
+            textHead:"Real Estate Advantage Portfolio - Arena Court",
+            textRound:"Real Estate"
         },
         {
             img:moneyWheels,
@@ -61,23 +74,27 @@ import {Link} from 'react-router-dom';
             img:moneyBag,
             color:"#DAFF8A",
             textHead:"Meristem Ethical Earning Portfolio",
-            textRound:"Ethical"
+            textRound:"MEEP"
         },
     ];
+    
+    const availInvest = data.filter(item => item.type)
+
     return (
         <div className="px-12 flex flex-col fadeIn">
             <p className="font-bold text-xl text-black">Add new Investment </p>
+            
             <div style={{border:"1px solid #F1F1F1"}} className="bg-white px-8 mt-8 flex-row flex flex-wrap justify-between py-10 px-2">
 
                 {
-                    data.map((items)=>{
+                    
+                    availInvest.map((items)=>{
                         return(
                             <Link
                             to={{
                                 pathname:"/dashboard/investment/investment-info",
-                                testProps:{
-                                    name:"hello"
-                                }
+                                investType:`${items.type}`,
+                                investName:`${items.textHead}`
                             }}
                             // to="/dashboard/investment/investment-info"
                             >
@@ -117,4 +134,12 @@ import {Link} from 'react-router-dom';
         </div>
     )
 }
-export default AddInvestment;
+
+const mapStateToProps = (state) => ({
+    investmentConfigurationLoading: state.investments.investmentConfigurationLoading,
+    investmentConfigurationError: state.investments.investmentConfigurationError,
+    investmentConfigurationData:state.investments.investmentConfigurationData
+  }); 
+
+
+export default connect(mapStateToProps)(AddInvestment);

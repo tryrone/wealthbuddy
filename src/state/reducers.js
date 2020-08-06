@@ -21,8 +21,9 @@ import verifyAddBankAccountReducer from "./ducks/verifyAddBankAccount";
 import getAllSavingsReducer from "./ducks/getAllSavings";
 import accountReducer from "./slices/account";
 import savingsReducer from "./slices/savings";
+import investmentsReducer from "./slices/investments";
 
-export default combineReducers({
+export default combineReducers({ 
   createUser: createUserReducer,
   signUpParams: signUpParamsReducer,
   dashboard: dashboardReducer,
@@ -45,4 +46,5 @@ export default combineReducers({
   getAllSavings: getAllSavingsReducer,
   account: accountReducer,
   savings: savingsReducer,
+  investments:investmentsReducer
 });
