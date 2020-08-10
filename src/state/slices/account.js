@@ -122,9 +122,9 @@ const accountSlice = createSlice({
       state.loginError = null;
     },
     [login.rejected]: (state, action) => {
-      state.data = null;
+      state.data = initialState.data;
       state.loginLoading = false;
-      state.loginError = action.error;
+      state.loginError = action.error.message || action.error;
     },
     [addBvn.pending]: (state) => {
       state.addBvnLoading = true;
