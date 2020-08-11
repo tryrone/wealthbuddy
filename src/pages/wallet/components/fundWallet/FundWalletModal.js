@@ -4,7 +4,7 @@ import { Field, Form, Formik } from "formik";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
 import CardIcon from "assets/img/cardIcon.png";
-import WalletDropdown from "pages/wallet/components/fundWallet/PaymentCardDropdown";
+import PaymentCardDropdown from "pages/wallet/components/fundWallet/PaymentCardDropdown";
 import Loading from "shared-components/Loading";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 import { fundWalletWithExistingCard } from "state/ducks/fundWalletWithExistingCard/actions";
@@ -124,7 +124,7 @@ const FundWalletModal = ({
                     <div className="mt-6 w-full">
                       <label className="block text-xs mb-2">Select Card</label>
                       <div className="fieldset">
-                        <WalletDropdown
+                        <PaymentCardDropdown
                           selectedItemId={values.customerCardDataID}
                           optionIdKey="id"
                           onSelectItem={(item) =>

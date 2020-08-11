@@ -1,10 +1,12 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import CreatePersonalSavings from "./CreatePersonalSavings";
 import ConfirmPersonalSavings from "./ConfirmPersonalSavings";
 import { SavingsFrequency, SavingsType } from "constants/enums";
 import { useLocation } from "react-router-dom";
 import { connect } from "react-redux";
-// import moment from "moment";
+import FundSavingsModal from "./FundSavingsModal";
+import produce from "immer";
+import DisclaimerModal from "./DisclaimerModal";
 
 const PersonalSavings = ({ savingsConfiguration }) => {
   const { state: locationState } = useLocation();
@@ -22,10 +24,14 @@ const PersonalSavings = ({ savingsConfiguration }) => {
     duration: "",
     applyInterest: true,
     file: "",
+    imagePreviewUrl: null,
+    cardId: "",
   });
 
   const [showCreationPage, setShowCreationPage] = useState(true);
   const [showConfirmationPage, setShowConfirmationPage] = useState(false);
+  const [showFundSavingsModal, setShowFundSavingsModal] = useState(false);
+  const [showDisclaimerModal, setShowDisclaimerModal] = useState(false);
 
   const onSubmitCreatePersonalSavings = (values) => {
     setFormValues(values);
@@ -39,7 +45,35 @@ const PersonalSavings = ({ savingsConfiguration }) => {
     setShowConfirmationPage(false);
   };
 
-  // const date = moment(formValues.startDate).toISOString();
+  const handleClickLaunchOnConfirmationPage = (e) => {
+    e.preventDefault();
+    setShowFundSavingsModal(true);
+    console.log(formValues);
+  };
+
+  const handleCloseFundSavingsModal = (e) => {
+    e.preventDefault();
+    setShowFundSavingsModal(false);
+  };
+
+  const handleSubmitFundSavingsForm = ({ cardId }) => {
+    setShowFundSavingsModal(false);
+    setShowDisclaimerModal(true);
+    setFormValues(
+      produce((draft) => {
+        draft.cardId = cardId;
+      })
+    );
+  };
+
+  const handleCloseDisclaimerModal = () => {
+    setShowDisclaimerModal(false);
+  };
+
+  const handleDisclaimerModalBack = () => {
+    setShowDisclaimerModal(false);
+    setShowFundSavingsModal(true);
+  };
 
   return (
     <Fragment>
@@ -55,7 +89,21 @@ const PersonalSavings = ({ savingsConfiguration }) => {
           savingsConfiguration={selectedSavingsConfiguration}
           formValues={formValues}
           isVisible={showConfirmationPage}
-          onClickBack={handleClickBackOnConfirmationPage}
+          onBackClick={handleClickBackOnConfirmationPage}
+          onLaunchClick={handleClickLaunchOnConfirmationPage}
+        />
+
+        <FundSavingsModal
+          isVisible={showFundSavingsModal}
+          onSubmit={handleSubmitFundSavingsForm}
+          closeModal={handleCloseFundSavingsModal}
+        />
+
+        <DisclaimerModal
+          isVisible={showDisclaimerModal}
+          onBack={handleDisclaimerModalBack}
+          onProceed={handleSubmitFundSavingsForm}
+          closeModal={handleCloseDisclaimerModal}
         />
       </div>
     </Fragment>

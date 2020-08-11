@@ -29,7 +29,6 @@ const CreatePersonalSavings = ({
 }) => {
   const { state: locationState } = useLocation();
   const predefinedName = locationState.params.name;
-  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
 
   const minimumAmount = savingsConfiguration.minimumAmount;
   const maximumAmount = savingsConfiguration.maximumAmount;
@@ -56,7 +55,7 @@ const CreatePersonalSavings = ({
       .label("Amount")
       .required(),
     frequency: Yup.string().label("Schedule").required(),
-    startDate: Yup.string().label("Start Date").required(),
+    // startDate: Yup.string().label("Start Date").required(),
     duration: Yup.number()
       .label("Duration")
       .required()
@@ -106,7 +105,7 @@ const CreatePersonalSavings = ({
     file && reader.readAsDataURL(file);
     reader.onloadend = () => {
       setFieldValue("file", file);
-      setImagePreviewUrl(reader.result);
+      setFieldValue("imagePreviewUrl", reader.result);
     };
   };
 
@@ -248,14 +247,14 @@ const CreatePersonalSavings = ({
 
                             <span className="frequency-title">
                               {values.duration > 1
-                                ? savingsFrequencies[values.frequency] ||
-                                  savingsFrequencies[SavingsFrequency.Daily]
-                                : savingsFrequenciesPluralized[
+                                ? savingsFrequenciesPluralized[
                                     values.frequency
                                   ] ||
                                   savingsFrequenciesPluralized[
                                     SavingsFrequency.Daily
-                                  ]}
+                                  ]
+                                : savingsFrequencies[values.frequency] ||
+                                  savingsFrequencies[SavingsFrequency.Daily]}
                             </span>
                           </div>
 
@@ -298,11 +297,11 @@ const CreatePersonalSavings = ({
                             />
                             <div
                               className={`${
-                                !imagePreviewUrl && "drop"
+                                !values.imagePreviewUrl && "drop"
                               } imgPreview`}
                             >
-                              {imagePreviewUrl ? (
-                                <img src={imagePreviewUrl} alt="" />
+                              {values.imagePreviewUrl ? (
+                                <img src={values.imagePreviewUrl} alt="" />
                               ) : (
                                 <div className="buddy-image--drop">
                                   <img src={UploadIcon} alt="" />
@@ -310,7 +309,7 @@ const CreatePersonalSavings = ({
                               )}
                             </div>
                           </div>
-                          {imagePreviewUrl ? (
+                          {values.imagePreviewUrl ? (
                             <h3 className="color-secondary personalize-text text-center">
                               + Change Photo
                             </h3>

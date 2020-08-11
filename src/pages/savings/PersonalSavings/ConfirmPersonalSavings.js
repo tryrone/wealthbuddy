@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { logo } from "assets/exports";
 import Loading from "shared-components/Loading";
+import UploadIcon from "assets/img/uploadIcon.svg";
 import { formatCurrency } from "utils";
 import { SavingsFrequency } from "constants/enums";
 import moment from "moment";
@@ -14,12 +15,26 @@ const savingsFrequencies = {
   [SavingsFrequency.Monthly.toString()]: "Month",
 };
 
+const momentUnits = {
+  [SavingsFrequency.Daily.toString()]: "days",
+  [SavingsFrequency.Weekly.toString()]: "weeks",
+  [SavingsFrequency.Monthly.toString()]: "months",
+};
+
 const ConfirmPersonalSavings = ({
   savingsConfiguration,
   formValues,
   isVisible,
-  onClickBack,
+  onBackClick,
+  onLaunchClick,
 }) => {
+  const startDate = `${formValues.startDate.year}-${formValues.startDate.month}-${formValues.startDate.day}`;
+  const momentStartDate = moment(startDate);
+  const momentMaturityDate = moment(startDate).add(
+    formValues.duration,
+    momentUnits[formValues.frequency]
+  );
+
   return (
     isVisible && (
       <Fragment>
@@ -42,23 +57,23 @@ const ConfirmPersonalSavings = ({
                   </div>
                 ) : (
                   <Fragment>
-                    {error ? (
+                    {error && (
                       <div className="w-72 mb-8 text-xs text-left">
                         <p className="w-full p-3 bg-red-200 text-red-700 rounded text-center font-medium">
                           {error}
                         </p>
                       </div>
-                    ) : (
-                      ""
                     )}
                     <div className="summary-heading--wrap flex flex-col items-center ">
-                      {/* {savingsData.imagePreviewUrl !== "" ?
-                                    <div className="image-wrap">
-                                        <img src={savingsData.imagePreviewUrl} alt="image" />
-                                    </div> : <div className="image-wrap image-empty flex items-center justify-center">
-                                        <img src={UploadIcon} alt="Wealth Buddy" />
-                                    </div>
-                                } */}
+                      {formValues.imagePreviewUrl ? (
+                        <div className="image-wrap">
+                          <img src={formValues.imagePreviewUrl} alt="image" />
+                        </div>
+                      ) : (
+                        <div className="image-wrap image-empty flex items-center justify-center">
+                          <img src={UploadIcon} alt="Wealth Buddy" />
+                        </div>
+                      )}
 
                       <div className="savings-heading text-center">
                         <h5 className="savings-subtitle">{formValues.name}</h5>
@@ -94,7 +109,7 @@ const ConfirmPersonalSavings = ({
                           Start Date
                         </h5>
                         <h1 className="savings-inner--title mt-3 font-medium">
-                          {`${moment().format("MMM D, YYYY")}`}
+                          {`${momentStartDate.format("MMM D, YYYY")}`}
                         </h1>
                       </div>
                       <div className="savings-inner--item">
@@ -102,23 +117,23 @@ const ConfirmPersonalSavings = ({
                           Maturity Date
                         </h5>
                         <h1 className="savings-inner--title mt-3 font-medium">
-                          {`${moment()
-                            .add(savingsConfiguration.minimumDurationInDays, 'days')
-                            .format("MMM D, YYYY")}`}
+                          {`${momentMaturityDate.format("MMM D, YYYY")}`}
                         </h1>
                       </div>
                     </div>
 
                     <div className="nav-buttons flex justify-center">
-                      <a
-                        href="#"
-                        onClick={onClickBack}
+                      <button
+                        onClick={onBackClick}
                         className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
                       >
                         Back
-                      </a>
+                      </button>
 
-                      <button className="mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm">
+                      <button
+                        onClick={onLaunchClick}
+                        className="mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm"
+                      >
                         Launch
                       </button>
                     </div>
