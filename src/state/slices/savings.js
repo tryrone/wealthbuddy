@@ -37,18 +37,28 @@ const initialState = {
 
 export const createPersonalTargetSavings = createAsyncThunk(
   "savings/createPersonalTargetSavings",
-  async (payload) => {
+  async (payload, thunkAPI) => {
     const response = await PersonalTargetSavings.createPersonalTargetSavings(
       payload
     );
+
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
+
     return response.data.data;
   }
 );
 
 export const createGroupTargetSavings = createAsyncThunk(
   "savings/createGroupTargetSavings",
-  async (payload) => {
+  async (payload, thunkAPI) => {
     const response = await GroupTargetSavings.createGroupTargetSavings(payload);
+
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
+
     return response.data.data;
   }
 );
