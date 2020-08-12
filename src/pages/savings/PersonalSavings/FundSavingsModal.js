@@ -7,30 +7,29 @@ import PaymentCardDropdown from "./components/PaymentCardDropdown";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 import { closeModalOnOutsideClick } from "utils";
 
-const initialValues = {
-  cardId: "",
-};
-
-const validationSchema = yup.object().shape({
-  cardId: yup.string().label("Card").required(),
-});
-
 const FundSavingsModal = ({
+  formValues,
   isVisible,
   onSubmit: handleOnSubmit,
-  closeModal,
+  close,
 }) => {
   useEffect(() => {
-    if (isVisible) {
-      closeModalOnOutsideClick(closeModal);
-    }
-  }, [0]);
+    isVisible && closeModalOnOutsideClick(close);
+  }, [isVisible]);
+
+  const initialValues = {
+    cardId: formValues.cardId,
+  };
+
+  const validationSchema = yup.object().shape({
+    cardId: yup.string().label("Card").required(),
+  });
 
   return (
     isVisible && (
       <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
         <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset">
-          <span className="closeModal" onClick={closeModal}>
+          <span className="closeModal" onClick={close}>
             <CloseModalIcon />
           </span>
 
@@ -83,7 +82,7 @@ const FundSavingsModal = ({
 
                     <div className="nav-buttons flex justify-center">
                       <div
-                        onClick={closeModal}
+                        onClick={close}
                         className=" w-40 border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
                       >
                         Back

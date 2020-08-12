@@ -1,11 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Savings, PersonalTargetSavings, FixedFlexibleSavings, FixedLockSavings } from "services/network";
+import {
+  Savings,
+  PersonalTargetSavings,
+  FixedFlexibleSavings,
+  FixedLockSavings,
+  GroupTargetSavings,
+} from "services/network";
 import { getDashboardData } from "../ducks/dashboard/actions";
 import { getRecentSavingTransactionsData } from "../ducks/recentSavingTransactions/actions";
 import { getCustomerSavingsData } from "../ducks/customerSavings/actions";
 import { SavingsType } from "constants/enums";
 
 const initialState = {
+  createPersonalTargetSavingsLoading: false,
+  createPersonalTargetSavingsError: null,
+  createPersonalTargetSavingsEntities: [],
+  createGroupTargetSavingsLoading: false,
+  createGroupTargetSavingsError: null,
+  createGroupTargetSavingsEntities: [],
   fetchByIdLoading: false,
   fetchByIdError: null,
   fetchByIdEntities: [],
@@ -22,6 +34,24 @@ const initialState = {
   completeWithdrawError: null,
   completeWithdrawEntities: [],
 };
+
+export const createPersonalTargetSavings = createAsyncThunk(
+  "savings/createPersonalTargetSavings",
+  async (payload) => {
+    const response = await PersonalTargetSavings.createPersonalTargetSavings(
+      payload
+    );
+    return response.data.data;
+  }
+);
+
+export const createGroupTargetSavings = createAsyncThunk(
+  "savings/createGroupTargetSavings",
+  async (payload) => {
+    const response = await GroupTargetSavings.createGroupTargetSavings(payload);
+    return response.data.data;
+  }
+);
 
 export const fetchSavingsById = createAsyncThunk(
   "savings/fetchById",

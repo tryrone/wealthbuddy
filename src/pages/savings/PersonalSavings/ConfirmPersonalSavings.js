@@ -25,8 +25,8 @@ const ConfirmPersonalSavings = ({
   savingsConfiguration,
   formValues,
   isVisible,
-  onBackClick,
-  onLaunchClick,
+  onBack,
+  onLaunch,
 }) => {
   const startDate = `${formValues.startDate.year}-${formValues.startDate.month}-${formValues.startDate.day}`;
   const momentStartDate = moment(startDate);
@@ -124,14 +124,14 @@ const ConfirmPersonalSavings = ({
 
                     <div className="nav-buttons flex justify-center">
                       <button
-                        onClick={onBackClick}
+                        onClick={onBack}
                         className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
                       >
                         Back
                       </button>
 
                       <button
-                        onClick={onLaunchClick}
+                        onClick={onLaunch}
                         className="mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm"
                       >
                         Launch

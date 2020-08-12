@@ -19,3 +19,12 @@ export const InvestmentType = {
   Ethical: 6,
   Bonds: 7,
 };
+
+export const GroupTargetSavingsStatus = {
+  Pending: 1,
+  InProgress: 2,
+  Completed: 3, // target reached
+  Cancelled: 4,
+  Finished: 5, // maturity date reached
+  Withdrawn: 6,
+};

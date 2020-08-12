@@ -1,7 +1,7 @@
 import axios from "services/api";
 import urls from "../../constants/urls";
 
-export const createPersonalTargetSaving = (data) => {
+export const createPersonalTargetSavings = (data) => {
   return axios.post(urls.createPersonalSaving, data);
 };
 
