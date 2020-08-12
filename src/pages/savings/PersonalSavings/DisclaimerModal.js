@@ -37,7 +37,7 @@ const DisclaimerModal = ({
               </div>
 
               {createError && (
-                <div className="w-72 text-xs text-left mb-6">
+                <div className="w-72 text-xs text-left mb-8">
                   <p className="w-full p-3 bg-red-200 text-red-700 rounded text-center font-medium">
                     {createError}
                   </p>
