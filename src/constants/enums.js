@@ -8,6 +8,9 @@ export const SavingsType = {
   PersonalTargetSavings: 1,
   FixedLockSavings: 2,
   FixedFlexibleSavings: 3,
+  GroupTargetSavings: 4,
+  GroupChallengeSavings: 5,
+  GroupContributorySavings: 6,
 };
 
 export const InvestmentType = {
