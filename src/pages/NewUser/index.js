@@ -9,6 +9,14 @@ import produce from "immer";
 import AddBvnSuccessModal from "./components/AddBvnSuccessModal";
 import { addBvn } from "state/slices/account";
 import moment from "moment";
+import PaystackModal from "./components/PaystackModal";
+import AddCardSuccessModal from "./components/AddCardSuccessModal";
+import {
+  startFundWalletWithNewCard,
+  verifyFundWalletWithNewCard,
+} from "state/slices/cards";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { setIsCardAddedToTrue } from "state/slices/account";
 
 const NewUser = ({ account }) => {
   const dispatch = useDispatch();
@@ -19,9 +27,17 @@ const NewUser = ({ account }) => {
     isAddBvnLoading: false,
     addBvnError: null,
     isAddBvnSuccessModalVisible: false,
+    isPaystackModalVisible: false,
+    tranxRef: "",
+    isVerificationLoading: false,
+    verificationError: null,
+    isTranxInitialized: false,
+    isTranxInitLoading: false,
+    tranxInitError: null,
+    isAddCardSuccessModalVisible: false,
   });
 
-  const openAddBvnModal = () => {
+  const startAddBvnAction = () => {
     if (isBVNAdded) return;
 
     setState(
@@ -31,9 +47,41 @@ const NewUser = ({ account }) => {
     );
   };
 
-  const showAddCardModal = () => {
+  const startAddCardAction = () => {
     if (isCardAdded) return;
-    alert("Show add Card form");
+    initializeTransaction().then(undefined);
+  };
+
+  const initializeTransaction = async () => {
+    setState(
+      produce((draft) => {
+        draft.isTranxInitialized = false;
+        draft.isPaystackModalVisible = true;
+        draft.isTranxInitLoading = true;
+      })
+    );
+
+    const params = { amount: 100, saveCard: true };
+    const resultAction = await dispatch(startFundWalletWithNewCard(params));
+
+    if (startFundWalletWithNewCard.fulfilled.match(resultAction)) {
+      const transaction = unwrapResult(resultAction);
+      setState(
+        produce((draft) => {
+          draft.tranxRef = transaction.reference;
+          draft.isTranxInitialized = true;
+          draft.isTranxInitLoading = false;
+        })
+      );
+    } else {
+      dispatch(setIsCardAddedToTrue());
+      setState(
+        produce((draft) => {
+          draft.isTranxInitLoading = false;
+          draft.tranxInitError = resultAction.error.message;
+        })
+      );
+    }
   };
 
   const closeAddBvnModal = () => {
@@ -56,7 +104,7 @@ const NewUser = ({ account }) => {
       })
     );
 
-    const resultAction = await dispatch(addBvn(payload));
+    const resultAction = await dispatch(startAddBvnAction(payload));
 
     if (addBvn.fulfilled.match(resultAction)) {
       setState(
@@ -84,6 +132,60 @@ const NewUser = ({ account }) => {
     );
   };
 
+  const closePaystackModal = () => {
+    setState(
+      produce((draft) => {
+        draft.isPaystackModalVisible = false;
+      })
+    );
+  };
+
+  const closeAddCardSuccessModal = () => {
+    setState(
+      produce((draft) => {
+        draft.isAddCardSuccessModalVisible = false;
+      })
+    );
+  };
+
+  const verifyTransactionReference = async () => {
+    const formValues = {
+      transactionReference: state.tranxRef,
+    };
+
+    setState(
+      produce((draft) => {
+        draft.isVerificationLoading = true;
+      })
+    );
+
+    const resultAction = await dispatch(
+      verifyFundWalletWithNewCard(formValues)
+    );
+
+    if (verifyFundWalletWithNewCard.fulfilled.match(resultAction)) {
+      setState(
+        produce((draft) => {
+          draft.isVerificationLoading = false;
+          draft.isPaystackModalVisible = false;
+          draft.isAddCardSuccessModalVisible = true;
+        })
+      );
+    } else {
+      setState(
+        produce((draft) => {
+          draft.isVerificationLoading = false;
+          draft.isPaystackModalVisible = false;
+          draft.verificationError = resultAction.error.message;
+        })
+      );
+    }
+  };
+
+  const handlePaystackSuccess = () => {
+    verifyTransactionReference().then(undefined);
+  };
+
   return (
     <Fragment>
       <div className=" h-full min-h-screen px-12 flex flex-col justify-center fadeIn">
@@ -107,7 +209,7 @@ const NewUser = ({ account }) => {
               className={`flex quick-action font-medium justify-start items-center ${
                 isBVNAdded ? `card-success` : `card-pending`
               }`}
-              onClick={openAddBvnModal}
+              onClick={addBvn}
             >
               <img src={Card} alt="" />
               <span>Set up your BVN</span>
@@ -116,7 +218,7 @@ const NewUser = ({ account }) => {
               className={`flex quick-action justify-start font-medium items-center ${
                 isCardAdded ? `card-success` : `card-pending`
               }`}
-              onClick={showAddCardModal}
+              onClick={startAddCardAction}
             >
               <img src={BVN} alt="" />
               <span>Add a card</span>
@@ -137,6 +239,22 @@ const NewUser = ({ account }) => {
         isVisible={state.isAddBvnSuccessModalVisible}
         close={closeAddBvnSuccessModal}
       />
+
+      <PaystackModal
+        isVisible={state.isPaystackModalVisible}
+        tranxRef={state.tranxRef}
+        onClose={closePaystackModal}
+        onPaystackSuccess={handlePaystackSuccess}
+        isTranxInitialized={state.isTranxInitialized}
+        isTranxInitLoading={state.isTranxInitLoading}
+        isVerificationLoading={state.isVerificationLoading}
+        verificationError={state.verificationError}
+      />
+
+      <AddCardSuccessModal
+        isVisible={state.isAddCardSuccessModalVisible}
+        close={closeAddCardSuccessModal}
+      />
     </Fragment>
   );
 };
@@ -145,4 +263,9 @@ const mapStateToProps = (state) => ({
   account: state.account.data,
 });
 
-export default connect(mapStateToProps)(NewUser);
+const mapDispatchToProps = (dispatch) => ({
+  dispatchVerifyFundWalletWithNewCard: (payload, meta) =>
+    dispatch(verifyFundWalletWithNewCard(payload, meta)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewUser);

@@ -16,8 +16,8 @@ const initialState = {
     email: "",
     phoneNumber: "",
     id: "",
-    isBVNAdded: null,
-    isCardAdded: null,
+    isBVNAdded: false,
+    isCardAdded: false,
     isPasswordChangeRequired: false,
     customerDetails: {
       id: "",
@@ -107,6 +107,9 @@ const accountSlice = createSlice({
   name: "account",
   initialState,
   reducers: {
+    setIsCardAddedToTrue: (state) => {
+      state.data.isCardAdded = true;
+    },
     logout: (state) => {
       state.data = initialState.data;
     },
@@ -178,6 +181,6 @@ const accountSlice = createSlice({
   },
 });
 
-export const { logout } = accountSlice.actions;
+export const { setIsCardAddedToTrue, logout } = accountSlice.actions;
 
 export default accountSlice.reducer;
