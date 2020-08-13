@@ -44,12 +44,16 @@ const urls = {
   addBankAccount: "/api/Customer/AddBankAccount",
   sendToken: "/api/Customer/sendtoken",
   verifyAddBankAccount: "/api/Customer/VerifyAddbankAccount",
-  createInvestment: "/api/Investments/create",
+  createFundInvestment: "/api/Investments/funds/create",
+  createTbillsInvestment: "/api/Investments/tbills/create",
+  createTerminstrumentsInvestment: "/api/Investments/terminstruments/create",
   investmentConfiguration: "/api/Investments/configurations",
-  investmentSummary: "/api/Investments/summary",
-  investmentTransactions: "/api/Investments/transactions",
-  investmentFundsActive: "/api/Investments/funds/active",
-  investmentsPay: "/api/Investments/pay",
+  getAllInvestments: "/api/Investments",
+  getAllInvetstmentTransactions: "/api/Investments/transactions/all",
+  getPersonalInvestments: "/api/Investments/me",
+  investmentTransactionsForFunds: "/api/Investments/funds/transactions",
+  fundInvestment: "/api/Investments/funds/topup",
+  investmentValuation: "/api/Investments/valuation",
 };
 
 export default urls;

@@ -19,6 +19,10 @@ const InvestmentDropdown = (props) => {
     setView(!value);
   };
 
+  const settingOfMyCard = (val) => {
+    props.settingCard(val);
+  };
+
   return (
     <React.Fragment>
       <div className="fund-dropdown">
@@ -38,20 +42,21 @@ const InvestmentDropdown = (props) => {
       {view ? (
         <ul className="buddy-dropdown-list basic-dropdown">
           {/* <ul className="buddy-dropdown-list basic-dropdown" onClick={e => e.stopPropagation()}> */}
-          {items.map((item, i) => (
+          {props.cardsData.map((item, i) => (
             <React.Fragment key={i}>
               <li
                 className="buddy-dropdown-item flex hover:bg-gray-100 flex-row items-center"
                 onClick={() => {
-                  setItem(`${item.text}`);
+                  setItem(`${item.bank}`);
                   setView(false);
+                  settingOfMyCard(item.id);
                 }}
                 key={"newCard"}
               >
                 {/* <img src={item.img} alt="" /> */}
                 <p className="dropdown-details">
                   <span className="dropdown-item--title text-black text-opacity-25">
-                    {item.text}
+                    {item.bank}
                   </span>
                 </p>
               </li>

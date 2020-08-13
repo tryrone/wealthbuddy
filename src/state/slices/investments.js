@@ -6,29 +6,35 @@ const initialState = {
   investmentConfigurationLoading: false,
   investmentConfigurationError: null,
   investmentConfigurationData: [],
-  //  INVESTMENT SUMMARY
-  investmentSummaryLoading: false,
-  investmentSummaryError: null,
-  investmentSummaryData: {
-    summary: {
-      totalInvestment: "",
-      totalInterest: "",
-      todayReturns: "",
-    },
-    investments: [],
-  },
-  // INVESTMENT TRANSACTION
-  investmentTransactionsLoading: false,
-  investmentTransactionsError: null,
-  investmentTransactionsData: [],
-  // INVESTMENT FUNDS ACTIVE
-  investmentFundsActiveLoading: false,
-  investmentFundsActiveError: null,
-  investmentFundsActiveData: [],
   // CREATE INVESTMENTS
   createInvestmentLoading: false,
   createInvestmentError: null,
   createInvestmentData: {},
+  // GET ALL INVETSMENTS
+  getAllInvestmentsLoading: false,
+  getAllInvestmentsError: null,
+  getAllInvestmentsData: [],
+  // GET ALL INVETSMENT TRANSACTIONS
+  getAllInvetstmentTransactionsLoading: false,
+  getAllInvetstmentTransactionsError: null,
+  getAllInvetstmentTransactionsData: [],
+  getAllInvetstmentTransactionsisEmpty: false,
+  // GET ALL PERSONAL INVESTMENTS
+  allPersonalInvestmentsLoading: false,
+  allPersonalInvestmentsError: null,
+  allPersonalInvestmentsData: [],
+  // GET FUNDS INVESTMENT TRANSACTIONS
+  investmentTransactionsForFundsLoading: false,
+  investmentTransactionsForFundsError: null,
+  investmentTransactionsForFundsData: [],
+  // FUND INVESTMENT
+  fundInvestmentLoading: false,
+  fundInvestmentError: null,
+  fundInvestmentData: [],
+  //INVESTMENT VALUATION
+  investmentValuationLoading: false,
+  investmentValuationError: null,
+  investmentValuationData: {},
 };
 
 export const getInvestmentConfigurations = createAsyncThunk(
@@ -39,35 +45,70 @@ export const getInvestmentConfigurations = createAsyncThunk(
   }
 );
 
-export const getInvestmentSummary = createAsyncThunk(
-  "investment/getSummary",
-  async () => {
-    const response = await Investment.getInvestmentSummary();
-    return response.data.data;
-  }
-);
-
-export const getInvestmentTransactions = createAsyncThunk(
-  "investment/getTransactions",
-  async () => {
-    const response = await Investment.getInvestmentTransactions();
-    return response.data.data;
-  }
-);
-
-export const getInvestmentFundsActive = createAsyncThunk(
-  "investment/getFundsActive",
-  async () => {
-    const response = await Investment.getInvestmentFundsActive();
-    return response.data.data;
-  }
-);
-
 export const createInvestment = createAsyncThunk(
   "investment/createInvestment",
-  async (data) => {
-    const response = await Investment.createInvestment(data);
+  async ({ data, investType }) => {
+    let requestCreate;
+
+    if (investType === 1) {
+      requestCreate = Investment.createFundInvestment;
+    } else if (investType === 2) {
+      requestCreate = Investment.createTerminstrumentsInvestment;
+    } else if (investType === 3) {
+      requestCreate = Investment.createTbillsInvestment;
+    } else {
+      requestCreate = Investment.createFundInvestment;
+    }
+
+    const response = await requestCreate(data);
     return response.data.data;
+  }
+);
+
+export const getAllInvestments = createAsyncThunk(
+  "investment/getAllInvestments",
+  async () => {
+    const response = await Investment.getAllInvestments();
+    return response.data.data;
+  }
+);
+export const getAllInvetstmentTransactions = createAsyncThunk(
+  "investment/getAllInvetstmentTransactions",
+  async () => {
+    const response = await Investment.getAllInvetstmentTransactions();
+    return response.data.fundTransactions;
+  }
+);
+
+export const allPersonalInvestments = createAsyncThunk(
+  "investment/allPersonalInvestments",
+  async () => {
+    const response = await Investment.getAllPersonalInvestments();
+    return response.data;
+  }
+);
+
+export const getInvestmentTransactionsForFund = createAsyncThunk(
+  "investment/investmentTransactionsForFund",
+  async () => {
+    const response = await Investment.getInvestmentTransactionsForFunds();
+    return response.data.data;
+  }
+);
+
+export const fundInvestment = createAsyncThunk(
+  "investment/fundInvestment",
+  async (data) => {
+    const response = await Investment.getInvestmentTransactionsForFunds(data);
+    return response.data.data;
+  }
+);
+
+export const getInvestmentValuation = createAsyncThunk(
+  "investment/investmentValuation",
+  async () => {
+    const response = await Investment.getInvestmentValuation();
+    return response.data;
   }
 );
 
@@ -90,50 +131,39 @@ const investmentsSlice = createSlice({
       state.investmentConfigurationLoading = false;
       state.investmentConfigurationError = action.error;
     },
-    // GET INVESTMENT SUMMARY
-    [getInvestmentSummary.pending]: (state) => {
-      state.investmentSummaryLoading = true;
-      state.investmentSummaryError = null;
+    //   GET ALL INVESTMENTS
+    [getAllInvestments.pending]: (state) => {
+      state.getAllInvestmentsLoading = true;
+      state.getAllInvestmentsError = null;
     },
-    [getInvestmentSummary.fulfilled]: (state, action) => {
-      state.investmentSummaryData = action.payload;
-      state.investmentSummaryLoading = false;
-      state.investmentSummaryError = null;
+    [getAllInvestments.fulfilled]: (state, action) => {
+      state.getAllInvestmentsData = action.payload;
+      state.getAllInvestmentsLoading = false;
+      state.getAllInvestmentsError = null;
     },
-    [getInvestmentSummary.rejected]: (state, action) => {
-      state.investmentSummaryData = null;
-      state.investmentSummaryLoading = false;
-      state.investmentSummaryError = action.error;
+    [getAllInvestments.rejected]: (state, action) => {
+      state.getAllInvestmentsData = null;
+      state.getAllInvestmentsLoading = false;
+      state.getAllInvestmentsError = action.error;
     },
-    //   GET INVESTMENT TRANSACTIONS
-    [getInvestmentTransactions.pending]: (state) => {
-      state.investmentTransactionsLoading = true;
-      state.investmentTransactionsError = null;
+    //   GET ALL INVESTMENTS TRANSACTIONS
+    [getAllInvetstmentTransactions.pending]: (state) => {
+      state.getAllInvetstmentTransactionsLoading = true;
+      state.getAllInvetstmentTransactionsError = null;
+      state.getAllInvetstmentTransactionsisEmpty = false;
     },
-    [getInvestmentTransactions.fulfilled]: (state, action) => {
-      state.investmentTransactionsData = action.payload;
-      state.investmentTransactionsLoading = false;
-      state.investmentTransactionsError = null;
+    [getAllInvetstmentTransactions.fulfilled]: (state, action) => {
+      state.getAllInvetstmentTransactionsData = action.payload;
+      state.getAllInvetstmentTransactionsLoading = false;
+      state.getAllInvetstmentTransactionsError = null;
+      state.getAllInvetstmentTransactionsisEmpty =
+        action.payload > 0 ? false : true;
     },
-    [getInvestmentTransactions.rejected]: (state, action) => {
-      state.investmentTransactionsData = null;
-      state.investmentTransactionsLoading = false;
-      state.investmentTransactionsError = action.error;
-    },
-    // GET FUNDS ACTIVE
-    [getInvestmentFundsActive.pending]: (state) => {
-      state.investmentFundsActiveLoading = true;
-      state.investmentFundsActiveError = null;
-    },
-    [getInvestmentFundsActive.fulfilled]: (state, action) => {
-      state.investmentFundsActiveData = action.payload;
-      state.investmentFundsActiveLoading = false;
-      state.investmentFundsActiveError = null;
-    },
-    [getInvestmentFundsActive.rejected]: (state, action) => {
-      state.investmentFundsActiveData = null;
-      state.investmentFundsActiveLoading = false;
-      state.investmentFundsActiveError = action.error;
+    [getAllInvetstmentTransactions.rejected]: (state, action) => {
+      state.getAllInvetstmentTransactionsData = null;
+      state.getAllInvetstmentTransactionsLoading = false;
+      state.getAllInvetstmentTransactionsError = action.error;
+      state.getAllInvetstmentTransactionsisEmpty = false;
     },
     // CREATE INVESTMENT
     [createInvestment.pending]: (state) => {
@@ -149,6 +179,66 @@ const investmentsSlice = createSlice({
       state.createInvestmentData = null;
       state.createInvestmentLoading = false;
       state.createInvestmentError = action.error;
+    },
+    // GET ALL PERSONAL INVESTMENTS
+    [allPersonalInvestments.pending]: (state) => {
+      state.allPersonalInvestmentsLoading = true;
+      state.allPersonalInvestmentsError = null;
+    },
+    [allPersonalInvestments.fulfilled]: (state, action) => {
+      state.allPersonalInvestmentsData = action.payload;
+      state.allPersonalInvestmentsLoading = false;
+      state.allPersonalInvestmentsError = null;
+    },
+    [allPersonalInvestments.rejected]: (state, action) => {
+      state.allPersonalInvestmentsData = null;
+      state.allPersonalInvestmentsLoading = false;
+      state.allPersonalInvestmentsError = action.error;
+    },
+    // INVESTMENT TRANSACTIONS FOR FUNDS
+    [getInvestmentTransactionsForFund.pending]: (state) => {
+      state.investmentTransactionsForFundsLoading = true;
+      state.investmentTransactionsForFundsError = null;
+    },
+    [getInvestmentTransactionsForFund.fulfilled]: (state, action) => {
+      state.investmentTransactionsForFundsData = action.payload;
+      state.investmentTransactionsForFundsLoading = false;
+      state.investmentTransactionsForFundsError = null;
+    },
+    [getInvestmentTransactionsForFund.rejected]: (state, action) => {
+      state.investmentTransactionsForFundsData = null;
+      state.investmentTransactionsForFundsLoading = false;
+      state.investmentTransactionsForFundsError = action.error;
+    },
+    // FUND INVESTMENT
+    [fundInvestment.pending]: (state) => {
+      state.fundInvestmentLoading = true;
+      state.fundInvestmentError = null;
+    },
+    [fundInvestment.fulfilled]: (state, action) => {
+      state.fundInvestmentData = action.payload;
+      state.fundInvestmentLoading = false;
+      state.fundInvestmentError = null;
+    },
+    [fundInvestment.rejected]: (state, action) => {
+      state.fundInvestmentData = null;
+      state.fundInvestmentLoading = false;
+      state.fundInvestmentError = action.error;
+    },
+    //GET INVESTMENT VALUATION
+    [getInvestmentValuation.pending]: (state) => {
+      state.investmentValuationLoading = true;
+      state.investmentValuationError = null;
+    },
+    [getInvestmentValuation.fulfilled]: (state, action) => {
+      state.investmentValuationData = action.payload;
+      state.investmentValuationLoading = false;
+      state.investmentValuationError = null;
+    },
+    [getInvestmentValuation.rejected]: (state, action) => {
+      state.investmentValuationData = null;
+      state.investmentValuationLoading = false;
+      state.investmentValuationError = action.error;
     },
   },
 });

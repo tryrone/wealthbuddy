@@ -1,11 +1,15 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import NumberFormat from "react-number-format";
 import DatePicker from "react-modern-calendar-datepicker";
-import { addPhoto, dogs, dogsBg, catfish, corn } from "../imageLinks";
-import { Link } from "react-router-dom";
+import { dogs, dogsBg, catfish, corn } from "../imageLinks";
+import { Link, Redirect } from "react-router-dom";
+import { connect, useDispatch } from "react-redux";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import InvestModal from "../components/investModal/InvestModal";
+import { allPersonalInvestments } from "../../../state/slices/investments";
+import { formatCurrency } from "utils";
+import FundExistingModal from "../viewAnInvestment/component/fundExistingInvestment/FundExistingModal";
+import Loading from "shared-components/Loading";
 
-// items of dropdownlist
 // items of dropdownlist
 const items = [
   {
@@ -22,26 +26,54 @@ const items = [
   },
 ];
 // items of dropdownlist
-// items of dropdownlist
 
-export default function FundInvestment() {
+const FundInvestment = (props) => {
+  const [amount, setAmount] = useState(null);
   const [modal, changeModal] = useState(false);
+  const [view, setView] = useState(false);
+  const [itemView, setItem] = useState("");
+  const [itemPerc, setPerc] = useState("");
+  const [Id, setId] = useState("");
+  const [investName, setInvestName] = useState("");
+  const [investSymbol, setInvestSymbol] = useState("");
+  const [investCurrent, setInvestCurrent] = useState("");
+  const [showList, setShowList] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(allPersonalInvestments());
+  }, []);
 
   const onclose = (val) => {
     changeModal(val);
   };
 
-  const [view, setView] = useState(false);
-  const [itemView, setItem] = useState("Investment name");
+  const specificData = props.allPersonalInvestmentsData;
 
-  // onclick of dropdown
+  const fundData = {
+    transAmount: parseInt(amount),
+    securityId: Id,
+    description: investSymbol,
+    // currency: specificData.length == 0 ? null : specificData[0].currency,
+    currency: "NGN",
+    fundName: investName,
+  };
+
+  const onSubmitFund = () => {
+    // console.log(fundData, "lieu keng");
+    changeModal(true);
+  };
+
   // onclick of dropdown
   const clickView = (value) => {
     setView(!value);
   };
   // onclick of dropdown
-  // onclick of dropdown
 
+  // return !props.location.investmentId ? (
+  //   <Redirect to="/dashboard/investment" />
+  // ) : (
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
       {/* heading */}
@@ -60,12 +92,18 @@ export default function FundInvestment() {
             <label className="block text-xs font-medium">
               How much do you want to add to your investment?
             </label>
-            <input
-              className="block w-full mt-2 text-xs p-3 border border-gray-400 rounded"
-              placeholder="How much do you want to invest?"
-              // value={goalName}
-              // onChange={onGoalNameChange}
+            <NumberFormat
+              thousandSeparator={true}
+              placeholder="Min 20,000"
+              autoComplete="off"
               type="text"
+              id="amount"
+              name="amount"
+              className="block w-full text-xs mt-2 p-3 border border-gray-400 rounded"
+              value={amount}
+              onValueChange={({ value }) => {
+                setAmount(value);
+              }}
             />
           </fieldset>
           {/* input content end */}
@@ -81,67 +119,77 @@ export default function FundInvestment() {
             {/* dropsown for list of investments */}
             {/* dropsown for list of investments */}
             <div className="fieldset w-11/12 mt-2 w-full">
-              <React.Fragment>
-                <div className="fund-dropdown">
-                  {/* <div className="select-option" onClick={() => toggleList()}> */}
-                  <div
-                    className="select-option"
-                    onClick={() => clickView(view)}
-                  >
-                    <div className="buddy-dropdown-title flex flex-row">
-                      {" "}
-                      {itemView}
-                    </div>
+              {props.allPersonalInvestmentsLoading ? (
+                <Loading text="" />
+              ) : (
+                <React.Fragment>
+                  <div className="fund-dropdown">
+                    {/* <div className="select-option" onClick={() => toggleList()}> */}
                     <div
-                      className="buddy-dropdown-icon"
-                      dangerouslySetInnerHTML={{
-                        __html:
-                          '<svg width="14" height="7" viewBox="0 0 14 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 7L13.9282 0.25H0.0717969L7 7Z" fill="black"/></svg>',
-                      }}
-                    />
+                      className="select-option"
+                      onClick={() => clickView(view)}
+                    >
+                      <div className="buddy-dropdown-title flex flex-row">
+                        {" "}
+                        {itemView}
+                      </div>
+                      <div
+                        className="buddy-dropdown-icon"
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            '<svg width="14" height="7" viewBox="0 0 14 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 7L13.9282 0.25H0.0717969L7 7Z" fill="black"/></svg>',
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-                {/* listOpen && */}
-                {view ? (
-                  <ul className="buddy-dropdown-list basic-dropdown">
-                    {/* <ul className="buddy-dropdown-list basic-dropdown" onClick={e => e.stopPropagation()}> */}
-                    {items.map((item, i) => (
-                      <Fragment key={i}>
-                        <li
-                          className="buddy-dropdown-item flex hover:bg-gray-100 flex-row items-center"
-                          onClick={() => {
-                            setItem(`${item.text}`);
-                          }}
-                          key="newCard"
-                        >
-                          {/* <img src={item.img} alt="" /> */}
-                          <div className="flex flex-col sm:flex-row justify-center mt-4">
-                            <img
-                              src={item.img}
-                              alt=""
-                              className="rounded sm:h-12 sm:w-12  self-center"
-                            />
-                            <div className="ml-4 self-center">
-                              <p className="text-sm font-medium text-black">
-                                {item.text}
-                              </p>
-                              <p
-                                style={{ color: "#8CB13D" }}
-                                className="text-sm font-medium"
+                  {/* listOpen && */}
+                  {view ? (
+                    <ul className="buddy-dropdown-list basic-dropdown">
+                      {/* <ul className="buddy-dropdown-list basic-dropdown" onClick={e => e.stopPropagation()}> */}
+                      {specificData.length < 1
+                        ? null
+                        : specificData.map((item, i) => (
+                            <Fragment key={i}>
+                              <li
+                                className="buddy-dropdown-item flex hover:bg-gray-100 flex-row items-center"
+                                onClick={() => {
+                                  setItem(`${item.companyName}`);
+                                  setId(`${item.securityId}`);
+                                  setPerc(`${item.portPercentage.toFixed(1)}`);
+                                  setView(false);
+                                  setInvestName(`${item.companyName}`);
+                                  setInvestSymbol(`${item.symbol}`);
+                                  setInvestCurrent(`${item.currentValue}`);
+                                  setShowList(true);
+                                }}
+                                key={i}
                               >
-                                10% returns
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                      </Fragment>
-                    ))}
-                    {items.length === 0 ? (
-                      <li className="no-result">No results found</li>
-                    ) : null}
-                  </ul>
-                ) : null}
-              </React.Fragment>
+                                {/* <img src={item.img} alt="" /> */}
+                                <div className="flex flex-col sm:flex-row justify-center mt-4">
+                                  <img
+                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                                    alt=""
+                                    className="rounded sm:h-12 sm:w-12  self-center"
+                                  />
+                                  <div className="ml-4 self-center">
+                                    <p className="text-sm font-medium text-black">
+                                      {item.companyName}
+                                    </p>
+                                    <p
+                                      style={{ color: "#8CB13D" }}
+                                      className="text-sm font-medium"
+                                    >
+                                      {item.portPercentage.toFixed(1)}% returns
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+                            </Fragment>
+                          ))}
+                    </ul>
+                  ) : null}
+                </React.Fragment>
+              )}
             </div>
             {/* dropsown for list of investments */}
             {/* dropsown for list of investments */}
@@ -151,28 +199,26 @@ export default function FundInvestment() {
 
           {/* input three */}
           {/* input three */}
-          <div className="flex flex-col sm:flex-row justify-center mt-4">
-            <img
-              src={dogs}
-              alt=""
-              className="rounded sm:h-12 sm:w-12 self-center"
-            />
-            <div className="ml-4">
-              <p className="text-lg font-medium text-black">
-                Foreign dog breed investment
-              </p>
-              <p style={{ color: "#8CB13D" }} className="text-lg font-medium">
-                10% returns
-              </p>
+          {showList ? (
+            <div className="flex flex-col sm:flex-row justify-center mt-4">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                alt=""
+                className="rounded sm:h-12 sm:w-12 self-center"
+              />
+              <div className="ml-4">
+                <p className="text-lg font-medium text-black">{itemView}</p>
+                <p style={{ color: "#8CB13D" }} className="text-lg font-medium">
+                  {itemPerc}% returns
+                </p>
+              </div>
             </div>
-          </div>
+          ) : null}
           {/* input three */}
           {/* input three */}
         </div>
         {/* column one end */}
-        {/* column one end */}
 
-        {/* column two */}
         {/* column two */}
         <div
           style={{ border: "1px solid #F1F1F1" }}
@@ -182,51 +228,12 @@ export default function FundInvestment() {
           <div className="w-72 shadow-lg p-2">
             <div className="h-32 w-full  border-dashed border border-gray-400 rounded flex flex-col justify-center items-center">
               {/* image preview content start */}
-
-              {/* image setting */}
-              {/* <div className="w-72 shadow-lg p-2"> */}
-                        {/* image preview content start */}
-                 
-                        {/* <div className="personalize--card">
-                        <div className="previewComponent">
-                          <input
-                            className="fileInput"
-                            type="file"
-                            onChange={(e) => handleImageChange(e)}
-                            accept="image/*"
-                          />
-                          <div
-                            className={`${
-                              files.imagePreviewUrl === "" && "drop"
-                            } imgPreview`}
-                          >
-                            {files.imagePreviewUrl ? (
-                              <img src={files.imagePreviewUrl} alt="" />
-                            ) : (
-                              <div className="buddy-image--drop">
-                                <img src={UploadIcon} alt="" />
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        {files.imagePreviewUrl ? (
-                          <h3 className="color-secondary personalize-text text-center">
-                            + Change Photo
-                          </h3>
-                        ) : (
-                          <h3 className="color-secondary change-text personalize-text text-center">
-                            Personalise your goal by <br />{" "}
-                            <span>+ Adding a photo.</span>
-                          </h3>
-                        )}
-                      </div>
-            */}
-                        {/* image preview content end */}
-                        {/* </div>  */}
-                    {/* image setting end */}
-
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                alt=""
+                className="w-full h-full"
+              />
               {/* image preview content end */}
-              <img src={dogsBg} alt="" className="w-full h-full"/>
             </div>
           </div>
           {/* image setting end */}
@@ -235,7 +242,7 @@ export default function FundInvestment() {
           {/* image text content */}
           {/* image text content */}
           <p className="text-xl font-bold mb-10 mt-10 text-black text-center">
-            Foreign dog breed investment
+            {investName}
           </p>
 
           {/* <p className="text-black text-lg text-center mt-2 font-bold">₦50,000</p> */}
@@ -244,19 +251,23 @@ export default function FundInvestment() {
             <p className="text-left text-black text-opacity-25 text-base">
               Top up value
             </p>
-            <p className="text-right text-black text-base">₦ 10,000</p>
+            <p className="text-right text-black text-base">
+              ₦ {formatCurrency(amount)}
+            </p>
           </div>
           <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
             <p className="text-left text-black text-opacity-25 text-base">
               Current value
             </p>
-            <p className="text-right text-black text-base">₦ 73,240</p>
+            <p className="text-right text-black text-base">
+              ₦ {formatCurrency(investCurrent)}
+            </p>
           </div>
           <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
             <p className="text-left text-black text-opacity-25 text-base">
               Interest rate per year
             </p>
-            <p className="text-right text-black text-base">12%</p>
+            <p className="text-right text-black text-base">{itemPerc}%</p>
           </div>
           {/* image text content end */}
           {/* image text content end */}
@@ -272,7 +283,7 @@ export default function FundInvestment() {
             {/* <button className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm ${(checkEmpty(state) === true || status) && "opaque"}`} onClick={(checkEmpty(state) === false && !status) && confirm}> */}
             <button
               onClick={() => {
-                changeModal(true);
+                onSubmitFund();
               }}
               className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
             >
@@ -284,7 +295,22 @@ export default function FundInvestment() {
         {/* column two end */}
       </div>
 
-      {modal ? <InvestModal myclose={onclose} /> : null}
+      {modal ? (
+        <FundExistingModal
+          myclose={onclose}
+          MycreateInvestmentData={fundData}
+        />
+      ) : null}
     </div>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  // ALL PERSONAL INVESTMENT DATA
+  allPersonalInvestmentsData: state.investments.allPersonalInvestmentsData,
+  allPersonalInvestmentsLoading:
+    state.investments.allPersonalInvestmentsLoading,
+  allPersonalInvestmentsError: state.investments.allPersonalInvestmentsError,
+});
+
+export default connect(mapStateToProps)(FundInvestment);

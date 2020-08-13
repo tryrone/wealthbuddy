@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DatePicker, { utils } from "react-modern-calendar-datepicker";
+import "./check.scss";
 import moment from "moment";
 
 const today = utils("en").getToday();

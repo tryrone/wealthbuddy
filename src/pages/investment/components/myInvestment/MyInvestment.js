@@ -1,22 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { corn, catfish, dogs, addBtn } from "../../imageLinks";
+import { allPersonalInvestments } from "../../../../state/slices/investments";
+import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import Loading from "shared-components/Loading";
+import { formatCurrency } from "utils";
 
 const data = [1, 1, 1];
-export default function MyInvestment() {
-  return (
+
+const MyInvestment = (props) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(allPersonalInvestments());
+  }, []);
+
+  return props.allPersonalInvestmentsLoading ? (
+    <div className="mx-auto flex flex-col content-center items-center mt-32">
+      <Loading text="loading" />
+    </div>
+  ) : (
     <div className="flex flex-row flex-wrap  scroll-container ps">
-      {data.map((item, index) => {
+      {props.allPersonalInvestmentsData.map((item, index) => {
         return (
           <Link
             key={index}
-            to="/dashboard/investment/view-investment"
+            to={{
+              pathname: "/dashboard/investment/view-investment",
+              investmentId: item.securityId,
+            }}
             style={{ border: " 1px solid #F1F1F1", borderRadius: "2px" }}
             className="card px-4 py-4  flex mr-4 flex-col"
           >
             <div className="flex flex-row content-center items-center">
               <img
-                src={catfish}
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
                 alt=""
                 className="rounded-sm"
                 style={{ height: "78.41px", width: "90.71px" }}
@@ -25,7 +43,7 @@ export default function MyInvestment() {
                 style={{ width: "100px" }}
                 className="text-black font-bold text-base ml-2 "
               >
-                My Catfish Investment
+                {item.companyName}
               </p>
             </div>
 
@@ -36,7 +54,7 @@ export default function MyInvestment() {
               <div>
                 <p className="text-black text-sm">Current Value</p>
                 <p className="text-black mt-1 font-bold text-base">
-                  N32,000,000
+                  N {formatCurrency(item.currentValue.toFixed(2))}
                 </p>
               </div>
 
@@ -46,7 +64,7 @@ export default function MyInvestment() {
                   style={{ color: "#8CB13D" }}
                   className="font-bold mt-1 text-right text-base"
                 >
-                  19%
+                  {item.portPercentage.toFixed(2)}%
                 </p>
               </div>
             </div>
@@ -64,4 +82,14 @@ export default function MyInvestment() {
       </Link>
     </div>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  // ALL PERSONAL INVESTMENT DATA
+  allPersonalInvestmentsData: state.investments.allPersonalInvestmentsData,
+  allPersonalInvestmentsLoading:
+    state.investments.allPersonalInvestmentsLoading,
+  allPersonalInvestmentsError: state.investments.allPersonalInvestmentsError,
+});
+
+export default connect(mapStateToProps)(MyInvestment);

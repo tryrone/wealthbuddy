@@ -1,55 +1,35 @@
-import React, { useState, Fragment, useEffect } from "react";
-import CardIcon from "../../../../assets/img/cardIcon.png";
-import successDoc from "../../../../assets/img/success.svg";
-import failedDoc from "../../../../assets/img/failedDoc.svg";
+import React, { useState, Fragment } from "react";
+import CardIcon from "../../../../../assets/img/cardIcon.png";
+import successDoc from "../../../../../assets/img/success.svg";
 import "./invest.css";
-import { createInvestment } from "../../../../state/slices/investments";
+import { fundInvestment } from "../../../../../state/slices/investments";
 import { connect, useDispatch } from "react-redux";
-import InvestmentDropdown from "../investmentDropdown/InvestmentDropdown";
+import InvestmentDropdown from "../../../components/investmentDropdown/InvestmentDropdown";
 import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
-// import { Redirect } from "react-router-dom";
 
-const InvestModal = (props) => {
+const FundExistingModal = (props) => {
   const [payment, setPayment] = useState(false);
   const [card, setCard] = useState(false);
-  // const [flick, setFlick] = useState(false);
-  const [inHide, setInHide] = useState(true);
   const [myCard, setMyCard] = useState("");
   const [activeOne, setActiveOne] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
 
   const setInvestDetails = props.MycreateInvestmentData;
-  const myInvestType = props.investType;
-  let errorObj = props.createInvestmentError;
 
   const dispatch = useDispatch();
 
-  const refresh = () => {
-    return document.location.reload(true);
-  };
-
   const showMyDetails = () => {
     if (!activeOne) {
-      // const formData = (setInvestDetails);
-      // formData.append("file", state.formValues.file);
-
-      dispatch(createInvestment(setInvestDetails, myInvestType));
+      dispatch(fundInvestment(setInvestDetails));
       console.log(setInvestDetails);
-      // console.log(myInvestType + "target");
+      // console.log(typeof setInvestDetails.transAmount);
     } else if (activeOne) {
       setInvestDetails.cardId = `${myCard}`;
-      // const formData = JSON.stringify(setInvestDetails);
-      // formData.append("file", state.formValues.file);
-      dispatch(createInvestment(setInvestDetails, myInvestType));
       console.log(setInvestDetails);
-      // console.log(myInvestType + "fetchung at all");
+      // console.log(typeof setInvestDetails.transAmount);
+      dispatch(fundInvestment(setInvestDetails));
     }
-
-    if (props.createInvestmentError && !props.createInvestmentLoading) {
-      setPayment(true);
-    }
-    setInHide(false);
   };
 
   const setMyAvailableCard = (val) => {
@@ -64,19 +44,13 @@ const InvestModal = (props) => {
   return (
     <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
       <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset">
-        <span
-          className="closeModal cursor-pointer"
-          onClick={() => {
-            onclose();
-            refresh();
-          }}
-        >
+        <span className="closeModal cursor-pointer" onClick={() => onclose()}>
           <p className="text-hairline text-base text-right">Close</p>
         </span>
 
         {/* UI before payment  */}
         {/* UI before payment  */}
-        {props.createInvestmentLoading ? null : inHide ? (
+        {props.createInvestmentLoading ? null : !payment ? (
           <Fragment>
             <div className="flex flex-col items-center mb-0">
               <i className="w-20 mb-4">
@@ -226,7 +200,8 @@ const InvestModal = (props) => {
 
         {/* UI after payment */}
         {/* UI after payment */}
-        {!(errorObj && props.createInvestmentLoading) && payment ? (
+        {!(props.createInvestmentError && props.createInvestmentLoading) &&
+        payment ? (
           <Fragment>
             <div className="flex flex-col items-center mb-0">
               <i className="w-20 mb-4">
@@ -240,29 +215,6 @@ const InvestModal = (props) => {
               <button
                 onClick={() => {
                   onclose();
-                  refresh();
-                }}
-                className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
-              >
-                Done
-              </button>
-            </div>
-          </Fragment>
-        ) : errorObj && !props.createInvestmentLoading && !payment ? (
-          <Fragment>
-            <div className="flex flex-col items-center mb-0">
-              <i className="w-20 mb-4">
-                <img src={failedDoc} alt="" />
-              </i>
-              <h1 className="text-2xl font-medium mb-2">Failed</h1>
-              <p className="text-center text-gray-500 leading-normal">
-                Could not fund investment.
-              </p>
-
-              <button
-                onClick={() => {
-                  onclose();
-                  refresh();
                 }}
                 className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
               >
@@ -273,7 +225,6 @@ const InvestModal = (props) => {
         ) : (
           ""
         )}
-
         {/* UI after payment end */}
         {/* UI after payment end*/}
       </div>
@@ -281,11 +232,11 @@ const InvestModal = (props) => {
   );
 };
 const mapStateToProps = (state) => ({
-  createInvestmentLoading: state.investments.createInvestmentLoading,
-  createInvestmentError: state.investments.createInvestmentError,
-  createInvestmentData: state.investments.createInvestmentData,
+  fundInvestmentLoading: state.investments.fundInvestmentLoading,
+  fundInvestmentError: state.investments.fundInvestmentError,
+  fundInvestmentData: state.investments.fundInvestmentData,
   cards: state.cards.data,
   dashboard: state.dashboard.data,
 });
 
-export default connect(mapStateToProps)(InvestModal);
+export default connect(mapStateToProps)(FundExistingModal);

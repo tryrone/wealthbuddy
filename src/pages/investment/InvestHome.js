@@ -3,28 +3,22 @@ import TotalCard from "./components/totalCard/TotalCard";
 import TransactHistory from "./components/transactHistory/TransactHistory";
 import { connect, useDispatch } from "react-redux";
 import {
-  getInvestmentTransactions,
-  getInvestmentFundsActive,
+  getAllInvetstmentTransactions,
+  getInvestmentTransactionsForFund,
 } from "../../state/slices/investments";
 import MyInvestment from "./components/myInvestment/MyInvestment";
-import { unwrapResult } from "@reduxjs/toolkit";
 import Loading from "shared-components/Loading";
+import { Redirect } from "react-router-dom";
 
-const InvestHome = ({
-  investmentFundsActiveLoading,
-  investmentFundsActiveData,
-  history,
-}) => {
+const InvestHome = ({ getAllInvetstmentTransactionsLoading, isEmpty }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getInvestmentTransactions());
-    dispatch(getInvestmentFundsActive());
-    if (!investmentFundsActiveData) {
-      history.location.push("/dashboard/investment/add-investment");
-    }
+    dispatch(getAllInvetstmentTransactions());
+    dispatch(getInvestmentTransactionsForFund());
   }, []);
-  return investmentFundsActiveLoading ? (
+
+  return getAllInvetstmentTransactionsLoading ? (
     <div className="px-12 flex justify-center content-center items-center">
       <Loading text="Loading" />
     </div>
@@ -46,14 +40,17 @@ const InvestHome = ({
 };
 
 const mapStateToProps = (state) => ({
-  investmentTransactionsLoading:
-    state.investments.investmentTransactionsLoading,
-  investmentTransactionsError: state.investments.investmentTransactionsError,
-  investmentTransactionsData: state.investments.investmentTransactionsData,
-  // GET FUNDS ACTIVE
-  investmentFundsActiveData: state.investments.investmentFundsActiveData,
-  investmentFundsActiveError: state.investments.investmentFundsActiveError,
-  investmentFundsActiveLoading: state.investments.investmentFundsActiveLoading,
+  getAllInvetstmentTransactionsLoading:
+    state.investments.getAllInvetstmentTransactionsLoading,
+  getAllInvetstmentTransactionsError:
+    state.investments.getAllInvetstmentTransactionsError,
+  getAllInvetstmentTransactionsData:
+    state.investments.getAllInvetstmentTransactionsData,
+  isEmpty: state.investments.getAllInvetstmentTransactionsisEmpty,
 });
 
 export default connect(mapStateToProps)(InvestHome);
+
+// !isEmpty ? (
+//   <Redirect to="/dashboard/investment/add-investment" />
+// ) :

@@ -17,10 +17,10 @@ input[type="checkbox"]::before {
   position: absolute;
   content: "";
   display: block;
-  top: 2px;
+  top: 0px;
   left: 7px;
   width: 8px;
-  height: 14px;
+  height: 18px;
   border-style: solid;
   border-color: #fff;
   border-width: 0 2px 2px 0;
@@ -39,4 +39,8 @@ input[type="checkbox"]:checked::before {
 input[type="checkbox"]:checked ~ label::before {
   -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.basic-dropdown {
+  z-index: 1000;
 }
