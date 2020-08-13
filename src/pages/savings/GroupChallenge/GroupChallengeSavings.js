@@ -9,6 +9,7 @@ import produce from "immer";
 import DisclaimerModal from "./DisclaimerModal";
 import { createPersonalTargetSavings } from "state/slices/savings";
 import CreateSavingsSuccessModal from "./CreateSavingsSuccessModal";
+import GroupChallengeView from "./GroupChallengeView";
 
 const GroupChallengeSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
@@ -155,7 +156,8 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
   return (
     <Fragment>
       <div className="px-12 ">
-        <CreateSavings
+        <GroupChallengeView />
+        {/* <CreateSavings
           savingsConfiguration={selectedSavingsConfiguration}
           initialFormValues={state.formValues}
           isVisible={state.showCreationPage}
@@ -189,7 +191,7 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
         <CreateSavingsSuccessModal
           isVisible={state.showCreateSavingsSuccessModal}
           close={handleSuccessModalClose}
-        />
+        /> */}
       </div>
     </Fragment>
   );
