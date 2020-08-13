@@ -133,6 +133,7 @@ const accountSlice = createSlice({
     [addBvn.fulfilled]: (state) => {
       state.addBvnLoading = false;
       state.addBvnError = null;
+      state.data.isBVNAdded = true;
     },
     [addBvn.rejected]: (state, action) => {
       state.addBvnLoading = false;

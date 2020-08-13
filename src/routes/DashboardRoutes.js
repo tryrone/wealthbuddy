@@ -13,6 +13,7 @@ import Investment from "pages/investment";
 import Settings from "pages/settings";
 import classNames from "classnames";
 import NavigationProvider from "providers/NavigationProvider";
+import NewUser from "../pages/NewUser";
 
 const DashboardRoutes = ({
   account,
@@ -43,13 +44,14 @@ const DashboardRoutes = ({
               })}
             >
               <Header />
-              <Switch>
-                <Route exact path={`${path}`} component={DashboardHome} />
-                <Route path={`${path}/savings`} component={Savings} />
-                <Route path={`${path}/investment`} component={Investment} />
-                <Route exact path={`${path}/wallet`} component={Wallet} />
-                <Route exact path={`${path}/settings`} component={Settings} />
-              </Switch>
+              {/*<Switch>*/}
+              {/*  <Route exact path={`${path}`} component={DashboardHome} />*/}
+              {/*  <Route path={`${path}/savings`} component={Savings} />*/}
+              {/*  <Route path={`${path}/investment`} component={Investment} />*/}
+              {/*  <Route exact path={`${path}/wallet`} component={Wallet} />*/}
+              {/*  <Route exact path={`${path}/settings`} component={Settings} />*/}
+              {/*</Switch>*/}
+              <NewUser />
             </section>
           </div>
         </NavigationProvider>
