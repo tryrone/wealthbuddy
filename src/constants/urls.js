@@ -14,7 +14,7 @@ const urls = {
     getDashboard: "/api/Customer/dashboard",
     getSavingsTransactions: "/api/Savings/getrecentsavingstransactions",
     createGroupChallengeSavings: "/api/GroupChallengeSavings/creategroupchallengesavings",
-    createGroupTargetSavings: "/api/GroupTargetSavings/creategrouptargetsavings",
+    createGroupTargetSavings: "/api/GroupTargetSavings/creategroupsavings",
     uploadProfilePicture: "/api/Customer/UploadProfilePicture",
     uploadUtilityBill: "/api/Customer/UploadUtilityBill",
     uploadIdentification: "/api/Customer/UploadIdentification",

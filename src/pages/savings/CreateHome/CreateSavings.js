@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import personalSavings from "assets/img/personalIcon.png";
 import fixedSavings from "assets/img/fixedIcon.png";
@@ -33,7 +33,7 @@ const options = [
     heading: "Group Challenge Savings ",
     subheading:
       "Don’t do it alone. Start a savings plan with friends and family.",
-    path: "/dashboard/savings/create/group-contributory/1",
+    path: "/dashboard/savings/create/group-challenge",
     icon: groupConSavings,
   },
   // {

@@ -1,13 +1,36 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import NumberFormat from "react-number-format";
 import { Link, useLocation } from "react-router-dom";
 import UploadIcon from "assets/img/uploadIcon.svg";
-import DatePicker, { utils } from "react-modern-calendar-datepicker";
 import "./styles.css";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { formatCurrency } from "utils";
 import { SavingsFrequency } from "constants/enums";
+import { FaTimes, FaPlus } from "react-icons/fa";
+
+const Member = ({ email, removeItem }) => (
+  <div className="w-full flex flex-row justify-between my-2">
+    <div className="flex flex-grow">
+      <div className="flex-initial text-gray-700 text-center text-sm bg-teal-100 rounded-full p-3 mr-2">
+        {email.toString().substring(0, 2).toUpperCase()}
+      </div>
+      <div className="flex-initial text-gray-700 text-center text-sm py-3 mr-2 member-email truncate">
+        {email}
+      </div>
+    </div>
+    <a
+      href="#"
+      onClick={(e) => {
+        e.preventDefault();
+        removeItem && removeItem();
+      }}
+      className="text-red-300 text-center text-sm py-3"
+    >
+      <FaTimes />
+    </a>
+  </div>
+);
 
 const savingsFrequencies = {
   [SavingsFrequency.Daily.toString()]: "Day",
@@ -21,14 +44,13 @@ const savingsFrequenciesPluralized = {
   [SavingsFrequency.Monthly.toString()]: "Months",
 };
 
-const CreatePersonalSavings = ({
+const CreateSavings = ({
   savingsConfiguration,
   initialFormValues,
   isVisible,
   onSubmit: handleOnSubmit,
 }) => {
   const { state: locationState } = useLocation();
-  const predefinedName = locationState.params.name;
 
   const minimumAmount = savingsConfiguration.minimumAmount;
   const maximumAmount = savingsConfiguration.maximumAmount;
@@ -55,7 +77,6 @@ const CreatePersonalSavings = ({
       .label("Amount")
       .required(),
     frequency: Yup.string().label("Schedule").required(),
-    // startDate: Yup.string().label("Start Date").required(),
     duration: Yup.number()
       .label("Duration")
       .required()
@@ -113,7 +134,7 @@ const CreatePersonalSavings = ({
     isVisible && (
       <Fragment>
         <div className="page-heading mb-8 flex flex-col fadeIn">
-          <h1 className="text-4xl font-medium">Personal savings</h1>
+          <h1 className="text-4xl font-medium">Group challenge savings</h1>
         </div>
         <div className="flex-grow flex justify-center items-start fadeIn">
           <div className="create-saving--overview overview-full w-full">
@@ -136,18 +157,17 @@ const CreatePersonalSavings = ({
                     className="create-personal--savings w-full flex justify-between"
                     onSubmit={handleSubmit}
                   >
-                    <div className="card create-card p-0">
+                    <div className="flex flex-col justify-between card create-card p-0">
                       <div className="create-card w-full">
                         <fieldset className="mb-6">
                           <label className="block text-xs mb-3">
-                            Goal name
+                            Group name
                           </label>
                           <Field
-                            placeholder="Enter Goal Name"
+                            placeholder="Enter Group Name"
                             type="text"
                             name="name"
                             className="block w-full text-xs p-3 readOnly border border-gray-400 rounded"
-                            readOnly={Boolean(predefinedName)}
                           />
                         </fieldset>
 
@@ -201,22 +221,6 @@ const CreatePersonalSavings = ({
                               )
                             )}
                           </select>
-                        </fieldset>
-
-                        <fieldset className="mb-6">
-                          <label className="block text-xs mb-3">
-                            When do you want to start?
-                          </label>
-                          <DatePicker
-                            inputPlaceholder="Select Start Date"
-                            value={values.startDate}
-                            onChange={(value) =>
-                              setFieldValue("startDate", value)
-                            }
-                            shouldHighlightWeekends
-                            minimumDate={utils("en").getToday()}
-                            inputClassName="w-full text-xs p-3 border border-gray-400 rounded text-left-f"
-                          />
                         </fieldset>
 
                         <fieldset className="mb-6">
@@ -284,77 +288,74 @@ const CreatePersonalSavings = ({
                       </div>
                     </div>
                     <div className="card create-card flex flex-col justify-between">
-                      <div>
-                        <div className="personalize--card mb-5">
-                          <div className="previewComponent">
-                            <input
-                              className="fileInput"
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) =>
-                                handleImageChange(e, setFieldValue)
-                              }
-                            />
-                            <div
-                              className={`${
-                                !values.imagePreviewUrl && "drop"
-                              } imgPreview`}
-                            >
-                              {values.imagePreviewUrl ? (
-                                <img src={values.imagePreviewUrl} alt="" />
-                              ) : (
-                                <div className="buddy-image--drop">
-                                  <img src={UploadIcon} alt="" />
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          {values.imagePreviewUrl ? (
-                            <h3 className="color-secondary personalize-text text-center">
-                              + Change Photo
-                            </h3>
-                          ) : (
-                            <h3 className="color-secondary change-text personalize-text text-center">
-                              Personalise your goal by <br />
-                              <span>+ Adding a photo.</span>
-                            </h3>
-                          )}
-                        </div>
-
-                        <div className="image-footer mt-12 ">
-                          <div className="flex items-center justify-between pb-6">
-                            <div className="confirm-automation flex items-center">
-                              <p className="text-black">
-                                Interest Rate Per Year
-                              </p>
-                            </div>
-                            <p className="text-black font-medium">{`${
-                              !values.applyInterest
-                                ? "N/A"
-                                : savingsConfiguration.interestRate + "%"
-                            }`}</p>
-                          </div>
-                          <div className="flex items-center justify-between pt-6">
-                            <div className="confirm-automation flex items-center">
-                              <p className="text-black">
-                                {`${
-                                  values.applyInterest
-                                    ? "Uncheck if you would not lke to get interests?"
-                                    : "Will you like to get interests?"
-                                }`}
-                              </p>
-                            </div>
-                            <div className="pretty p-switch p-fill ">
-                              <Field type="checkbox" name="applyInterest" />
-                              <div className="state">
-                                <label />
+                      <div className="personalize--card mb-5">
+                        <div className="previewComponent">
+                          <input
+                            className="fileInput"
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) =>
+                              handleImageChange(e, setFieldValue)
+                            }
+                          />
+                          <div
+                            className={`${
+                              !values.imagePreviewUrl && "drop"
+                            } imgPreview`}
+                          >
+                            {values.imagePreviewUrl ? (
+                              <img src={values.imagePreviewUrl} alt="" />
+                            ) : (
+                              <div className="buddy-image--drop">
+                                <img src={UploadIcon} alt="" />
                               </div>
+                            )}
+                          </div>
+                        </div>
+                        {values.imagePreviewUrl ? (
+                          <h3 className="color-secondary personalize-text text-center">
+                            + Change Photo
+                          </h3>
+                        ) : (
+                          <h3 className="color-secondary change-text personalize-text text-center">
+                            Personalise your goal by <br />
+                            <span>+ Adding a photo.</span>
+                          </h3>
+                        )}
+                      </div>
+
+                      <div className="mx-5">
+                        <div className="w-full items-center justify-between pt-6">
+                          <div className="block font-semi-bold text-gray-700 text-xs mb-3">
+                            Group members
+                          </div>
+                          <div className="p-5 rounded border border-solid border-gray-200">
+                            <Member email="johndoe@gmail.com" />
+                            <Member email="legendofsanni@yahoo.com" />
+                            <Member email="yusufuthman@gmail.com" />
+
+                            <div className="w-full flex flex-row justify-between mt-5">
+                              <div className="flex flex-grow">
+                                <Field
+                                  placeholder="member@email.com"
+                                  type="text"
+                                  name="email"
+                                  className="block w-full text-xs p-3 readOnly border border-gray-400 rounded"
+                                />
+                              </div>
+                              <a
+                                href="#"
+                                onClick={() => alert("add item")}
+                                className="flex-initial color-green text-center text-sm py-3 ml-5"
+                              >
+                                <span className="font-bold">+</span> Add
+                              </a>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="nav-buttons flex justify-center">
+                      <div className="flex justify-center">
                         <Link
                           to="/dashboard/savings/create"
                           className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
@@ -381,4 +382,4 @@ const CreatePersonalSavings = ({
   );
 };
 
-export default CreatePersonalSavings;
+export default CreateSavings;

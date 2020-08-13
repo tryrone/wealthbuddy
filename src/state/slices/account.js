@@ -16,8 +16,8 @@ const initialState = {
     email: "",
     phoneNumber: "",
     id: "",
-    isBVNAdded: null,
-    isCardAdded: null,
+    isBVNAdded: false,
+    isCardAdded: false,
     isPasswordChangeRequired: false,
     customerDetails: {
       id: "",
@@ -107,6 +107,9 @@ const accountSlice = createSlice({
   name: "account",
   initialState,
   reducers: {
+    setIsCardAddedToTrue: (state) => {
+      state.data.isCardAdded = true;
+    },
     logout: (state) => {
       state.data = initialState.data;
     },
@@ -122,9 +125,9 @@ const accountSlice = createSlice({
       state.loginError = null;
     },
     [login.rejected]: (state, action) => {
-      state.data = null;
+      state.data = initialState.data;
       state.loginLoading = false;
-      state.loginError = action.error;
+      state.loginError = action.error.message || action.error;
     },
     [addBvn.pending]: (state) => {
       state.addBvnLoading = true;
@@ -133,6 +136,7 @@ const accountSlice = createSlice({
     [addBvn.fulfilled]: (state) => {
       state.addBvnLoading = false;
       state.addBvnError = null;
+      state.data.isBVNAdded = true;
     },
     [addBvn.rejected]: (state, action) => {
       state.addBvnLoading = false;
@@ -177,6 +181,6 @@ const accountSlice = createSlice({
   },
 });
 
-export const { logout } = accountSlice.actions;
+export const { setIsCardAddedToTrue, logout } = accountSlice.actions;
 
 export default accountSlice.reducer;

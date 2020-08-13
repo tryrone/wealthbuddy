@@ -1,25 +1,21 @@
 import React, { Fragment, useState } from "react";
-import CreatePersonalSavings from "./CreatePersonalSavings";
-import ConfirmPersonalSavings from "./ConfirmPersonalSavings";
+import CreateSavings from "./CreateSavings";
+import ConfirmSavings from "./ConfirmSavings";
 import { SavingsFrequency, SavingsType } from "constants/enums";
-import { useLocation } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import FundSavingsModal from "./FundSavingsModal";
+import AddDescriptionModal from "./AddDescriptionModal";
 import produce from "immer";
 import DisclaimerModal from "./DisclaimerModal";
 import { createPersonalTargetSavings } from "state/slices/savings";
-import moment from "moment";
 import CreateSavingsSuccessModal from "./CreateSavingsSuccessModal";
 
-const PersonalSavings = ({ savingsConfiguration }) => {
+const GroupChallengeSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { state: locationState } = useLocation();
-  const predefinedName = locationState.params.name;
 
   const selectedSavingsConfiguration = savingsConfiguration.find(
-    (sc) => sc.savingsType === SavingsType.PersonalTargetSavings
+    (sc) => sc.savingsType === SavingsType.GroupChallengeSavings
   );
 
   const [state, setState] = useState({
@@ -31,10 +27,9 @@ const PersonalSavings = ({ savingsConfiguration }) => {
     isCreateLoading: false,
     createError: null,
     formValues: {
-      name: predefinedName || "",
+      name: "",
       amount: "",
       frequency: SavingsFrequency.Daily.toString(),
-      startDate: "",
       duration: "",
       applyInterest: true,
       file: "",
@@ -114,7 +109,6 @@ const PersonalSavings = ({ savingsConfiguration }) => {
       amount: state.formValues.amount,
       duration: state.formValues.duration,
       schedule: state.formValues.frequency,
-      startDate: moment(state.formValues.startDate).toISOString(),
       allowCardDebit: state.formValues.allowCardDebit,
       cardId: state.formValues.cardId,
       savingsType: SavingsType.PersonalTargetSavings,
@@ -161,14 +155,14 @@ const PersonalSavings = ({ savingsConfiguration }) => {
   return (
     <Fragment>
       <div className="px-12 ">
-        <CreatePersonalSavings
+        <CreateSavings
           savingsConfiguration={selectedSavingsConfiguration}
           initialFormValues={state.formValues}
           isVisible={state.showCreationPage}
           onSubmit={onSubmitCreatePersonalSavings}
         />
 
-        <ConfirmPersonalSavings
+        <ConfirmSavings
           savingsConfiguration={selectedSavingsConfiguration}
           formValues={state.formValues}
           isVisible={state.showConfirmationPage}
@@ -176,7 +170,7 @@ const PersonalSavings = ({ savingsConfiguration }) => {
           onLaunch={handleClickLaunchOnConfirmationPage}
         />
 
-        <FundSavingsModal
+        <AddDescriptionModal
           formValues={state.formValues}
           isVisible={state.showFundSavingsModal}
           onSubmit={handleSubmitFundSavingsForm}
@@ -205,4 +199,4 @@ const mapStateToProps = (state) => ({
   savingsConfiguration: state.savingsConfiguration.data,
 });
 
-export default connect(mapStateToProps)(PersonalSavings);
+export default connect(mapStateToProps)(GroupChallengeSavings);

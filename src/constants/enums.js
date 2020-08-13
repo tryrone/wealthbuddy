@@ -8,6 +8,9 @@ export const SavingsType = {
   PersonalTargetSavings: 1,
   FixedLockSavings: 2,
   FixedFlexibleSavings: 3,
+  GroupTargetSavings: 4,
+  GroupChallengeSavings: 5,
+  GroupContributorySavings: 6,
 };
 
 export const InvestmentType = {
@@ -18,4 +21,13 @@ export const InvestmentType = {
   ForeignCurrency: 5,
   Ethical: 6,
   Bonds: 7,
+};
+
+export const GroupTargetSavingsStatus = {
+  Pending: 1,
+  InProgress: 2,
+  Completed: 3, // target reached
+  Cancelled: 4,
+  Finished: 5, // maturity date reached
+  Withdrawn: 6,
 };
