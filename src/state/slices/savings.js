@@ -87,6 +87,16 @@ export const fetchSavingsById = createAsyncThunk(
   }
 );
 
+export const fetchGroupChallengeSavingsById = createAsyncThunk(
+  "savings/fetchById",
+  async (savingsId) => {
+    const response = await GroupChallengeSavings.fetchGroupChallengeSavingsById(
+      savingsId
+    );
+    return response.data.data;
+  }
+);
+
 export const startCancelSavings = createAsyncThunk(
   "savings/startCancel",
   async ({ savingsID, savingsType }) => {
