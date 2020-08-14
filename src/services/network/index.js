@@ -5,6 +5,7 @@ import * as FixedLockSavings from "./fixedLockSavings";
 import * as GroupChallengeSavings from "./groupChallengeSavings";
 import * as GroupTargetSavings from "./groupTargetSavings";
 import * as PersonalTargetSavings from "./personalTargetSavings";
+import * as Investment from "./investment";
 
 export {
   Customer,
@@ -14,4 +15,5 @@ export {
   GroupChallengeSavings,
   GroupTargetSavings,
   PersonalTargetSavings,
+  Investment
 };

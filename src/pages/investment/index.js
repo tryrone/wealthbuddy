@@ -18,14 +18,46 @@ const Investment = () => {
     <Switch>
       <Route exact path={`${path}`} component={InvestHome} />
       <Route exact path={`${path}/add-investment`} component={AddInvestment} />
-      <Route exact path={`${path}/investment-info`} component={InvestmentInfo} />
-      <Route exact path={`${path}/investment-info/form`} component={AddInvestmentForm} />
-      <Route exact path={`${path}/fund-investment`} component={FundInvestment} />
-      <Route exact path={`${path}/fund-investment/existing`} component={FundExistingInvestment} />
-      <Route exact path={`${path}/view-investment`} component={ViewInvestment} />
-      <Route exact path={`${path}/view-investment/withdraw`} component={WithdrawInvestment} />
-      <Route exact path={`${path}/view-investment/roll-over`} component={RollOver} />
-      <Route exact path={`${path}/view-investment/terminate`} component={TerminateInvestment} />
+      <Route
+        exact
+        path={`${path}/investment-info`}
+        component={InvestmentInfo}
+      />
+      <Route
+        exact
+        path={`${path}/add-investment-form`}
+        component={AddInvestmentForm}
+      />
+      <Route
+        exact
+        path={`${path}/fund-investment`}
+        component={FundInvestment}
+      />
+      <Route
+        exact
+        path={`${path}/fund-investment/existing`}
+        component={FundExistingInvestment}
+      />
+      <Route
+        exact
+        path={`${path}/view-investment`}
+        component={ViewInvestment}
+      />
+      <Route
+        exact
+        path={`${path}/view-investment/withdraw`}
+        component={WithdrawInvestment}
+      />
+      <Route
+        exact
+        path={`${path}/view-investment/roll-over`}
+        component={RollOver}
+      />
+      <Route
+        exact
+        path={`${path}/view-investment/terminate`}
+        component={TerminateInvestment}
+      />
     </Switch>
   );
 };

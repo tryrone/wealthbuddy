@@ -18,3 +18,4 @@ export const getAllSavings = (savingsId) => {
 export const getSavingsConfiguration = (data) => {
   return axios.get(urls.getSavingsConfiguration, data);
 };
+ 

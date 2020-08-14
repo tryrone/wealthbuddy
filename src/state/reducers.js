@@ -22,6 +22,7 @@ import getAllSavingsReducer from "./ducks/getAllSavings";
 import accountReducer from "./slices/account";
 import savingsReducer from "./slices/savings";
 import cardsSlice from "./slices/cards";
+import investmentsReducer from "./slices/investments";
 
 export default combineReducers({
   createUser: createUserReducer,
@@ -47,4 +48,5 @@ export default combineReducers({
   account: accountReducer,
   savings: savingsReducer,
   cardsSlice: cardsSlice,
+  investments: investmentsReducer,
 });

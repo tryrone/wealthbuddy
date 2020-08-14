@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import NumberFormat from "react-number-format";
 import { Link, useLocation } from "react-router-dom";
 import UploadIcon from "assets/img/uploadIcon.svg";
