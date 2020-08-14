@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import UploadIcon from "assets/img/uploadIcon.svg";
-import AutomateIcon from "assets/img/automate.svg";
 import { formatCurrency } from "utils";
 import { SavingsFrequency } from "constants/enums";
 import { FaUsers } from "react-icons/fa";
+import converter from "number-to-words";
 
 const savingsFrequencies = {
   [SavingsFrequency.Daily.toString()]: "Day",
@@ -93,8 +93,11 @@ const ConfirmSavings = ({
                     </div>
                   </div>
                   <div className="text-sm text-center leading-relaxed text-gray-300 w-2/3 mt-3">
-                    Four people have been added to this group and will be sent a
-                    mail to confirm the agree
+                    <span className="capitalize">
+                      {converter.toWords(formValues.participants.length)}
+                    </span>{" "}
+                    people have been added to this group and will be sent a mail
+                    to confirm the agree
                   </div>
                 </div>
 

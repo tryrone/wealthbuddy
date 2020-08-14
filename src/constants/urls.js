@@ -13,7 +13,7 @@ const urls = {
     createFixedFlexible: "/api/FixedFlexibleSavings/createfixedflexiblesavings",
     getDashboard: "/api/Customer/dashboard",
     getSavingsTransactions: "/api/Savings/getrecentsavingstransactions",
-    createGroupChallengeSavings: "/api/GroupChallengeSavings/creategroupchallengesavings",
+    createGroupChallengeSavings: "/api/GroupChallengeSavings/creategroupsavings",
     createGroupTargetSavings: "/api/GroupTargetSavings/creategroupsavings",
     uploadProfilePicture: "/api/Customer/UploadProfilePicture",
     uploadUtilityBill: "/api/Customer/UploadUtilityBill",
