@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import NumberFormat from "react-number-format";
 import { Link, useLocation } from "react-router-dom";
 import UploadIcon from "assets/img/uploadIcon.svg";
 import "./styles.css";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { formatCurrency } from "utils";
 import { SavingsFrequency } from "constants/enums";
@@ -50,7 +50,7 @@ const CreateSavings = ({
   isVisible,
   onSubmit: handleOnSubmit,
 }) => {
-  const { state: locationState } = useLocation();
+  const [memberEmail, setMemberEmail] = useState("");
 
   const minimumAmount = savingsConfiguration.minimumAmount;
   const maximumAmount = savingsConfiguration.maximumAmount;
@@ -116,7 +116,13 @@ const CreateSavings = ({
             `You can only save for a maximum of ${maximumDurationInDays} month`
           ),
       }),
-    applyInterest: Yup.boolean().label("Apply Interest").required(),
+    participants: Yup.array()
+      .of(
+        Yup.object().shape({
+          email: Yup.string().email().required("Required"),
+        })
+      )
+      .required("No members added to savings invite"),
   });
 
   const handleImageChange = (e, setFieldValue) => {
@@ -330,27 +336,58 @@ const CreateSavings = ({
                             Group members
                           </div>
                           <div className="p-5 rounded border border-solid border-gray-200">
-                            <Member email="johndoe@gmail.com" />
-                            <Member email="legendofsanni@yahoo.com" />
-                            <Member email="yusufuthman@gmail.com" />
+                            <FieldArray name="participants">
+                              {(arrayHelpers) => (
+                                <Fragment>
+                                  {values.participants.map((member, index) => (
+                                    <div key={index}>
+                                      <Member
+                                        email={values.participants[index].email}
+                                        removeItem={() =>
+                                          arrayHelpers.remove(index)
+                                        }
+                                      />
+                                    </div>
+                                  ))}
 
-                            <div className="w-full flex flex-row justify-between mt-5">
-                              <div className="flex flex-grow">
-                                <Field
-                                  placeholder="member@email.com"
-                                  type="text"
-                                  name="email"
-                                  className="block w-full text-xs p-3 readOnly border border-gray-400 rounded"
-                                />
-                              </div>
-                              <a
-                                href="#"
-                                onClick={() => alert("add item")}
-                                className="flex-initial color-green text-center text-sm py-3 ml-5"
-                              >
-                                <span className="font-bold">+</span> Add
-                              </a>
-                            </div>
+                                  <div className="w-full flex flex-row justify-between mt-5">
+                                    <div className="flex flex-grow">
+                                      <input
+                                        placeholder="member@email.com"
+                                        type="text"
+                                        name="email"
+                                        value={memberEmail}
+                                        onChange={(e) =>
+                                          setMemberEmail(e.target.value)
+                                        }
+                                        className="block w-full text-xs p-3 readOnly border border-gray-400 rounded"
+                                      />
+                                    </div>
+                                    <button
+                                      type="button"
+                                      className="flex-initial color-green text-center text-sm py-3 ml-5"
+                                      onClick={() => {
+                                        arrayHelpers.push({
+                                          email: memberEmail,
+                                        });
+                                        setMemberEmail("");
+                                      }}
+                                    >
+                                      <span className="font-bold">+</span> Add
+                                    </button>
+                                  </div>
+                                </Fragment>
+                              )}
+                            </FieldArray>
+
+                            <ErrorMessage
+                              name="participants"
+                              render={(errorMessage) => (
+                                <p className="label-error--text mt-3 text-xs color-red font-medium text-center bg-red-200">
+                                  {errorMessage}
+                                </p>
+                              )}
+                            />
                           </div>
                         </div>
                       </div>

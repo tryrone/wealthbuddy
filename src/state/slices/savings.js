@@ -5,6 +5,7 @@ import {
   FixedFlexibleSavings,
   FixedLockSavings,
   GroupTargetSavings,
+  GroupChallengeSavings,
 } from "services/network";
 import { getDashboardData } from "../ducks/dashboard/actions";
 import { getRecentSavingTransactionsData } from "../ducks/recentSavingTransactions/actions";
@@ -54,6 +55,21 @@ export const createGroupTargetSavings = createAsyncThunk(
   "savings/createGroupTargetSavings",
   async (payload, thunkAPI) => {
     const response = await GroupTargetSavings.createGroupTargetSavings(payload);
+
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
+
+    return response.data.data;
+  }
+);
+
+export const createGroupChallengeSavings = createAsyncThunk(
+  "savings/createGroupChallengeSavings",
+  async (payload, thunkAPI) => {
+    const response = await GroupChallengeSavings.createGroupChallengeSavings(
+      payload
+    );
 
     thunkAPI.dispatch(getDashboardData());
     thunkAPI.dispatch(getCustomerSavingsData());

@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import AddDescriptionModal from "./AddDescriptionModal";
 import produce from "immer";
 import DisclaimerModal from "./DisclaimerModal";
-import { createPersonalTargetSavings } from "state/slices/savings";
+import { createGroupChallengeSavings } from "state/slices/savings";
 import CreateSavingsSuccessModal from "./CreateSavingsSuccessModal";
 
 const GroupChallengeSavings = ({ savingsConfiguration }) => {
@@ -21,7 +21,7 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
   const [state, setState] = useState({
     showCreationPage: true,
     showConfirmationPage: false,
-    showFundSavingsModal: false,
+    showAddDescriptionModal: false,
     showDisclaimerModal: false,
     showCreateSavingsSuccessModal: false,
     isCreateLoading: false,
@@ -31,10 +31,11 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
       amount: "",
       frequency: SavingsFrequency.Daily.toString(),
       duration: "",
+      description: "",
       applyInterest: true,
+      participants: [],
       file: "",
       imagePreviewUrl: null,
-      cardId: "",
     },
   });
 
@@ -62,8 +63,8 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
     e.preventDefault();
     setState(
       produce((draft) => {
-        draft.formValues.cardId = "";
-        draft.showFundSavingsModal = true;
+        draft.formValues.description = "";
+        draft.showAddDescriptionModal = true;
       })
     );
   };
@@ -71,17 +72,17 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
   const handleCloseFundSavingsModal = () => {
     setState(
       produce((draft) => {
-        draft.showFundSavingsModal = false;
+        draft.showAddDescriptionModal = false;
       })
     );
   };
 
-  const handleSubmitFundSavingsForm = ({ cardId }) => {
+  const handleSubmitDescription = ({ description }) => {
     setState(
       produce((draft) => {
-        draft.showFundSavingsModal = false;
+        draft.showAddDescriptionModal = false;
         draft.showDisclaimerModal = true;
-        draft.formValues.cardId = cardId;
+        draft.formValues.description = description;
       })
     );
   };
@@ -98,7 +99,7 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
     setState(
       produce((draft) => {
         draft.showDisclaimerModal = false;
-        draft.showFundSavingsModal = true;
+        draft.showAddDescriptionModal = true;
       })
     );
   };
@@ -109,10 +110,8 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
       amount: state.formValues.amount,
       duration: state.formValues.duration,
       schedule: state.formValues.frequency,
-      allowCardDebit: state.formValues.allowCardDebit,
-      cardId: state.formValues.cardId,
-      savingsType: SavingsType.PersonalTargetSavings,
-      applyInterest: state.formValues.applyInterest,
+      description: state.formValues.description,
+      participants: state.formValues.participants,
     };
 
     const formData = new FormData();
@@ -124,8 +123,8 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
         draft.isCreateLoading = true;
       })
     );
-    const resultAction = await dispatch(createPersonalTargetSavings(formData));
-    if (createPersonalTargetSavings.fulfilled.match(resultAction)) {
+    const resultAction = await dispatch(createGroupChallengeSavings(formData));
+    if (createGroupChallengeSavings.fulfilled.match(resultAction)) {
       setState(
         produce((draft) => {
           draft.isCreateLoading = false;
@@ -172,8 +171,8 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
 
         <AddDescriptionModal
           formValues={state.formValues}
-          isVisible={state.showFundSavingsModal}
-          onSubmit={handleSubmitFundSavingsForm}
+          isVisible={state.showAddDescriptionModal}
+          onSubmit={handleSubmitDescription}
           close={handleCloseFundSavingsModal}
         />
 
