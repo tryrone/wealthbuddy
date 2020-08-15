@@ -9,7 +9,6 @@ import FixedFlexibleSavings from "pages/savings/FixedFlexibleSavings/FixedFlexib
 import GroupSimple from "pages/savings/Group/simple";
 import CreateGroupTargetSavings from "pages/savings/groupTarget/CreateGroupTargetSavings";
 import CreateGroupChallengeSavings from "pages/savings/groupChallenge/CreateGroupChallengeSavings";
-import ViewGroupSavings from "pages/savings/groupChallenge/ViewGroupChallengeSavings";
 
 const GroupContributory = () => <GroupSimple title="Group Contributory" />;
 
