@@ -1,13 +1,12 @@
 import React, { Fragment, useState } from "react";
 import NumberFormat from "react-number-format";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import UploadIcon from "assets/img/uploadIcon.svg";
-import "./styles.css";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { formatCurrency } from "utils";
 import { SavingsFrequency } from "constants/enums";
-import { FaTimes, FaPlus } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 
 const Member = ({ email, removeItem }) => (
   <div className="w-full flex flex-row justify-between my-2">

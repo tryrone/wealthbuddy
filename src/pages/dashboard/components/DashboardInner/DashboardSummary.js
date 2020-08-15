@@ -89,7 +89,7 @@ const DashboardSummary = ({ dashboard }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({ 
   dashboard: state.dashboard.data,
 });
 

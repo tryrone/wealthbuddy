@@ -21,7 +21,7 @@ const SavingsSummary = ({ dashboard }) => (
 );
 
 const mapStateToProps = (state) => ({
-  dashboard: state.dashboard.data,
+  dashboard: state.dashboard.data, 
 });
 
 export default connect(mapStateToProps)(SavingsSummary);

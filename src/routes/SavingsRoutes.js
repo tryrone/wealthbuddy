@@ -7,7 +7,8 @@ import PersonalSavings from "pages/savings/PersonalSavings/PersonalSavings";
 import FixedSavings from "pages/savings/FixedSavings/FixedSavings";
 import FixedFlexibleSavings from "pages/savings/FixedFlexibleSavings/FixedFlexibleSavings";
 import GroupSimple from "pages/savings/Group/simple";
-import GroupChallengeSavings from "pages/savings/GroupChallenge/GroupChallengeSavings";
+import GroupChallengeSavings from "pages/savings/groupChallenge/CreateGroupChallengeSavings";
+import ViewGroupSavings from "pages/savings/groupChallenge/ViewGroupChallengeSavings";
 
 const GroupContributory = () => <GroupSimple title="Group Contributory" />;
 
@@ -22,7 +23,8 @@ const Savings = () => {
       <Route path={`${path}/create/personal`} component={PersonalSavings} />
       <Route path={`${path}/create/fixed`} component={FixedSavings} />
       <Route path={`${path}/create/fixed-flexible`} component={FixedFlexibleSavings} />
-        <Route path={`${path}/create/group-challenge`} component={GroupChallengeSavings} />
+      <Route path={`${path}/create/group-challenge`} component={GroupChallengeSavings} />
+      <Route path={`${path}/view-group-savings/:savingsId`} component={ViewGroupSavings} />
       <Route path={`${path}/create/group-contributory`} component={GroupContributory} />
     </Switch>
   );

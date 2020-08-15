@@ -6,6 +6,7 @@ import groupSavings from "assets/img/groupIcon.png";
 import fixedFlexSavings from "assets/img/fixedFlex.png";
 import { formatCurrency } from "utils";
 import moment from "moment";
+import { SavingsType } from "../../../../constants/enums";
 
 const SavingsListItem = ({ savings }) => {
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
@@ -14,20 +15,33 @@ const SavingsListItem = ({ savings }) => {
 
   const getIcon = (savings) => {
     switch (savings.savingsType) {
-      case 1:
+      case SavingsType.PersonalTargetSavings:
         return personalSavings;
-      case 2:
+      case SavingsType.FixedLockSavings:
         return fixedSavings;
-      case 3:
+      case SavingsType.FixedFlexibleSavings:
         return fixedFlexSavings;
       default:
         return groupSavings;
     }
   };
 
+  const getDetailsPageLink = (savings) => {
+    switch (savings.savingsType) {
+      case SavingsType.PersonalTargetSavings:
+      case SavingsType.FixedLockSavings:
+      case SavingsType.FixedFlexibleSavings:
+        return `/dashboard/savings/view/${savings.savingsID}`;
+      case SavingsType.GroupTargetSavings:
+      case SavingsType.GroupChallengeSavings:
+      case SavingsType.GroupContributorySavings:
+        return `/dashboard/savings/view-group-savings/${savings.savingsID}`;
+    }
+  };
+
   return (
     <Link
-      to={`/dashboard/savings/view/${savings.savingsID}`}
+      to={getDetailsPageLink(savings)}
       className="flex flex-col card flex-summary white-card card-x--padding"
     >
       <div className="flex justify-between items-center card-margin--x">
@@ -79,7 +93,7 @@ const SavingsListItem = ({ savings }) => {
               <Fragment>
                 <h5 className="text-xs mb-2">Total Saved</h5>
                 <h2 className="summary-balance font-medium">
-                  {`₦${formatCurrency(savings.amountToSave)}`}
+                  {`₦${formatCurrency(savings.amountSaved)}`}
                 </h2>
               </Fragment>
             ) : (

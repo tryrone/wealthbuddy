@@ -88,6 +88,6 @@ const TransactionHistory = ({ savingsTransactions }) => {
 
 const mapStateToProps = (state) => ({
   savingsTransactions: state.dashboard.data.savingsTransactions,
-});
+});  
 
 export default connect(mapStateToProps)(TransactionHistory);

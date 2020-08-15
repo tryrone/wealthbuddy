@@ -18,7 +18,7 @@ const SavingsHome = () => (
           <div className="w-full w-transaction--max">
             <div className="savings-transactions flex flex-col">
               <SavingsSummary/>
-              <TransactionHistory />
+              <TransactionHistory /> 
             </div>
           </div>
         </StickyBox>

@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {addPhoto} from '../imageLinks'
+import {addPhoto,dogsBg} from '../imageLinks'
 import SuccessModal from '../components/successModal/SuccessModal';
 import {Link} from 'react-router-dom';
 
@@ -51,20 +51,20 @@ import {Link} from 'react-router-dom';
                 {/* column two */}
                 <div style={{border:"1px solid #F1F1F1"}} className="sm:w-1/2 w-auto card sm:w-1/2 pt-24  pb-20  flex flex-col justify-center mt-6 items-center">
 
-                {/* image setting */}
-                    <div className="w-72 shadow-lg p-2">
-                    <div className="h-32 w-full p-8 border-dashed border border-gray-400 rounded flex flex-col justify-center items-center"> 
-                    {/* image preview content start */}
-
-                                    {/* <input className="fileInput"
-                                        type="file"
-                                        accept="image/*" /> */}
-                                    
-                    {/* image preview content end */}
-                    <img src={addPhoto} alt=""/>
-                    </div>
-                    </div> 
-                {/* image setting end */}
+               {/* image setting */}
+               <div className="w-72 shadow-lg p-2">
+                        <div className="h-32 w-full border-dashed border border-gray-400 rounded flex flex-col justify-center items-center"> 
+                        {/* image preview content start */}
+                 
+                                        {/* <input className="fileInput"
+                                            type="file"
+                                             accept="image/*" /> */}
+                                           
+                        {/* image preview content end */}
+                        <img src={dogsBg} alt="" className="w-full h-full"/>
+                        </div>
+                        </div> 
+                    {/* image setting end */}
 
                 {/* image text content */}
                 
