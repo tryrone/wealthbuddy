@@ -26,22 +26,9 @@ const SavingsListItem = ({ savings }) => {
     }
   };
 
-  const getDetailsPageLink = (savings) => {
-    switch (savings.savingsType) {
-      case SavingsType.PersonalTargetSavings:
-      case SavingsType.FixedLockSavings:
-      case SavingsType.FixedFlexibleSavings:
-        return `/dashboard/savings/view/${savings.savingsID}`;
-      case SavingsType.GroupTargetSavings:
-      case SavingsType.GroupChallengeSavings:
-      case SavingsType.GroupContributorySavings:
-        return `/dashboard/savings/view-group-savings/${savings.savingsID}`;
-    }
-  };
-
   return (
     <Link
-      to={getDetailsPageLink(savings)}
+      to={`/dashboard/savings/view/${savings.savingsID}`}
       className="flex flex-col card flex-summary white-card card-x--padding"
     >
       <div className="flex justify-between items-center card-margin--x">

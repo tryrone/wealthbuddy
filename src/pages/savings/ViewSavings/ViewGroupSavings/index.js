@@ -1,20 +1,19 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { logo } from "assets/exports";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Loading from "shared-components/Loading";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import "toasted-notes/src/styles.css";
 import { connect, useDispatch } from "react-redux";
 import MainDetails from "./components/MainDetails";
 import TransactionHistory from "./components/TransactionHistory";
-import {
-  completeWithdrawSavings,
-  startWithdrawSavings,
-} from "state/slices/savings";
 import { unwrapResult } from "@reduxjs/toolkit";
 import produce from "immer";
 import CancelSavingsModal from "./components/StartCancelSavingsModal";
 import {
+  fetchGroupSavingsById,
+  startWithdrawSavings,
+  completeWithdrawSavings,
   completeCancelSavings,
   startCancelSavings,
   startGroupSavings as startGroupSavingsRequest,
@@ -23,12 +22,16 @@ import CancelSavingsSuccess from "./components/CancelSavingsSuccess";
 import StartWithdrawSavingsModal from "./components/StartWithdrawSavingsModal";
 import WithdrawalSummaryModal from "./components/WithdrawalSummaryModal";
 import WithdrawSavingsSuccess from "./components/WithdrawSavingsSuccess";
-import { fetchGroupChallengeSavingsById } from "state/slices/savings";
-import { SavingsType } from "constants/enums";
 
-const ViewSavings = ({ customerSavings, history }) => {
+const ViewGroupSavings = ({ customerSavings }) => {
   const { savingsId } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const savings =
+    customerSavings.find((savingsItem) => {
+      return savingsItem.savingsID === savingsId;
+    }) || {};
 
   const [state, setState] = useState({
     transactionsLoaded: false,
@@ -48,22 +51,21 @@ const ViewSavings = ({ customerSavings, history }) => {
   });
 
   useEffect(() => {
-    getGroupChallengeSavings().then(undefined);
-  }, []);
+    getGroupSavings().then(undefined);
+  }, [savings]);
 
-  const getGroupChallengeSavings = async () => {
-    const resultAction = await dispatch(
-      fetchGroupChallengeSavingsById(savingsId)
-    );
-    if (fetchGroupChallengeSavingsById.fulfilled.match(resultAction)) {
-      const groupChallengeSavings = unwrapResult(resultAction);
+  const getGroupSavings = async () => {
+    const resultAction = await dispatch(fetchGroupSavingsById(savings));
+    if (fetchGroupSavingsById.fulfilled.match(resultAction)) {
+      const groupSavings = unwrapResult(resultAction);
       setState(
         produce((draft) => {
           draft.transactionsLoaded = true;
-          draft.groupSavings = groupChallengeSavings.groupSavings;
-          draft.groupMembers = groupChallengeSavings.groupMembers || [];
-          draft.invitations = groupChallengeSavings.invitations || [];
-          draft.savingsTransactions = groupChallengeSavings.transactions || [];
+          draft.groupSavings = groupSavings.groupSavings;
+          draft.groupSavings.type = savings.savingsType;
+          draft.groupMembers = groupSavings.groupMembers || [];
+          draft.invitations = groupSavings.invitations || [];
+          draft.savingsTransactions = groupSavings.transactions || [];
         })
       );
     } else {
@@ -99,7 +101,7 @@ const ViewSavings = ({ customerSavings, history }) => {
     );
 
     const payload = {
-      savingsType: SavingsType.GroupChallengeSavings,
+      savingsType: savings.savingsType,
       savingsID: state.groupSavings.id,
     };
 
@@ -111,7 +113,7 @@ const ViewSavings = ({ customerSavings, history }) => {
           draft.isStartGroupSavingsLoading = false;
         })
       );
-      getGroupChallengeSavings().then(undefined);
+      getGroupSavings().then(undefined);
     } else {
       setState(
         produce((draft) => {
@@ -149,7 +151,7 @@ const ViewSavings = ({ customerSavings, history }) => {
 
   const startWithdrawProcess = async (formValues) => {
     const payload = {
-      savingsType: SavingsType.GroupChallengeSavings,
+      savingsType: savings.savingsType,
       formValues: {
         amount: parseFloat(formValues.amount),
         savingsID: state.groupSavings.id,
@@ -176,7 +178,7 @@ const ViewSavings = ({ customerSavings, history }) => {
 
   const completeWithdrawProcess = async () => {
     const payload = {
-      savingsType: SavingsType.GroupChallengeSavings,
+      savingsType: savings.savingsType,
       formValues: {
         amount: parseFloat(state.amountToDisburse),
         savingsID: state.groupSavings.id,
@@ -341,4 +343,4 @@ const mapStateToProps = (state) => ({
   customerSavings: state.customerSavings.data,
 });
 
-export default connect(mapStateToProps)(ViewSavings);
+export default connect(mapStateToProps)(ViewGroupSavings);

@@ -80,7 +80,7 @@ export const createGroupChallengeSavings = createAsyncThunk(
 );
 
 export const fetchSavingsById = createAsyncThunk(
-  "savings/fetchById",
+  "savings/fetchSavingsById",
   async (savingsId) => {
     const response = await Savings.getAllSavings(savingsId);
     return response.data.data;
@@ -88,7 +88,7 @@ export const fetchSavingsById = createAsyncThunk(
 );
 
 export const fetchGroupChallengeSavingsById = createAsyncThunk(
-  "savings/fetchById",
+  "savings/fetchGroupChallengeSavingsById",
   async (savingsId) => {
     const response = await GroupChallengeSavings.fetchGroupChallengeSavingsById(
       savingsId
@@ -97,22 +97,16 @@ export const fetchGroupChallengeSavingsById = createAsyncThunk(
   }
 );
 
-export const startCancelSavings = createAsyncThunk(
-  "savings/startCancel",
-  async ({ savingsID, savingsType }) => {
-    let requestCancel;
-
-    if (savingsType === SavingsType.PersonalTargetSavings) {
-      requestCancel = PersonalTargetSavings.startCancelPersonalTargetSavings;
-    } else if (savingsType === SavingsType.FixedLockSavings) {
-      requestCancel = FixedLockSavings.startCancelFixedLockSavings;
-    } else if (savingsType === SavingsType.FixedFlexibleSavings) {
-      requestCancel = FixedFlexibleSavings.startCancelFixedFlexibleSavings;
-    } else {
-      requestCancel = PersonalTargetSavings.startCancelPersonalTargetSavings;
-    }
-
-    const response = await requestCancel(savingsID);
+export const fetchGroupSavingsById = createAsyncThunk(
+  "savings/fetchGroupSavingsById",
+  async ({ savingsID, savingsType }, thunkAPI) => {
+    const request = {
+      [SavingsType.GroupTargetSavings]:
+        GroupTargetSavings.fetchGroupTargetSavingsById,
+      [SavingsType.GroupChallengeSavings]:
+        GroupChallengeSavings.fetchGroupChallengeSavingsById,
+    };
+    const response = await request[savingsType](savingsID);
     return response.data.data;
   }
 );
@@ -120,19 +114,13 @@ export const startCancelSavings = createAsyncThunk(
 export const startGroupSavings = createAsyncThunk(
   "savings/startGroupSavings",
   async ({ savingsID, savingsType }, thunkAPI) => {
-    let requestCancel;
-
-    if (savingsType === SavingsType.GroupChallengeSavings) {
-      requestCancel = GroupChallengeSavings.startGroupChallengeSavings;
-    } else if (savingsType === SavingsType.FixedLockSavings) {
-      requestCancel = FixedLockSavings.startCancelFixedLockSavings;
-    } else if (savingsType === SavingsType.FixedFlexibleSavings) {
-      requestCancel = FixedFlexibleSavings.startCancelFixedFlexibleSavings;
-    } else {
-      requestCancel = PersonalTargetSavings.startCancelPersonalTargetSavings;
-    }
-
-    const response = await requestCancel({ savingsID });
+    const request = {
+      [SavingsType.GroupTargetSavings]:
+        GroupTargetSavings.startGroupTargetSavings,
+      [SavingsType.GroupChallengeSavings]:
+        GroupChallengeSavings.startGroupChallengeSavings,
+    };
+    const response = await request[savingsType]({ savingsID });
 
     thunkAPI.dispatch(getDashboardData());
     thunkAPI.dispatch(getCustomerSavingsData());
@@ -142,22 +130,34 @@ export const startGroupSavings = createAsyncThunk(
   }
 );
 
+export const startCancelSavings = createAsyncThunk(
+  "savings/startCancel",
+  async ({ savingsID, savingsType }) => {
+    const request = {
+      [SavingsType.PersonalTargetSavings]:
+        PersonalTargetSavings.startCancelPersonalTargetSavings,
+      [SavingsType.FixedLockSavings]:
+        FixedLockSavings.startCancelFixedLockSavings,
+      [SavingsType.FixedFlexibleSavings]:
+        FixedFlexibleSavings.startCancelFixedFlexibleSavings,
+    };
+    const response = await request[savingsType](savingsID);
+    return response.data.data;
+  }
+);
+
 export const completeCancelSavings = createAsyncThunk(
   "savings/completeCancel",
   async ({ savingsID, savingsType }, thunkAPI) => {
-    let requestCancel;
-
-    if (savingsType === SavingsType.PersonalTargetSavings) {
-      requestCancel = PersonalTargetSavings.completeCancelPersonalTargetSavings;
-    } else if (savingsType === SavingsType.FixedLockSavings) {
-      requestCancel = FixedLockSavings.completeCancelFixedLockSavings;
-    } else if (savingsType === SavingsType.FixedFlexibleSavings) {
-      requestCancel = FixedFlexibleSavings.completeCancelFixedFlexibleSavings;
-    } else {
-      requestCancel = PersonalTargetSavings.completeCancelPersonalTargetSavings;
-    }
-
-    const response = await requestCancel(savingsID);
+    const request = {
+      [SavingsType.PersonalTargetSavings]:
+        PersonalTargetSavings.completeCancelPersonalTargetSavings,
+      [SavingsType.FixedLockSavings]:
+        FixedLockSavings.completeCancelFixedLockSavings,
+      [SavingsType.FixedFlexibleSavings]:
+        FixedFlexibleSavings.completeCancelFixedFlexibleSavings,
+    };
+    const response = await request[savingsType](savingsID);
 
     thunkAPI.dispatch(getDashboardData());
     thunkAPI.dispatch(getCustomerSavingsData());
@@ -170,23 +170,18 @@ export const completeCancelSavings = createAsyncThunk(
 export const startWithdrawSavings = createAsyncThunk(
   "savings/startWithdraw",
   async ({ savingsType, formValues }) => {
-    let requestStartWithdraw;
-
-    if (savingsType === SavingsType.PersonalTargetSavings) {
-      requestStartWithdraw =
-        PersonalTargetSavings.startPersonalTargetWithdrawal;
-    } else if (savingsType === SavingsType.FixedLockSavings) {
-      requestStartWithdraw = FixedLockSavings.startFixedLockWithdraw;
-    } else if (savingsType === SavingsType.FixedFlexibleSavings) {
-      requestStartWithdraw = FixedFlexibleSavings.startFixedFlexibleWithdraw;
-    } else if (savingsType === SavingsType.GroupChallengeSavings) {
-        requestStartWithdraw = GroupChallengeSavings.startGroupChallengeWithdraw;
-    } else {
-      requestStartWithdraw =
-        PersonalTargetSavings.startPersonalTargetWithdrawal;
-    }
-
-    const response = await requestStartWithdraw(formValues);
+    const request = {
+      [SavingsType.PersonalTargetSavings]:
+        PersonalTargetSavings.startPersonalTargetWithdrawal,
+      [SavingsType.FixedLockSavings]: FixedLockSavings.startFixedLockWithdraw,
+      [SavingsType.FixedFlexibleSavings]:
+        FixedFlexibleSavings.startFixedFlexibleWithdraw,
+      [SavingsType.GroupTargetSavings]:
+        GroupTargetSavings.startGroupTargetWithdraw,
+      [SavingsType.GroupChallengeSavings]:
+        GroupChallengeSavings.startGroupChallengeWithdraw,
+    };
+    const response = await request[savingsType](formValues);
     return response.data.data;
   }
 );
@@ -194,27 +189,20 @@ export const startWithdrawSavings = createAsyncThunk(
 export const completeWithdrawSavings = createAsyncThunk(
   "savings/completeWithdraw",
   async ({ savingsType, formValues }, thunkAPI) => {
-    let requestCompleteWithdraw;
-
-    if (savingsType === SavingsType.PersonalTargetSavings) {
-      requestCompleteWithdraw =
-        PersonalTargetSavings.completePersonalTargetWithdrawal;
-    } else if (savingsType === SavingsType.FixedLockSavings) {
-      requestCompleteWithdraw = FixedLockSavings.completeFixedLockWithdraw;
-    } else if (savingsType === SavingsType.FixedFlexibleSavings) {
-      requestCompleteWithdraw =
-        FixedFlexibleSavings.completeFixedFlexibleWithdraw;
-    } else if (savingsType === SavingsType.GroupChallengeSavings) {
-        requestCompleteWithdraw = GroupChallengeSavings.completeGroupChallengeWithdraw;
-    } else {
-      requestCompleteWithdraw =
-        PersonalTargetSavings.completePersonalTargetWithdrawal;
-    }
-
-    const response = await requestCompleteWithdraw(formValues);
-
+    const request = {
+      [SavingsType.PersonalTargetSavings]:
+        PersonalTargetSavings.completePersonalTargetWithdrawal,
+      [SavingsType.FixedLockSavings]:
+        FixedLockSavings.completeFixedLockWithdraw,
+      [SavingsType.FixedFlexibleSavings]:
+        FixedFlexibleSavings.completeFixedFlexibleWithdraw,
+      [SavingsType.GroupTargetSavings]:
+        GroupTargetSavings.completeGroupTargetWithdraw,
+      [SavingsType.GroupChallengeSavings]:
+        GroupChallengeSavings.completeGroupChallengeWithdraw,
+    };
+    const response = await request[savingsType](formValues);
     thunkAPI.dispatch(getDashboardData());
-
     return response.data.data;
   }
 );
