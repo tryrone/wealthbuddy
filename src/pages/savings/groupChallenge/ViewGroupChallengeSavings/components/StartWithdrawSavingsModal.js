@@ -6,6 +6,7 @@ import CardIcon from "assets/img/cardIcon.png";
 import Loading from "shared-components/Loading";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 import NumberFormat from "react-number-format";
+import { FaUsers } from "react-icons/fa/index";
 
 const initialValues = {
   amount: "",
@@ -22,7 +23,7 @@ const StartWithdrawSavingsModal = ({
   const validationSchema = yup.object().shape({
     amount: yup
       .number()
-      .max(parseFloat(savings.amountSaved))
+      .max(parseFloat(savings.amountSaved) || 200000)
       .label("Amount")
       .required(),
   });
@@ -38,9 +39,9 @@ const StartWithdrawSavingsModal = ({
           <CloseModalIcon />
         </span>
         <div className="flex flex-col items-center mb-0">
-          <i className="w-20 mb-4">
-            <img src={CardIcon} alt="" />
-          </i>
+          <div className="p-5 bg-purple-200 text-purple-600 rounded-md mb-4">
+            <FaUsers className="text-2xl" />
+          </div>
           <h1 className="text-2xl font-medium mb-2">Withdraw from savings</h1>
           <p className="text-center text-gray-500 leading-normal">
             As simple as investing your savings and we will help you grow from

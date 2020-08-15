@@ -3,14 +3,17 @@ import CardIcon from "assets/img/cardIcon.png";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 import { closeModalOnOutsideClick } from "utils";
 
-const SuccessModal = ({ title, subtitle, buttonTitle, icon, closeModal }) => {
+const SuccessModal = ({
+  title,
+  subtitle,
+  buttonTitle,
+  icon,
+  closeModal,
+  IconComponent,
+}) => {
   useEffect(() => {
-    document.querySelector(".modal").classList.add("modal-active");
     closeModalOnOutsideClick(closeModal);
-    return () => {
-      document.querySelector(".modal").classList.remove("modal-active");
-    };
-  }, [0]);
+  }, []);
 
   return (
     <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
@@ -19,9 +22,14 @@ const SuccessModal = ({ title, subtitle, buttonTitle, icon, closeModal }) => {
           <CloseModalIcon />
         </span>
         <div className="flex flex-col items-center mb-0">
-          <i className="w-20 mb-4">
-            <img src={icon || CardIcon} alt="" />
-          </i>
+          {IconComponent ? (
+            <IconComponent />
+          ) : (
+            <i className="w-20 mb-4">
+              <img src={icon || CardIcon} alt="" />
+            </i>
+          )}
+
           <h1 className="text-2xl font-medium mb-2">{title}</h1>
           <p className="text-center text-gray-500 leading-normal">{subtitle}</p>
         </div>

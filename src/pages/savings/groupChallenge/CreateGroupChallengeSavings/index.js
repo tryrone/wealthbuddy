@@ -1,17 +1,17 @@
 import React, { Fragment, useState } from "react";
-import CreateSavings from "./CreateSavings";
-import ConfirmSavings from "./ConfirmSavings";
+import CreateSavings from "./components/CreateSavings";
+import ConfirmSavings from "./components/ConfirmSavings";
 import { SavingsFrequency, SavingsType } from "constants/enums";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import AddDescriptionModal from "./AddDescriptionModal";
+import AddDescriptionModal from "./components/AddDescriptionModal";
 import produce from "immer";
-import DisclaimerModal from "./DisclaimerModal";
+import DisclaimerModal from "./components/DisclaimerModal";
 import { createGroupChallengeSavings } from "state/slices/savings";
-import CreateSavingsSuccessModal from "./CreateSavingsSuccessModal";
-// import GroupChallengeView from "./GroupChallengeView";
+import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
+import "./styles.css";
 
-const GroupChallengeSavings = ({ savingsConfiguration }) => {
+const Index = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -155,7 +155,6 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
   return (
     <Fragment>
       <div className="px-12 ">
-        {/*<GroupChallengeView />*/}
          <CreateSavings
           savingsConfiguration={selectedSavingsConfiguration}
           initialFormValues={state.formValues}
@@ -200,4 +199,4 @@ const mapStateToProps = (state) => ({
   savingsConfiguration: state.savingsConfiguration.data,
 });
 
-export default connect(mapStateToProps)(GroupChallengeSavings);
+export default connect(mapStateToProps)(Index);

@@ -93,7 +93,7 @@ const SavingsListItem = ({ savings }) => {
               <Fragment>
                 <h5 className="text-xs mb-2">Total Saved</h5>
                 <h2 className="summary-balance font-medium">
-                  {`₦${formatCurrency(savings.amountToSave)}`}
+                  {`₦${formatCurrency(savings.amountSaved)}`}
                 </h2>
               </Fragment>
             ) : (

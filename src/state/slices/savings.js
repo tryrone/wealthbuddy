@@ -117,6 +117,31 @@ export const startCancelSavings = createAsyncThunk(
   }
 );
 
+export const startGroupSavings = createAsyncThunk(
+  "savings/startGroupSavings",
+  async ({ savingsID, savingsType }, thunkAPI) => {
+    let requestCancel;
+
+    if (savingsType === SavingsType.GroupChallengeSavings) {
+      requestCancel = GroupChallengeSavings.startGroupChallengeSavings;
+    } else if (savingsType === SavingsType.FixedLockSavings) {
+      requestCancel = FixedLockSavings.startCancelFixedLockSavings;
+    } else if (savingsType === SavingsType.FixedFlexibleSavings) {
+      requestCancel = FixedFlexibleSavings.startCancelFixedFlexibleSavings;
+    } else {
+      requestCancel = PersonalTargetSavings.startCancelPersonalTargetSavings;
+    }
+
+    const response = await requestCancel({ savingsID });
+
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
+
+    return response.data.data;
+  }
+);
+
 export const completeCancelSavings = createAsyncThunk(
   "savings/completeCancel",
   async ({ savingsID, savingsType }, thunkAPI) => {
@@ -154,6 +179,8 @@ export const startWithdrawSavings = createAsyncThunk(
       requestStartWithdraw = FixedLockSavings.startFixedLockWithdraw;
     } else if (savingsType === SavingsType.FixedFlexibleSavings) {
       requestStartWithdraw = FixedFlexibleSavings.startFixedFlexibleWithdraw;
+    } else if (savingsType === SavingsType.GroupChallengeSavings) {
+        requestStartWithdraw = GroupChallengeSavings.startGroupChallengeWithdraw;
     } else {
       requestStartWithdraw =
         PersonalTargetSavings.startPersonalTargetWithdrawal;
@@ -177,6 +204,8 @@ export const completeWithdrawSavings = createAsyncThunk(
     } else if (savingsType === SavingsType.FixedFlexibleSavings) {
       requestCompleteWithdraw =
         FixedFlexibleSavings.completeFixedFlexibleWithdraw;
+    } else if (savingsType === SavingsType.GroupChallengeSavings) {
+        requestCompleteWithdraw = GroupChallengeSavings.completeGroupChallengeWithdraw;
     } else {
       requestCompleteWithdraw =
         PersonalTargetSavings.completePersonalTargetWithdrawal;

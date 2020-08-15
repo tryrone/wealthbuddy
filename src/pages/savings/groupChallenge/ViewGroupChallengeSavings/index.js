@@ -17,28 +17,29 @@ import CancelSavingsModal from "./components/StartCancelSavingsModal";
 import {
   completeCancelSavings,
   startCancelSavings,
+  startGroupSavings as startGroupSavingsRequest,
 } from "state/slices/savings";
 import CancelSavingsSuccess from "./components/CancelSavingsSuccess";
 import StartWithdrawSavingsModal from "./components/StartWithdrawSavingsModal";
 import WithdrawalSummaryModal from "./components/WithdrawalSummaryModal";
 import WithdrawSavingsSuccess from "./components/WithdrawSavingsSuccess";
 import { fetchGroupChallengeSavingsById } from "state/slices/savings";
+import { SavingsType } from "constants/enums";
 
 const ViewSavings = ({ customerSavings, history }) => {
   const { savingsId } = useParams();
   const dispatch = useDispatch();
 
-  const savings =
-    customerSavings.find((savingsItem) => {
-      return savingsItem.savingsID === savingsId;
-    }) || {};
-
   const [state, setState] = useState({
     transactionsLoaded: false,
+    groupSavings: {},
+    groupMembers: [],
+    invitations: [],
     savingsTransactions: [],
     amountToDisburse: 0,
     penalty: 0,
     amountSaved: 0,
+    isStartGroupSavingsLoading: false,
     isStartCancelSavingsModalVisible: false,
     isCancelSavingsSuccessModalVisible: false,
     isStartWithdrawSavingsModalVisible: false,
@@ -47,17 +48,32 @@ const ViewSavings = ({ customerSavings, history }) => {
   });
 
   useEffect(() => {
-    dispatch(fetchGroupChallengeSavingsById(savingsId))
-      .then(unwrapResult)
-      .then((data) =>
-        setState(
-          produce((draft) => {
-            draft.transactionsLoaded = true;
-            // draft.savingsTransactions = data || [];
-          })
-        )
-      );
+    getGroupChallengeSavings().then(undefined);
   }, []);
+
+  const getGroupChallengeSavings = async () => {
+    const resultAction = await dispatch(
+      fetchGroupChallengeSavingsById(savingsId)
+    );
+    if (fetchGroupChallengeSavingsById.fulfilled.match(resultAction)) {
+      const groupChallengeSavings = unwrapResult(resultAction);
+      setState(
+        produce((draft) => {
+          draft.transactionsLoaded = true;
+          draft.groupSavings = groupChallengeSavings.groupSavings;
+          draft.groupMembers = groupChallengeSavings.groupMembers || [];
+          draft.invitations = groupChallengeSavings.invitations || [];
+          draft.savingsTransactions = groupChallengeSavings.transactions || [];
+        })
+      );
+    } else {
+      // setState(
+      //     produce((draft) => {
+      //         draft.transactionsLoaded = true;
+      //     })
+      // );
+    }
+  };
 
   const groups = state.savingsTransactions.reduce((groups, transactions) => {
     const date = transactions.creationDate.split("T")[0];
@@ -75,8 +91,38 @@ const ViewSavings = ({ customerSavings, history }) => {
     };
   });
 
+  const startGroupSavings = async () => {
+    setState(
+      produce((draft) => {
+        draft.isStartGroupSavingsLoading = true;
+      })
+    );
+
+    const payload = {
+      savingsType: SavingsType.GroupChallengeSavings,
+      savingsID: state.groupSavings.id,
+    };
+
+    const resultAction = await dispatch(startGroupSavingsRequest(payload));
+
+    if (startGroupSavingsRequest.fulfilled.match(resultAction)) {
+      setState(
+        produce((draft) => {
+          draft.isStartGroupSavingsLoading = false;
+        })
+      );
+      getGroupChallengeSavings().then(undefined);
+    } else {
+      setState(
+        produce((draft) => {
+          draft.isStartGroupSavingsLoading = false;
+        })
+      );
+    }
+  };
+
   const startCancelProcess = () => {
-    dispatch(startCancelSavings(savings))
+    dispatch(startCancelSavings(state.groupSavings))
       .then(unwrapResult)
       .then((data) => {
         setState(
@@ -89,7 +135,7 @@ const ViewSavings = ({ customerSavings, history }) => {
   };
 
   const completeCancelProcess = () => {
-    dispatch(completeCancelSavings(savings))
+    dispatch(completeCancelSavings(state.groupSavings))
       .then(unwrapResult)
       .then(() => {
         setState(
@@ -103,10 +149,10 @@ const ViewSavings = ({ customerSavings, history }) => {
 
   const startWithdrawProcess = async (formValues) => {
     const payload = {
-      savingsType: savings.savingsType,
+      savingsType: SavingsType.GroupChallengeSavings,
       formValues: {
         amount: parseFloat(formValues.amount),
-        savingsID: savings.savingsID,
+        savingsID: state.groupSavings.id,
       },
     };
 
@@ -130,24 +176,23 @@ const ViewSavings = ({ customerSavings, history }) => {
 
   const completeWithdrawProcess = async () => {
     const payload = {
-      savingsType: savings.savingsType,
+      savingsType: SavingsType.GroupChallengeSavings,
       formValues: {
         amount: parseFloat(state.amountToDisburse),
-        savingsID: savings.savingsID,
+        savingsID: state.groupSavings.id,
       },
     };
 
-    try {
-      const resultAction = await dispatch(completeWithdrawSavings(payload));
-      if (completeWithdrawSavings.fulfilled.match(resultAction)) {
-        setState(
-          produce((draft) => {
-            draft.isWithdrawalSummaryModalVisible = false;
-            draft.isWithdrawSavingsSuccessModalVisible = true;
-          })
-        );
-      }
-    } catch (err) {}
+    const resultAction = await dispatch(completeWithdrawSavings(payload));
+
+    if (completeWithdrawSavings.fulfilled.match(resultAction)) {
+      setState(
+        produce((draft) => {
+          draft.isWithdrawalSummaryModalVisible = false;
+          draft.isWithdrawSavingsSuccessModalVisible = true;
+        })
+      );
+    }
   };
 
   const closeStartCancelSavingsModal = () => {
@@ -222,8 +267,12 @@ const ViewSavings = ({ customerSavings, history }) => {
             <div className="w65">
               <div className="view-savings--wrap">
                 <MainDetails
-                  savings={savings}
+                  savings={state.groupSavings}
+                  groupMembers={state.groupMembers}
+                  invitations={state.invitations}
+                  isStartGroupSavingsLoading={state.isStartGroupSavingsLoading}
                   startWithdrawSavings={openStartWithdrawSavingsModal}
+                  startGroupSavings={startGroupSavings}
                   startCancelSavings={startCancelProcess}
                 />
               </div>
@@ -262,7 +311,7 @@ const ViewSavings = ({ customerSavings, history }) => {
       <StartWithdrawSavingsModal
         isVisible={state.isStartWithdrawSavingsModalVisible}
         closeModal={closeStartWithdrawSavingsModal}
-        savings={savings}
+        savings={state.groupSavings}
         startWithdrawProcess={startWithdrawProcess}
         continueToWithdrawalSummary={showWithdrawalSummaryModal}
       />
@@ -270,7 +319,7 @@ const ViewSavings = ({ customerSavings, history }) => {
       <WithdrawalSummaryModal
         isVisible={state.isWithdrawalSummaryModalVisible}
         closeModal={closeWithdrawalSummaryModal}
-        savings={savings}
+        savings={state.groupSavings}
         withdrawalDetails={{
           penalty: state.penalty,
           amountSaved: state.amountSaved,
