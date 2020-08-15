@@ -6,8 +6,8 @@ import DatePicker, { utils } from "react-modern-calendar-datepicker";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { formatCurrency } from "utils";
-import "../styles.css";
 import moment from "moment";
+import "../styles.css";
 
 const CreateSavings = ({
   savingsConfiguration,
@@ -39,7 +39,7 @@ const CreateSavings = ({
         "minimumMaturityDuration",
         `You can only save for a minimum of ${minimumDurationInDays} Days`,
         function (maturityDate) {
-          if (!maturityDate) return;
+          if (!maturityDate) return false;
           const { year, month, day } = maturityDate;
           const maturityDateYmd = `${year}-${month}-${day}`;
           const duration = moment(maturityDateYmd, "YYYY-MM-DD").diff(
