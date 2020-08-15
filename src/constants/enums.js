@@ -5,7 +5,7 @@ export const SavingsFrequency = {
 };
 
 export const SavingsType = {
-  PersonalTargetSavings: 1, 
+  PersonalTargetSavings: 1,
   FixedLockSavings: 2,
   FixedFlexibleSavings: 3,
   GroupTargetSavings: 4,
@@ -23,7 +23,7 @@ export const InvestmentType = {
   Bonds: 7,
 };
 
-export const GroupTargetSavingsStatus = {
+export const GroupSavingsStatus = {
   Pending: 1,
   InProgress: 2,
   Completed: 3, // target reached
@@ -31,3 +31,9 @@ export const GroupTargetSavingsStatus = {
   Finished: 5, // maturity date reached
   Withdrawn: 6,
 };
+
+export const GroupInvitationStatus = {
+  Pending: 1,
+  Accepted: 2,
+  Declined: 3
+}

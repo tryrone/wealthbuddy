@@ -6,6 +6,7 @@ import groupSavings from "assets/img/groupIcon.png";
 import fixedFlexSavings from "assets/img/fixedFlex.png";
 import { formatCurrency } from "utils";
 import moment from "moment";
+import { SavingsType } from "../../../../constants/enums";
 
 const SavingsListItem = ({ savings }) => {
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
@@ -14,11 +15,11 @@ const SavingsListItem = ({ savings }) => {
 
   const getIcon = (savings) => {
     switch (savings.savingsType) {
-      case 1:
+      case SavingsType.PersonalTargetSavings:
         return personalSavings;
-      case 2:
+      case SavingsType.FixedLockSavings:
         return fixedSavings;
-      case 3:
+      case SavingsType.FixedFlexibleSavings:
         return fixedFlexSavings;
       default:
         return groupSavings;
@@ -79,7 +80,7 @@ const SavingsListItem = ({ savings }) => {
               <Fragment>
                 <h5 className="text-xs mb-2">Total Saved</h5>
                 <h2 className="summary-balance font-medium">
-                  {`₦${formatCurrency(savings.amountToSave)}`}
+                  {`₦${formatCurrency(savings.amountSaved)}`}
                 </h2>
               </Fragment>
             ) : (

@@ -1,22 +1,22 @@
 import React, { Fragment, useState } from "react";
-import CreateSavings from "./CreateSavings";
-import ConfirmSavings from "./ConfirmSavings";
+import CreateSavings from "./components/CreateSavings";
+import ConfirmSavings from "./components/ConfirmSavings";
 import { SavingsFrequency, SavingsType } from "constants/enums";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import AddDescriptionModal from "./AddDescriptionModal";
+import AddDescriptionModal from "./components/AddDescriptionModal";
 import produce from "immer";
-import DisclaimerModal from "./DisclaimerModal";
-import { createGroupChallengeSavings } from "state/slices/savings";
-import CreateSavingsSuccessModal from "./CreateSavingsSuccessModal";
-import GroupChallengeView from "./GroupChallengeView";
+import DisclaimerModal from "./components/DisclaimerModal";
+import { createGroupTargetSavings } from "state/slices/savings";
+import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
+import "./styles.css";
 
-const GroupChallengeSavings = ({ savingsConfiguration }) => {
+const Index = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const selectedSavingsConfiguration = savingsConfiguration.find(
-    (sc) => sc.savingsType === SavingsType.GroupChallengeSavings
+    (sc) => sc.savingsType === SavingsType.GroupTargetSavings
   );
 
   const [state, setState] = useState({
@@ -124,8 +124,8 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
         draft.isCreateLoading = true;
       })
     );
-    const resultAction = await dispatch(createGroupChallengeSavings(formData));
-    if (createGroupChallengeSavings.fulfilled.match(resultAction)) {
+    const resultAction = await dispatch(createGroupTargetSavings(formData));
+    if (createGroupTargetSavings.fulfilled.match(resultAction)) {
       setState(
         produce((draft) => {
           draft.isCreateLoading = false;
@@ -155,8 +155,7 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
   return (
     <Fragment>
       <div className="px-12 ">
-        <GroupChallengeView />
-        {/* <CreateSavings
+         <CreateSavings
           savingsConfiguration={selectedSavingsConfiguration}
           initialFormValues={state.formValues}
           isVisible={state.showCreationPage}
@@ -190,7 +189,7 @@ const GroupChallengeSavings = ({ savingsConfiguration }) => {
         <CreateSavingsSuccessModal
           isVisible={state.showCreateSavingsSuccessModal}
           close={handleSuccessModalClose}
-        /> */}
+        />
       </div>
     </Fragment>
   );
@@ -200,4 +199,4 @@ const mapStateToProps = (state) => ({
   savingsConfiguration: state.savingsConfiguration.data,
 });
 
-export default connect(mapStateToProps)(GroupChallengeSavings);
+export default connect(mapStateToProps)(Index);

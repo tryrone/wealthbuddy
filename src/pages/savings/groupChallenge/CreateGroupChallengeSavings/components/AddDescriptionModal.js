@@ -1,9 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { Field, Form, Formik } from "formik";
 import * as yup from "yup";
-import { AddNewCard } from "assets/exports";
-import CardIcon from "assets/img/cardIcon.png";
-import PaymentCardDropdown from "./components/PaymentCardDropdown";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 import { closeModalOnOutsideClick } from "utils";
 import { FaUsers } from "react-icons/fa/index";
@@ -35,10 +32,8 @@ const AddDescriptionModal = ({
           </span>
 
           <div className="flex flex-col items-center mb-0">
-            <div className="p-3 bg-purple-200 rounded-md">
-              <div className="text-purple-600 p-1">
-                <FaUsers />
-              </div>
+            <div className="p-3 bg-purple-200 text-purple-600 rounded-md">
+              <FaUsers />
             </div>
             <h1 className="text-xl font-medium mt-2">Invite members</h1>
             <p className="text-center text-gray-500 leading-normal mt-2">
