@@ -26,7 +26,7 @@ const options = [
     heading: "Group Target Savings",
     subheading:
       "Don’t do it alone. Start a savings plan with friends and family.",
-    path: "/dashboard/savings/create/group-simple/1",
+    path: "/dashboard/savings/create/group-target",
     icon: groupSavings,
   },
   {
