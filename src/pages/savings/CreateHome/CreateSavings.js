@@ -5,15 +5,14 @@ import fixedSavings from "assets/img/fixedIcon.png";
 import groupSavings from "assets/img/groupIcon.png";
 import groupConSavings from "assets/img/groupConIcon.png";
 import fixedFlexSavings from "assets/img/fixedFlex.png";
-// import roundRobin from 'assets/img/round-robin.png'
-// import saveSavings from "assets/img/saveIcon.svg";
+import roundRobin from "assets/img/round-robin.png";
 import CreatePersonalSavingsModal from "pages/savings/CreateHome/components/CreatePersonalSavingsModal";
 
 const options = [
   {
     heading: "Fixed Lock savings",
     subheading: "Save today to enjoy tomorrow.",
-    path: "/dashboard/savings/create/fixed",
+    path: "/dashboard/savings/create/fixed-lock",
     icon: fixedSavings,
   },
   {
@@ -36,13 +35,13 @@ const options = [
     path: "/dashboard/savings/create/group-challenge",
     icon: groupConSavings,
   },
-  // {
-  //   heading: "Round Robin",
-  //   subheading:
-  //     "As simple as investing your savings and we will help you grow from there.",
-  //   path: "/dashboard/savings/create/round-robin/1",
-  //   icon: roundRobin,
-  // },
+  {
+    heading: "Round Robin",
+    subheading:
+      "As simple as investing your savings and we will help you grow from there.",
+    path: "/dashboard/savings/create/group-contributory",
+    icon: roundRobin,
+  },
 ];
 
 const CreateSavings = () => {

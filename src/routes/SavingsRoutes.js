@@ -4,10 +4,11 @@ import SavingsHome from "pages/savings/SavingsHome";
 import ViewSavings from "pages/savings/ViewSavings";
 import CreateSavings from "pages/savings/CreateHome/CreateSavings";
 import PersonalSavings from "pages/savings/PersonalSavings/PersonalSavings";
-import FixedSavings from "pages/savings/FixedSavings/FixedSavings";
+import CreateFixedLockSavings from "pages/savings/CreateFixedLockSavings"
 import FixedFlexibleSavings from "pages/savings/FixedFlexibleSavings/FixedFlexibleSavings";
 import CreateGroupTargetSavings from "pages/savings/groupTarget/CreateGroupTargetSavings";
 import CreateGroupChallengeSavings from "pages/savings/groupChallenge/CreateGroupChallengeSavings";
+import CreateGroupContributorySavings from "pages/savings/groupContributory/CreateGroupContributorySavings";
 
 const Savings = () => {
   let { path } = useRouteMatch();
@@ -17,11 +18,11 @@ const Savings = () => {
       <Route exact path={`${path}`} component={SavingsHome} />
       <Route exact path={`${path}/create`} component={CreateSavings} />
       <Route path={`${path}/create/personal`} component={PersonalSavings} />
-      <Route path={`${path}/create/fixed`} component={FixedSavings} />
+      <Route path={`${path}/create/fixed-lock`} component={CreateFixedLockSavings} />
       <Route path={`${path}/create/fixed-flexible`} component={FixedFlexibleSavings} />
       <Route path={`${path}/create/group-target`} component={CreateGroupTargetSavings} />
       <Route path={`${path}/create/group-challenge`} component={CreateGroupChallengeSavings} />
-      {/*<Route path={`${path}/create/group-contributory`} component={GroupContributory} />*/}
+      <Route path={`${path}/create/group-contributory`} component={CreateGroupContributorySavings} />
       <Route path={`${path}/view/:savingsId`} component={ViewSavings} />
     </Switch>
   );
