@@ -1,7 +1,7 @@
 import axios from "services/api";
 import urls from "../../constants/urls";
 
-export const createFixedLocked = (data) => {
+export const createFixedLock = (data) => {
   return axios.post(urls.createFixedLocked, data);
 };
 

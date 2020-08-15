@@ -13,18 +13,23 @@ const urls = {
   createFixedFlexible: "/api/FixedFlexibleSavings/createfixedflexiblesavings",
   getDashboard: "/api/Customer/dashboard",
   getSavingsTransactions: "/api/Savings/getrecentsavingstransactions",
-  //Group Challenge Savings
-  createGroupChallengeSavings: "/api/GroupChallengeSavings/creategroupsavings",
-  getGroupChallengeSavingsById: "/api/GroupChallengeSavings/getgroupsavings/:id",
-  startGroupChallengeSavings: "/api/GroupChallengeSavings/startgroupsavings",
-  startGroupChallengeWithdraw: "/api/GroupChallengeSavings/startwithdraw",
-  completeGroupChallengeWithdraw: "/api/GroupChallengeSavings/completewithdraw",
   //Group Target Savings
   createGroupTargetSavings: "/api/GroupTargetSavings/creategroupsavings",
   getGroupTargetSavingsById: "/api/GroupTargetSavings/getgroupsavings/:id",
   startGroupTargetSavings: "/api/GroupTargetSavings/startgroupsavings",
   startGroupTargetWithdraw: "/api/GroupTargetSavings/startwithdraw",
   completeGroupTargetWithdraw: "/api/GroupTargetSavings/completewithdraw",
+  //Group Challenge Savings
+  createGroupChallengeSavings: "/api/GroupChallengeSavings/creategroupsavings",
+  getGroupChallengeSavingsById: "/api/GroupChallengeSavings/getgroupsavings/:id",
+  startGroupChallengeSavings: "/api/GroupChallengeSavings/startgroupsavings",
+  startGroupChallengeWithdraw: "/api/GroupChallengeSavings/startwithdraw",
+  completeGroupChallengeWithdraw: "/api/GroupChallengeSavings/completewithdraw",
+  //Group Contributory Savings
+  createGroupContributorySavings: "/api/GroupContributorySavings/creategroupsavings",
+  getGroupContributorySavingsById: "/api/GroupContributorySavings/getgroupsavings/:id",
+  startGroupContributorySavings: "/api/GroupContributorySavings/startgroupsavings",
+  //
   uploadProfilePicture: "/api/Customer/UploadProfilePicture",
   uploadUtilityBill: "/api/Customer/UploadUtilityBill",
   uploadIdentification: "/api/Customer/UploadIdentification",

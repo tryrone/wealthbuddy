@@ -36,7 +36,8 @@ const Index = ({
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
   const canBeWithdrawn =
     new Date(savings.estimatedTerminationDate) > new Date() &&
-    savings.amountSaved !== 0;
+    savings.amountSaved !== 0 &&
+    savings.type !== SavingsType.GroupContributorySavings;
 
   return (
     <div className="card card-padding min-card w-full flex flex-col justify-between">

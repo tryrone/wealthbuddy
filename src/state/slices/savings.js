@@ -6,6 +6,7 @@ import {
   FixedLockSavings,
   GroupTargetSavings,
   GroupChallengeSavings,
+  GroupContributorySavings,
 } from "services/network";
 import { getDashboardData } from "../ducks/dashboard/actions";
 import { getRecentSavingTransactionsData } from "../ducks/recentSavingTransactions/actions";
@@ -51,6 +52,32 @@ export const createPersonalTargetSavings = createAsyncThunk(
   }
 );
 
+export const createFixedLockSavings = createAsyncThunk(
+  "savings/createFixedLockSavings",
+  async (payload, thunkAPI) => {
+    const response = await FixedLockSavings.createFixedLock(payload);
+
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
+
+    return response.data.data;
+  }
+);
+
+export const createFixedFlexibleSavings = createAsyncThunk(
+    "savings/createFixedFlexibleSavings",
+    async (payload, thunkAPI) => {
+        const response = await FixedFlexibleSavings.createFixedFlexible(payload);
+
+        thunkAPI.dispatch(getDashboardData());
+        thunkAPI.dispatch(getCustomerSavingsData());
+        thunkAPI.dispatch(getRecentSavingTransactionsData());
+
+        return response.data.data;
+    }
+);
+
 export const createGroupTargetSavings = createAsyncThunk(
   "savings/createGroupTargetSavings",
   async (payload, thunkAPI) => {
@@ -68,6 +95,21 @@ export const createGroupChallengeSavings = createAsyncThunk(
   "savings/createGroupChallengeSavings",
   async (payload, thunkAPI) => {
     const response = await GroupChallengeSavings.createGroupChallengeSavings(
+      payload
+    );
+
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
+
+    return response.data.data;
+  }
+);
+
+export const createGroupContributorySavings = createAsyncThunk(
+  "savings/createGroupContributorySavings",
+  async (payload, thunkAPI) => {
+    const response = await GroupContributorySavings.createGroupContributorySavings(
       payload
     );
 
@@ -105,6 +147,8 @@ export const fetchGroupSavingsById = createAsyncThunk(
         GroupTargetSavings.fetchGroupTargetSavingsById,
       [SavingsType.GroupChallengeSavings]:
         GroupChallengeSavings.fetchGroupChallengeSavingsById,
+      [SavingsType.GroupContributorySavings]:
+        GroupContributorySavings.fetchGroupContributorySavingsById,
     };
     const response = await request[savingsType](savingsID);
     return response.data.data;
@@ -119,6 +163,8 @@ export const startGroupSavings = createAsyncThunk(
         GroupTargetSavings.startGroupTargetSavings,
       [SavingsType.GroupChallengeSavings]:
         GroupChallengeSavings.startGroupChallengeSavings,
+      [SavingsType.GroupContributorySavings]:
+        GroupContributorySavings.startGroupContributorySavings,
     };
     const response = await request[savingsType]({ savingsID });
 
