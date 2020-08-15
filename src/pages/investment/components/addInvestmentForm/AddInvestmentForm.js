@@ -43,7 +43,9 @@ function AddInvestmentForm(props) {
   const dispatch = useDispatch();
 
   // // ON COMPONENT MOUNT
-  // useEffect(() => {}, []);
+  // useEffect(() => {
+  //   console.log(props, "future");
+  // }, []);
 
   const InvestmentName = props.getAllInvestmentsData.filter(
     (item) => item.investmentID == props.location.investmentId
@@ -98,10 +100,11 @@ function AddInvestmentForm(props) {
 
   // SET DROPDOWN VALUE
   if (InvestmentName.length < 1) {
-    return <Redirect to="/dashboard/investment/add-investment" />;
+    return <Redirect to="/dashboard/investment" />;
   }
-  // CREATE INVESTMENT FORM DATA
+  // CREATE INVESTMENT FORM DATE
   const date = moment(state.date).toISOString();
+
   // HANDLE ON FORM SUBMIT
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -118,14 +121,26 @@ function AddInvestmentForm(props) {
       });
     } else {
       changeModal(true);
+      // props.myFundData(myFormData);
+      // props.myModal(true);
+      // props.myInvestType(InvestmentName[0].investmentType);
     }
   };
 
   //INVETSMENT DATA
+  // const inData =
+  //   InvestmentName[0].investmentID == 51129656 || 51129542
+  //     ? investmentFundsData
+  //     : InvestmentName[0].investmentID == 51118581 || 51119099
+  //     ? investmentTbills
+  //     : InvestmentName[0].investmentID == 45149064 || 45149066 || 45149062
+  //     ? investFixedData
+  //     : "";
   const investmentFundsData = {
     investmentId: `${InvestmentName[0].investmentID}`,
     transAmount: parseInt(state.amount),
     currency: `${InvestmentName[0].currency}`,
+    // duration: state.duration,
     fundName: `${InvestmentName[0].label}`,
     frequency: `${state.frequency}`,
     investmentImage: `${files.file.name}`,
@@ -159,6 +174,15 @@ function AddInvestmentForm(props) {
     tenure: `${InvestmentName[0].minimumDurationInDays}`,
     investmentType: InvestmentName[0].investmentType,
   };
+
+  const myFormData =
+    InvestmentName[0].investmentType == 1
+      ? investmentFundsData
+      : InvestmentName[0].investmentType == 2
+      ? investFixedData
+      : InvestmentName[0].investmentType == 3
+      ? investmentTbills
+      : {};
 
   const formCurrency = InvestmentName[0].currency == "USD" ? "$" : "₦";
 
@@ -466,18 +490,9 @@ function AddInvestmentForm(props) {
       {modal ? (
         <InvestModal
           myclose={onclose}
-          // MycreateInvestmentData={investmentFundsData}
-          MycreateInvestmentData={
-            InvestmentName[0].investmentType == 1
-              ? investmentFundsData
-              : InvestmentName[0].investmentType == 2
-              ? investFixedData
-              : InvestmentName[0].investmentType == 3
-              ? investmentTbills
-              : {}
-          }
+          MycreateInvestmentData={myFormData}
           // MycreateInvestmentData={investmentTbills}
-          // investType={InvestmentName[0].investmentType}
+          investType={InvestmentName[0].investmentType}
         />
       ) : null}
     </div>

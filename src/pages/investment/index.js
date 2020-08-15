@@ -10,15 +10,23 @@ import FundExistingInvestment from "./viewAnInvestment/component/fundExistingInv
 import WithdrawInvestment from "./withdrawInvestment/WithdrawInvestment";
 import RollOver from "./rollOverInvestment/RollOver";
 import TerminateInvestment from "./terminateInvestment/TerminateInvestment";
+import InvestModal from "./components/investModal/InvestModal";
 
 const Investment = () => {
   const { path } = useRouteMatch();
 
-  // const [createInvestnvestData,setCreateInvestData] = useState()
-
-  // const setInvestData = (val) =>{
-
-  // }
+  // const [createInvestnvestData, setCreateInvestData] = useState();
+  // const [fundInvestmentType, setFundInvestmentType] = useState(null);
+  // const [modalOne, setModalOne] = useState(false);
+  // const setInvestData = (val) => {
+  //   setCreateInvestData(val);
+  // };
+  // const setInvetType = (val) => {
+  //   setFundInvestmentType(val);
+  // };
+  // const setFirstModal = (val) => {
+  //   setModalOne(val);
+  // };
 
   return (
     <Switch>
@@ -34,6 +42,19 @@ const Investment = () => {
         path={`${path}/investment-info`}
         component={InvestmentInfo}
       />
+      {/* <Route
+        exact
+        path={`${path}/add-investment-form`}
+        component={(props) => (
+          <AddInvestmentForm
+            prop={props}
+            // myInvestType={fundInvestmentType}
+            // myModal={setFirstModal}
+            // myFundData={setInvestData}
+          />
+        )}
+      /> */}
+
       <Route
         exact
         path={`${path}/add-investment-form`}
@@ -70,22 +91,13 @@ const Investment = () => {
         component={TerminateInvestment}
       />
 
-      {/* // 1?null:
-        //   <InvestModal
-        //     myclose={onclose}
-        //     // MycreateInvestmentData={investmentFundsData}
-        //     MycreateInvestmentData={
-        //       InvestmentName[0].investmentType == 1
-        //         ? investmentFundsData
-        //         : InvestmentName[0].investmentType == 2
-        //           ? investFixedData
-        //           : InvestmentName[0].investmentType == 3
-        //             ? investmentTbills
-        //             : {}
-        //     }
-        //   // MycreateInvestmentData={investmentTbills}
-        //   // investType={InvestmentName[0].investmentType}
-        //   /> */}
+      {/* {modalOne ? (
+        <InvestModal
+          myclose={setFirstModal}
+          MycreateInvestmentData={createInvestnvestData}
+          investType={fundInvestmentType}
+        />
+      ) : null} */}
     </Switch>
   );
 };

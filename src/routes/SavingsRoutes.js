@@ -18,9 +18,18 @@ const Savings = () => {
       <Route exact path={`${path}/create`} component={CreateSavings} />
       <Route path={`${path}/create/personal`} component={PersonalSavings} />
       <Route path={`${path}/create/fixed`} component={FixedSavings} />
-      <Route path={`${path}/create/fixed-flexible`} component={FixedFlexibleSavings} />
-      <Route path={`${path}/create/group-target`} component={CreateGroupTargetSavings} />
-      <Route path={`${path}/create/group-challenge`} component={CreateGroupChallengeSavings} />
+      <Route
+        path={`${path}/create/fixed-flexible`}
+        component={FixedFlexibleSavings}
+      />
+      <Route
+        path={`${path}/create/group-target`}
+        component={CreateGroupTargetSavings}
+      />
+      <Route
+        path={`${path}/create/group-challenge`}
+        component={CreateGroupChallengeSavings}
+      />
       {/*<Route path={`${path}/create/group-contributory`} component={GroupContributory} />*/}
       <Route path={`${path}/view/:savingsId`} component={ViewSavings} />
     </Switch>

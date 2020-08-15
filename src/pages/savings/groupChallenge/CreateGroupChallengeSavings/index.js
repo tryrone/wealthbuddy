@@ -155,7 +155,7 @@ const Index = ({ savingsConfiguration }) => {
   return (
     <Fragment>
       <div className="px-12 ">
-         <CreateSavings
+        <CreateSavings
           savingsConfiguration={selectedSavingsConfiguration}
           initialFormValues={state.formValues}
           isVisible={state.showCreationPage}
