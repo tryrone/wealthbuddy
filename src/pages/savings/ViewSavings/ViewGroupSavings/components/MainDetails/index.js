@@ -8,7 +8,11 @@ import { connect } from "react-redux";
 import { formatCurrency } from "utils";
 import classNames from "classnames";
 import moment from "moment";
-import { SavingsFrequency, GroupSavingsStatus } from "constants/enums";
+import {
+  SavingsFrequency,
+  GroupSavingsStatus,
+  SavingsType,
+} from "constants/enums";
 import InvitedMember from "./components/InvitedMember";
 import Member from "./components/Member";
 import "./styles.css";
@@ -23,6 +27,12 @@ const Index = ({
   startCancelLoading,
   startWithdrawSavings,
 }) => {
+  const savingsTypeNames = {
+    [SavingsType.GroupTargetSavings]: "Group target savings",
+    [SavingsType.GroupChallengeSavings]: "Group challenge savings",
+    [SavingsType.GroupContributorySavings]: "Group contributory savings",
+  };
+
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
   const canBeWithdrawn =
     new Date(savings.estimatedTerminationDate) > new Date() &&
@@ -56,7 +66,7 @@ const Index = ({
                       {`₦${formatCurrency(savings.amountToSave)}`}
                     </h1>
                     <p className="font-medium color-black mb-4">
-                      Group Challenge Savings
+                      {savingsTypeNames[savings.type] || "Savings"}
                     </p>
                   </div>
                 </div>

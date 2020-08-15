@@ -80,7 +80,7 @@ export const createGroupChallengeSavings = createAsyncThunk(
 );
 
 export const fetchSavingsById = createAsyncThunk(
-  "savings/fetchById",
+  "savings/fetchSavingsById",
   async (savingsId) => {
     const response = await Savings.getAllSavings(savingsId);
     return response.data.data;
@@ -88,7 +88,7 @@ export const fetchSavingsById = createAsyncThunk(
 );
 
 export const fetchGroupChallengeSavingsById = createAsyncThunk(
-  "savings/fetchById",
+  "savings/fetchGroupChallengeSavingsById",
   async (savingsId) => {
     const response = await GroupChallengeSavings.fetchGroupChallengeSavingsById(
       savingsId
@@ -97,29 +97,49 @@ export const fetchGroupChallengeSavingsById = createAsyncThunk(
   }
 );
 
+export const fetchGroupSavingsById = createAsyncThunk(
+  "savings/fetchGroupSavingsById",
+  async ({ savingsID, savingsType }, thunkAPI) => {
+    const request = {
+      [SavingsType.GroupTargetSavings]:
+        GroupTargetSavings.fetchGroupTargetSavingsById,
+      [SavingsType.GroupChallengeSavings]:
+        GroupChallengeSavings.fetchGroupChallengeSavingsById,
+    };
+    const response = await request[savingsType](savingsID);
+    return response.data.data;
+  }
+);
+
 export const startGroupSavings = createAsyncThunk(
-    "savings/startGroupSavings",
-    async ({ savingsID, savingsType }, thunkAPI) => {
-      const request = {
-        [SavingsType.GroupChallengeSavings]: GroupChallengeSavings.startGroupChallengeSavings,
-      };
-      const response = await request[savingsType]({ savingsID });
+  "savings/startGroupSavings",
+  async ({ savingsID, savingsType }, thunkAPI) => {
+    const request = {
+      [SavingsType.GroupTargetSavings]:
+        GroupTargetSavings.startGroupTargetSavings,
+      [SavingsType.GroupChallengeSavings]:
+        GroupChallengeSavings.startGroupChallengeSavings,
+    };
+    const response = await request[savingsType]({ savingsID });
 
-      thunkAPI.dispatch(getDashboardData());
-      thunkAPI.dispatch(getCustomerSavingsData());
-      thunkAPI.dispatch(getRecentSavingTransactionsData());
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
 
-      return response.data.data;
-    }
+    return response.data.data;
+  }
 );
 
 export const startCancelSavings = createAsyncThunk(
   "savings/startCancel",
   async ({ savingsID, savingsType }) => {
     const request = {
-      [SavingsType.PersonalTargetSavings]: PersonalTargetSavings.startCancelPersonalTargetSavings,
-      [SavingsType.FixedLockSavings]: FixedLockSavings.startCancelFixedLockSavings,
-      [SavingsType.FixedFlexibleSavings]: FixedFlexibleSavings.startCancelFixedFlexibleSavings,
+      [SavingsType.PersonalTargetSavings]:
+        PersonalTargetSavings.startCancelPersonalTargetSavings,
+      [SavingsType.FixedLockSavings]:
+        FixedLockSavings.startCancelFixedLockSavings,
+      [SavingsType.FixedFlexibleSavings]:
+        FixedFlexibleSavings.startCancelFixedFlexibleSavings,
     };
     const response = await request[savingsType](savingsID);
     return response.data.data;
@@ -130,9 +150,12 @@ export const completeCancelSavings = createAsyncThunk(
   "savings/completeCancel",
   async ({ savingsID, savingsType }, thunkAPI) => {
     const request = {
-      [SavingsType.PersonalTargetSavings]: PersonalTargetSavings.completeCancelPersonalTargetSavings,
-      [SavingsType.FixedLockSavings]: FixedLockSavings.completeCancelFixedLockSavings,
-      [SavingsType.FixedFlexibleSavings]: FixedFlexibleSavings.completeCancelFixedFlexibleSavings,
+      [SavingsType.PersonalTargetSavings]:
+        PersonalTargetSavings.completeCancelPersonalTargetSavings,
+      [SavingsType.FixedLockSavings]:
+        FixedLockSavings.completeCancelFixedLockSavings,
+      [SavingsType.FixedFlexibleSavings]:
+        FixedFlexibleSavings.completeCancelFixedFlexibleSavings,
     };
     const response = await request[savingsType](savingsID);
 
@@ -148,10 +171,15 @@ export const startWithdrawSavings = createAsyncThunk(
   "savings/startWithdraw",
   async ({ savingsType, formValues }) => {
     const request = {
-      [SavingsType.PersonalTargetSavings]: PersonalTargetSavings.startPersonalTargetWithdrawal,
+      [SavingsType.PersonalTargetSavings]:
+        PersonalTargetSavings.startPersonalTargetWithdrawal,
       [SavingsType.FixedLockSavings]: FixedLockSavings.startFixedLockWithdraw,
-      [SavingsType.FixedFlexibleSavings]: FixedFlexibleSavings.startFixedFlexibleWithdraw,
-      [SavingsType.GroupChallengeSavings]: GroupChallengeSavings.startGroupChallengeWithdraw,
+      [SavingsType.FixedFlexibleSavings]:
+        FixedFlexibleSavings.startFixedFlexibleWithdraw,
+      [SavingsType.GroupTargetSavings]:
+        GroupTargetSavings.startGroupTargetWithdraw,
+      [SavingsType.GroupChallengeSavings]:
+        GroupChallengeSavings.startGroupChallengeWithdraw,
     };
     const response = await request[savingsType](formValues);
     return response.data.data;
@@ -162,10 +190,16 @@ export const completeWithdrawSavings = createAsyncThunk(
   "savings/completeWithdraw",
   async ({ savingsType, formValues }, thunkAPI) => {
     const request = {
-      [SavingsType.PersonalTargetSavings]: PersonalTargetSavings.completePersonalTargetWithdrawal,
-      [SavingsType.FixedLockSavings]: FixedLockSavings.completeFixedLockWithdraw,
-      [SavingsType.FixedFlexibleSavings]: FixedFlexibleSavings.completeFixedFlexibleWithdraw,
-      [SavingsType.GroupChallengeSavings]: GroupChallengeSavings.completeGroupChallengeWithdraw,
+      [SavingsType.PersonalTargetSavings]:
+        PersonalTargetSavings.completePersonalTargetWithdrawal,
+      [SavingsType.FixedLockSavings]:
+        FixedLockSavings.completeFixedLockWithdraw,
+      [SavingsType.FixedFlexibleSavings]:
+        FixedFlexibleSavings.completeFixedFlexibleWithdraw,
+      [SavingsType.GroupTargetSavings]:
+        GroupTargetSavings.completeGroupTargetWithdraw,
+      [SavingsType.GroupChallengeSavings]:
+        GroupChallengeSavings.completeGroupChallengeWithdraw,
     };
     const response = await request[savingsType](formValues);
     thunkAPI.dispatch(getDashboardData());
