@@ -47,20 +47,19 @@ export const getInvestmentConfigurations = createAsyncThunk(
 
 export const createInvestment = createAsyncThunk(
   "investment/createInvestment",
-  async ({ data, investType }) => {
+  async (props) => {
     let requestCreate;
-
-    if (investType === 1) {
+    if (props.investmentType == 1) {
       requestCreate = Investment.createFundInvestment;
-    } else if (investType === 2) {
+    } else if (props.investmentType == 2) {
       requestCreate = Investment.createTerminstrumentsInvestment;
-    } else if (investType === 3) {
+    } else if (props.investmentType == 3) {
       requestCreate = Investment.createTbillsInvestment;
     } else {
       requestCreate = Investment.createFundInvestment;
     }
 
-    const response = await requestCreate(data);
+    const response = await requestCreate(props);
     return response.data.data;
   }
 );
@@ -98,8 +97,23 @@ export const getInvestmentTransactionsForFund = createAsyncThunk(
 
 export const fundInvestment = createAsyncThunk(
   "investment/fundInvestment",
-  async (data) => {
-    const response = await Investment.getInvestmentTransactionsForFunds(data);
+  // async (data) => {
+  //   const response = await Investment.getInvestmentTransactionsForFunds(data);
+  //   return response.data.data;
+  // }
+  async (props) => {
+    let requestFund;
+    if (props.investmentType == 1) {
+      requestFund = Investment.fundMutualFund;
+    } else if (props.investmentType == 2) {
+      requestFund = Investment.fundFixed;
+    } else if (props.investmentType == 3) {
+      requestFund = Investment.fundTbills;
+    } else {
+      requestFund = Investment.fundMutualFund;
+    }
+
+    const response = await requestFund(props);
     return response.data.data;
   }
 );

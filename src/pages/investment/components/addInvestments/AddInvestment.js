@@ -101,6 +101,7 @@ const AddInvestment = ({
     45149064: "#DCCDF5",
     45149066: "#DAFF8A",
     45149062: "#A2E6E0",
+    45149135: "#CDEBF5",
   };
 
   const icons = {
@@ -111,6 +112,7 @@ const AddInvestment = ({
     45149064: handTree,
     45149066: moneyBag,
     45149062: pigCoin,
+    45149135: handCoin,
   };
   const assetType = {
     1: "Funds",
@@ -188,8 +190,12 @@ const AddInvestment = ({
                           backgroundColor: `${
                             colors[items.investmentID] || "#DCCDF5"
                           }`,
-                          padding: "4px",
-                          fontSize: "9px",
+                          padding: "6px",
+                          fontSize: "10px",
+                          alignSelf: "flex-end",
+                          // width: "70px",
+                          // position: "relative",
+                          // left: "25px",
                         }}
                         className="mt-6 mb-4  text-xs sm:mb-0 sm:mt-0 rounded-full"
                       >
@@ -200,7 +206,7 @@ const AddInvestment = ({
                           style={{ color: "#6F8A15" }}
                           className="text-xs font-bold"
                         >
-                          {items.interestRate.toFixed(2)}% per annum
+                          {items.interestRate.toFixed(1)}% per annum
                         </p>
                         <p className="text-base text-black text-right font-hairline">
                           Returns

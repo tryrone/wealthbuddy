@@ -10,23 +10,6 @@ import { formatCurrency } from "utils";
 import FundExistingModal from "../viewAnInvestment/component/fundExistingInvestment/FundExistingModal";
 import Loading from "shared-components/Loading";
 
-// items of dropdownlist
-const items = [
-  {
-    img: dogs,
-    text: "Foreign dog breed investment",
-  },
-  {
-    img: catfish,
-    text: "My catfish investment",
-  },
-  {
-    img: corn,
-    text: "Investment in corn feed",
-  },
-];
-// items of dropdownlist
-
 const FundInvestment = (props) => {
   const [amount, setAmount] = useState(null);
   const [modal, changeModal] = useState(false);
@@ -35,6 +18,8 @@ const FundInvestment = (props) => {
   const [itemPerc, setPerc] = useState("");
   const [Id, setId] = useState("");
   const [investName, setInvestName] = useState("");
+  const [investType, setInvestType] = useState(null);
+  const [investCurrency, setInvestCurrency] = useState("");
   const [investSymbol, setInvestSymbol] = useState("");
   const [investCurrent, setInvestCurrent] = useState("");
   const [showList, setShowList] = useState(false);
@@ -53,11 +38,11 @@ const FundInvestment = (props) => {
 
   const fundData = {
     transAmount: parseInt(amount),
-    securityId: Id,
-    description: investSymbol,
-    // currency: specificData.length == 0 ? null : specificData[0].currency,
-    currency: "NGN",
-    fundName: investName,
+    securityId: `${Id}`,
+    description: `${investSymbol}`,
+    investmentType: parseInt(investType),
+    currency: `${investCurrency == null ? "NGN" : investCurrency}`,
+    fundName: `${investName}`,
   };
 
   const onSubmitFund = () => {
@@ -161,6 +146,8 @@ const FundInvestment = (props) => {
                                   setInvestSymbol(`${item.symbol}`);
                                   setInvestCurrent(`${item.currentValue}`);
                                   setShowList(true);
+                                  setInvestCurrency(`${item.currency}`);
+                                  setInvestType(item.investmentType);
                                 }}
                                 key={i}
                               >
@@ -285,6 +272,7 @@ const FundInvestment = (props) => {
               onClick={() => {
                 onSubmitFund();
               }}
+              disabled={amount == null || investType == null ? true : false}
               className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
             >
               Next

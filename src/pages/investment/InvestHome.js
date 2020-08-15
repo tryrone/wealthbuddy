@@ -24,7 +24,7 @@ const InvestHome = ({ getAllInvetstmentTransactionsLoading, isEmpty }) => {
     </div>
   ) : (
     <div className="px-12">
-      <p className="text-black mb-4 text-base">Hello, John Word</p>
+      {/* <p className="text-black mb-4 text-base">Hello, John Word</p> */}
       <div className="md:flex md:flex-shrink-0 savings-home--wrap  justify-between fadeIn">
         <div className="flex flex-col w-full mr-5">
           <TotalCard />

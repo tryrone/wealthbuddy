@@ -23,11 +23,9 @@ const FundExistingModal = (props) => {
     if (!activeOne) {
       dispatch(fundInvestment(setInvestDetails));
       console.log(setInvestDetails);
-      // console.log(typeof setInvestDetails.transAmount);
     } else if (activeOne) {
       setInvestDetails.cardId = `${myCard}`;
       console.log(setInvestDetails);
-      // console.log(typeof setInvestDetails.transAmount);
       dispatch(fundInvestment(setInvestDetails));
     }
   };

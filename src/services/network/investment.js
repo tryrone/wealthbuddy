@@ -7,6 +7,15 @@ export const getInvestmentConfigs = () => {
 export const getAllInvestments = () => {
   return axios.get(urls.getAllInvestments);
 };
+export const fundMutualFund = (data) => {
+  return axios.post(urls.fundMutualFund, data);
+};
+export const fundTbills = (data) => {
+  return axios.post(urls.fundInvestmentTbills, data);
+};
+export const fundFixed = (data) => {
+  return axios.post(urls.fundInvestmentFixed, data);
+};
 export const createFundInvestment = (data) => {
   return axios.post(urls.createFundInvestment, data);
 };

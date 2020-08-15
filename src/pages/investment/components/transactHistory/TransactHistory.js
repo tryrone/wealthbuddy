@@ -33,7 +33,7 @@ const TransactHistory = (props) => {
         </p>
       </div>
       <Chart />
-      <div className="flex flex-row mt-8 justify-between content-center items-center">
+      <div className="flex flex-row mt-8 justify-between content-center overflow-y-scroll items-center">
         <p className="text-black text-base font-light">Transaction History</p>
         <p
           // onClick={() => {
