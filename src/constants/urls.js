@@ -7,6 +7,7 @@ const urls = {
   startFundNewCard: "/api/Customer/StartFundWalletWithNewCard",
   verifyFundNewCard: "/api/Customer/VerifyFundWalletWithNewCard",
   getCustomerSavings: "/api/Savings/getcustomersavings",
+  getPendingSavingsInvitations: "/api/Savings/getpendinginvitations",
   getCustomerCards: "/api/Customer/getcards",
   createPersonalSaving: "/api/PersonalTargetSavings/CreateNewPersonalTargetSavings",
   createFixedLocked: "/api/FixedLockSavings/Create",

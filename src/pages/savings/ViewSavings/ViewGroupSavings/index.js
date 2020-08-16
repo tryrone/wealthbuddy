@@ -62,7 +62,6 @@ const ViewGroupSavings = ({ customerSavings }) => {
     const resultAction = await dispatch(fetchGroupSavingsById(savings));
     if (fetchGroupSavingsById.fulfilled.match(resultAction)) {
       const groupSavingsResponse = unwrapResult(resultAction);
-      // Add savings type to response
       groupSavingsResponse.groupSavings.type = savings.savingsType;
 
       setState(

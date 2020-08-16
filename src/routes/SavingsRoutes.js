@@ -2,13 +2,13 @@ import React from "react";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import SavingsHome from "pages/savings/SavingsHome";
 import ViewSavings from "pages/savings/ViewSavings";
-import CreateSavings from "pages/savings/CreateHome/CreateSavings";
+import CreateSavingsHome from "pages/savings/CreateSavingsHome";
 import PersonalSavings from "pages/savings/PersonalSavings/PersonalSavings";
 import CreateFixedLockSavings from "pages/savings/CreateFixedLockSavings"
 import CreateFixedFlexibleSavings from "pages/savings/CreateFixedFlexibleSavings"
-import CreateGroupTargetSavings from "pages/savings/groupTarget/CreateGroupTargetSavings";
-import CreateGroupChallengeSavings from "pages/savings/groupChallenge/CreateGroupChallengeSavings";
-import CreateGroupContributorySavings from "pages/savings/groupContributory/CreateGroupContributorySavings";
+import CreateGroupTargetSavings from "pages/savings/CreateGroupTargetSavings";
+import CreateGroupChallengeSavings from "pages/savings/CreateGroupChallengeSavings";
+import CreateGroupContributorySavings from "pages/savings/CreateGroupContributorySavings";
 
 const Savings = () => {
   let { path } = useRouteMatch();
@@ -16,7 +16,7 @@ const Savings = () => {
   return (
     <Switch>
       <Route exact path={`${path}`} component={SavingsHome} />
-      <Route exact path={`${path}/create`} component={CreateSavings} />
+      <Route exact path={`${path}/create`} component={CreateSavingsHome} />
       <Route path={`${path}/create/personal`} component={PersonalSavings} />
       <Route path={`${path}/create/fixed-lock`} component={CreateFixedLockSavings} />
       <Route path={`${path}/create/fixed-flexible`} component={CreateFixedFlexibleSavings} />
