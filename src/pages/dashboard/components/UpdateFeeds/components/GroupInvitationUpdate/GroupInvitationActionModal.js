@@ -74,7 +74,7 @@ const GroupInvitationActionModal = ({
                 <div className="w-full flex flex-row items-center pb-5">
                   <img
                     className="invitation--inviter-image rounded-full"
-                    src={savings.imageURL ? savings.imageURL : GroupSavingsIcon}
+                    src={invitation.creatorProfilePicture || GroupSavingsIcon}
                     alt=""
                   />
                   <p className="w-full text-sm">
