@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-  Savings,
   PersonalTargetSavings,
   FixedFlexibleSavings,
   FixedLockSavings,
+  Savings,
   GroupTargetSavings,
   GroupChallengeSavings,
   GroupContributorySavings,
@@ -35,6 +35,9 @@ const initialState = {
   completeWithdrawLoading: false,
   completeWithdrawError: null,
   completeWithdrawEntities: [],
+  pendingInvitationsLoading: false,
+  pendingInvitationsError: null,
+  pendingInvitationsEntities: [],
 };
 
 export const createPersonalTargetSavings = createAsyncThunk(
@@ -66,16 +69,16 @@ export const createFixedLockSavings = createAsyncThunk(
 );
 
 export const createFixedFlexibleSavings = createAsyncThunk(
-    "savings/createFixedFlexibleSavings",
-    async (payload, thunkAPI) => {
-        const response = await FixedFlexibleSavings.createFixedFlexible(payload);
+  "savings/createFixedFlexibleSavings",
+  async (payload, thunkAPI) => {
+    const response = await FixedFlexibleSavings.createFixedFlexible(payload);
 
-        thunkAPI.dispatch(getDashboardData());
-        thunkAPI.dispatch(getCustomerSavingsData());
-        thunkAPI.dispatch(getRecentSavingTransactionsData());
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
 
-        return response.data.data;
-    }
+    return response.data.data;
+  }
 );
 
 export const createGroupTargetSavings = createAsyncThunk(
@@ -253,9 +256,22 @@ export const completeWithdrawSavings = createAsyncThunk(
   }
 );
 
+export const getPendingSavingsInvitations = createAsyncThunk(
+  "savings/getPendingInvitations",
+  async () => {
+    const response = await Savings.getPendingSavingsInvitations();
+    return response.data.data;
+  }
+);
+
 const savings = createSlice({
   name: "savings",
   initialState,
+  reducers: {
+    setPendingSavingsInvitations: (state, action) => {
+      state.pendingInvitationsEntities = action.payload;
+    },
+  },
   extraReducers: {
     [fetchSavingsById.pending]: (state) => {
       state.fetchByIdLoading = true;
@@ -327,7 +343,23 @@ const savings = createSlice({
       state.completeWithdrawLoading = false;
       state.completeWithdrawError = action.error.message;
     },
+    [getPendingSavingsInvitations.pending]: (state) => {
+      state.pendingInvitationsLoading = true;
+      state.pendingInvitationsError = null;
+    },
+    [getPendingSavingsInvitations.fulfilled]: (state, action) => {
+      state.pendingInvitationsEntities = action.payload;
+      state.pendingInvitationsLoading = false;
+      state.pendingInvitationsError = null;
+    },
+    [getPendingSavingsInvitations.rejected]: (state, action) => {
+      state.pendingInvitationsEntities = null;
+      state.pendingInvitationsLoading = false;
+      state.pendingInvitationsError = action.error;
+    },
   },
 });
+
+export const { setPendingSavingsInvitations } = savings.actions;
 
 export default savings.reducer;

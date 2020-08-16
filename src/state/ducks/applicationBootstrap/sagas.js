@@ -12,7 +12,7 @@ import { getRecentSavingTransactionsDataSuccess } from "../recentSavingTransacti
 import { getSavingsConfigurationDataSuccess } from "../savingsConfiguration/actions";
 import { getBankAccountsDataSuccess } from "../bankAccounts/actions";
 import { getBankListDataSuccess } from "../bankList/actions";
-// import {getInvestmentConfigurations} from '../../slices/investments'
+import {setPendingSavingsInvitations} from "../../slices/savings";
 
 function* operation() {
   try {
@@ -22,6 +22,7 @@ function* operation() {
       customerSavingsResponse,
       recentSavingTransactionsResponse,
       savingsConfiguration,
+      pendingSavingsInvitations,
       userBanksResponse,
       bankListResponse,
     ] = yield all([
@@ -30,6 +31,7 @@ function* operation() {
       call(Savings.getCustomerSavings),
       call(Savings.getSavingsTransactions),
       call(Savings.getSavingsConfiguration),
+      call(Savings.getPendingSavingsInvitations),
       call(Customer.getUserBanks),
       call(Customer.getBankList),
     ]);
@@ -37,14 +39,9 @@ function* operation() {
     yield put(getDashboardDataSuccess(dashboardResponse.data.data));
     yield put(getCardsDataSuccess(cardsResponse.data.data));
     yield put(getCustomerSavingsDataSuccess(customerSavingsResponse.data.data));
-    yield put(
-      getRecentSavingTransactionsDataSuccess(
-        recentSavingTransactionsResponse.data.data
-      )
-    );
-    yield put(
-      getSavingsConfigurationDataSuccess(savingsConfiguration.data.data)
-    );
+    yield put(getRecentSavingTransactionsDataSuccess(recentSavingTransactionsResponse.data.data));
+    yield put(getSavingsConfigurationDataSuccess(savingsConfiguration.data.data));
+    yield put(setPendingSavingsInvitations(pendingSavingsInvitations.data.data));
     yield put(getBankAccountsDataSuccess(userBanksResponse.data.data));
     yield put(getBankListDataSuccess(bankListResponse.data.data));
     yield put(getApplicationBootstrapDataSuccess());

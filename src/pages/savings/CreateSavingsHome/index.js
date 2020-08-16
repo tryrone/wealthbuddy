@@ -6,7 +6,7 @@ import groupSavings from "assets/img/groupIcon.png";
 import groupConSavings from "assets/img/groupConIcon.png";
 import fixedFlexSavings from "assets/img/fixedFlex.png";
 import roundRobin from "assets/img/round-robin.png";
-import CreatePersonalSavingsModal from "pages/savings/CreateHome/components/CreatePersonalSavingsModal";
+import CreatePersonalSavingsModal from "pages/savings/CreateSavingsHome/components/CreatePersonalSavingsModal";
 
 const options = [
   {
@@ -44,7 +44,7 @@ const options = [
   },
 ];
 
-const CreateSavings = () => {
+const CreateSavingsHome = () => {
   const [
     isCreatePersonalSavingsModalVisible,
     setCreatePersonalSavingsModalOpen,
@@ -115,4 +115,4 @@ const CreateSavings = () => {
   );
 };
 
-export default CreateSavings;
+export default CreateSavingsHome;
