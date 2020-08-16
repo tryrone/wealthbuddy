@@ -31,10 +31,20 @@ const GroupInvitationActionModal = ({
   onClose: handleClose,
   invitationId,
   invitations,
+  customerDetails,
+  customerSavings,
 }) => {
   const invitation = invitations.find(
     (invitation) => invitation.id === invitationId
   );
+
+  alert(JSON.stringify(invitation));
+
+  // const savings = customerSavings.find(
+  //   (cs) => cs.savingsID === invitation.groupSavingsId
+  // );
+  //
+  // alert(savings);
 
   return (
     isVisible && (
@@ -70,9 +80,9 @@ const GroupInvitationActionModal = ({
                     alt=""
                   />
                   <p className="w-full text-sm">
-                    Hi John, I added you to a{" "}
+                    Hi {customerDetails.otherNames}, I added you to a{" "}
                     <span className="text-wb-primary">
-                      Group contributory challenge
+                      {savingsTypeNames[invitation.groupSavingsType]}
                     </span>
                     . You'll be sent a confirmation mail when you accept.
                   </p>
@@ -119,9 +129,7 @@ const GroupInvitationActionModal = ({
                 <div className="w-full pt-2 pb-5 text-left wb-border-b">
                   <h5 className="text-gray-300 text-xs">Description</h5>
                   <p className="w-full mt-3 text-sm">
-                    All notifications have been set to be automatically
-                    dismissed after 5000ms. Notifications can be manually
-                    dismissed by clicking or by swiping on mobile devices.
+                    {invitation.description}
                   </p>
                 </div>
               </div>
@@ -133,7 +141,9 @@ const GroupInvitationActionModal = ({
                   </div>
                 </div>
                 <div className="text-sm text-center leading-relaxed text-gray-300 w-4/5 mt-3">
-                  <span className="capitalize">{converter.toWords(6)}</span>{" "}
+                  <span className="capitalize">
+                    {converter.toWords(invitation.numberOfParticipant)}
+                  </span>{" "}
                   people have been added to this group and will be sent a mail
                   to confirm the agree
                 </div>
@@ -181,7 +191,9 @@ const GroupInvitationActionModal = ({
 };
 
 const mapStateToProps = (state) => ({
+  customerDetails: state.account.data.customerDetails,
   invitations: state.savings.pendingInvitationsEntities,
+  customerSavings: state.customerSavings.data,
 });
 
 export default connect(mapStateToProps)(GroupInvitationActionModal);
