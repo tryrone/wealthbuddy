@@ -38,8 +38,6 @@ const GroupInvitationActionModal = ({
     (invitation) => invitation.id === invitationId
   );
 
-  alert(JSON.stringify(invitation));
-
   // const savings = customerSavings.find(
   //   (cs) => cs.savingsID === invitation.groupSavingsId
   // );
