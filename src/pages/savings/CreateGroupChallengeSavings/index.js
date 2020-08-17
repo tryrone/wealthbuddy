@@ -11,7 +11,7 @@ import { createGroupChallengeSavings } from "state/slices/savings";
 import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
 import "./styles.css";
 
-const Index = ({ savingsConfiguration }) => {
+const GroupChallengeSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -199,4 +199,4 @@ const mapStateToProps = (state) => ({
   savingsConfiguration: state.savingsConfiguration.data,
 });
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps)(GroupChallengeSavings);

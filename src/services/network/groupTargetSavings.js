@@ -20,3 +20,7 @@ export const startGroupTargetWithdraw = (data) => {
 export const completeGroupTargetWithdraw = (data) => {
   return axios.post(urls.completeGroupTargetWithdraw, data);
 };
+
+export const treatGroupTargetInvitation = (data) => {
+  return axios.post(urls.treatGroupTargetInvitation, data);
+};

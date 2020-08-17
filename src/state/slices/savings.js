@@ -12,6 +12,7 @@ import { getDashboardData } from "../ducks/dashboard/actions";
 import { getRecentSavingTransactionsData } from "../ducks/recentSavingTransactions/actions";
 import { getCustomerSavingsData } from "../ducks/customerSavings/actions";
 import { SavingsType } from "constants/enums";
+import { GroupSavingsType } from "../../constants/enums";
 
 const initialState = {
   createPersonalTargetSavingsLoading: false,
@@ -252,6 +253,28 @@ export const completeWithdrawSavings = createAsyncThunk(
     };
     const response = await request[savingsType](formValues);
     thunkAPI.dispatch(getDashboardData());
+    return response.data.data;
+  }
+);
+
+export const treatGroupSavingsInvitation = createAsyncThunk(
+  "savings/treatGroupSavingsInvitation",
+  async ({ formValues, groupSavingsType }, thunkAPI) => {
+    const request = {
+      [GroupSavingsType.GroupTargetSavings]:
+        GroupTargetSavings.treatGroupTargetInvitation,
+      [GroupSavingsType.GroupChallengeSavings]:
+        GroupChallengeSavings.treatGroupChallengeInvitation,
+      [GroupSavingsType.GroupContributorySavings]:
+        GroupContributorySavings.treatGroupContributoryInvitation,
+    };
+    const response = await request[groupSavingsType](formValues);
+
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
+    thunkAPI.dispatch(getPendingSavingsInvitations());
+
     return response.data.data;
   }
 );
