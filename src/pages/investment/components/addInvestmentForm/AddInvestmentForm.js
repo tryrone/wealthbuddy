@@ -100,7 +100,7 @@ function AddInvestmentForm(props) {
 
   // SET DROPDOWN VALUE
   if (InvestmentName.length < 1) {
-    return <Redirect to="/dashboard/investment" />;
+    return <Redirect to="/dashboard/investment/add-investment" />;
   }
   // CREATE INVESTMENT FORM DATE
   const date = moment(state.date).toISOString();

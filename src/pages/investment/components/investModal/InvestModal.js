@@ -8,6 +8,7 @@ import { connect, useDispatch } from "react-redux";
 import InvestmentDropdown from "../investmentDropdown/InvestmentDropdown";
 import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
+import { Redirect } from "react-router-dom";
 // import { Redirect } from "react-router-dom";
 
 const InvestModal = (props) => {
@@ -27,6 +28,7 @@ const InvestModal = (props) => {
 
   const refresh = () => {
     return document.location.reload(true);
+    // return <Redirect to="/investment/add-investment" />;
   };
 
   const showMyDetails = () => {

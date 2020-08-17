@@ -40,6 +40,9 @@ const InvestHome = ({ getAllInvetstmentTransactionsLoading, isEmpty }) => {
 };
 
 const mapStateToProps = (state) => ({
+  investmentValuationLoading: state.investments.investmentValuationLoading,
+  allPersonalInvestmentsLoading:
+    state.investments.allPersonalInvestmentsLoading,
   getAllInvetstmentTransactionsLoading:
     state.investments.getAllInvetstmentTransactionsLoading,
   getAllInvetstmentTransactionsError:
