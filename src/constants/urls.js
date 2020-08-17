@@ -20,16 +20,19 @@ const urls = {
   startGroupTargetSavings: "/api/GroupTargetSavings/startgroupsavings",
   startGroupTargetWithdraw: "/api/GroupTargetSavings/startwithdraw",
   completeGroupTargetWithdraw: "/api/GroupTargetSavings/completewithdraw",
+  treatGroupTargetInvitation: "/api/GroupTargetSavings/treatgroupsavingsinvitation",
   //Group Challenge Savings
   createGroupChallengeSavings: "/api/GroupChallengeSavings/creategroupsavings",
   getGroupChallengeSavingsById: "/api/GroupChallengeSavings/getgroupsavings/:id",
   startGroupChallengeSavings: "/api/GroupChallengeSavings/startgroupsavings",
   startGroupChallengeWithdraw: "/api/GroupChallengeSavings/startwithdraw",
   completeGroupChallengeWithdraw: "/api/GroupChallengeSavings/completewithdraw",
+  treatGroupChallengeInvitation: "/api/GroupChallengeSavings/treatgroupsavingsinvitation",
   //Group Contributory Savings
   createGroupContributorySavings: "/api/GroupContributorySavings/creategroupsavings",
   getGroupContributorySavingsById: "/api/GroupContributorySavings/getgroupsavings/:id",
   startGroupContributorySavings: "/api/GroupContributorySavings/startgroupsavings",
+  treatGroupContributoryInvitation: "/api/GroupContributorySavings/treatgroupsavingsinvitation",
   //
   uploadProfilePicture: "/api/Customer/UploadProfilePicture",
   uploadUtilityBill: "/api/Customer/UploadUtilityBill",

@@ -12,3 +12,7 @@ export const fetchGroupContributorySavingsById = (savingsId) => {
 export const startGroupContributorySavings = (data) => {
   return axios.post(urls.startGroupContributorySavings, data);
 };
+
+export const treatGroupContributoryInvitation = (data) => {
+  return axios.post(urls.treatGroupContributoryInvitation, data);
+};

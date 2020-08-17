@@ -20,3 +20,7 @@ export const startGroupChallengeWithdraw = (data) => {
 export const completeGroupChallengeWithdraw = (data) => {
   return axios.post(urls.completeGroupChallengeWithdraw, data);
 };
+
+export const treatGroupChallengeInvitation = (data) => {
+  return axios.post(urls.treatGroupChallengeInvitation, data);
+};
