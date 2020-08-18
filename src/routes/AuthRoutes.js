@@ -6,7 +6,7 @@ import SignUpConfirmEmail from "../pages/auth/SignUp/ConfirmEmail";
 import SignUpSetPassword from "../pages/auth/SignUp/SetPassword";
 import SignUpSuccess from "../pages/auth/SignUp/Success";
 import ForgotPassword from "../pages/auth/ForgotPassword/ForgotPassword";
-import ForgotPasswordSuccess from "../pages/auth/ForgotPassword/ForgotPassTwo";
+import ForgotPasswordSuccess from "../pages/auth/ForgotPassword/ForgotPasswordSuccess";
 
 const AuthRoutes = () => {
     let { path } = useRouteMatch();

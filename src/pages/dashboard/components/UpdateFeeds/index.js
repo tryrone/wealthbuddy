@@ -5,13 +5,14 @@ import classNames from "classnames";
 import GeneralUpdate from "./components/GeneralUpdate";
 import GroupInvitationUpdate from "./components/GroupInvitationUpdate";
 import "./styles.scss";
+import { connect } from "react-redux";
 
 const Page = {
   GeneralUpdates: "general_updates",
   InvitationUpdates: "invitation_updates",
 };
 
-const UpdateFeeds = () => {
+const UpdateFeeds = ({ invitations }) => {
   const [activePage, setActivePage] = useState(Page.InvitationUpdates);
 
   const setActiveToGeneralUpdates = (e) => {
@@ -52,6 +53,9 @@ const UpdateFeeds = () => {
                 active: activePage === Page.InvitationUpdates,
               })}
             >
+              {invitations.length && (
+                <div className="notification-badge">{invitations.length}</div>
+              )}
               <FaUsers />
             </a>
           </div>
@@ -68,4 +72,8 @@ const UpdateFeeds = () => {
   );
 };
 
-export default UpdateFeeds;
+const mapStateToProps = (state) => ({
+  invitations: state.savings.pendingInvitationsEntities,
+});
+
+export default connect(mapStateToProps)(UpdateFeeds);
