@@ -15388,16 +15388,6 @@ select{
   margin-right:auto
 }
 
-.invitation--inviter-image{
-  height:60px!important;
-  width:60px!important;
-  max-height:60px!important;
-  max-width:60px!important;
-  object-fit:initial!important;
-  padding:0;
-  margin:0 10px 0 0!important
-}
-
 .auth-modal p:not(.w-full){
   max-width:350px
 }
