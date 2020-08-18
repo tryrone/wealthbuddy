@@ -11,12 +11,43 @@ import { connect, useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
 const ViewCard = (props) => {
-  const specificData = props.allPersonalInvestmentsData.filter(
-    (item) => props.investmentId == item.securityId
+  // const specificData = props.allPersonalInvestmentsData.filter(
+  //   (item) => props.investmentId == item.securityId
+  // );
+
+  const setInvestmentTypeOne = props.investmentValuationData.fixedDeposits.filter(
+    (item) => item.instrumentId == props.investmentIdFixed
   );
-  return !props.investmentId ? (
-    <Redirect to="/dashboard/investment" />
-  ) : (
+  const setInvestmentTypeTwo = props.investmentValuationData.portfolioHoldings.filter(
+    (item) => item.securityId == props.investmentIdFunds
+  );
+  const setInvestmentTypeThree = props.investmentValuationData.treasuryBills.filter(
+    (item) => item.typeId == props.investmentIdTbills
+  );
+
+  let makeArray = [];
+
+  if (setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0) {
+    makeArray = setInvestmentTypeThree;
+  } else if (
+    setInvestmentTypeTwo.length == 0 &&
+    setInvestmentTypeThree.length == 0
+  ) {
+    makeArray = setInvestmentTypeOne;
+  } else if (
+    setInvestmentTypeOne.length == 0 &&
+    setInvestmentTypeThree.length == 0
+  ) {
+    makeArray = setInvestmentTypeTwo;
+  }
+
+  // console.log(setInvestmentTypeTwo, "web new issues");
+  // console.log(setInvestmentTypeThree, "trust new issues");
+  // props.investmentValuationData.length == 0 ? (
+  //   <Redirect to="/dashboard/investment" />
+  // ) :
+
+  return (
     <div
       style={{ borderRadius: "2px" }}
       className="card-padding card h-auto mt-6  card-black  flex-column  text-white"
@@ -29,9 +60,12 @@ const ViewCard = (props) => {
       </div>
       <p className="text-gray-100 text-4xl font-bold pl-6">
         {`N${formatCurrency(
-          !specificData[0].totalPurchaseCost
-            ? null
-            : specificData[0].totalPurchaseCost.toFixed(2)
+          setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+            ? makeArray[0].interestRate.toFixed(2)
+            : setInvestmentTypeTwo.length == 0 &&
+              setInvestmentTypeThree.length == 0
+            ? makeArray[0].netInstrumentValue.amount
+            : makeArray[0].currentValue
         )} `}
       </p>
 
@@ -42,9 +76,13 @@ const ViewCard = (props) => {
           </p>
           <p className="ext-gray-100 text-2xl font-bold">
             {`N${formatCurrency(
-              !specificData[0].currentValue
-                ? null
-                : specificData[0].currentValue.toFixed(2)
+              setInvestmentTypeOne.length == 0 &&
+                setInvestmentTypeTwo.length == 0
+                ? makeArray[0].reportAccruedInterest.amount.toFixed(2)
+                : setInvestmentTypeTwo.length == 0 &&
+                  setInvestmentTypeThree.length == 0
+                ? makeArray[0].grossInterest.amount
+                : makeArray[0].currentYield
             )} `}
           </p>
         </div>
@@ -57,9 +95,13 @@ const ViewCard = (props) => {
           </p>
           <p className="text-gray-100 text-2xl font-bold text-right">
             {Math.sign(
-              !specificData[0].totalGainLossPercent
-                ? null
-                : specificData[0].totalGainLossPercent.toFixed(2)
+              setInvestmentTypeOne.length == 0 &&
+                setInvestmentTypeTwo.length == 0
+                ? makeArray[0].reportAccruedInterest.amount.toFixed(2)
+                : setInvestmentTypeTwo.length == 0 &&
+                  setInvestmentTypeThree.length == 0
+                ? makeArray[0].interestRate.toFixed(2)
+                : makeArray[0].totalGainLossPercent.toFixed(2)
             )}
           </p>
         </div>
@@ -67,10 +109,21 @@ const ViewCard = (props) => {
 
       <div className="flex flex-summary flex-col sm:flex-row justify-between items-center content-center pt-6">
         <Link
-          to={{
-            pathname: "fund-investment/existing",
-            investmentId: `${specificData[0].securityId}`,
-          }}
+          to={
+            {
+              // pathname: "fund-investment/existing",
+              // investmentId: `${specificData[0].securityId}`,
+              // investmentId: `${
+              //   setInvestmentTypeOne.length == 0 &&
+              //     setInvestmentTypeTwo.length == 0
+              //     ? makeArray[0].id
+              //     : setInvestmentTypeTwo.length == 0 &&
+              //       setInvestmentTypeThree.length == 0
+              //     ? makeArray[0].instrumentId
+              //     : makeArray[0].securityId
+              // }`,
+            }
+          }
           className="pl-2 flex items-center content-center"
         >
           <img src={fundInvestment} alt="wealth-buddy" className="pr-3" />
@@ -101,6 +154,8 @@ const mapStateToProps = (state) => ({
   allPersonalInvestmentsLoading:
     state.investments.allPersonalInvestmentsLoading,
   allPersonalInvestmentsError: state.investments.allPersonalInvestmentsError,
+  investmentValuationData: state.investments.investmentValuationData,
+  investmentValuationLoading: state.investments.investmentValuationLoading,
 });
 
 export default connect(mapStateToProps)(ViewCard);

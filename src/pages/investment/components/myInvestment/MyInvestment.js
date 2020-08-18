@@ -10,13 +10,12 @@ const MyInvestment = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(allPersonalInvestments());
+    if (props.allPersonalInvestmentsData.length == 0) {
+      dispatch(allPersonalInvestments());
+    }
   }, []);
 
   return props.allPersonalInvestmentsLoading ? null : (
-    // <div className="mx-auto flex flex-col content-center items-center mt-32">
-    //   <Loading text="loading" />
-    // </div>
     <div className="flex flex-row flex-wrap  scroll-container ps">
       {props.allPersonalInvestmentsData.map((item, index) => {
         return (
@@ -69,7 +68,7 @@ const MyInvestment = (props) => {
         );
       })}
 
-      {/* {props.investmentValuationLoading
+      {props.investmentValuationLoading
         ? null
         : !props.investmentValuationData.fixedDeposits
         ? null
@@ -182,7 +181,7 @@ const MyInvestment = (props) => {
                 </div>
               </Link>
             );
-          })} */}
+          })}
       <Link to={`/dashboard/investment/add-investment`}>
         <div
           style={{ border: "1px solid #F1F1F1", borderRadius: "2px" }}

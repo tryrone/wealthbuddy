@@ -26,7 +26,9 @@ const AddInvestment = ({
     //   return props.history.push("/dashboard/investment");
     // }
     // console.log(location, "location");
-    dispatch(getAllInvestments());
+    if (getAllInvestmentsData.length == 0) {
+      dispatch(getAllInvestments());
+    }
   }, []);
 
   const data = [

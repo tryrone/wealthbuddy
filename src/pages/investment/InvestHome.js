@@ -11,15 +11,28 @@ import {
 import MyInvestment from "./components/myInvestment/MyInvestment";
 import Loading from "shared-components/Loading";
 import { Redirect } from "react-router-dom";
+import "./style.css";
 
-const InvestHome = ({ investmentTransactionsForFundsLoading, isEmpty }) => {
+const InvestHome = ({
+  investmentTransactionsForFundsLoading,
+  getAllInvestmentsData,
+  allTbillsTrasactionsData,
+  allFixedTrasactionsData,
+  isEmpty,
+}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getInvestmentTransactionsForFund());
-    dispatch(getAllInvestments());
-    dispatch(getAllFixedTransactions());
-    dispatch(getAllTbillsTransactions());
+    if (
+      getAllInvestmentsData.length == 0 &&
+      allTbillsTrasactionsData.length == 0 &&
+      allFixedTrasactionsData.length == 0
+    ) {
+      dispatch(getInvestmentTransactionsForFund());
+      dispatch(getAllInvestments());
+      dispatch(getAllFixedTransactions());
+      dispatch(getAllTbillsTransactions());
+    }
   }, []);
 
   return investmentTransactionsForFundsLoading ? (
@@ -30,7 +43,7 @@ const InvestHome = ({ investmentTransactionsForFundsLoading, isEmpty }) => {
     <div className="px-12">
       {/* <p className="text-black mb-4 text-base">Hello, John Word</p> */}
       <div className="md:flex md:flex-shrink-0 savings-home--wrap  justify-between fadeIn">
-        <div className="flex flex-col w-full mr-5 overflow-y-scroll overscroll-contain h-screen">
+        <div className="flex flex-col w-full mr-5 overflow-y-scroll hide-scroll overscroll-contain h-screen">
           <TotalCard />
           <p className="text-black mb-4 text-base">My Investment</p>
           <div className="has-scrollbar">
@@ -52,6 +65,9 @@ const mapStateToProps = (state) => ({
   investmentTransactionsForFundsLoading:
     state.investments.investmentTransactionsForFundsLoading,
   isEmpty: state.investments.getAllInvetstmentTransactionsisEmpty,
+  allTbillsTrasactionsData: state.investments.allTbillsTrasactionsData,
+  allFixedTrasactionsData: state.investments.allFixedTrasactionsData,
+  getAllInvestmentsData: state.investments.getAllInvestmentsData,
 });
 
 export default connect(mapStateToProps)(InvestHome);
