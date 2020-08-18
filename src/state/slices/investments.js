@@ -10,15 +10,12 @@ const initialState = {
   createInvestmentLoading: false,
   createInvestmentError: null,
   createInvestmentData: {},
+  createInvestmentMe: false,
   // GET ALL INVETSMENTS
   getAllInvestmentsLoading: false,
   getAllInvestmentsError: null,
   getAllInvestmentsData: [],
-  // GET ALL INVETSMENT TRANSACTIONS
-  getAllInvetstmentTransactionsLoading: false,
-  getAllInvetstmentTransactionsError: null,
-  getAllInvetstmentTransactionsData: [],
-  getAllInvetstmentTransactionsisEmpty: false,
+
   // GET ALL PERSONAL INVESTMENTS
   allPersonalInvestmentsLoading: false,
   allPersonalInvestmentsError: null,
@@ -31,10 +28,24 @@ const initialState = {
   fundInvestmentLoading: false,
   fundInvestmentError: null,
   fundInvestmentData: [],
+  fundInvestmentMe: false,
   //INVESTMENT VALUATION
   investmentValuationLoading: false,
   investmentValuationError: null,
   investmentValuationData: {},
+  investmentValuationEntities: [],
+  // WITHDRAW FUNDS
+  withdrawFundsLoading: false,
+  withdrawFundsError: null,
+  withdrawFundsData: {},
+  // GET ALL TBILLS TRANSACTIONS
+  allTbillsTrasactionsLoading: false,
+  allTbillsTrasactionsError: null,
+  allTbillsTrasactionsData: [],
+  // GET ALL FIXED TRANSACTIONS
+  allFixedTrasactionsLoading: false,
+  allFixedTrasactionsError: null,
+  allFixedTrasactionsData: [],
 };
 
 export const getInvestmentConfigurations = createAsyncThunk(
@@ -71,11 +82,19 @@ export const getAllInvestments = createAsyncThunk(
     return response.data.data;
   }
 );
-export const getAllInvetstmentTransactions = createAsyncThunk(
-  "investment/getAllInvetstmentTransactions",
+
+export const getAllTbillsTransactions = createAsyncThunk(
+  "investment/allTbillsTransactions",
   async () => {
-    const response = await Investment.getAllInvetstmentTransactions();
-    return response.data.fundTransactions;
+    const response = await Investment.getAllTbillsTransactions();
+    return response.data.data;
+  }
+);
+export const getAllFixedTransactions = createAsyncThunk(
+  "investment/allFixedTransactions",
+  async () => {
+    const response = await Investment.getAllFixedTransactions();
+    return response.data.data;
   }
 );
 
@@ -112,6 +131,8 @@ export const fundInvestment = createAsyncThunk(
     } else {
       requestFund = Investment.fundMutualFund;
     }
+
+    delete props.investmentType;
 
     const response = await requestFund(props);
     return response.data.data;
@@ -160,24 +181,41 @@ const investmentsSlice = createSlice({
       state.getAllInvestmentsLoading = false;
       state.getAllInvestmentsError = action.error;
     },
-    //   GET ALL INVESTMENTS TRANSACTIONS
-    [getAllInvetstmentTransactions.pending]: (state) => {
-      state.getAllInvetstmentTransactionsLoading = true;
-      state.getAllInvetstmentTransactionsError = null;
-      state.getAllInvetstmentTransactionsisEmpty = false;
+    // GET ALL TBILLS TRANSACTOIONS
+    [getAllTbillsTransactions.pending]: (state) => {
+      state.allTbillsTrasactionsLoading = true;
+      state.allTbillsTrasactionsError = null;
+      state.allTbillsTrasactionsisEmpty = false;
     },
-    [getAllInvetstmentTransactions.fulfilled]: (state, action) => {
-      state.getAllInvetstmentTransactionsData = action.payload;
-      state.getAllInvetstmentTransactionsLoading = false;
-      state.getAllInvetstmentTransactionsError = null;
-      state.getAllInvetstmentTransactionsisEmpty =
-        action.payload > 0 ? false : true;
+    [getAllTbillsTransactions.fulfilled]: (state, action) => {
+      state.allTbillsTrasactionsData = action.payload;
+      state.allTbillsTrasactionsLoading = false;
+      state.allTbillsTrasactionsError = null;
+      state.allTbillsTrasactionsisEmpty = action.payload > 0 ? false : true;
     },
-    [getAllInvetstmentTransactions.rejected]: (state, action) => {
-      state.getAllInvetstmentTransactionsData = null;
-      state.getAllInvetstmentTransactionsLoading = false;
-      state.getAllInvetstmentTransactionsError = action.error;
-      state.getAllInvetstmentTransactionsisEmpty = false;
+    [getAllTbillsTransactions.rejected]: (state, action) => {
+      state.gallTbillsTrasactionsData = null;
+      state.gallTbillsTrasactionsLoading = false;
+      state.gallTbillsTrasactionsError = action.error;
+      state.gallTbillsTrasactionsisEmpty = false;
+    },
+    // GET ALL Fixed TRANSACTOIONS
+    [getAllFixedTransactions.pending]: (state) => {
+      state.allFixedTrasactionsLoading = true;
+      state.allFixedTrasactionsError = null;
+      state.allFixedTrasactionsisEmpty = false;
+    },
+    [getAllFixedTransactions.fulfilled]: (state, action) => {
+      state.allFixedTrasactionsData = action.payload;
+      state.allFixedTrasactionsLoading = false;
+      state.allFixedTrasactionsError = null;
+      state.allFixedTrasactionsisEmpty = action.payload > 0 ? false : true;
+    },
+    [getAllFixedTransactions.rejected]: (state, action) => {
+      state.allFixedTrasactionsData = null;
+      state.allFixedTrasactionsLoading = false;
+      state.allFixedTrasactionsError = action.error;
+      state.allFixedTrasactionsisEmpty = false;
     },
     // CREATE INVESTMENT
     [createInvestment.pending]: (state) => {
@@ -188,6 +226,7 @@ const investmentsSlice = createSlice({
       state.createInvestmentData = action.payload;
       state.createInvestmentLoading = false;
       state.createInvestmentError = null;
+      state.createInvestmentMe = true;
     },
     [createInvestment.rejected]: (state, action) => {
       state.createInvestmentData = null;
@@ -233,6 +272,7 @@ const investmentsSlice = createSlice({
       state.fundInvestmentData = action.payload;
       state.fundInvestmentLoading = false;
       state.fundInvestmentError = null;
+      state.fundInvestmentMe = true;
     },
     [fundInvestment.rejected]: (state, action) => {
       state.fundInvestmentData = null;
@@ -248,6 +288,11 @@ const investmentsSlice = createSlice({
       state.investmentValuationData = action.payload;
       state.investmentValuationLoading = false;
       state.investmentValuationError = null;
+      state.investmentValuationEntities.push(
+        action.payload.fixedDeposits,
+        action.payload.portfolioHoldings,
+        action.payload.treasuryBills
+      );
     },
     [getInvestmentValuation.rejected]: (state, action) => {
       state.investmentValuationData = null;
@@ -258,3 +303,4 @@ const investmentsSlice = createSlice({
 });
 
 export default investmentsSlice.reducer;
+// getAllInvetstmentTransactions

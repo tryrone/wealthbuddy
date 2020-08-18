@@ -16,7 +16,8 @@ const urls = {
   getSavingsTransactions: "/api/Savings/getrecentsavingstransactions",
   //Group Challenge Savings
   createGroupChallengeSavings: "/api/GroupChallengeSavings/creategroupsavings",
-  getGroupChallengeSavingsById: "/api/GroupChallengeSavings/getgroupsavings/:id",
+  getGroupChallengeSavingsById:
+    "/api/GroupChallengeSavings/getgroupsavings/:id",
   startGroupChallengeSavings: "/api/GroupChallengeSavings/startgroupsavings",
   startGroupChallengeWithdraw: "/api/GroupChallengeSavings/startwithdraw",
   completeGroupChallengeWithdraw: "/api/GroupChallengeSavings/completewithdraw",
@@ -65,6 +66,10 @@ const urls = {
   fundInvestmentTbills: "/api/Investments/tbills/topup",
   fundInvestmentFixed: "/api/Investments/terminstruments/topup",
   investmentValuation: "/api/Investments/valuation",
+  fundsWithdraw: "/api/Investments/funds/withdraw",
+  fundsTransactionsList: "/api/Investments/funds/transactions",
+  tBillsTransactionsList: "/api/Investments/tbills/transactions",
+  fixedTransactionsList: "/api/Investments/terminstruments/transactions",
 };
 
 export default urls;

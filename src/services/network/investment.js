@@ -37,10 +37,18 @@ export const getInvestmentTransactionsForFunds = () => {
 export const fundInvestment = (data) => {
   return axios.post(urls.fundInvestment, data);
 };
+export const withdrawFunds = (data) => {
+  return axios.post(urls.fundsWithdraw, data);
+};
 export const getInvestmentValuation = () => {
   return axios.get(urls.investmentValuation);
 };
-
-// export const createInvestment = (data) => {
-//   return axios.post(urls.createInvestment, data);
-// };
+export const getAllFundsTransactions = () => {
+  return axios.get(urls.fundsTransactionsList);
+};
+export const getAllTbillsTransactions = () => {
+  return axios.get(urls.tBillsTransactionsList);
+};
+export const getAllFixedTransactions = () => {
+  return axios.get(urls.fixedTransactionsList);
+};

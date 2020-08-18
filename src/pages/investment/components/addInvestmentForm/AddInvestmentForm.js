@@ -6,7 +6,7 @@ import { formatCurrency } from "utils";
 // import * as Yup from "yup";
 // import { ErrorMessage, Field, Form, Formik } from "formik";
 import { info } from "../../imageLinks";
-import moment from "moment";
+import moment, { duration } from "moment";
 import { Redirect } from "react-router-dom";
 import UploadIcon from "assets/img/uploadIcon.svg";
 import { Link } from "react-router-dom";
@@ -127,25 +127,16 @@ function AddInvestmentForm(props) {
     }
   };
 
-  //INVETSMENT DATA
-  // const inData =
-  //   InvestmentName[0].investmentID == 51129656 || 51129542
-  //     ? investmentFundsData
-  //     : InvestmentName[0].investmentID == 51118581 || 51119099
-  //     ? investmentTbills
-  //     : InvestmentName[0].investmentID == 45149064 || 45149066 || 45149062
-  //     ? investFixedData
-  //     : "";
   const investmentFundsData = {
-    investmentId: `${InvestmentName[0].investmentID}`,
+    investmentID: `${InvestmentName[0].investmentID}`,
     transAmount: parseInt(state.amount),
     currency: `${InvestmentName[0].currency}`,
-    // duration: state.duration,
-    fundName: `${InvestmentName[0].label}`,
+    duration: parseInt(state.duration),
+    fundName: `${InvestmentName[0].name}`,
     frequency: `${state.frequency}`,
     investmentImage: `${files.file.name}`,
-    description: `${InvestmentName[0].name}`,
-    investmentStartDate: `${date}`,
+    description: `testing with ${state.amount}`,
+    // investmentStartDate: `${date}`,
     investmentType: InvestmentName[0].investmentType,
   };
 
@@ -252,16 +243,16 @@ function AddInvestmentForm(props) {
           {/* input content one end */}
 
           {/* input two */}
-          {InvestmentName[0].investmentType == 1 ? null : (
-            <fieldset className="mb-4 w-full px-6 mx-auto">
-              <label className="block text-xs font-medium">
-                How long would you want to invest
-              </label>
-              <div className="fieldset mt-2 w-full">
-                <StartDropdown myDuration={setDurationDays} />
-              </div>
-            </fieldset>
-          )}
+          {/* {InvestmentName[0].investmentType == 1 ? null : ( */}
+          <fieldset className="mb-4 w-full px-6 mx-auto">
+            <label className="block text-xs font-medium">
+              How long would you want to invest
+            </label>
+            <div className="fieldset mt-2 w-full">
+              <StartDropdown myDuration={setDurationDays} />
+            </div>
+          </fieldset>
+          {/* )} */}
           {/* input two */}
 
           {/* input three */}

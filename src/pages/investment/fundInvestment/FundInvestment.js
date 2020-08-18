@@ -5,7 +5,10 @@ import { dogs, dogsBg, catfish, corn } from "../imageLinks";
 import { Link, Redirect } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import { allPersonalInvestments } from "../../../state/slices/investments";
+import {
+  allPersonalInvestments,
+  getAllInvestments,
+} from "../../../state/slices/investments";
 import { formatCurrency } from "utils";
 import FundExistingModal from "../viewAnInvestment/component/fundExistingInvestment/FundExistingModal";
 import Loading from "shared-components/Loading";
@@ -14,11 +17,11 @@ const FundInvestment = (props) => {
   const [amount, setAmount] = useState(null);
   const [modal, changeModal] = useState(false);
   const [view, setView] = useState(false);
-  const [itemView, setItem] = useState("");
+  const [itemView, setItem] = useState("choose from available investments");
   const [itemPerc, setPerc] = useState("");
   const [Id, setId] = useState("");
   const [investName, setInvestName] = useState("");
-  const [investType, setInvestType] = useState(null);
+  const [investType, setInvestType] = useState("null");
   const [investCurrency, setInvestCurrency] = useState("");
   const [investSymbol, setInvestSymbol] = useState("");
   const [investCurrent, setInvestCurrent] = useState("");
@@ -28,6 +31,7 @@ const FundInvestment = (props) => {
 
   useEffect(() => {
     dispatch(allPersonalInvestments());
+    dispatch(getAllInvestments());
   }, []);
 
   const onclose = (val) => {
@@ -38,10 +42,9 @@ const FundInvestment = (props) => {
 
   const fundData = {
     transAmount: parseInt(amount),
-    securityId: `${Id}`,
+    securityID: Id,
     description: `${investSymbol}`,
-    investmentType: parseInt(investType),
-    currency: `${investCurrency == null ? "NGN" : investCurrency}`,
+    currency: `${investCurrency == "undefined" ? "NGN" : investCurrency}`,
     fundName: `${investName}`,
   };
 
@@ -104,7 +107,8 @@ const FundInvestment = (props) => {
             {/* dropsown for list of investments */}
             {/* dropsown for list of investments */}
             <div className="fieldset w-11/12 mt-2 w-full">
-              {props.allPersonalInvestmentsLoading ? (
+              {props.allPersonalInvestmentsLoading &&
+              props.getAllInvestmentsLoading ? (
                 <Loading text="" />
               ) : (
                 <React.Fragment>
@@ -142,8 +146,8 @@ const FundInvestment = (props) => {
                                   setId(`${item.securityId}`);
                                   setPerc(`${item.portPercentage.toFixed(1)}`);
                                   setView(false);
-                                  setInvestName(`${item.companyName}`);
-                                  setInvestSymbol(`${item.symbol}`);
+                                  setInvestName(`${item.symbol}`);
+                                  setInvestSymbol(`${item.companyName}`);
                                   setInvestCurrent(`${item.currentValue}`);
                                   setShowList(true);
                                   setInvestCurrency(`${item.currency}`);
@@ -272,7 +276,7 @@ const FundInvestment = (props) => {
               onClick={() => {
                 onSubmitFund();
               }}
-              disabled={amount == null || investType == null ? true : false}
+              disabled={amount == null || Id.length == 0 ? true : false}
               className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
             >
               Next
@@ -295,6 +299,7 @@ const FundInvestment = (props) => {
 
 const mapStateToProps = (state) => ({
   // ALL PERSONAL INVESTMENT DATA
+  getAllInvestmentsLoading: state.investments.getAllInvestmentsLoading,
   allPersonalInvestmentsData: state.investments.allPersonalInvestmentsData,
   allPersonalInvestmentsLoading:
     state.investments.allPersonalInvestmentsLoading,

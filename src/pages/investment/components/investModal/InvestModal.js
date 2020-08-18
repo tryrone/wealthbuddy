@@ -181,7 +181,7 @@ const InvestModal = (props) => {
                   style={{ color: "#999999" }}
                   className="text-xs text-center mt-4 "
                 >
-                  You have ₦ {formatCurrency(props.dashboard.walletBalance)}in
+                  You have ₦ {formatCurrency(props.dashboard.walletBalance)} in
                   your wallet
                 </p>
                 <button
@@ -220,7 +220,8 @@ const InvestModal = (props) => {
 
         {/* UI after payment */}
         {/* UI after payment */}
-        {!(errorObj && props.createInvestmentLoading) && payment ? (
+        {!(errorObj && !props.createInvestmentLoading && !payment) &&
+        props.createInvestmentMe ? (
           <Fragment>
             <div className="flex flex-col items-center mb-0">
               <i className="w-20 mb-4">
@@ -275,6 +276,7 @@ const InvestModal = (props) => {
   );
 };
 const mapStateToProps = (state) => ({
+  createInvestmentMe: state.investments.createInvestmentMe,
   createInvestmentLoading: state.investments.createInvestmentLoading,
   createInvestmentError: state.investments.createInvestmentError,
   createInvestmentData: state.investments.createInvestmentData,

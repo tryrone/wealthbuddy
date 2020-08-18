@@ -35,11 +35,11 @@ const FundExistingInvestment = (props) => {
 
   const fundData = {
     transAmount: parseInt(amount),
-    securityId: specificData.length == 0 ? null : specificData[0].securityId,
-    description: specificData.length == 0 ? null : specificData[0].symbol,
+    securityID: specificData.length == 0 ? null : specificData[0].securityId,
+    description: specificData.length == 0 ? null : specificData[0].companyName,
     // currency: specificData.length == 0 ? null : specificData[0].currency,
     currency: "NGN",
-    fundName: specificData.length == 0 ? null : specificData[0].companyName,
+    fundName: specificData.length == 0 ? null : specificData[0].symbol,
   };
 
   return !props.location.investmentId ? (
@@ -108,6 +108,7 @@ const FundExistingInvestment = (props) => {
             </Link>
             {/* <button className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm ${(checkEmpty(state) === true || status) && "opaque"}`} onClick={(checkEmpty(state) === false && !status) && confirm}> */}
             <button
+              disabled={amount == null ? true : false}
               onClick={() => {
                 onSubmitFund();
               }}
@@ -161,7 +162,7 @@ const FundExistingInvestment = (props) => {
               ₦ {formatCurrency(specificData[0].currentValue.toFixed(2))}
             </p>
           </div>
-          <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
+          {/* <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
             <p className="text-left text-black text-opacity-25 text-base">
               Interest
             </p>
@@ -172,7 +173,7 @@ const FundExistingInvestment = (props) => {
               Maturity Date
             </p>
             <p className="text-right text-black text-base">07 Jul 2021</p>
-          </div>
+          </div> */}
           {/* image text content end */}
           {/* image text content end */}
         </div>
