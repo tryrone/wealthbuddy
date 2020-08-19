@@ -12,7 +12,7 @@ function* operation({ payload, meta }) {
   yield put(saveProfileStart());
 
   try {
-    const response = yield call(Customer.saveProfile, payload);
+    const response = yield call(Customer.updateProfile, payload);
     let { status } = response.data;
     yield put(saveProfileSuccess(status));
     // yield meta.history.push("/dashboard");

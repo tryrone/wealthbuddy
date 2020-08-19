@@ -61,8 +61,8 @@ export const changePassword = (data) => {
   return axios.post(urls.changePassword, data);
 };
 
-export const saveProfile = (data) => {
-  return axios.post(urls.saveProfile, data);
+export const updateProfile = (data) => {
+  return axios.post(urls.updateProfile, data);
 };
 
 export const getBankList = (data) => {

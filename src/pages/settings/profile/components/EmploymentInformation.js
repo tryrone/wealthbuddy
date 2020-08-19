@@ -1,4 +1,5 @@
 import React from "react";
+import { Field } from "formik";
 
 const EmploymentInformation = () => {
   return (
@@ -8,11 +9,11 @@ const EmploymentInformation = () => {
           <label className="block text-xs mb-3" htmlFor="occupation">
             Occupation
           </label>
-          <input
+          <Field
             placeholder="Enter Occupation"
             type="text"
+            id="occupation"
             name="occupation"
-            value={"occupation"}
             className="block w-full text-xs p-3 border border-gray-400 rounded"
           />
         </fieldset>
@@ -21,11 +22,11 @@ const EmploymentInformation = () => {
           <label className="block text-xs mb-3" htmlFor="employerName">
             Employer Name
           </label>
-          <input
+          <Field
             placeholder="Enter Employer Name"
             type="text"
+            id="employerName"
             name="employerName"
-            value={"employerName"}
             className="block w-full text-xs p-3 border border-gray-400 rounded"
           />
         </fieldset>
@@ -34,10 +35,11 @@ const EmploymentInformation = () => {
           <label className="block text-xs mb-3" htmlFor="lastName">
             Employer Address
           </label>
-          <textarea
+          <Field
             placeholder="Enter Employer Address"
+            component="textarea"
+            id="employerAddress"
             name="employerAddress"
-            value={"employerAddress"}
             className="block w-full p-3 border border-gray-400 rounded"
           />
         </fieldset>

@@ -3,6 +3,7 @@ import CardIcon from "../../../../../assets/img/cardIcon.png";
 import successDoc from "../../../../../assets/img/success.svg";
 import "./invest.css";
 import { fundInvestment } from "../../../../../state/slices/investments";
+import failedDoc from "../../../../../assets/img/failedDoc.svg";
 import { connect, useDispatch } from "react-redux";
 import InvestmentDropdown from "../../../components/investmentDropdown/InvestmentDropdown";
 import Loading from "shared-components/Loading";
@@ -11,25 +12,43 @@ import { formatCurrency } from "utils";
 const FundExistingModal = (props) => {
   const [payment, setPayment] = useState(false);
   const [card, setCard] = useState(false);
+  const [inHide, setInHide] = useState(true);
   const [myCard, setMyCard] = useState("");
   const [activeOne, setActiveOne] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
 
   const setInvestDetails = props.MycreateInvestmentData;
+  let errorObj = props.fundInvestmentError;
+
+  const myDataArray = props.getAllInvestmentsData.filter(
+    (item) => item.investmentID == setInvestDetails.itemId
+  );
+
+  console.log(myDataArray, "my baby");
+  // setInvestDetails.securityID
 
   const dispatch = useDispatch();
 
+  const refresh = () => {
+    return document.location.reload(true);
+    // return <Redirect to="/investment/add-investment" />;
+  };
+
   const showMyDetails = () => {
     if (!activeOne) {
+      setInvestDetails.investmentType = parseInt(myDataArray[0].investmentType);
+      delete setInvestDetails.itemId;
       dispatch(fundInvestment(setInvestDetails));
       console.log(setInvestDetails);
-      // console.log(typeof setInvestDetails.transAmount);
     } else if (activeOne) {
       setInvestDetails.cardId = `${myCard}`;
-      console.log(setInvestDetails);
-      // console.log(typeof setInvestDetails.transAmount);
+      setInvestDetails.investmentType = parseInt(myDataArray[0].investmentType);
+      delete setInvestDetails.itemId;
       dispatch(fundInvestment(setInvestDetails));
+      console.log(setInvestDetails);
+      // console.log(props, "solo");
     }
+    setInHide(false);
   };
 
   const setMyAvailableCard = (val) => {
@@ -45,18 +64,25 @@ const FundExistingModal = (props) => {
     <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
       <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset">
         <span className="closeModal cursor-pointer" onClick={() => onclose()}>
-          <p className="text-hairline text-base text-right">Close</p>
+          <p
+            onClick={() => {
+              refresh();
+            }}
+            className="text-hairline text-base text-right"
+          >
+            Close
+          </p>
         </span>
 
         {/* UI before payment  */}
         {/* UI before payment  */}
-        {props.createInvestmentLoading ? null : !payment ? (
+        {props.fundInvestmentLoading ? null : inHide ? (
           <Fragment>
             <div className="flex flex-col items-center mb-0">
               <i className="w-20 mb-4">
                 <img src={CardIcon} alt="" />
               </i>
-              <h1 className="text-2xl font-medium mb-2">Fund wallet</h1>
+              <h1 className="text-2xl font-medium mb-2">Fund Investment</h1>
               <p className="text-center text-gray-500 leading-normal">
                 Select a payment method to make deposits into your investment.
                 there.
@@ -155,14 +181,17 @@ const FundExistingModal = (props) => {
 
             {/* wallet display text */}
             {/* wallet display text */}
-            {props.createInvestmentLoading ? null : activeTwo ? (
+            {props.fundInvestmentLoading ? null : activeTwo ? (
               <Fragment>
                 <p
                   style={{ color: "#999999" }}
                   className="text-xs text-center mt-4 "
                 >
-                  You have ₦ {formatCurrency(props.dashboard.walletBalance)}in
-                  your wallet
+                  You have{" "}
+                  <p className="text-orange-700">
+                    ₦{formatCurrency(props.dashboard.walletBalance)}
+                  </p>
+                  in your wallet
                 </p>
                 <button
                   onClick={() => {
@@ -190,7 +219,7 @@ const FundExistingModal = (props) => {
 
         {/* Loading UI for PayMent */}
         {/* Loading UI for PayMent */}
-        {props.createInvestmentLoading ? (
+        {props.fundInvestmentLoading ? (
           <Fragment>
             <Loading text="Creating Investment" />
           </Fragment>
@@ -200,8 +229,8 @@ const FundExistingModal = (props) => {
 
         {/* UI after payment */}
         {/* UI after payment */}
-        {!(props.createInvestmentError && props.createInvestmentLoading) &&
-        payment ? (
+        {!(errorObj && !props.fundInvestmentLoading && !payment) &&
+        props.fundInvestmentMe ? (
           <Fragment>
             <div className="flex flex-col items-center mb-0">
               <i className="w-20 mb-4">
@@ -209,12 +238,35 @@ const FundExistingModal = (props) => {
               </i>
               <h1 className="text-2xl font-medium mb-2">Success</h1>
               <p className="text-center text-gray-500 leading-normal">
-                You have successfully created an investment.
+                You have successfully funded an investment.
               </p>
 
               <button
                 onClick={() => {
                   onclose();
+                  refresh();
+                }}
+                className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
+              >
+                Done
+              </button>
+            </div>
+          </Fragment>
+        ) : errorObj && !props.fundInvestmentLoading && !payment ? (
+          <Fragment>
+            <div className="flex flex-col items-center mb-0">
+              <i className="w-20 mb-4">
+                <img src={failedDoc} alt="" />
+              </i>
+              <h1 className="text-2xl font-medium mb-2">Failed</h1>
+              <p className="text-center text-gray-500 leading-normal">
+                {errorObj.message}.
+              </p>
+
+              <button
+                onClick={() => {
+                  onclose();
+                  refresh();
                 }}
                 className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
               >
@@ -235,6 +287,8 @@ const mapStateToProps = (state) => ({
   fundInvestmentLoading: state.investments.fundInvestmentLoading,
   fundInvestmentError: state.investments.fundInvestmentError,
   fundInvestmentData: state.investments.fundInvestmentData,
+  fundInvestmentMe: state.investments.fundInvestmentMe,
+  getAllInvestmentsData: state.investments.getAllInvestmentsData,
   cards: state.cards.data,
   dashboard: state.dashboard.data,
 });

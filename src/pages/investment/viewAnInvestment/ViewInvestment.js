@@ -7,39 +7,82 @@ import ViewDetails from "./component/viewInvestDetails/ViewDetails";
 import { Link, Redirect } from "react-router-dom";
 
 const ViewInvestment = (props) => {
-  const specificData = props.allPersonalInvestmentsData.filter(
-    (item) => props.location.investmentId == item.securityId
-  );
-
+  //RELOAD HANDLER
   if (!props.location.investmentId) {
     return <Redirect to="/dashboard/investment" />;
   }
+
+  const setInvestmentTypeOne = props.investmentValuationData.fixedDeposits.filter(
+    (item) => item.instrumentId == props.location.fixedId
+  );
+  const setInvestmentTypeTwo = props.investmentValuationData.portfolioHoldings.filter(
+    (item) => item.securityId == props.location.investmentId
+  );
+  const setInvestmentTypeThree = props.investmentValuationData.treasuryBills.filter(
+    (item) => item.id == props.location.tBillId
+  );
+
+  let makeArray = [];
+
+  if (setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0) {
+    makeArray = setInvestmentTypeThree;
+  } else if (
+    setInvestmentTypeTwo.length == 0 &&
+    setInvestmentTypeThree.length == 0
+  ) {
+    makeArray = setInvestmentTypeOne;
+  } else if (
+    setInvestmentTypeOne.length == 0 &&
+    setInvestmentTypeThree.length == 0
+  ) {
+    makeArray = setInvestmentTypeTwo;
+  }
+
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
-      <div className="flex flex-row justify-between content-center sm:w-2/6 items-center  mb-10 ">
+      <div className="flex flex-row content-center sm:w-6/12 items-center  mb-10 ">
         <p style={{ color: "#999999" }} className="text-xs ">
           Investment
         </p>
-        <p style={{ color: "#999999" }} className="text-xs ">
+        <p style={{ color: "#999999" }} className="text-xs mx-4 ">
           {" "}
           {">>"}{" "}
         </p>
-        <p className="text-sm text-black">{specificData[0].companyName}</p>
+        <p className="text-sm text-black">
+          {makeArray[0].companyName
+            ? makeArray[0].companyName
+            : makeArray[0].productLabel
+            ? makeArray[0].productLabel
+            : makeArray[0].typeLabel
+            ? makeArray[0].typeLabel
+            : null}
+        </p>
       </div>
 
       {/* heading */}
       <p className="text-black font-bold text-2xl text-left">
-        {specificData[0].companyName}
+        {makeArray[0].companyName
+          ? makeArray[0].companyName
+          : makeArray[0].productLabel
+          ? makeArray[0].productLabel
+          : makeArray[0].typeLabel
+          ? makeArray[0].typeLabel
+          : null}
       </p>
       {/* heading end */}
 
       <div className="md:flex md:flex-shrink-0 savings-home--wrap  justify-between fadeIn">
         {/* left part */}
         <div className="flex flex-col w-full mr-5">
-          <ViewCard investmentId={specificData[0].securityId} />
+          {/* <ViewCard investmentId={specificData[0].securityId} /> */}
+          <ViewCard
+            investmentIdFixed={makeArray[0].instrumentId}
+            investmentIdTbills={makeArray[0].typeId}
+            investmentIdFunds={makeArray[0].securityId}
+          />
 
           {/* roll over card */}
-          <div
+          {/* <div
             style={{ borderColor: "#8CB13D", backgroundColor: "#F9FFEB" }}
             className="flex flex-col sm:flex-row border border-solid px-6 py-4"
           >
@@ -59,15 +102,21 @@ const ViewInvestment = (props) => {
               </Link>
             </div>
           </div>
+           */}
           {/* roll over card */}
           <div>
-            <ViewDetails details={specificData[0]} />
+            <ViewDetails
+              investmentIdFixed={makeArray[0].instrumentId}
+              investmentIdTbills={makeArray[0].typeId}
+              investmentIdFunds={makeArray[0].securityId}
+            />
+            {/* <ViewDetails details={specificData[0]} /> */}
           </div>
         </div>
         {/* left part */}
 
         {/* right part */}
-        <TransactionHistory data={specificData[0].assetClass} />
+        <TransactionHistory />
         {/* right part */}
       </div>
     </div>
@@ -79,6 +128,10 @@ const mapStateToProps = (state) => ({
   allPersonalInvestmentsLoading:
     state.investments.allPersonalInvestmentsLoading,
   allPersonalInvestmentsError: state.investments.allPersonalInvestmentsError,
+  getAllInvestmentsData: state.investments.getAllInvestmentsData,
+  getAllInvestmentsLoading: state.investments.getAllInvestmentsLoading,
+  investmentValuationData: state.investments.investmentValuationData,
+  investmentValuationLoading: state.investments.investmentValuationLoading,
 });
 
 export default connect(mapStateToProps)(ViewInvestment);

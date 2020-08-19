@@ -1,45 +1,88 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { pencil } from "assets/exports";
+import { connect, useDispatch } from "react-redux";
+import { Field, useFormikContext } from "formik";
+import { uploadProfilePicture } from "state/slices/account";
+import DatePicker, { utils } from "react-modern-calendar-datepicker";
 
 const gender = [
-  { title: "Male", value: "1" },
-  { title: "Female", value: "2" },
+  { title: "Male", value: 1 },
+  { title: "Female", value: 2 },
 ];
 
 const maritalStatus = [
-  { title: "Single", value: "1" },
-  { title: "Married", value: "2" },
-  { title: "Divorced", value: "3" },
+  { title: "Single", value: 1 },
+  { title: "Married", value: 2 },
+  { title: "Divorced", value: 3 },
 ];
 
 const religion = [
-  { title: "Christianity", value: "1" },
-  { title: "Islam", value: "2" },
-  { title: "Others", value: "3" },
+  { title: "Christianity", value: 1 },
+  { title: "Islam", value: 2 },
+  { title: "Others", value: 3 },
 ];
 
-const BasicInformation = () => {
+const BasicInformation = ({ account }) => {
+  const { customerDetails } = account;
+
+  const firstNameInitial = customerDetails.otherNames.charAt(0);
+  const lastNameInitial = customerDetails.lastName.charAt(0);
+  const photoAbbreviation = `${firstNameInitial}${lastNameInitial}`;
+
+  const dispatch = useDispatch();
+  const {
+    values,
+    handleChange,
+    handleBlur,
+    setFieldValue,
+  } = useFormikContext();
+  const [isPictureUploading, setIsPictureUploading] = useState(false);
+
+  const handleUploadProfilePicture = async (e) => {
+    const file = e.target.files[0];
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    setIsPictureUploading(true);
+    const resultAction = await dispatch(uploadProfilePicture(formData));
+    if (uploadProfilePicture.fulfilled.match(resultAction)) {
+      setIsPictureUploading(false);
+    } else {
+      if (resultAction.payload) {
+        setIsPictureUploading(false);
+        // resultAction.payload.message
+      } else {
+        setIsPictureUploading(false);
+        // resultAction.error.message
+      }
+    }
+  };
+
   return (
     <Fragment>
       <figure className="basic-profile mb-5 flex items-center">
-        {/* profileImage !== null ?
-                                    <img src={profile.image} alt={`Wealth Buddy Investments`} className="mb-4" /> : */}
-        <div className="user-no--picture mb-4 text-white">{`names`}</div>
+        {values.picture !== null ? (
+          <img src={values.picture} alt="" className="mb-4" />
+        ) : (
+          <div className="user-no--picture mb-4 text-white">
+            {photoAbbreviation}
+          </div>
+        )}
 
         <figcaption className="ml-5">
           <p className="font-medium card-header mb-2">Upload Selfie</p>
           <p className=" text-sm color-accent">Click image to change it</p>
         </figcaption>
-
         <input
           className="selfieInput"
           type="file"
-          // onChange={uploadSelfie}
+          onChange={handleUploadProfilePicture}
           accept="image/*"
         />
         <div
-          className="edit-image"
+          className={`edit-image ${isPictureUploading ? "edit-loading" : ""}`}
           dangerouslySetInnerHTML={{ __html: pencil }}
         />
       </figure>
@@ -50,9 +93,10 @@ const BasicInformation = () => {
             <label className="block text-xs mb-3" htmlFor="title">
               Title
             </label>
-            <input
+            <Field
               placeholder="Enter Title"
-              type="text"
+              type="title"
+              id="title"
               name="title"
               className="block w-full text-xs p-3 border border-gray-400 rounded"
             />
@@ -63,10 +107,10 @@ const BasicInformation = () => {
               First name
             </label>
             <input
-              placeholder="Enter First Name"
               type="text"
               name="firstName"
-              value={"profile"}
+              value={customerDetails.otherNames}
+              onChange={() => null}
               className="block w-full text-xs p-3 border border-gray-400 rounded"
               readOnly
             />
@@ -77,10 +121,10 @@ const BasicInformation = () => {
               Last name
             </label>
             <input
-              placeholder="Enter Last Name"
               type="text"
-              name="lastName"
-              value={"lastName"}
+              name="firstName"
+              value={customerDetails.lastName}
+              onChange={() => null}
               className="block w-full text-xs p-3 border border-gray-400 rounded"
               readOnly
             />
@@ -90,11 +134,11 @@ const BasicInformation = () => {
             <label className="block text-xs mb-3" htmlFor="maidenName">
               Maiden name
             </label>
-            <input
+            <Field
               placeholder="Enter Maiden Name"
-              type="text"
+              type="maidenName"
+              id="maidenName"
               name="maidenName"
-              value={"maidenName"}
               className="block w-full text-xs p-3 border border-gray-400 rounded"
             />
           </fieldset>
@@ -103,12 +147,14 @@ const BasicInformation = () => {
             <label className="block text-xs mb-3">Gender</label>
             <select
               name="gender"
-              value={"gender"}
+              value={values.gender}
+              onChange={(event) =>
+                setFieldValue(event.target.name, parseInt(event.target.value))
+              }
+              onBlur={handleBlur}
               className="block w-full text-xs p-3 border border-gray-400 rounded"
             >
-              <option value="" disabled>
-                Select
-              </option>
+              <option value={null}>Select Gender</option>
               {gender.map(({ title, value }, key) => (
                 <option key={key} value={value}>
                   {title}
@@ -116,15 +162,19 @@ const BasicInformation = () => {
               ))}
             </select>
           </fieldset>
+
           <fieldset className="mb-6 input-field--wrap">
             <label className="block text-xs mb-3">Marital Status</label>
             <select
               name="maritalStatus"
+              value={values.maritalStatus}
+              onChange={(event) =>
+                setFieldValue(event.target.name, parseInt(event.target.value))
+              }
+              onBlur={handleBlur}
               className="block w-full text-xs p-3 border border-gray-400 rounded"
             >
-              <option value="" disabled>
-                Select
-              </option>
+              <option value={null}>Select Marital Status</option>
               {maritalStatus.map(({ title, value }, key) => (
                 <option key={key} value={value}>
                   {title}
@@ -139,11 +189,14 @@ const BasicInformation = () => {
             </label>
             <select
               name="religion"
+              value={values.religion}
+              onChange={(event) =>
+                setFieldValue(event.target.name, parseInt(event.target.value))
+              }
+              onBlur={handleBlur}
               className="block w-full text-xs p-3 border border-gray-400 rounded"
             >
-              <option value="" disabled>
-                Select
-              </option>
+              <option value={null}>Select</option>
               {religion.map(({ title, value }, key) => (
                 <option key={key} value={value}>
                   {title}
@@ -155,22 +208,23 @@ const BasicInformation = () => {
             <label className="block text-xs mb-3" htmlFor="dob">
               Date of Birth
             </label>
-            <input
-              placeholder="Enter DOB"
-              type="text"
-              name="dob"
-              className="block w-full text-xs p-3 border border-gray-400 rounded"
-              readOnly
+            <DatePicker
+              inputPlaceholder="Enter Date of Birth"
+              value={values.dateOfBirth}
+              onChange={(value) => setFieldValue("dateOfBirth", value)}
+              shouldHighlightWeekends
+              minimumDate={utils("en").getToday()}
+              inputClassName="block w-full text-xs p-3 border border-gray-400 rounded text-left-f"
             />
           </fieldset>
         </div>
       </div>
-
-      <button className="w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm loading opaque">
-        Save <span className="loader" />
-      </button>
     </Fragment>
   );
 };
 
-export default BasicInformation;
+const mapStateToProps = (state) => ({
+  account: state.account.data,
+});
+
+export default connect(mapStateToProps)(BasicInformation);
