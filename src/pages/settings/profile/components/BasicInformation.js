@@ -31,12 +31,7 @@ const BasicInformation = ({ account }) => {
   const photoAbbreviation = `${firstNameInitial}${lastNameInitial}`;
 
   const dispatch = useDispatch();
-  const {
-    values,
-    handleChange,
-    handleBlur,
-    setFieldValue,
-  } = useFormikContext();
+  const { values, handleBlur, setFieldValue } = useFormikContext();
   const [isPictureUploading, setIsPictureUploading] = useState(false);
 
   const handleUploadProfilePicture = async (e) => {
@@ -213,7 +208,6 @@ const BasicInformation = ({ account }) => {
               value={values.dateOfBirth}
               onChange={(value) => setFieldValue("dateOfBirth", value)}
               shouldHighlightWeekends
-              minimumDate={utils("en").getToday()}
               inputClassName="block w-full text-xs p-3 border border-gray-400 rounded text-left-f"
             />
           </fieldset>

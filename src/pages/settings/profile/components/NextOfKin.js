@@ -1,8 +1,10 @@
 import React from "react";
 import NumberFormat from "react-number-format";
-import { Field } from "formik";
+import { Field, useFormikContext } from "formik";
 
 const NextOfKin = () => {
+  const { values, handleBlur, setFieldValue } = useFormikContext();
+
   return (
     <div className="settings-profile--fields">
       <div className="w-full settings-field--content">
@@ -27,8 +29,12 @@ const NextOfKin = () => {
             format="#### ### ####"
             placeholder="Enter Phone Number"
             type="text"
-            name="phone"
-            value={90930409498}
+            name="nextOfKinPhoneNumber"
+            value={values.nextOfKinPhoneNumber}
+            onValueChange={({ value }) =>
+              setFieldValue("nextOfKinPhoneNumber", value)
+            }
+            onBlur={handleBlur}
             className="block w-full text-xs p-3 border border-gray-400 rounded"
           />
         </fieldset>

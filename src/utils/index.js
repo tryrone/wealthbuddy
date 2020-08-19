@@ -1,4 +1,5 @@
 import * as d3 from "d3-format";
+import moment from "moment";
 
 export const formatCurrency = (amount = 0) => {
   let formattedAmount = d3.format(",.2f")(amount);
@@ -56,4 +57,21 @@ export const getReference = () => {
   for (let i = 0; i < 15; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return text;
+};
+
+export const convertIsoDateToYmdJson = (isoDate) => {
+  const dateMoment = moment(isoDate);
+
+  return {
+    year: parseInt(moment(dateMoment).format("YYYY")),
+    month: parseInt(moment(dateMoment).format("M")),
+    day: parseInt(moment(dateMoment).format("D")),
+  };
+};
+
+export const convertYmdJsonToIsoDate = (datePickerDateObj) => {
+  return moment(
+    `${datePickerDateObj.year}-${datePickerDateObj.month}-${datePickerDateObj.day}`,
+    "YYYY-M-D"
+  ).toISOString();
 };

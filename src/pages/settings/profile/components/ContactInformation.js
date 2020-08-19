@@ -1,5 +1,4 @@
 import React from "react";
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import stateRegions from "constants/stateRegions.js";
 import NumberFormat from "react-number-format";
 import { connect } from "react-redux";
