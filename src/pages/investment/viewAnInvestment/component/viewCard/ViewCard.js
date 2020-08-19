@@ -127,20 +127,52 @@ const ViewCard = (props) => {
           <img src={fundInvestment} alt="wealth-buddy" className="pr-3" />
           <p className="text-white text-base self-center">Fund Investment</p>
         </Link>
-        <Link
-          to="/dashboard/investment/view-investment/withdraw"
-          className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
-        >
-          <img src={withblack} alt="wealth-buddy" className="pr-3" />
-          <p className="text-white text-base self-center">Withdraw</p>
-        </Link>
-        <Link
-          to="/dashboard/investment/view-investment/terminate"
-          className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
-        >
-          <img src={terminate} alt="wealth-buddy" className="pr-3" />
-          <p className="text-white text-base self-center">Terminate</p>
-        </Link>
+
+        {setInvestmentTypeTwo.length == 0 &&
+        setInvestmentTypeThree.length == 0 ? null : (
+          <Link
+            to={{
+              pathname: "/dashboard/investment/view-investment/withdraw",
+              // investmentId: `${specificData[0].securityId}`,
+              investmentId: `${
+                setInvestmentTypeOne.length == 0 &&
+                setInvestmentTypeTwo.length == 0
+                  ? makeArray[0].id
+                  : setInvestmentTypeTwo.length == 0 &&
+                    setInvestmentTypeThree.length == 0
+                  ? makeArray[0].instrumentId
+                  : makeArray[0].securityId
+              }`,
+            }}
+            className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
+          >
+            <img src={withblack} alt="wealth-buddy" className="pr-3" />
+            <p className="text-white text-base self-center">Withdraw</p>
+          </Link>
+        )}
+
+        {setInvestmentTypeOne.length == 0 &&
+        setInvestmentTypeThree.length == 0 ? null : (
+          <Link
+            to={{
+              pathname: "/dashboard/investment/view-investment/terminate",
+              // investmentId: `${specificData[0].securityId}`,
+              investmentId: `${
+                setInvestmentTypeOne.length == 0 &&
+                setInvestmentTypeTwo.length == 0
+                  ? makeArray[0].id
+                  : setInvestmentTypeTwo.length == 0 &&
+                    setInvestmentTypeThree.length == 0
+                  ? makeArray[0].instrumentId
+                  : makeArray[0].securityId
+              }`,
+            }}
+            className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
+          >
+            <img src={terminate} alt="wealth-buddy" className="pr-3" />
+            <p className="text-white text-base self-center">Terminate</p>
+          </Link>
+        )}
       </div>
     </div>
   );
