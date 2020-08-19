@@ -9,7 +9,8 @@ const urls = {
   getCustomerSavings: "/api/Savings/getcustomersavings",
   getPendingSavingsInvitations: "/api/Savings/getpendinginvitations",
   getCustomerCards: "/api/Customer/getcards",
-  createPersonalSaving: "/api/PersonalTargetSavings/CreateNewPersonalTargetSavings",
+  createPersonalSaving:
+    "/api/PersonalTargetSavings/CreateNewPersonalTargetSavings",
   createFixedLocked: "/api/FixedLockSavings/Create",
   createFixedFlexible: "/api/FixedFlexibleSavings/createfixedflexiblesavings",
   getDashboard: "/api/Customer/dashboard",
@@ -50,7 +51,8 @@ const urls = {
   startCancelPersonalSavings: "/api/PersonalTargetSavings/startcancel",
   completeCancelPersonalSavings: "/api/PersonalTargetSavings/completecancel",
   startCancelFixedFlexibleSavings: "/api/FixedFlexibleSavings/startcancel",
-  completeCancelFixedFlexibleSavings: "/api/FixedFlexibleSavings/completecancel",
+  completeCancelFixedFlexibleSavings:
+    "/api/FixedFlexibleSavings/completecancel",
   startCancelFixedLockSavings: "/api/FixedLockSavings/startcancel",
   completeCancelFixedLockSavings: "/api/FixedLockSavings/completecancel",
   getSavingsConfiguration: "/api/Savings/getsavingsconfiguration",
@@ -68,8 +70,14 @@ const urls = {
   getAllInvetstmentTransactions: "/api/Investments/transactions/all",
   getPersonalInvestments: "/api/Investments/me",
   investmentTransactionsForFunds: "/api/Investments/funds/transactions",
-  fundInvestment: "/api/Investments/funds/topup",
+  fundMutualFund: "/api/Investments/funds/topup",
+  fundInvestmentTbills: "/api/Investments/tbills/topup",
+  fundInvestmentFixed: "/api/Investments/terminstruments/topup",
   investmentValuation: "/api/Investments/valuation",
+  fundsWithdraw: "/api/Investments/funds/withdraw",
+  fundsTransactionsList: "/api/Investments/funds/transactions",
+  tBillsTransactionsList: "/api/Investments/tbills/transactions",
+  fixedTransactionsList: "/api/Investments/terminstruments/transactions",
 };
 
 export default urls;

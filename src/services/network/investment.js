@@ -7,6 +7,15 @@ export const getInvestmentConfigs = () => {
 export const getAllInvestments = () => {
   return axios.get(urls.getAllInvestments);
 };
+export const fundMutualFund = (data) => {
+  return axios.post(urls.fundMutualFund, data);
+};
+export const fundTbills = (data) => {
+  return axios.post(urls.fundInvestmentTbills, data);
+};
+export const fundFixed = (data) => {
+  return axios.post(urls.fundInvestmentFixed, data);
+};
 export const createFundInvestment = (data) => {
   return axios.post(urls.createFundInvestment, data);
 };
@@ -28,10 +37,18 @@ export const getInvestmentTransactionsForFunds = () => {
 export const fundInvestment = (data) => {
   return axios.post(urls.fundInvestment, data);
 };
+export const withdrawFunds = (data) => {
+  return axios.post(urls.fundsWithdraw, data);
+};
 export const getInvestmentValuation = () => {
   return axios.get(urls.investmentValuation);
 };
-
-// export const createInvestment = (data) => {
-//   return axios.post(urls.createInvestment, data);
-// };
+export const getAllFundsTransactions = () => {
+  return axios.get(urls.fundsTransactionsList);
+};
+export const getAllTbillsTransactions = () => {
+  return axios.get(urls.tBillsTransactionsList);
+};
+export const getAllFixedTransactions = () => {
+  return axios.get(urls.fixedTransactionsList);
+};

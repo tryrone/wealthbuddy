@@ -31,9 +31,9 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
           </div>
         ) : (
           `N${formatCurrency(
-            !investmentValuationData.totalPortfolioCost
+            !investmentValuationData.netAssetValue
               ? null
-              : investmentValuationData.totalPortfolioCost.toFixed(2)
+              : investmentValuationData.netAssetValue.toFixed(2)
           )} `
         )}
       </p>
@@ -50,9 +50,9 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
               </div>
             ) : (
               `N${formatCurrency(
-                !investmentValuationData.totalPortfolioReturn
+                !investmentValuationData.commodityPerc
                   ? null
-                  : investmentValuationData.totalPortfolioReturn.toFixed(2)
+                  : investmentValuationData.commodityPerc.toFixed(2)
               )}`
             )}
           </p>
@@ -71,9 +71,9 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
               </div>
             ) : (
               `${Math.sign(
-                !investmentValuationData.totalPortfolioReturnPerc
+                !investmentValuationData.commodityReturn
                   ? null
-                  : investmentValuationData.totalPortfolioReturnPerc.toFixed(2)
+                  : investmentValuationData.commodityReturn.toFixed(2)
               )}`
             )}
           </p>

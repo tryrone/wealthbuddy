@@ -16,7 +16,9 @@ const InvestmentInfo = (props) => {
   );
 
   useEffect(() => {
-    dispatch(getAllInvestments());
+    if (props.getAllInvestmentsData.length == 0) {
+      dispatch(getAllInvestments());
+    }
   }, []);
 
   const investmentDetail = {
@@ -83,18 +85,18 @@ const InvestmentInfo = (props) => {
   }
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
-      <div className="flex flex-row justify-between content-center sm:w-3/6 items-center  mb-20 ">
+      <div className="flex flex-row content-center sm:w-8/12 items-center  mb-20 ">
         <p style={{ color: "#999999" }} className="text-xs ">
           Investment
         </p>
-        <p style={{ color: "#999999" }} className="text-xs ">
+        <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
         </p>
         <p style={{ color: "#999999" }} className="text-xs ml-4 sm:ml-1">
           Add new Investment
         </p>
-        <p style={{ color: "#999999" }} className="text-xs">
+        <p style={{ color: "#999999" }} className="text-xs mx-4">
           {">>"}{" "}
         </p>
         <p className="text-sm text-black"> {InvestmentName[0].label} </p>

@@ -1,37 +1,200 @@
-import React, { useState } from "react";
-import DatePicker from "react-modern-calendar-datepicker";
-
-import { addPhoto, info } from "../../imageLinks";
+import React, { useState, useEffect } from "react";
+import DatePicker, { utils } from "react-modern-calendar-datepicker";
+import produce from "immer";
+import NumberFormat from "react-number-format";
+import { formatCurrency } from "utils";
+// import * as Yup from "yup";
+// import { ErrorMessage, Field, Form, Formik } from "formik";
+import { info } from "../../imageLinks";
+import moment, { duration } from "moment";
+import { Redirect } from "react-router-dom";
+import UploadIcon from "assets/img/uploadIcon.svg";
 import { Link } from "react-router-dom";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import InvestModal from "../investModal/InvestModal";
 import StartDropdown from "./StartDropdown";
+// import { createInvestment } from "../../../../state/slices/investments";
+import { connect, useDispatch } from "react-redux";
+import "./check.scss";
 
-function AddInvestmentForm() {
+function AddInvestmentForm(props) {
   const [modal, changeModal] = useState(false);
+  const [files, setFiles] = useState({
+    file: "",
+    imagePreviewUrl: "",
+    isFixed: false,
+  });
+  // const [duration, setDuration] = useState("");
+  const [state, setState] = useState({
+    duration: "",
+    amount: null,
+    date: null,
+    amountError: "",
+    frequency: false,
+  });
+
+  const setDurationDays = (val) => {
+    setState({
+      ...state,
+      duration: val,
+    });
+  };
+
+  const dispatch = useDispatch();
+
+  // // ON COMPONENT MOUNT
+  // useEffect(() => {
+  //   console.log(props, "future");
+  // }, []);
+
+  const InvestmentName = props.getAllInvestmentsData.filter(
+    (item) => item.investmentID == props.location.investmentId
+  );
+
+  const callSetAmount = (val) => {
+    setState({
+      ...state,
+      amount: val,
+    });
+  };
+
+  // VALIDATION SCHEMA
+  // const validationSchema = Yup.object().shape({
+  //   amount: Yup.number()
+  //     .min(
+  //       InvestmentName[0].minimumAmount,
+  //       `You can only save a minimum of ₦${formatCurrency(
+  //         InvestmentName[0].minimumAmount
+  //       )}`
+  //     )
+  //     .label("Amount")
+  //     .required(),
+  //   frequency: Yup.boolean().label("recurring").required(),
+  //   startDate: Yup.string().label("Start Date").required(),
+  //   duration: Yup.number().required(),
+  // });
+
+  // HANDLING CLOSE OF MODAL
 
   const onclose = (val) => {
     changeModal(val);
   };
 
+  // HANDLING IMAGE CHANGE
+  const handleImageChange = (e) => {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      setFiles(
+        produce((draft) => {
+          draft.file = file;
+          draft.imagePreviewUrl = reader.result;
+        })
+      );
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // SET DROPDOWN VALUE
+  if (InvestmentName.length < 1) {
+    return <Redirect to="/dashboard/investment/add-investment" />;
+  }
+  // CREATE INVESTMENT FORM DATE
+  const date = moment(state.date).toISOString();
+
+  // HANDLE ON FORM SUBMIT
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+
+    if (state.amount === null) {
+      setState({
+        ...state,
+        amountError: "field is required",
+      });
+    } else if (state.amount < InvestmentName[0].minimumAmount) {
+      setState({
+        ...state,
+        amountError: `amount must be more than ${InvestmentName[0].minimumAmount}`,
+      });
+    } else {
+      changeModal(true);
+      // props.myFundData(myFormData);
+      // props.myModal(true);
+      // props.myInvestType(InvestmentName[0].investmentType);
+    }
+  };
+
+  const investmentFundsData = {
+    investmentID: `${InvestmentName[0].investmentID}`,
+    transAmount: parseInt(state.amount),
+    currency: `${InvestmentName[0].currency}`,
+    duration: parseInt(state.duration),
+    fundName: `${InvestmentName[0].name}`,
+    frequency: `${state.frequency}`,
+    investmentImage: `${files.file.name}`,
+    description: `testing with ${state.amount}`,
+    // investmentStartDate: `${date}`,
+    investmentType: InvestmentName[0].investmentType,
+  };
+
+  const investmentTbills = {
+    investmentID: `${InvestmentName[0].investmentID}`,
+    investmentType: InvestmentName[0].investmentType,
+    treasuryBillTypeName: `${InvestmentName[0].name}`,
+    currency: "NGN",
+    faceValue: parseInt(state.amount),
+    discountRate: 9.5,
+    startDate: `${date}`,
+    status: "pending",
+    tenor: `${InvestmentName[0].minimumDurationInDays}`,
+    investmentImage: `${files.file.name}`,
+  };
+  const investFixedData = {
+    investmentId: `${InvestmentName[0].investmentID}`,
+    currency: `${InvestmentName[0].currency}`,
+    investmentImage: `${files.file.name}`,
+    autoRollover: state.frequency,
+    currentRate: InvestmentName[0].interestRate,
+    instrumentTypeName: `${InvestmentName[0].name}`,
+    rollOverrule: `PRINCIPAL_INTREST`,
+    startDate: `${date}`,
+    faceValue: parseInt(state.amount),
+    tenure: `${InvestmentName[0].minimumDurationInDays}`,
+    investmentType: InvestmentName[0].investmentType,
+  };
+
+  const myFormData =
+    InvestmentName[0].investmentType == 1
+      ? investmentFundsData
+      : InvestmentName[0].investmentType == 2
+      ? investFixedData
+      : InvestmentName[0].investmentType == 3
+      ? investmentTbills
+      : {};
+
+  const formCurrency = InvestmentName[0].currency == "USD" ? "$" : "₦";
+
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
-      <div className="flex flex-row justify-between content-center sm:w-3/6 items-center  mb-10 ">
+      <div className="flex flex-row  content-center sm:w-3/6 items-center  mb-10 ">
         <p style={{ color: "#999999" }} className="text-xs ">
           Investment
         </p>
-        <p style={{ color: "#999999" }} className="text-xs ">
+        <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
         </p>
         <p style={{ color: "#999999" }} className="text-xs ml-4 sm:ml-1">
           Add new Investment
         </p>
-        <p style={{ color: "#999999" }} className="text-xs">
+        <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
         </p>
-        <p className="text-sm text-black">Meristem Equity Market Fund</p>
+        <p className="text-sm text-black"> {InvestmentName[0].label} </p>
       </div>
       {/* heading */}
       <p className="text-black font-bold text-2xl text-left">
@@ -41,44 +204,55 @@ function AddInvestmentForm() {
 
       <div className="flex flex-col sm:flex-row">
         {/* column one */}
+
         <div
           style={{ border: "1px solid #F1F1F1" }}
           className="card sm:w-1/2 pt-24 pb-56 w-auto mb-20 flex flex-col justify-center content-center mt-6 sm:mr-4"
         >
-          {/* input content */}
+          {/* input content one */}
           <fieldset className="mb-4 w-full px-6 mx-auto">
             <label className="block text-xs font-medium">
               How much do you want to invest?
             </label>
-            <input
-              className="block w-full mt-2 text-xs p-3 border border-gray-400 rounded"
+            <NumberFormat
+              thousandSeparator={true}
               placeholder="Min 20,000"
-              // value={goalName}
-              // onChange={onGoalNameChange}
+              autoComplete="off"
               type="text"
+              id="amount"
+              name="amount"
+              className="block w-full text-xs mt-2 p-3 border border-gray-400 rounded"
+              value={state.amount}
+              onValueChange={({ value }) => {
+                callSetAmount(value);
+              }}
             />
-            {/* showing the amount of interest one would have */}
-            <div className="flex flex-row items-center mt-2 mb-2">
-              <p className="text-xs ">N0.00 </p>
-              <p style={{ color: "#999999" }} className="text-xs mx-1">
-                {" "}
-                will give you
+            {state.amountError ? (
+              <p className="label-error--text mt-3 text-xs color-red font-medium text-center bg-red-200">
+                {state.amountError}
               </p>
-              <p className="text-xs ">0 units</p>
-            </div>
+            ) : null}
+            {/* showing the amount of interest one would have */}
+            {/* <div className="flex flex-row items-center mt-2 mb-2">
+                    <p className="text-xs ">N0.00 </p>
+                    <p style={{color:"#999999"}} className="text-xs mx-1"> will give you</p> 
+                    <p className="text-xs ">0 units</p>
+                    </div> */}
             {/* showing the amount of interest one would have */}
           </fieldset>
-          {/* input content end */}
+          {/* input content one end */}
 
           {/* input two */}
+          {/* {InvestmentName[0].investmentType == 1 ? null : ( */}
           <fieldset className="mb-4 w-full px-6 mx-auto">
             <label className="block text-xs font-medium">
               How long would you want to invest
             </label>
             <div className="fieldset mt-2 w-full">
-              <StartDropdown />
+              <StartDropdown myDuration={setDurationDays} />
             </div>
           </fieldset>
+          {/* )} */}
           {/* input two */}
 
           {/* input three */}
@@ -87,70 +261,116 @@ function AddInvestmentForm() {
               When will you like to start saving?
             </label>
             <DatePicker
-              // value={selectedDay}
-              // onChange={setSelectedDay}
-              inputPlaceholder="When would you like to start investing?"
+              inputPlaceholder="Select Start Date"
+              value={state.date}
+              onChange={(value) => {
+                setState({
+                  ...state,
+                  date: value,
+                });
+              }}
               shouldHighlightWeekends
-              // minimumDate={utils().getToday()}
-              inputClassName="w-full text-xs p-3 border border-gray-400 rounded text-left"
+              minimumDate={utils("en").getToday()}
+              inputClassName="w-full text-xs p-3 border border-gray-400 rounded text-left-f"
             />
-            {/* <input className="block w-full text-xs p-3 border border-gray-400 rounded" /> */}
           </fieldset>
           {/* input three end */}
 
-          {/* showing the tenors available for MT_LIP */}
-          <div
-            style={{ border: "1px solid #8CB13D", background: "#F9FFEB" }}
-            className="rounded flex flex-col self-center sm:w-8/12 mt-4 p-2 pb-4"
-          >
-            <div className="flex flex-row items-center">
-              <img src={info} className="h-5 mr-2 w-5" />
-              <p style={{ color: "#8CB13D" }} className="text-sm font-bold">
-                Available Tenors
-              </p>
-            </div>
-
-            <div
-              style={{ borderLeft: "0.5px dashed #C3D894" }}
-              className="ml-2 pl-2"
+          {/* checkbox input four */}
+          <div className="pl-6 sm:pl-24 my-2">
+            <input
+              onClick={() => {
+                setState({
+                  ...state,
+                  frequency: !state.frequency,
+                });
+              }}
+              type="checkbox"
+              id="todo"
+              name="todo"
+              className=""
+              value="todo"
+            />
+            <label
+              style={{ position: "relative", top: "-7px" }}
+              htmlFor="todo"
+              className="text-xs font-bold sm:pl-2 pr-4 text-center"
             >
-              <div className="flex flex-row items-center mt-4">
-                <div
-                  style={{ backgroundColor: "#8CB13D", borderRadius: "50%" }}
-                  className="h-2 w-2"
-                />
-                <p className="ml-4 text-xs">31 days tenor plan</p>
+              Would like this to be a recuring investment
+            </label>
+          </div>
+          {/* checkbox input four */}
+
+          {/* showing the tenors available for MT_LIP */}
+          {InvestmentName[0].investmentType == 3 ? (
+            <div
+              style={{ border: "1px solid #8CB13D", background: "#F9FFEB" }}
+              className="rounded flex flex-col self-center sm:w-8/12 mt-4 p-2 pb-4"
+            >
+              <div className="flex flex-row items-center">
+                <img src={info} className="h-5 mr-2 w-5" />
+                <p style={{ color: "#8CB13D" }} className="text-sm font-bold">
+                  Available Tenors
+                </p>
               </div>
-              <div className="flex flex-row items-center mt-4">
-                <div
-                  style={{ backgroundColor: "#8CB13D", borderRadius: "50%" }}
-                  className="h-2 w-2"
-                />
-                <p className="ml-4 text-xs">72 days tenor plan</p>
-              </div>
-              <div className="flex flex-row items-center mt-4">
-                <div
-                  style={{ backgroundColor: "#8CB13D", borderRadius: "50%" }}
-                  className="h-2 w-2"
-                />
-                <p className="ml-4 text-xs">180 days tenor plan</p>
-              </div>
-              <div className="flex flex-row items-center mt-4">
-                <div
-                  style={{ backgroundColor: "#8CB13D", borderRadius: "50%" }}
-                  className="h-2 w-2"
-                />
-                <p className="ml-4 text-xs">270 days tenor plan</p>
-              </div>
-              <div className="flex flex-row items-center mt-4">
-                <div
-                  style={{ backgroundColor: "#8CB13D", borderRadius: "50%" }}
-                  className="h-2 w-2"
-                />
-                <p className="ml-4 text-xs">320 days tenor plan</p>
+
+              <div
+                style={{ borderLeft: "0.5px dashed #C3D894" }}
+                className="ml-2 pl-2"
+              >
+                <div className="flex flex-row items-center mt-4">
+                  <div
+                    style={{
+                      backgroundColor: "#8CB13D",
+                      borderRadius: "50%",
+                    }}
+                    className="h-2 w-2"
+                  />
+                  <p className="ml-4 text-xs">31 days tenor plan</p>
+                </div>
+                <div className="flex flex-row items-center mt-4">
+                  <div
+                    style={{
+                      backgroundColor: "#8CB13D",
+                      borderRadius: "50%",
+                    }}
+                    className="h-2 w-2"
+                  />
+                  <p className="ml-4 text-xs">72 days tenor plan</p>
+                </div>
+                <div className="flex flex-row items-center mt-4">
+                  <div
+                    style={{
+                      backgroundColor: "#8CB13D",
+                      borderRadius: "50%",
+                    }}
+                    className="h-2 w-2"
+                  />
+                  <p className="ml-4 text-xs">180 days tenor plan</p>
+                </div>
+                <div className="flex flex-row items-center mt-4">
+                  <div
+                    style={{
+                      backgroundColor: "#8CB13D",
+                      borderRadius: "50%",
+                    }}
+                    className="h-2 w-2"
+                  />
+                  <p className="ml-4 text-xs">270 days tenor plan</p>
+                </div>
+                <div className="flex flex-row items-center mt-4">
+                  <div
+                    style={{
+                      backgroundColor: "#8CB13D",
+                      borderRadius: "50%",
+                    }}
+                    className="h-2 w-2"
+                  />
+                  <p className="ml-4 text-xs">320 days tenor plan</p>
+                </div>
               </div>
             </div>
-          </div>
+          ) : null}
           {/* showing the tenors available for MT_LIP */}
         </div>
         {/* column one end */}
@@ -162,16 +382,42 @@ function AddInvestmentForm() {
         >
           {/* image setting */}
           <div className="w-72 shadow-lg p-2">
-            <div className="h-32 w-full p-8 border-dashed border border-gray-400 rounded flex flex-col justify-center items-center">
-              {/* image preview content start */}
+            {/* image preview content start */}
 
-              {/* <input className="fileInput"
-                                            type="file"
-                                             accept="image/*" /> */}
-
-              {/* image preview content end */}
-              <img src={addPhoto} alt="" />
+            <div className="personalize--card">
+              <div className="previewComponent">
+                <input
+                  className="fileInput"
+                  type="file"
+                  onChange={(e) => handleImageChange(e)}
+                  accept="image/*"
+                />
+                <div
+                  className={`${
+                    files.imagePreviewUrl === "" && "drop"
+                  } imgPreview`}
+                >
+                  {files.imagePreviewUrl ? (
+                    <img src={files.imagePreviewUrl} alt="" />
+                  ) : (
+                    <div className="buddy-image--drop">
+                      <img src={UploadIcon} alt="" />
+                    </div>
+                  )}
+                </div>
+              </div>
+              {files.imagePreviewUrl ? (
+                <h3 className="color-secondary personalize-text text-center">
+                  + Change Photo
+                </h3>
+              ) : (
+                <h3 className="color-secondary change-text personalize-text text-center">
+                  Personalise your goal by <br /> <span>+ Adding a photo.</span>
+                </h3>
+              )}
             </div>
+
+            {/* image preview content end */}
           </div>
           {/* image setting end */}
 
@@ -182,35 +428,47 @@ function AddInvestmentForm() {
           </p>
 
           <p className="text-black text-lg text-center mt-2 font-bold">
-            ₦50,000
+            {formCurrency + formatCurrency(state.amount)}
           </p>
 
           <div className="flex flex-row justify-between w-full mt-4 px-16 items-center">
             <p className="text-left text-black text-opacity-25 text-base">
               Interest rate per year
             </p>
-            <p className="text-right text-black text-base">12%</p>
+            <p className="text-right text-black text-base">
+              {" "}
+              {InvestmentName[0].interestRate.toFixed(2)}%
+            </p>
           </div>
           <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
             <p className="text-left text-black text-opacity-25 text-base">
               Start date
             </p>
-            <p className="text-right text-black text-base">10th Aug, 2020</p>
+
+            <p className="text-right text-black text-base">
+              {moment(state.date === null ? Date.now() : state.date)
+                // .subtract(1, "months")
+                .format("MMM DD YYYY")}
+            </p>
           </div>
 
           {/* image text content end */}
 
           {/* nav buttons */}
           <div className="nav-buttons flex justify-center">
-            <Link className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm">
+            <Link
+              to=""
+              className="mt-12 w-20 sm:w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
+            >
               Back
             </Link>
             {/* <button className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm ${(checkEmpty(state) === true || status) && "opaque"}`} onClick={(checkEmpty(state) === false && !status) && confirm}> */}
             <button
-              onClick={() => {
-                changeModal(true);
+              onClick={(e) => {
+                handleOnSubmit(e);
               }}
-              className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
+              disabled={state.date === null ? true : false}
+              className={`mt-12 w-20 sm:w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm `}
             >
               Next
             </button>
@@ -220,9 +478,23 @@ function AddInvestmentForm() {
         {/* column two end */}
       </div>
 
-      {modal ? <InvestModal myclose={onclose} /> : null}
+      {modal ? (
+        <InvestModal
+          myclose={onclose}
+          MycreateInvestmentData={myFormData}
+          // MycreateInvestmentData={investmentTbills}
+          investType={InvestmentName[0].investmentType}
+        />
+      ) : null}
     </div>
   );
 }
 
-export default AddInvestmentForm;
+const mapStateToProps = (state) => ({
+  createInvestmentLoading: state.investments.createInvestmentLoading,
+  createInvestmentError: state.investments.createInvestmentError,
+  createInvestmentData: state.investments.createInvestmentData,
+  getAllInvestmentsData: state.investments.getAllInvestmentsData,
+});
+
+export default connect(mapStateToProps)(AddInvestmentForm);

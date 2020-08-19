@@ -5,44 +5,41 @@ import { dogs, dogsBg, catfish, corn } from "../imageLinks";
 import { Link, Redirect } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import { allPersonalInvestments } from "../../../state/slices/investments";
+import {
+  allPersonalInvestments,
+  getAllInvestments,
+  getInvestmentValuation,
+} from "../../../state/slices/investments";
 import { formatCurrency } from "utils";
 import FundExistingModal from "../viewAnInvestment/component/fundExistingInvestment/FundExistingModal";
 import Loading from "shared-components/Loading";
-
-// items of dropdownlist
-const items = [
-  {
-    img: dogs,
-    text: "Foreign dog breed investment",
-  },
-  {
-    img: catfish,
-    text: "My catfish investment",
-  },
-  {
-    img: corn,
-    text: "Investment in corn feed",
-  },
-];
-// items of dropdownlist
 
 const FundInvestment = (props) => {
   const [amount, setAmount] = useState(null);
   const [modal, changeModal] = useState(false);
   const [view, setView] = useState(false);
-  const [itemView, setItem] = useState("");
+  const [view2, setView2] = useState(false);
+  const [view3, setView3] = useState(false);
+  const [itemView, setItem] = useState("choose from running investments");
+  const [itemView2, setItem2] = useState("choose from running investments");
+  const [itemView3, setItem3] = useState("choose from running investments");
   const [itemPerc, setPerc] = useState("");
   const [Id, setId] = useState("");
   const [investName, setInvestName] = useState("");
+  const [investType, setInvestType] = useState("null");
+  const [investCurrency, setInvestCurrency] = useState("");
   const [investSymbol, setInvestSymbol] = useState("");
   const [investCurrent, setInvestCurrent] = useState("");
   const [showList, setShowList] = useState(false);
+  const [showList2, setShowList2] = useState(false);
+  const [showList3, setShowList3] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(allPersonalInvestments());
+    dispatch(getAllInvestments());
+    dispatch(getInvestmentValuation());
   }, []);
 
   const onclose = (val) => {
@@ -50,14 +47,16 @@ const FundInvestment = (props) => {
   };
 
   const specificData = props.allPersonalInvestmentsData;
+  const fixedData = props.investmentValuationData.fixedDeposits;
+  const tBillsData = props.investmentValuationData.treasuryBills;
 
   const fundData = {
     transAmount: parseInt(amount),
-    securityId: Id,
-    description: investSymbol,
-    // currency: specificData.length == 0 ? null : specificData[0].currency,
-    currency: "NGN",
-    fundName: investName,
+    securityID: Id,
+    description: `${investSymbol}`,
+    currency: `${investCurrency == "undefined" ? "NGN" : investCurrency}`,
+    fundName: `${investName}`,
+    itemId: investType,
   };
 
   const onSubmitFund = () => {
@@ -68,6 +67,12 @@ const FundInvestment = (props) => {
   // onclick of dropdown
   const clickView = (value) => {
     setView(!value);
+  };
+  const clickView2 = (value) => {
+    setView2(!value);
+  };
+  const clickView3 = (value) => {
+    setView3(!value);
   };
   // onclick of dropdown
 
@@ -113,13 +118,14 @@ const FundInvestment = (props) => {
           {/* input two */}
           <fieldset className="mb-4 w-full px-6 mx-auto">
             <label className="block text-xs font-medium">
-              Choose investment
+              Choose investment from mutual Funds
             </label>
 
             {/* dropsown for list of investments */}
             {/* dropsown for list of investments */}
             <div className="fieldset w-11/12 mt-2 w-full">
-              {props.allPersonalInvestmentsLoading ? (
+              {props.allPersonalInvestmentsLoading &&
+              props.getAllInvestmentsLoading ? (
                 <Loading text="" />
               ) : (
                 <React.Fragment>
@@ -157,10 +163,14 @@ const FundInvestment = (props) => {
                                   setId(`${item.securityId}`);
                                   setPerc(`${item.portPercentage.toFixed(1)}`);
                                   setView(false);
-                                  setInvestName(`${item.companyName}`);
-                                  setInvestSymbol(`${item.symbol}`);
+                                  setInvestName(`${item.symbol}`);
+                                  setInvestSymbol(`${item.companyName}`);
                                   setInvestCurrent(`${item.currentValue}`);
+                                  setShowList2(false);
                                   setShowList(true);
+                                  setShowList3(false);
+                                  setInvestCurrency(`${item.currency}`);
+                                  setInvestType(item.securityId);
                                 }}
                                 key={i}
                               >
@@ -197,10 +207,196 @@ const FundInvestment = (props) => {
           {/* input two */}
           {/* input two */}
 
+          {/* input for fixed deposits */}
+          <fieldset className="mb-4 w-full px-6 mx-auto">
+            <label className="block text-xs font-medium">
+              Choose investment from fixed deposit list
+            </label>
+
+            {/* dropsown for list of investments */}
+            {/* dropsown for list of investments */}
+            <div className="fieldset w-11/12 mt-2 w-full">
+              {props.investmentValuationLoading ? (
+                <Loading text="" />
+              ) : (
+                <React.Fragment>
+                  <div className="fund-dropdown">
+                    {/* <div className="select-option" onClick={() => toggleList()}> */}
+                    <div
+                      className="select-option"
+                      onClick={() => clickView2(view2)}
+                    >
+                      <div className="buddy-dropdown-title flex flex-row">
+                        {" "}
+                        {itemView2}
+                      </div>
+                      <div
+                        className="buddy-dropdown-icon"
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            '<svg width="14" height="7" viewBox="0 0 14 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 7L13.9282 0.25H0.0717969L7 7Z" fill="black"/></svg>',
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {/* listOpen && */}
+                  {view2 ? (
+                    <ul className="buddy-dropdown-list basic-dropdown">
+                      {/* <ul className="buddy-dropdown-list basic-dropdown" onClick={e => e.stopPropagation()}> */}
+                      {!fixedData
+                        ? null
+                        : fixedData.map((item, i) => (
+                            <Fragment key={i}>
+                              <li
+                                className="buddy-dropdown-item flex hover:bg-gray-100 flex-row items-center"
+                                onClick={() => {
+                                  setItem2(`${item.productLabel}`);
+                                  setId(`${item.typeId}`);
+                                  setPerc(`${item.interestRate.toFixed(1)}`);
+                                  setView2(false);
+                                  setInvestName(`${item.productLabel}`);
+                                  setInvestSymbol(`${item.productLabel}`);
+                                  setInvestCurrent(
+                                    `${item.netInstrumentValue.amount}`
+                                  );
+                                  setShowList2(true);
+                                  setShowList(false);
+                                  setShowList3(false);
+                                  setInvestCurrency(
+                                    `${item.principalBalance.currency}`
+                                  );
+                                  setInvestType(item.typeId);
+                                }}
+                                key={i}
+                              >
+                                {/* <img src={item.img} alt="" /> */}
+                                <div className="flex flex-col sm:flex-row justify-center mt-4">
+                                  <img
+                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                                    alt=""
+                                    className="rounded sm:h-12 sm:w-12  self-center"
+                                  />
+                                  <div className="ml-4 self-center">
+                                    <p className="text-sm font-medium text-black">
+                                      {item.productLabel}
+                                    </p>
+                                    <p
+                                      style={{ color: "#8CB13D" }}
+                                      className="text-sm font-medium"
+                                    >
+                                      {item.interestRate.toFixed(1)}% returns
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+                            </Fragment>
+                          ))}
+                    </ul>
+                  ) : null}
+                </React.Fragment>
+              )}
+            </div>
+            {/* dropsown for list of investments */}
+            {/* dropsown for list of investments */}
+          </fieldset>
+          {/* input for fixed deposits  */}
+
+          {/* input for tbills deposits */}
+          <fieldset className="mb-4 w-full px-6 mx-auto">
+            <label className="block text-xs font-medium">
+              Choose investment from T-bill list
+            </label>
+
+            {/* dropsown for list of investments */}
+            <div className="fieldset w-11/12 mt-2 w-full">
+              {props.investmentValuationLoading ? (
+                <Loading text="" />
+              ) : (
+                <React.Fragment>
+                  <div className="fund-dropdown">
+                    {/* <div className="select-option" onClick={() => toggleList()}> */}
+                    <div
+                      className="select-option"
+                      onClick={() => clickView3(view3)}
+                    >
+                      <div className="buddy-dropdown-title flex flex-row">
+                        {" "}
+                        {itemView3}
+                      </div>
+                      <div
+                        className="buddy-dropdown-icon"
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            '<svg width="14" height="7" viewBox="0 0 14 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 7L13.9282 0.25H0.0717969L7 7Z" fill="black"/></svg>',
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {/* listOpen && */}
+                  {view3 ? (
+                    <ul className="buddy-dropdown-list basic-dropdown">
+                      {/* <ul className="buddy-dropdown-list basic-dropdown" onClick={e => e.stopPropagation()}> */}
+                      {!tBillsData
+                        ? null
+                        : tBillsData.map((item, i) => (
+                            <Fragment key={i}>
+                              <li
+                                className="buddy-dropdown-item flex hover:bg-gray-100 flex-row items-center"
+                                onClick={() => {
+                                  setItem3(`${item.typeLabel}`);
+                                  setId(`${item.typeId}`);
+                                  setPerc(`${item.interestRate.toFixed(1)}`);
+                                  setView(false);
+                                  setInvestName(`${item.typeLabel}`);
+                                  setInvestSymbol(`${item.typeLabel}`);
+                                  setInvestCurrent(
+                                    `${item.valueAsAtDate.amount}`
+                                  );
+                                  setShowList2(false);
+                                  setShowList(false);
+                                  setShowList3(true);
+                                  setInvestCurrency(
+                                    `${item.valueAsAtDate.currency}`
+                                  );
+                                  setInvestType(item.typeId);
+                                }}
+                                key={i}
+                              >
+                                {/* <img src={item.img} alt="" /> */}
+                                <div className="flex flex-col sm:flex-row justify-center mt-4">
+                                  <img
+                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                                    alt=""
+                                    className="rounded sm:h-12 sm:w-12  self-center"
+                                  />
+                                  <div className="ml-4 self-center">
+                                    <p className="text-sm font-medium text-black">
+                                      {item.typeLabel}
+                                    </p>
+                                    <p
+                                      style={{ color: "#8CB13D" }}
+                                      className="text-sm font-medium"
+                                    >
+                                      {item.interestRate.toFixed(1)}% returns
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+                            </Fragment>
+                          ))}
+                    </ul>
+                  ) : null}
+                </React.Fragment>
+              )}
+            </div>
+            {/* dropsown for list of investments */}
+          </fieldset>
+          {/* input for tbills deposits  */}
+
           {/* input three */}
           {/* input three */}
           {showList ? (
-            <div className="flex flex-col sm:flex-row justify-center mt-4">
+            <div className="flex flex-col sm:flex-row justify-center mt-4 px-10">
               <img
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
                 alt=""
@@ -216,6 +412,46 @@ const FundInvestment = (props) => {
           ) : null}
           {/* input three */}
           {/* input three */}
+
+          {/* input four */}
+          {/* input four */}
+          {showList2 ? (
+            <div className="flex flex-col sm:flex-row justify-center mt-4 px-10">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                alt=""
+                className="rounded sm:h-12 sm:w-12 self-center"
+              />
+              <div className="ml-4">
+                <p className="text-lg font-medium text-black">{itemView2}</p>
+                <p style={{ color: "#8CB13D" }} className="text-lg font-medium">
+                  {itemPerc}% returns
+                </p>
+              </div>
+            </div>
+          ) : null}
+          {/* input four */}
+          {/* input four */}
+
+          {/* input five */}
+          {/* input five */}
+          {showList3 ? (
+            <div className="flex flex-col sm:flex-row justify-center mt-4 px-10">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                alt=""
+                className="rounded sm:h-12 sm:w-12 self-center"
+              />
+              <div className="ml-4">
+                <p className="text-lg font-medium text-black">{itemView3}</p>
+                <p style={{ color: "#8CB13D" }} className="text-lg font-medium">
+                  {itemPerc}% returns
+                </p>
+              </div>
+            </div>
+          ) : null}
+          {/* input five */}
+          {/* input five */}
         </div>
         {/* column one end */}
 
@@ -285,6 +521,7 @@ const FundInvestment = (props) => {
               onClick={() => {
                 onSubmitFund();
               }}
+              disabled={amount == null || Id.length == 0 ? true : false}
               className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
             >
               Next
@@ -307,10 +544,13 @@ const FundInvestment = (props) => {
 
 const mapStateToProps = (state) => ({
   // ALL PERSONAL INVESTMENT DATA
+  getAllInvestmentsLoading: state.investments.getAllInvestmentsLoading,
   allPersonalInvestmentsData: state.investments.allPersonalInvestmentsData,
   allPersonalInvestmentsLoading:
     state.investments.allPersonalInvestmentsLoading,
   allPersonalInvestmentsError: state.investments.allPersonalInvestmentsError,
+  investmentValuationData: state.investments.investmentValuationData,
+  investmentValuationLoading: state.investments.investmentValuationLoading,
 });
 
 export default connect(mapStateToProps)(FundInvestment);
