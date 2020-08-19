@@ -149,7 +149,7 @@ const BasicInformation = ({ account }) => {
               name="gender"
               value={values.gender}
               onChange={(event) =>
-                handleChange(event.target.name)(parseInt(event.target.value))
+                setFieldValue(event.target.name, parseInt(event.target.value))
               }
               onBlur={handleBlur}
               className="block w-full text-xs p-3 border border-gray-400 rounded"
@@ -169,7 +169,7 @@ const BasicInformation = ({ account }) => {
               name="maritalStatus"
               value={values.maritalStatus}
               onChange={(event) =>
-                handleChange(event.target.name)(parseInt(event.target.value))
+                setFieldValue(event.target.name, parseInt(event.target.value))
               }
               onBlur={handleBlur}
               className="block w-full text-xs p-3 border border-gray-400 rounded"
@@ -191,7 +191,7 @@ const BasicInformation = ({ account }) => {
               name="religion"
               value={values.religion}
               onChange={(event) =>
-                handleChange(event.target.name)(parseInt(event.target.value))
+                setFieldValue(event.target.name, parseInt(event.target.value))
               }
               onBlur={handleBlur}
               className="block w-full text-xs p-3 border border-gray-400 rounded"
