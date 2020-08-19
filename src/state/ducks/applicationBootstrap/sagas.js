@@ -12,7 +12,7 @@ import { getRecentSavingTransactionsDataSuccess } from "../recentSavingTransacti
 import { getSavingsConfigurationDataSuccess } from "../savingsConfiguration/actions";
 import { getBankAccountsDataSuccess } from "../bankAccounts/actions";
 import { getBankListDataSuccess } from "../bankList/actions";
-// import {setPendingSavingsInvitations} from "../../slices/savings";
+import {setPendingSavingsInvitations} from "../../slices/savings";
 
 function* operation() {
   try {
@@ -22,7 +22,7 @@ function* operation() {
       customerSavingsResponse,
       recentSavingTransactionsResponse,
       savingsConfiguration,
-      pendingSavingsInvitations,
+      // pendingSavingsInvitations,
       userBanksResponse,
       bankListResponse,
     ] = yield all([
