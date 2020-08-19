@@ -54,7 +54,7 @@ const urls = {
   startCancelFixedLockSavings: "/api/FixedLockSavings/startcancel",
   completeCancelFixedLockSavings: "/api/FixedLockSavings/completecancel",
   getSavingsConfiguration: "/api/Savings/getsavingsconfiguration",
-  saveProfile: "/api/Customer/updateothercustomerinfo",
+  updateProfile: "/api/Customer/updateothercustomerinfo",
   getBankList: "/api/Customer/getbanklist",
   getUserBanks: "/api/Customer/getbankaccount",
   addBankAccount: "/api/Customer/AddBankAccount",

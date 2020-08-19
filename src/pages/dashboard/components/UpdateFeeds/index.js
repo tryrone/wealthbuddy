@@ -53,7 +53,7 @@ const UpdateFeeds = ({ invitations }) => {
                 active: activePage === Page.InvitationUpdates,
               })}
             >
-              {invitations.length && (
+              {invitations && invitations.length > 0 && (
                 <div className="notification-badge">{invitations.length}</div>
               )}
               <FaUsers />

@@ -1,5 +1,6 @@
 import React from "react";
 import NumberFormat from "react-number-format";
+import { Field } from "formik";
 
 const NextOfKin = () => {
   return (
@@ -9,11 +10,11 @@ const NextOfKin = () => {
           <label className="block text-xs mb-3" htmlFor="name">
             Full Name
           </label>
-          <input
+          <Field
             placeholder="Enter Full Name"
             type="text"
-            name="name"
-            value={"name"}
+            id="nextOfKinName"
+            name="nextOfKinName"
             className="block w-full text-xs p-3 border border-gray-400 rounded"
           />
         </fieldset>
@@ -36,11 +37,11 @@ const NextOfKin = () => {
           <label className="block text-xs mb-3" htmlFor="email">
             Email Address
           </label>
-          <input
+          <Field
             placeholder="Enter Email"
             type="email"
-            name="email"
-            value={"email"}
+            id="nextOfKinEmail"
+            name="nextOfKinEmail"
             className="block w-full text-xs p-3 border border-gray-400 rounded"
           />
         </fieldset>
@@ -49,11 +50,11 @@ const NextOfKin = () => {
           <label className="block text-xs mb-3" htmlFor="relationship">
             Relationship
           </label>
-          <input
+          <Field
             placeholder="Enter Relationship"
             type="text"
-            name="relationship"
-            value={"relationship"}
+            id="nextOfKinRelationship"
+            name="nextOfKinRelationship"
             className="block w-full text-xs p-3 border border-gray-400 rounded"
           />
         </fieldset>
@@ -62,11 +63,12 @@ const NextOfKin = () => {
           <label className="block text-xs mb-3" htmlFor="address">
             Address
           </label>
-          <textarea
+          <Field
             placeholder="Enter Address"
-            name="address"
-            value="address"
-            className="block w-full p-3 border border-gray-400 rounded"
+            compnent="textarea"
+            id="nextOfKinAddress"
+            name="nextOfKinAddress"
+            className="block w-full text-xs p-3 border border-gray-400 rounded"
           />
         </fieldset>
       </div>

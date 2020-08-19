@@ -31,7 +31,7 @@ function* operation() {
       call(Savings.getCustomerSavings),
       call(Savings.getSavingsTransactions),
       call(Savings.getSavingsConfiguration),
-      call(Savings.getPendingSavingsInvitations),
+      // call(Savings.getPendingSavingsInvitations),
       call(Customer.getUserBanks),
       call(Customer.getBankList),
     ]);
@@ -41,7 +41,7 @@ function* operation() {
     yield put(getCustomerSavingsDataSuccess(customerSavingsResponse.data.data));
     yield put(getRecentSavingTransactionsDataSuccess(recentSavingTransactionsResponse.data.data));
     yield put(getSavingsConfigurationDataSuccess(savingsConfiguration.data.data));
-    yield put(setPendingSavingsInvitations(pendingSavingsInvitations.data.data));
+    // yield put(setPendingSavingsInvitations(pendingSavingsInvitations.data.data));
     yield put(getBankAccountsDataSuccess(userBanksResponse.data.data));
     yield put(getBankListDataSuccess(bankListResponse.data.data));
     yield put(getApplicationBootstrapDataSuccess());

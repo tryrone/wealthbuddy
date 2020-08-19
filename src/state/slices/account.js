@@ -74,6 +74,30 @@ export const login = createAsyncThunk("account/login", async (payload) => {
   return data;
 });
 
+export const resetPassword = createAsyncThunk(
+  "account/resetPassword",
+  async (payload) => {
+    const response = await Customer.resetPassword(payload);
+    return response.data.data;
+  }
+);
+
+export const uploadProfilePicture = createAsyncThunk(
+  "account/uploadProfilePicture",
+  async (payload) => {
+    const response = await Customer.uploadProfilePicture(payload);
+    return response.data.data;
+  }
+);
+
+export const updateProfile = createAsyncThunk(
+  "account/updateProfile",
+  async (payload) => {
+    const response = await Customer.updateProfile(payload);
+    return response.data.data;
+  }
+);
+
 export const addBvn = createAsyncThunk("account/addBvn", async (payload) => {
   const response = await Customer.addBvn(payload);
   return response.data.data;
