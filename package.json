@@ -56,7 +56,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "build:css": "postcss src/styles/app.css -o src/styles/index.css",
-    "watch:css": "postcss src/styles/app.css -o src/styles/index.css"
+    "watch:css": "postcss src/styles/app.css -o src/styles/index.css",
+    "deploy": "surge"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -83,6 +84,7 @@
     "postcss-nested": "^4.2.3",
     "postcss-simple-vars": "^5.0.2",
     "react-context-devtool": "^2.0.0",
+    "surge": "^0.21.6",
     "tailwindcss": "^1.4.6"
   }
 }
