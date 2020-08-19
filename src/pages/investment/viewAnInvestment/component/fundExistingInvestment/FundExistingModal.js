@@ -21,9 +21,10 @@ const FundExistingModal = (props) => {
   let errorObj = props.fundInvestmentError;
 
   const myDataArray = props.getAllInvestmentsData.filter(
-    (item) => item.investmentID == setInvestDetails.securityID
+    (item) => item.investmentID == setInvestDetails.itemId
   );
 
+  console.log(myDataArray, "my baby");
   // setInvestDetails.securityID
 
   const dispatch = useDispatch();
@@ -36,13 +37,15 @@ const FundExistingModal = (props) => {
   const showMyDetails = () => {
     if (!activeOne) {
       setInvestDetails.investmentType = parseInt(myDataArray[0].investmentType);
+      delete setInvestDetails.itemId;
       dispatch(fundInvestment(setInvestDetails));
-      // console.log(setInvestDetails);
+      console.log(setInvestDetails);
     } else if (activeOne) {
       setInvestDetails.cardId = `${myCard}`;
       setInvestDetails.investmentType = parseInt(myDataArray[0].investmentType);
+      delete setInvestDetails.itemId;
       dispatch(fundInvestment(setInvestDetails));
-      // console.log(setInvestDetails);
+      console.log(setInvestDetails);
       // console.log(props, "solo");
     }
     setInHide(false);
@@ -184,8 +187,11 @@ const FundExistingModal = (props) => {
                   style={{ color: "#999999" }}
                   className="text-xs text-center mt-4 "
                 >
-                  You have ₦ {formatCurrency(props.dashboard.walletBalance)} in
-                  your wallet
+                  You have{" "}
+                  <p className="text-orange-700">
+                    ₦{formatCurrency(props.dashboard.walletBalance)}
+                  </p>
+                  in your wallet
                 </p>
                 <button
                   onClick={() => {

@@ -10,12 +10,45 @@ import FundExistingModal from "./FundExistingModal";
 
 const FundExistingInvestment = (props) => {
   const [amount, setAmount] = useState(null);
-
   const [modal, changeModal] = useState(false);
 
   const onclose = (val) => {
     changeModal(val);
   };
+  const [view, setView] = useState(false);
+  const [itemView, setItem] = useState("Investment name");
+
+  if (!props.location.investmentId) {
+    return <Redirect to="/dashboard/investment" />;
+  }
+
+  const setInvestmentTypeOne = props.investmentValuationData.fixedDeposits.filter(
+    (item) => item.instrumentId == props.location.investmentId
+  );
+  const setInvestmentTypeTwo = props.investmentValuationData.portfolioHoldings.filter(
+    (item) => item.securityId == props.location.investmentId
+  );
+  const setInvestmentTypeThree = props.investmentValuationData.treasuryBills.filter(
+    (item) => item.id == props.location.investmentId
+  );
+
+  let makeArray = [];
+
+  if (setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0) {
+    makeArray = setInvestmentTypeThree;
+  } else if (
+    setInvestmentTypeTwo.length == 0 &&
+    setInvestmentTypeThree.length == 0
+  ) {
+    makeArray = setInvestmentTypeOne;
+  } else if (
+    setInvestmentTypeOne.length == 0 &&
+    setInvestmentTypeThree.length == 0
+  ) {
+    makeArray = setInvestmentTypeTwo;
+  }
+
+  console.log(makeArray, "take over");
 
   // onclick of dropdown
   const clickView = (value) => {
@@ -26,39 +59,60 @@ const FundExistingInvestment = (props) => {
     changeModal(true);
   };
 
-  const [view, setView] = useState(false);
-  const [itemView, setItem] = useState("Investment name");
-
-  const specificData = props.allPersonalInvestmentsData.filter(
-    (item) => props.location.investmentId == item.securityId
-  );
-
   const fundData = {
     transAmount: parseInt(amount),
-    securityID: specificData.length == 0 ? null : specificData[0].securityId,
-    description: specificData.length == 0 ? null : specificData[0].companyName,
+    securityID: `${
+      setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+        ? makeArray[0].typeId
+        : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
+        ? makeArray[0].typeId
+        : makeArray[0].securityId
+    }`,
+
+    description:
+      setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+        ? makeArray[0].typeLabel
+        : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
+        ? makeArray[0].productLabel
+        : makeArray[0].companyName,
+
     // currency: specificData.length == 0 ? null : specificData[0].currency,
     currency: "NGN",
-    fundName: specificData.length == 0 ? null : specificData[0].symbol,
+    fundName:
+      setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+        ? makeArray[0].typeLabel
+        : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
+        ? makeArray[0].productLabel
+        : makeArray[0].symbol,
+
+    itemId:
+      setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+        ? makeArray[0].typeId
+        : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
+        ? makeArray[0].typeId
+        : makeArray[0].securityId,
   };
 
-  return !props.location.investmentId ? (
-    <Redirect to="/dashboard/investment" />
-  ) : (
+  return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
       {/* navigation */}
-      <div className="flex flex-row justify-between content-center sm:w-3/6 items-center  mb-10 ">
+      <div className="flex flex-row content-center sm:w-8/12 items-center  mb-10 ">
         <p style={{ color: "#999999" }} className="text-xs ">
           Investment
         </p>
-        <p style={{ color: "#999999" }} className="text-xs ">
+        <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
         </p>
         <p style={{ color: "#999999" }} className="text-xs ml-4 sm:ml-1">
-          {specificData[0].companyName}
+          {setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+            ? makeArray[0].typeLabel
+            : setInvestmentTypeTwo.length == 0 &&
+              setInvestmentTypeThree.length == 0
+            ? makeArray[0].productLabel
+            : makeArray[0].companyName}
         </p>
-        <p style={{ color: "#999999" }} className="text-xs">
+        <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
         </p>
@@ -141,7 +195,13 @@ const FundExistingInvestment = (props) => {
           {/* image text content */}
           {/* image text content */}
           <p className="text-xl font-bold mb-10 mt-10 text-black text-center">
-            {specificData[0].companyName}
+            {setInvestmentTypeOne.length == 0 &&
+            setInvestmentTypeTwo.length == 0
+              ? makeArray[0].typeLabel
+              : setInvestmentTypeTwo.length == 0 &&
+                setInvestmentTypeThree.length == 0
+              ? makeArray[0].productLabel
+              : makeArray[0].companyName}
           </p>
 
           {/* <p className="text-black text-lg text-center mt-2 font-bold">₦50,000</p> */}
@@ -151,7 +211,16 @@ const FundExistingInvestment = (props) => {
               Capital
             </p>
             <p className="text-right text-black text-base">
-              ₦ {formatCurrency(specificData[0].totalPurchaseCost.toFixed(2))}
+              ₦{" "}
+              {formatCurrency(
+                setInvestmentTypeOne.length == 0 &&
+                  setInvestmentTypeTwo.length == 0
+                  ? makeArray[0].amountPaid.amount.toFixed(2)
+                  : setInvestmentTypeTwo.length == 0 &&
+                    setInvestmentTypeThree.length == 0
+                  ? makeArray[0].principalBalance.amount
+                  : makeArray[0].totalPurchaseCost.toFixed(2)
+              )}
             </p>
           </div>
           <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
@@ -159,7 +228,16 @@ const FundExistingInvestment = (props) => {
               Current value
             </p>
             <p className="text-right text-black text-base">
-              ₦ {formatCurrency(specificData[0].currentValue.toFixed(2))}
+              ₦{" "}
+              {formatCurrency(
+                setInvestmentTypeOne.length == 0 &&
+                  setInvestmentTypeTwo.length == 0
+                  ? makeArray[0].valueAsAtDate.amount.toFixed(2)
+                  : setInvestmentTypeTwo.length == 0 &&
+                    setInvestmentTypeThree.length == 0
+                  ? makeArray[0].principalBalance.amount
+                  : makeArray[0].currentValue.toFixed(2)
+              )}
             </p>
           </div>
           {/* <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
@@ -199,6 +277,8 @@ const mapStateToProps = (state) => ({
   allPersonalInvestmentsLoading:
     state.investments.allPersonalInvestmentsLoading,
   allPersonalInvestmentsError: state.investments.allPersonalInvestmentsError,
+  investmentValuationData: state.investments.investmentValuationData,
+  investmentValuationLoading: state.investments.investmentValuationLoading,
 });
 
 export default connect(mapStateToProps)(FundExistingInvestment);

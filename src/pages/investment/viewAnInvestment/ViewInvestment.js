@@ -7,13 +7,6 @@ import ViewDetails from "./component/viewInvestDetails/ViewDetails";
 import { Link, Redirect } from "react-router-dom";
 
 const ViewInvestment = (props) => {
-  // const specificData = props.allPersonalInvestmentsData.filter(
-  //   (item) => props.location.investmentId == item.securityId
-  // );
-  // const specificData = props.getAllInvestmentsData.filter(
-  //   (item) => props.location.investmentId == item.investmentID
-  // );
-
   //RELOAD HANDLER
   if (!props.location.investmentId) {
     return <Redirect to="/dashboard/investment" />;

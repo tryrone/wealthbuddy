@@ -181,8 +181,11 @@ const InvestModal = (props) => {
                   style={{ color: "#999999" }}
                   className="text-xs text-center mt-4 "
                 >
-                  You have ₦ {formatCurrency(props.dashboard.walletBalance)} in
-                  your wallet
+                  You have{" "}
+                  <p className="text-orange-700">
+                    ₦{formatCurrency(props.dashboard.walletBalance)}
+                  </p>
+                  in your wallet
                 </p>
                 <button
                   onClick={() => {

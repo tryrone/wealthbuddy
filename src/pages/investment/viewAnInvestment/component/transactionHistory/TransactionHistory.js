@@ -21,7 +21,7 @@ const TransactionHistory = (props) => {
   return (
     <div
       style={{ border: "1px solid #F1F1F1", borderRadius: "2px" }}
-      className="shadow-2xl mt-6 w-full bg-white border px-8 py-5  "
+      className="shadow-2xl mt-6 w-full bg-white border px-8 py-5"
     >
       {/* <div className="flex justify-center content-center items-center">
         <p className="text-xs font-bold text-teal-700">+324,442.88</p>
@@ -34,7 +34,7 @@ const TransactionHistory = (props) => {
         Transaction History
       </p>
       <div className="hide-scroll overflow-y-scroll h-screen">
-        <div className="flex flex-row mt-8 justify-between content-center items-center">
+        <div className="flex flex-row mt-8 justify-between items-center">
           <p
             onClick={() => {
               setactiveOne(true);
