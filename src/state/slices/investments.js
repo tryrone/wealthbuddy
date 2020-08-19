@@ -46,6 +46,10 @@ const initialState = {
   allFixedTrasactionsLoading: false,
   allFixedTrasactionsError: null,
   allFixedTrasactionsData: [],
+  // TERMINATE INVESTMENT
+  terminateFundsLoading: false,
+  terminateFundsError: null,
+  terminateFundsData: {},
 };
 
 export const getInvestmentConfigurations = createAsyncThunk(
@@ -72,6 +76,22 @@ export const createInvestment = createAsyncThunk(
 
     const response = await requestCreate(props);
     return response.data.data;
+  }
+);
+
+export const withdrawFunds = createAsyncThunk(
+  "investment/withdrawFunds",
+  async (props) => {
+    const response = await Investment.withdrawFunds(props);
+    return response.data;
+  }
+);
+
+export const terminateFunds = createAsyncThunk(
+  "investment/terminateFunds",
+  async (props) => {
+    const response = await Investment.terminateTbills(props);
+    return response.data;
   }
 );
 
@@ -116,10 +136,6 @@ export const getInvestmentTransactionsForFund = createAsyncThunk(
 
 export const fundInvestment = createAsyncThunk(
   "investment/fundInvestment",
-  // async (data) => {
-  //   const response = await Investment.getInvestmentTransactionsForFunds(data);
-  //   return response.data.data;
-  // }
   async (props) => {
     let requestFund;
     if (props.investmentType == 1) {
@@ -165,6 +181,36 @@ const investmentsSlice = createSlice({
       state.investmentConfigurationData = null;
       state.investmentConfigurationLoading = false;
       state.investmentConfigurationError = action.error;
+    },
+    //   WITHDRAW FUNDS
+    [withdrawFunds.pending]: (state) => {
+      state.withdrawFundsLoading = true;
+      state.withdrawFundsError = null;
+    },
+    [withdrawFunds.fulfilled]: (state, action) => {
+      state.withdrawFundsData = action.payload;
+      state.withdrawFundsLoading = false;
+      state.withdrawFundsError = null;
+    },
+    [withdrawFunds.rejected]: (state, action) => {
+      state.withdrawFundsData = null;
+      state.withdrawFundsLoading = false;
+      state.withdrawFundsError = action.error;
+    },
+    //   TERMINATE FUNDS
+    [terminateFunds.pending]: (state) => {
+      state.terminateFundsLoading = true;
+      state.terminateFundsError = null;
+    },
+    [terminateFunds.fulfilled]: (state, action) => {
+      state.terminateFundsData = action.payload;
+      state.terminateFundsLoading = false;
+      state.terminateFundsError = null;
+    },
+    [terminateFunds.rejected]: (state, action) => {
+      state.terminateFundsData = null;
+      state.terminateFundsLoading = false;
+      state.terminateFundsError = action.error;
     },
     //   GET ALL INVESTMENTS
     [getAllInvestments.pending]: (state) => {

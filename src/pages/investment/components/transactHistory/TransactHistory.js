@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { investBars } from "../../imageLinks";
 import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
+import LinesEllipsis from "react-lines-ellipsis";
 import "./style.css";
 
 const TransactHistory = (props) => {
@@ -19,6 +20,8 @@ const TransactHistory = (props) => {
   const properTransactions = props.investmentTransactionsForFundsData;
   const fixedTransactions = props.allFixedTrasactionsData;
   const tBillsTransactions = props.allTbillsTrasactionsData;
+
+  console.log(fixedTransactions, "maa nigger");
 
   return props.investmentTransactionsForFundsLoading ? (
     <div className="px-12 flex justify-center content-center items-center">
@@ -54,7 +57,7 @@ const TransactHistory = (props) => {
               activeOne ? "active_me" : null
             }`}
           >
-            Fixed History
+            Fixed Tip
           </p>
           <p
             onClick={() => {
@@ -66,7 +69,7 @@ const TransactHistory = (props) => {
               activeTwo ? "active_me" : null
             }`}
           >
-            Mutual Funds History
+            Mutual Funds
           </p>
           <p
             onClick={() => {
@@ -78,7 +81,7 @@ const TransactHistory = (props) => {
               activeThree ? "active_me" : null
             }`}
           >
-            Treasury Bills History
+            Treasury Bills
           </p>
         </div>
 
@@ -109,12 +112,15 @@ const TransactHistory = (props) => {
                   </div>
 
                   <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold font-light">
+                    <p className="text-black font-bold text-right font-light">
                       {num.currency === "NGN" ? naira : dollar}
                       {formatCurrency(num.transAmount)}
                     </p>
-                    <p style={{ color: "#999999" }} className="text-sm mt-2">
-                      {/* {moment(num.orderDate).format("MMM DD YYYY")} */}
+                    <p
+                      style={{ color: "#999999" }}
+                      className="text-sm text-right w-full mt-2"
+                    >
+                      {moment(parseInt(num.orderDate)).format("MMM DD YYYY")}
                     </p>
                   </div>
                 </div>
@@ -122,14 +128,13 @@ const TransactHistory = (props) => {
             })
           )}
         </div>
-
         <div
           style={{ overflowY: "scroll", display: activeOne ? "block" : "none" }}
         >
           {/* invest content */}
           {props.allFixedTrasactionsLoading ? (
             <Loading text="" />
-          ) : (
+          ) : !fixedTransactions ? null : (
             fixedTransactions.map((num, index) => {
               return (
                 <div
@@ -140,22 +145,31 @@ const TransactHistory = (props) => {
                     <img src={investBars} />
 
                     <div className="ml-5 mt-4 sm:mt-0">
-                      <p className="text-black text-base font-light">
+                      <p className="text-black text-sm font-light">
                         {num.portfolioLabel}
                       </p>
-                      <p style={{ color: "#999999" }} className="text-sm mt-2">
-                        {num.label}
+                      <p style={{ color: "#999999" }} className="text-xs mt-2">
+                        <LinesEllipsis
+                          text={`${num.label}`}
+                          maxLine="2"
+                          ellipsis="..."
+                          trimRight
+                        />
+                        {/* {num.label} */}
                       </p>
                     </div>
                   </div>
 
                   <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold font-light">
+                    <p className="text-black font-bold text-right font-light">
                       {num.currency === "NGN" ? naira : dollar}
                       {formatCurrency(num.faceValue)}
                     </p>
-                    <p style={{ color: "#999999" }} className="text-sm mt-2">
-                      {/* {moment(num.orderDate).format("MMM DD YYYY")} */}
+                    <p
+                      style={{ color: "#999999" }}
+                      className="text-sm mt-2 w-full text-right"
+                    >
+                      {moment(num.startDate).format("MMM DD YYYY")}
                     </p>
                   </div>
                 </div>
@@ -188,18 +202,27 @@ const TransactHistory = (props) => {
                         {num.instrumentTypeLabel}
                       </p>
                       <p style={{ color: "#999999" }} className="text-sm mt-2">
-                        {num.label}
+                        <LinesEllipsis
+                          text={`${num.label}`}
+                          maxLine="2"
+                          ellipsis="..."
+                          trimRight
+                        />
+                        {/* {num.label} */}
                       </p>
                     </div>
                   </div>
 
                   <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold font-light">
+                    <p className="text-black text-right font-bold font-light">
                       {num.currency === "NGN" ? naira : dollar}
                       {formatCurrency(num.faceValue)}
                     </p>
-                    <p style={{ color: "#999999" }} className="text-sm mt-2">
-                      {/* {moment(num.orderDate).format("MMM DD YYYY")} */}
+                    <p
+                      style={{ color: "#999999" }}
+                      className="text-sm text-right mt-2"
+                    >
+                      {moment(num.orderDate).format("MMM DD YYYY")}
                     </p>
                   </div>
                 </div>

@@ -4,6 +4,7 @@ import { connect, useDispatch } from "react-redux";
 import { investBars } from "../../../imageLinks";
 import moment from "moment";
 import Loading from "shared-components/Loading";
+import "../../../components/transactHistory/style.css";
 import { formatCurrency } from "utils";
 
 const TransactionHistory = (props) => {
@@ -45,7 +46,7 @@ const TransactionHistory = (props) => {
               activeOne ? "active_me" : null
             }`}
           >
-            Fixed History
+            Fixed Tip
           </p>
           <p
             onClick={() => {
@@ -57,7 +58,7 @@ const TransactionHistory = (props) => {
               activeTwo ? "active_me" : null
             }`}
           >
-            Mutual Funds History
+            Mutual Funds
           </p>
           <p
             onClick={() => {
@@ -69,7 +70,7 @@ const TransactionHistory = (props) => {
               activeThree ? "active_me" : null
             }`}
           >
-            Treasury Bills History
+            Treasury Bills
           </p>
         </div>
 
@@ -92,10 +93,10 @@ const TransactionHistory = (props) => {
                     <img src={investBars} />
 
                     <div className="ml-5 mt-4 sm:mt-0">
-                      <p className="text-black text-base font-light">
+                      <p className="text-black text-xs font-light">
                         {num.fundName}
                       </p>
-                      <p style={{ color: "#999999" }} className="text-sm mt-2">
+                      <p style={{ color: "#999999" }} className="text-xs mt-2">
                         {num.description}
                       </p>
                     </div>
@@ -187,12 +188,15 @@ const TransactionHistory = (props) => {
                   </div>
 
                   <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold font-light">
+                    <p className="text-black font-bold text-right font-light">
                       {num.currency === "NGN" ? naira : dollar}
                       {formatCurrency(num.faceValue)}
                     </p>
-                    <p style={{ color: "#999999" }} className="text-sm mt-2">
-                      {/* {moment(num.orderDate).format("MMM DD YYYY")} */}
+                    <p
+                      style={{ color: "#999999" }}
+                      className="text-sm text-right mt-2"
+                    >
+                      {moment(num.orderDate).format("MMM DD YYYY")}
                     </p>
                   </div>
                 </div>

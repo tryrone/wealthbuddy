@@ -142,13 +142,12 @@ function AddInvestmentForm(props) {
 
   const investmentTbills = {
     investmentID: `${InvestmentName[0].investmentID}`,
-    investmentType: InvestmentName[0].investmentType,
+    investmentType: parseInt(InvestmentName[0].investmentType),
     treasuryBillTypeName: `${InvestmentName[0].name}`,
-    currency: "NGN",
     faceValue: parseInt(state.amount),
     discountRate: 9.5,
     startDate: `${date}`,
-    status: "pending",
+    status: "PENDING",
     tenor: `${InvestmentName[0].minimumDurationInDays}`,
     investmentImage: `${files.file.name}`,
   };
@@ -179,7 +178,7 @@ function AddInvestmentForm(props) {
 
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
-      <div className="flex flex-row  content-center sm:w-3/6 items-center  mb-10 ">
+      <div className="flex flex-row sm:w-8/12 items-center  mb-10 ">
         <p style={{ color: "#999999" }} className="text-xs ">
           Investment
         </p>
@@ -243,16 +242,16 @@ function AddInvestmentForm(props) {
           {/* input content one end */}
 
           {/* input two */}
-          {/* {InvestmentName[0].investmentType == 1 ? null : ( */}
-          <fieldset className="mb-4 w-full px-6 mx-auto">
-            <label className="block text-xs font-medium">
-              How long would you want to invest
-            </label>
-            <div className="fieldset mt-2 w-full">
-              <StartDropdown myDuration={setDurationDays} />
-            </div>
-          </fieldset>
-          {/* )} */}
+          {InvestmentName[0].investmentType == 1 ? (
+            <fieldset className="mb-4 w-full px-6 mx-auto">
+              <label className="block text-xs font-medium">
+                How long would you want to invest
+              </label>
+              <div className="fieldset mt-2 w-full">
+                <StartDropdown myDuration={setDurationDays} />
+              </div>
+            </fieldset>
+          ) : null}
           {/* input two */}
 
           {/* input three */}

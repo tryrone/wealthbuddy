@@ -40,6 +40,9 @@ export const fundInvestment = (data) => {
 export const withdrawFunds = (data) => {
   return axios.post(urls.fundsWithdraw, data);
 };
+export const terminateTbills = (data) => {
+  return axios.post(urls.tbillsTerminate, data);
+};
 export const getInvestmentValuation = () => {
   return axios.get(urls.investmentValuation);
 };

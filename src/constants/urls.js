@@ -67,6 +67,7 @@ const urls = {
   fundInvestmentFixed: "/api/Investments/terminstruments/topup",
   investmentValuation: "/api/Investments/valuation",
   fundsWithdraw: "/api/Investments/funds/withdraw",
+  tbillsTerminate: "/api/Investments/tbills/terminate",
   fundsTransactionsList: "/api/Investments/funds/transactions",
   tBillsTransactionsList: "/api/Investments/tbills/transactions",
   fixedTransactionsList: "/api/Investments/terminstruments/transactions",
