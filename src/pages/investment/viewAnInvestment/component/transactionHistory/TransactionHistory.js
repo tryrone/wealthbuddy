@@ -4,7 +4,7 @@ import { connect, useDispatch } from "react-redux";
 import { investBars } from "../../../imageLinks";
 import moment from "moment";
 import Loading from "shared-components/Loading";
-import "../../../components/transactHistory/style.css";
+import "./style.css";
 import { formatCurrency } from "utils";
 
 const TransactionHistory = (props) => {

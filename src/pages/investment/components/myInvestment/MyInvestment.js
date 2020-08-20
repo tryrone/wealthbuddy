@@ -15,11 +15,11 @@ const MyInvestment = (props) => {
     }
   }, []);
 
-  return props.allPersonalInvestmentsLoading ? null : (
+  return props.investmentValuationLoading ? null : (
     <div className="flex flex-row flex-wrap  scroll-container ps">
-      {!props.allPersonalInvestmentsData
+      {!props.investmentValuationData.portfolioHoldings
         ? null
-        : props.allPersonalInvestmentsData.map((item, index) => {
+        : props.investmentValuationData.portfolioHoldings.map((item, index) => {
             return (
               <Link
                 key={index}
