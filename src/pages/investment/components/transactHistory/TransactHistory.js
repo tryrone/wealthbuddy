@@ -31,20 +31,20 @@ const TransactHistory = (props) => {
     <div
       style={{
         border: "1px solid #F1F1F1",
-        borderRadius: "2px",
+        borderRadius: "14px",
       }}
       className="shadow-2xl w-full bg-white border px-8 py-5 hide-scroll overflow-y-scroll h-screen"
     >
       <p className={`text-black text-base text-center mb-4 font-light`}>
         Transaction History
       </p>
-      <div className="hide-scroll overflow-y-scroll h-screen">
+      <div className="hide-scroll overflow-y-scroll hide-scroll h-screen">
         {/* <div className="flex justify-center content-center items-center">
         <p className="text-xs font-bold text-teal-700">+324,442.88</p>
         <p style={{ color: "#999999" }} className="text-xs">
           today
         </p>
-      </div>
+      </div> 
       <Chart /> */}
         <div className="flex flex-row mt-8 justify-between content-center items-center">
           <p
@@ -57,7 +57,7 @@ const TransactHistory = (props) => {
               activeOne ? "active_me" : null
             }`}
           >
-            Fixed Tip
+            Fixed Deposits
           </p>
           <p
             onClick={() => {

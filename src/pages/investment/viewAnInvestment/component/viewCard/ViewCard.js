@@ -49,7 +49,7 @@ const ViewCard = (props) => {
 
   return (
     <div
-      style={{ borderRadius: "2px" }}
+      // style={{ borderRadius: "2px" }}
       className="card-padding card h-auto mt-6  card-black  flex-column  text-white"
     >
       <div className="flex flex-row items-center content-center">
