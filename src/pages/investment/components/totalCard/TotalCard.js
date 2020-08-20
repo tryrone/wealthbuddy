@@ -150,7 +150,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
         </div>
 
         <p className="text-gray-100 text-base font-bold">
-          Total Pur Cost:{" "}
+          Purchase Cost:{" "}
           {investmentValuationLoading
             ? null
             : `N${formatCurrency(
@@ -170,13 +170,13 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
         {/* TOP SECTION  END*/}
 
         {/* SECOND SECTION */}
-        <div className="flex flex-summary card-margin--x flex-wrap justify-between items-center content-center pt-6">
+        <div className=" flex flex-summary flex-col sm:flex-row justify-between items-center content-center  pt-3 mt-6  border-t-2 border-white border-solid border-opacity-25">
           <div className="text-left">
             <p className="text-white text-opacity-25 self-center pt-1">
               FIXED DEPOSIT
             </p>
             <p className="text-gray-100 text-base font-bold">
-              Total Pur. Cost{" "}
+              Purchase Cost{" "}
               {investmentValuationLoading
                 ? null
                 : `N${formatCurrency(
@@ -208,10 +208,10 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
               TBILLS INVESTMENT
             </p>
             <p className="text-gray-100 text-base font-bold text-right">
-              Total Pur. Cost:{" "}
+              Purchase Cost:{" "}
               {investmentValuationLoading
                 ? null
-                : `N ${Math.sign(
+                : `N${Math.sign(
                     !investmentValuationData.commodityPerc
                       ? null
                       : investmentValuationData.totalTBillDiscountedValue
@@ -221,7 +221,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
               Total Returns:{" "}
               {investmentValuationLoading
                 ? null
-                : `N ${Math.sign(
+                : `N${Math.sign(
                     !investmentValuationData.commodityPerc
                       ? null
                       : investmentValuationData.totalTBillInterestValue
