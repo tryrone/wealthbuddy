@@ -21,7 +21,10 @@ const TransactionHistory = (props) => {
 
   return (
     <div
-      style={{ border: "1px solid #F1F1F1", borderRadius: "2px" }}
+      style={{
+        border: "1px solid #F1F1F1",
+        borderRadius: "14px",
+      }}
       className="shadow-2xl mt-6 w-full bg-white border px-8 py-5"
     >
       {/* <div className="flex justify-center content-center items-center">

@@ -31,7 +31,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
 
   return (
     <div
-      style={{ borderRadius: "2px" }}
+      // style={{ borderRadius: "2px" }}
       className="card-padding card h-auto  card-black  flex-column  text-white"
     >
       <div className={`${mySwicth ? "hidden" : null}`}>
@@ -46,12 +46,12 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
               Total Investments
             </p>
           </div>
-          <Switch
+          {/* <Switch
             onChange={(checked) => {
               setMySwicth(checked);
             }}
             checked={mySwicth}
-          />
+          /> */}
         </div>
 
         <p className="text-gray-100 text-4xl font-bold pl-6">
