@@ -1,18 +1,8 @@
-import React, { useState, useEffect, Fragment } from "react";
-import AuthModal from "../../../../shared-components/authModal/AuthModal";
-// import { StateContext } from '../../contextApi';
-// import { checkEmpty } from '../../../../utilities';
-// import { emptyObject, closeModalOnClick, formatMoney, checkEmpty } from '../../modules/utilities';
-import CardIcon from "../../../../assets/img/cardIcon.png";
-// import { urls } from '../../modules/network/url';
-// import { postCall } from '../../modules/network';
-import Loading from "../../../../shared-components/Loading";
-// import WalletDropdown from '../dropdowns/walletDropdown';
-// import { Link } from "react-router-dom"
-// import BankListDropdown from "../withdrawFunds/BankListDropDown";
+import React, { useEffect, Fragment } from "react";
+import CardIcon from "assets/img/cardIcon.png";
+import Loading from "shared-components/Loading";
 
 const Heading = () => {
-  // const [{ successModal }] = useContext(StateContext)
   return (
     <div className="flex flex-col items-center mb-0">
       <i className="w-20 mb-4">
@@ -27,140 +17,20 @@ const Heading = () => {
   );
 };
 
-const userBanks = [1];
 const loading = false;
 const loginError = false;
 
-const WithdrawFundsModal = (props) => {
+const WithdrawFundsModal = () => {
   useEffect(() => {
     document.querySelector(".modal").classList.add("modal-active");
-    // closeModalOnClick(closeModal)
-    // return () => {
-    //     document.querySelector(".modal").classList.remove("modal-active")
-    // }
   }, []);
 
-  const closeModal = () => {
-    props.show2(false);
-    // return document.querySelector(".modal").classList.remove("modal-active");
-  };
-
-  // const [{ fundWallet, cardModal, walletCard, fundSavings, userBanks, banks, withdrawFunds }, dispatch] = useContext(StateContext);
-  // const [loading, setLoading] = useState(false)
-  // const [loginError, setLoginError] = useState(null);
-  // const [state, setState] = useState({
-  //     amount: '',
-  // })
-
-  // const handleChange = e => {
-  //     const { name, value } = e.target
-  //     setState(prevState => ({
-  //         ...prevState,
-  //         [name]: value
-  //     }))
-  // }
-
-  // const proceed = async () => {
-  //     setLoading(true);
-
-  //     if (walletCard === "") {
-  //         const data = {
-  //             amount: parseFloat(state.amount.replace(/(?!\.)\D/g, "")),
-  //             saveCard: true
-  //         }
-
-  //         const response = await postCall(urls.startFundNewCard, data);
-
-  //         if (typeof response !== "undefined" && response.data.status === true) {
-
-  //             dispatch({
-  //                 type: "CHANGE_ADDCARD", newPayload: {
-  //                     ...cardModal,
-  //                     reference: response.data.data.data.reference
-  //                 }
-  //             });
-
-  //             dispatch({
-  //                 type: "CHANGE_FUND_WALLET", newPayload: {
-  //                     ...fundWallet,
-  //                     modal: false
-  //                 }
-  //             });
-
-  //             dispatch({
-  //                 type: "CHANGE_PAYSTACK",
-  //                 newPayload: {
-  //                     modal: true,
-  //                     amount: parseFloat(state.amount.replace(/(?!\.)\D/g, ""))
-  //                 }
-  //             });
-
-  //         } else {
-  //             setLoading(false)
-  //             setLoginError(response.data.message)
-  //         }
-  //     } else {
-  //         const data = {
-  //             amount: parseFloat(state.amount.replace(/(?!\.)\D/g, "")),
-  //             customerCardDataID: walletCard,
-  //         }
-
-  //         const response = await postCall(urls.fundWalletWithExistingCard, data);
-
-  //         if (typeof response !== "undefined" && response.data.status === true) {
-
-  //             dispatch({
-  //                 type: "CHANGE_FUND_WALLET", newPayload: {
-  //                     ...fundWallet,
-  //                     modal: false
-  //                 }
-  //             });
-
-  //             dispatch({
-  //                 newPayload: {
-  //                     status: true,
-  //                     subtitle: (<span><span className="font-bold">₦{formatMoney(state.amount.replace(/(?!\.)\D/g, ""))}</span> successfully added to your Wallet.</span>),
-  //                     title: "Success",
-  //                     button: "Done",
-  //                     icon: CardIcon
-  //                 },
-  //                 type: 'CHANGE_SUCCESS'
-  //             });
-
-  //             props.refreshDashboard()
-
-  //         } else {
-  //             setLoading(false)
-  //             setLoginError(response.data.message)
-  //         }
-  //     }
-
-  // }
-
-  // const closeModal = () => {
-  //     dispatch({
-  //         type: "CHANGE_WITHDRAW_FUNDS",
-  //         newPayload: {
-  //             ...withdrawFunds,
-  //             modal: false
-  //         }
-  //     });
-  // }
-
-  // useEffect(() => {
-  //     document.querySelector(".modal").classList.add("modal-active");
-  //     closeModalOnClick(closeModal)
-  //     return () => {
-  //         document.querySelector(".modal").classList.remove("modal-active")
-  //     }
-  // }, [0]);
-
-  // console.log(userBanks, banks)
+  const closeModal = () => {};
 
   return (
-    <div class="modal fixed inset-0 bg-wb-overlay flex justify-center items-center">
+    <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center">
       <Fragment>
-        <AuthModal className="login-fieldset">
+        <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset">
           <Heading />
 
           <React.Fragment>
@@ -215,7 +85,7 @@ const WithdrawFundsModal = (props) => {
               </React.Fragment>
             )}
           </React.Fragment>
-        </AuthModal>
+        </div>
       </Fragment>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import 'react-perfect-scrollbar/dist/css/styles.css';
-import EmptyCard from "shared-components/empty/empty-card";
+import EmptyCard from "shared-components/EmptyCard";
 import personalSavings from "assets/img/personalIcon.png";
 import { connect } from "react-redux";
 import { formatCurrency } from "utils";
