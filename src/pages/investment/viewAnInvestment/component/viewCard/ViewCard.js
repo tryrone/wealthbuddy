@@ -5,6 +5,7 @@ import {
   withdram,
   terminate,
   fundInvestment,
+  investBars,
 } from "../../../imageLinks";
 import { formatCurrency } from "utils";
 import { connect, useDispatch } from "react-redux";
@@ -52,12 +53,25 @@ const ViewCard = (props) => {
       // style={{ borderRadius: "2px" }}
       className="card-padding card h-auto mt-6  card-black  flex-column  text-white"
     >
-      <div className="flex flex-row items-center content-center">
-        <img src={smallDollar} alt="wealth-buddy" />
-        <p className="text-white text-opacity-25 self-center pt-1 pl-3">
-          Total Investments
-        </p>
+      <div className="flex flex-row justify-between">
+        <div className="flex flex-row items-center content-center">
+          {/* <img src={smallDollar} alt="wealth-buddy" /> */}
+          <p className="text-white text-opacity-25 self-center pt-1 pl-3">
+            Total Investments
+          </p>
+        </div>
+        <img
+          src={investBars}
+          alt="wealth-buddy"
+          style={{
+            height: "45px",
+            width: "45px",
+            position: "relative",
+            top: "10px",
+          }}
+        />
       </div>
+
       <p className="text-gray-100 text-4xl font-bold pl-6">
         {`N${formatCurrency(
           setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0

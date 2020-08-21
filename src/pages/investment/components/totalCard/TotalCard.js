@@ -34,6 +34,11 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
     ? null
     : investmentValuationData.fundCost;
 
+  const myTotalCost =
+    investmentValuationData.fundCost +
+    investmentValuationData.totalFixedDepositPrincipal +
+    investmentValuationData.totalTBillDiscountedValue;
+
   return (
     <div
       // style={{ borderRadius: "2px" }}
@@ -42,11 +47,6 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
       <div className={`${mySwicth ? "hidden" : null}`}>
         <div className="flex flex-row items-center justify-between content-center">
           <div className="flex items-center">
-            <img
-              src={investBars}
-              alt="wealth-buddy"
-              style={{ height: "15px", width: "15px" }}
-            />
             <p className="text-white text-opacity-25 self-center pt-1 pl-3">
               Total Investments
             </p>
@@ -57,6 +57,16 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
             }}
             checked={mySwicth}
           /> */}
+          <img
+            src={investBars}
+            alt="wealth-buddy"
+            style={{
+              height: "45px",
+              width: "45px",
+              position: "relative",
+              top: "10px",
+            }}
+          />
         </div>
 
         <p className="text-gray-100 text-4xl font-bold pl-6">
@@ -67,9 +77,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
             </div>
           ) : (
             `N${formatCurrency(
-              !investmentValuationData.totalPortfolioValue
-                ? null
-                : investmentValuationData.totalPortfolioValue
+              !investmentValuationData.totalPortfolioValue ? null : myTotalCost
             )} `
           )}
         </p>

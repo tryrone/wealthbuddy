@@ -27,25 +27,29 @@ const InvestHome = ({
   const dispatch = useDispatch();
   const tegaSum = Object.keys(investmentValuationData).length;
   useEffect(() => {
-    // if (tegaSum === 0) {
+    if (tegaSum === 0) {
+      dispatch(getInvestmentTransactionsForFund());
+      dispatch(getAllInvestments());
+      dispatch(getAllTbillsTransactions());
+      dispatch(getInvestmentTransactionsForFund());
+      dispatch(getAllFixedTransactions());
+    }
+
+    // if (getAllInvestmentsData === 0) {
+    //   dispatch(getAllInvestments());
+    // }
+
+    // if (allTbillsTrasactionsData.length === 0) {
+    //   dispatch(getAllTbillsTransactions());
+    // }
+
+    // if (investmentTransactionsForFundsData === 0) {
     //   dispatch(getInvestmentTransactionsForFund());
     // }
 
-    if (getAllInvestmentsData === 0) {
-      dispatch(getAllInvestments());
-    }
-
-    if (allTbillsTrasactionsData.length === 0) {
-      dispatch(getAllTbillsTransactions());
-    }
-
-    if (investmentTransactionsForFundsData === 0) {
-      dispatch(getInvestmentTransactionsForFund());
-    }
-
-    if (allFixedTrasactionsData === 0) {
-      dispatch(getAllFixedTransactions());
-    }
+    // if (allFixedTrasactionsData === 0) {
+    //   dispatch(getAllFixedTransactions());
+    // }
   }, []);
 
   return investmentValuationLoading ? (

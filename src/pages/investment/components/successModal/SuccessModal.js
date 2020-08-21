@@ -4,6 +4,7 @@ import { connect, useDispatch } from "react-redux";
 import { withdrawFunds } from "../../../../state/slices/investments";
 import FailedDoc from "../../../../assets/img/failedDoc.svg";
 import Loading from "shared-components/Loading";
+import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 
 function SuccessModal(props) {
   const dispatch = useDispatch();
@@ -15,11 +16,18 @@ function SuccessModal(props) {
     props.myclose(false);
     // console.log(props);
   };
+
+  const refresh = () => {
+    return document.location.reload(true);
+    // return <Redirect to="/investment/add-investment" />;
+  };
   return (
     <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
       <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset">
         <span className="closeModal cursor-pointer" onClick={() => onclose()}>
-          <p className="text-hairline text-base text-right">Close</p>
+          <span className="closeModal cursor-pointer">
+            <CloseModalIcon />
+          </span>
         </span>
         {props.withdrawFundsLoading ? (
           <Loading text="Withdrawal in progress" />
@@ -57,7 +65,7 @@ function SuccessModal(props) {
 
               <button
                 onClick={() => {
-                  onclose();
+                  refresh();
                 }}
                 className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
               >

@@ -459,7 +459,7 @@ function AddInvestmentForm(props) {
             <p className="text-right text-black text-base">
               {moment(state.date === null ? Date.now() : state.date)
                 // .subtract(1, "months")
-                .format("MMM DD YYYY")}
+                .format("L")}
             </p>
           </div>
 
@@ -468,7 +468,7 @@ function AddInvestmentForm(props) {
           {/* nav buttons */}
           <div className="nav-buttons flex justify-center">
             <Link
-              to=""
+              to="/dashboard/investment/add-investment"
               className="mt-12 w-20 sm:w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
             >
               Back
