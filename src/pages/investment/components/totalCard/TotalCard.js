@@ -15,9 +15,14 @@ import Loading from "shared-components/Loading";
 const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
   const [mySwicth, setMySwicth] = useState(false);
 
+  const totSum = Object.keys(investmentValuationData).length;
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getInvestmentValuation());
+    if (totSum === 0) {
+      dispatch(getInvestmentValuation());
+    }
+    console.log(investmentValuationData, "gang gang");
   }, []);
 
   const handleChange = (checked) => {
@@ -62,9 +67,9 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
             </div>
           ) : (
             `N${formatCurrency(
-              !investmentValuationData.netAssetValue
+              !investmentValuationData.totalPortfolioReturn
                 ? null
-                : investmentValuationData.totalPortfolioReturn.toFixed(1)
+                : investmentValuationData.totalPortfolioReturn
             )} `
           )}
         </p>

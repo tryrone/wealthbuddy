@@ -39,13 +39,13 @@ const FundExistingModal = (props) => {
       setInvestDetails.investmentType = parseInt(myDataArray[0].investmentType);
       delete setInvestDetails.itemId;
       dispatch(fundInvestment(setInvestDetails));
-      console.log(setInvestDetails);
+      // console.log(setInvestDetails);
     } else if (activeOne) {
       setInvestDetails.cardId = `${myCard}`;
       setInvestDetails.investmentType = parseInt(myDataArray[0].investmentType);
       delete setInvestDetails.itemId;
       dispatch(fundInvestment(setInvestDetails));
-      console.log(setInvestDetails);
+      // console.log(setInvestDetails);
       // console.log(props, "solo");
     }
     setInHide(false);
@@ -221,7 +221,7 @@ const FundExistingModal = (props) => {
         {/* Loading UI for PayMent */}
         {props.fundInvestmentLoading ? (
           <Fragment>
-            <Loading text="Creating Investment" />
+            <Loading text="Funding Investment" />
           </Fragment>
         ) : null}
         {/* Loading UI for PayMent */}
@@ -289,6 +289,7 @@ const mapStateToProps = (state) => ({
   fundInvestmentData: state.investments.fundInvestmentData,
   fundInvestmentMe: state.investments.fundInvestmentMe,
   getAllInvestmentsData: state.investments.getAllInvestmentsData,
+  investmentValuationData: state.investments.investmentValuationData,
   cards: state.cards.data,
   dashboard: state.dashboard.data,
 });

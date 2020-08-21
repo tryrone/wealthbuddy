@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from "react";
 import { partTerm, fullterm, information } from "../imageLinks";
 import TerminateModal from "../components/terminateModal/TerminateModal";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import NumberFormat from "react-number-format";
 import { connect, useDispatch } from "react-redux";
 import moment from "moment";
@@ -12,6 +12,8 @@ const TerminateInvestment = (props) => {
   const [selectOne, changeSelectOne] = useState(false);
   const [selectTwo, changeSelectTwo] = useState(false);
   const [displayOne, changeDisplayOne] = useState(true);
+
+  const history = useHistory();
 
   // ON MODAL CLOSE
   const onclose = (val) => {
@@ -81,7 +83,13 @@ const TerminateInvestment = (props) => {
   return (
     <div className="px-12">
       <div className="flex flex-row  sm:w-8/12 items-center  mb-10 ">
-        <p style={{ color: "#999999" }} className="text-xs ">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs cursor-pointer"
+        >
           Investment
         </p>
         <p style={{ color: "#999999" }} className="text-xs mx-4 ">

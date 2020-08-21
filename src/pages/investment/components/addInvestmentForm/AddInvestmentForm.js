@@ -9,16 +9,16 @@ import { info } from "../../imageLinks";
 import moment, { duration } from "moment";
 import { Redirect } from "react-router-dom";
 import UploadIcon from "assets/img/uploadIcon.svg";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import InvestModal from "../investModal/InvestModal";
 import StartDropdown from "./StartDropdown";
-// import { createInvestment } from "../../../../state/slices/investments";
 import { connect, useDispatch } from "react-redux";
 import "./check.scss";
 
 function AddInvestmentForm(props) {
   const [modal, changeModal] = useState(false);
+  const history = useHistory();
   const [files, setFiles] = useState({
     file: "",
     imagePreviewUrl: "",
@@ -145,7 +145,7 @@ function AddInvestmentForm(props) {
     investmentType: parseInt(InvestmentName[0].investmentType),
     treasuryBillTypeName: `${InvestmentName[0].name}`,
     faceValue: parseInt(state.amount),
-    discountRate: 9.5,
+    discountRate: 9,
     startDate: `${date}`,
     status: "PENDING",
     tenor: `${InvestmentName[0].minimumDurationInDays}`,
@@ -179,14 +179,26 @@ function AddInvestmentForm(props) {
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
       <div className="flex flex-row sm:w-8/12 items-center  mb-10 ">
-        <p style={{ color: "#999999" }} className="text-xs ">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs cursor-pointer"
+        >
           Investment
         </p>
         <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
         </p>
-        <p style={{ color: "#999999" }} className="text-xs ml-4 sm:ml-1">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment/add-investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs ml-4 sm:ml-1 cursor-pointer"
+        >
           Add new Investment
         </p>
         <p style={{ color: "#999999" }} className="text-xs mx-4">

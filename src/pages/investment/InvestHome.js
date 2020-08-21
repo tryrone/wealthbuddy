@@ -5,6 +5,7 @@ import { connect, useDispatch } from "react-redux";
 import {
   getInvestmentTransactionsForFund,
   getAllInvestments,
+  investmentValuationData,
   getAllFixedTransactions,
   getAllTbillsTransactions,
 } from "../../state/slices/investments";
@@ -15,27 +16,26 @@ import "./style.css";
 
 const InvestHome = ({
   investmentTransactionsForFundsLoading,
+  investmentValuationLoading,
   getAllInvestmentsData,
+  investmentValuationData,
   allTbillsTrasactionsData,
   allFixedTrasactionsData,
   isEmpty,
 }) => {
   const dispatch = useDispatch();
-
+  const tegaSum = Object.keys(investmentValuationData).length;
   useEffect(() => {
-    if (
-      getAllInvestmentsData.length == 0 &&
-      allTbillsTrasactionsData.length == 0 &&
-      allFixedTrasactionsData.length == 0
-    ) {
+    if (tegaSum === 0) {
       dispatch(getInvestmentTransactionsForFund());
       dispatch(getAllInvestments());
       dispatch(getAllFixedTransactions());
       dispatch(getAllTbillsTransactions());
     }
+    console.log(tegaSum, "disscussion");
   }, []);
 
-  return investmentTransactionsForFundsLoading ? (
+  return investmentValuationLoading ? (
     <div className="px-12 flex justify-center content-center items-center">
       <Loading text="Loading" />
     </div>
@@ -58,6 +58,7 @@ const InvestHome = ({
 
 const mapStateToProps = (state) => ({
   investmentValuationLoading: state.investments.investmentValuationLoading,
+  investmentValuationData: state.investments.investmentValuationData,
   allPersonalInvestmentsLoading:
     state.investments.allPersonalInvestmentsLoading,
   getAllInvetstmentTransactionsLoading:

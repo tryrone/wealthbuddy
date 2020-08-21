@@ -7,14 +7,6 @@ import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
 
 const MyInvestment = (props) => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (props.allPersonalInvestmentsData.length == 0) {
-      dispatch(allPersonalInvestments());
-    }
-  }, []);
-
   return props.investmentValuationLoading ? null : (
     <div className="flex flex-row flex-wrap  scroll-container ps">
       {!props.investmentValuationData.portfolioHoldings

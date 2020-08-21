@@ -61,7 +61,7 @@ const ViewCard = (props) => {
       <p className="text-gray-100 text-4xl font-bold pl-6">
         {`N${formatCurrency(
           setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
-            ? makeArray[0].interestRate.toFixed(2)
+            ? makeArray[0].reportCurrentValue.amount
             : setInvestmentTypeTwo.length == 0 &&
               setInvestmentTypeThree.length == 0
             ? makeArray[0].netInstrumentValue.amount
@@ -108,28 +108,31 @@ const ViewCard = (props) => {
       </div>
 
       <div className="flex flex-summary flex-col sm:flex-row justify-between items-center content-center pt-6">
-        <Link
-          to={{
-            pathname: "fund-investment/existing",
-            // investmentId: `${specificData[0].securityId}`,
-            investmentId: `${
-              setInvestmentTypeOne.length == 0 &&
-              setInvestmentTypeTwo.length == 0
-                ? makeArray[0].id
-                : setInvestmentTypeTwo.length == 0 &&
-                  setInvestmentTypeThree.length == 0
-                ? makeArray[0].instrumentId
-                : makeArray[0].securityId
-            }`,
-          }}
-          className="pl-2 flex items-center content-center"
-        >
-          <img src={fundInvestment} alt="wealth-buddy" className="pr-3" />
-          <p className="text-white text-base self-center">Fund Investment</p>
-        </Link>
+        {setInvestmentTypeOne.length == 0 &&
+        setInvestmentTypeThree.length == 0 ? (
+          <Link
+            to={{
+              pathname: "fund-investment/existing",
+              // investmentId: `${specificData[0].securityId}`,
+              investmentId: `${
+                setInvestmentTypeOne.length == 0 &&
+                setInvestmentTypeTwo.length == 0
+                  ? makeArray[0].id
+                  : setInvestmentTypeTwo.length == 0 &&
+                    setInvestmentTypeThree.length == 0
+                  ? makeArray[0].instrumentId
+                  : makeArray[0].securityId
+              }`,
+            }}
+            className="pl-2 flex items-center content-center"
+          >
+            <img src={fundInvestment} alt="wealth-buddy" className="pr-3" />
+            <p className="text-white text-base self-center">Fund Investment</p>
+          </Link>
+        ) : null}
 
-        {setInvestmentTypeTwo.length == 0 &&
-        setInvestmentTypeThree.length == 0 ? null : (
+        {setInvestmentTypeOne.length == 0 &&
+        setInvestmentTypeThree.length == 0 ? (
           <Link
             to={{
               pathname: "/dashboard/investment/view-investment/withdraw",
@@ -149,7 +152,7 @@ const ViewCard = (props) => {
             <img src={withblack} alt="wealth-buddy" className="pr-3" />
             <p className="text-white text-base self-center">Withdraw</p>
           </Link>
-        )}
+        ) : null}
 
         {setInvestmentTypeOne.length == 0 &&
         setInvestmentTypeThree.length == 0 ? null : (
