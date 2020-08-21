@@ -43,3 +43,10 @@ export const GroupInvitationStatus = {
   Accepted: 2,
   Declined: 3,
 };
+
+export const DocumentApprovalStatus = {
+  Submitted: 1,
+  Approved: 2,
+  Rejected: 3,
+  NotUploaded: 4,
+}

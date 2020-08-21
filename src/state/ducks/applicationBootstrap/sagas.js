@@ -22,7 +22,7 @@ function* operation() {
       customerSavingsResponse,
       recentSavingTransactionsResponse,
       savingsConfiguration,
-      pendingSavingsInvitations,
+      // pendingSavingsInvitations,
       userBanksResponse,
       bankListResponse,
     ] = yield all([

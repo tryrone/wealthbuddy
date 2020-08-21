@@ -6,11 +6,10 @@ import NextOfKin from "./components/NextOfKin";
 import Identity from "./components/Identity";
 import * as yup from "yup";
 import { connect, useDispatch } from "react-redux";
-import { Field, Form, Formik } from "formik";
-import { Link } from "react-router-dom";
-// import moment from "moment";
+import { Form, Formik } from "formik";
 import { updateProfile } from "state/slices/account";
 import classNames from "classnames";
+import { convertIsoDateToYmdJson, convertYmdJsonToIsoDate } from "utils";
 
 const Profile = ({ account, activeTabId, handleTab }) => {
   useEffect(() => {
@@ -55,13 +54,9 @@ const Profile = ({ account, activeTabId, handleTab }) => {
     5: <Identity />,
   };
 
-  // const customerDateOfBirth = customerDetails.dateOfBirth
-  //   ? {
-  //       year: moment(customerDetails.dateOfBirth).year(),
-  //       month: moment(customerDetails.dateOfBirth).month() + 1,
-  //       day: moment(customerDetails.dateOfBirth).day(),
-  //     }
-  //   : null;
+  const customerDateOfBirth = customerDetails.dateOfBirth
+    ? convertIsoDateToYmdJson(customerDetails.dateOfBirth)
+    : null;
 
   const initialValues = {
     title: customerDetails.title,
@@ -69,11 +64,10 @@ const Profile = ({ account, activeTabId, handleTab }) => {
     gender: customerDetails.gender,
     maritalStatus: customerDetails.marritalStatus,
     religion: customerDetails.religion,
-    // dateOfBirth: customerDateOfBirth,
-    dateOfBirth: null,
+    dateOfBirth: customerDateOfBirth,
     address: customerDetails.address,
     landmark: customerDetails.landmark,
-    state: customerDetails.start,
+    state: customerDetails.state,
     lga: customerDetails.lga,
     homeTown: customerDetails.homeTown,
     nationality: customerDetails.nationality,
@@ -94,7 +88,7 @@ const Profile = ({ account, activeTabId, handleTab }) => {
     gender: yup.number().label("Gender").nullable(),
     maritalStatus: yup.number().label("Marital status").nullable(),
     religion: yup.number().label("Religion").nullable(),
-    dateOfBirth: yup.string().label("Date of Birth").nullable(),
+    dateOfBirth: yup.object().label("Date of Birth").nullable(),
     address: yup.string().label("Address").nullable(),
     landmark: yup.string().label("Landmark").nullable(),
     state: yup.string().label("State").nullable(),
@@ -105,17 +99,34 @@ const Profile = ({ account, activeTabId, handleTab }) => {
     employerName: yup.string().label("Employer Name").nullable(),
     employerAddress: yup.string().label("Employer Address").nullable(),
     nextOfKinName: yup.string().label("Next of Kin Name").nullable(),
-    nextOfKinPhoneNumber: yup.string().label("Next of Kin Phone Number").nullable(),
-    nextOfKinEmail: yup.string().label("Next of Kin Phone Number").email().nullable(),
-    nextOfKinRelationship: yup.string().label("Next of Kin Relationship").nullable(),
-    nextOfKinAddress: yup.string().label("Next of Kin Phone Address").nullable(),
+    nextOfKinPhoneNumber: yup
+      .string()
+      .label("Next of Kin Phone Number")
+      .nullable(),
+    nextOfKinEmail: yup
+      .string()
+      .label("Next of Kin Phone Number")
+      .email()
+      .nullable(),
+    nextOfKinRelationship: yup
+      .string()
+      .label("Next of Kin Relationship")
+      .nullable(),
+    nextOfKinAddress: yup
+      .string()
+      .label("Next of Kin Phone Address")
+      .nullable(),
   });
 
   const handleSubmit = async (formValues) => {
-    // formValues.maritalStatus = formValues.marritalStatus;
+    const payload = {
+      ...formValues,
+      marritalStatus: formValues.maritalStatus,
+      dateOfBirth: convertYmdJsonToIsoDate(formValues.dateOfBirth),
+    };
 
     setIsSaving(true);
-    const resultAction = await dispatch(updateProfile(formValues));
+    const resultAction = await dispatch(updateProfile(payload));
     if (updateProfile.fulfilled.match(resultAction)) {
       setIsSaving(false);
     } else {
