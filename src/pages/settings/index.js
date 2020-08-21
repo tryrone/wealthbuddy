@@ -2,8 +2,9 @@ import React, { Fragment, useState } from "react";
 import { arrowIcon } from "assets/exports";
 import Documentation from "./documentation";
 import UserCards from "./cards";
-import UserBanks from "./bank";
+import UserBanks from "./banks";
 import Profile from "./profile";
+import AddBankProvider from "../../providers/AddBankProvider";
 
 const tabTitles = ["Profile", "Documentation", "Banks", "Cards"];
 
@@ -31,7 +32,11 @@ const Settings = () => {
   const tabsComponents = {
     profile: <Profile activeTabId={activeId} handleTab={handleActive} />,
     documentation: <Documentation />,
-    banks: <UserBanks />,
+    banks: (
+      <AddBankProvider>
+        <UserBanks />
+      </AddBankProvider>
+    ),
     cards: <UserCards />,
   };
 

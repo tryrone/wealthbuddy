@@ -6,6 +6,7 @@ import {
   addBankAccountFail,
 } from "./actions";
 import { Customer } from "services/network";
+import {getBankAccountsData} from "../bankAccounts/actions";
 
 function* operation({ payload, meta }) {
   yield put(addBankAccountStart());
@@ -15,6 +16,7 @@ function* operation({ payload, meta }) {
     let { data } = response.data;
     meta.markAsValid();
     yield put(addBankAccountSuccess(data));
+    yield put(getBankAccountsData());
   } catch (error) {
     yield put(addBankAccountFail(error.message));
   }
