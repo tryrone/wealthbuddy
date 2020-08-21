@@ -172,7 +172,7 @@ const MyInvestment = (props) => {
                   <div>
                     <p className="text-black text-sm">Current Value</p>
                     <p className="text-black mt-1 font-bold text-base">
-                      N {formatCurrency(item.faceValue.amount.toFixed(2))}
+                      N {formatCurrency(item.valueAsAtDate.amount.toFixed(2))}
                     </p>
                   </div>
 
