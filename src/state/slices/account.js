@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Customer } from "services/network";
+import { DocumentApprovalStatus } from "../../constants/enums";
 
 const initialState = {
   loginLoading: false,
@@ -94,6 +95,22 @@ export const updateProfile = createAsyncThunk(
   "account/updateProfile",
   async (payload) => {
     const response = await Customer.updateProfile(payload);
+    return response.data.data;
+  }
+);
+
+export const uploadIdentification = createAsyncThunk(
+  "account/uploadIdentification",
+  async (payload) => {
+    const response = await Customer.uploadIdentification(payload);
+    return response.data.data;
+  }
+);
+
+export const uploadUtilityBill = createAsyncThunk(
+  "account/uploadUtilityBill",
+  async (payload) => {
+    const response = await Customer.uploadUtilityBill(payload);
     return response.data.data;
   }
 );
@@ -201,6 +218,16 @@ const accountSlice = createSlice({
     [sendBankAccountToken.rejected]: (state, action) => {
       state.sendBankAccountTokenLoading = false;
       state.sendBankAccountTokenError = action.error;
+    },
+    [uploadIdentification.fulfilled]: (state) => {
+      state.data.meansOfIdentificationUploadStatus.isUploaded = true;
+      state.data.meansOfIdentificationUploadStatus.approvalStatus =
+        DocumentApprovalStatus.Submitted;
+    },
+    [uploadUtilityBill.fulfilled]: (state) => {
+      state.data.utilityBillUploadStatus.isUploaded = true;
+      state.data.utilityBillUploadStatus.approvalStatus =
+        DocumentApprovalStatus.Submitted;
     },
   },
 });

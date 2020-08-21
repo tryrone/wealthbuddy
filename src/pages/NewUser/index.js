@@ -263,9 +263,4 @@ const mapStateToProps = (state) => ({
   account: state.account.data,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchVerifyFundWalletWithNewCard: (payload, meta) =>
-    dispatch(verifyFundWalletWithNewCard(payload, meta)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(NewUser);
+export default connect(mapStateToProps)(NewUser);

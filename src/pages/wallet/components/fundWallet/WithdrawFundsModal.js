@@ -10,7 +10,6 @@ import Loading from "../../../../shared-components/Loading";
 // import WalletDropdown from '../dropdowns/walletDropdown';
 // import { Link } from "react-router-dom"
 // import BankListDropdown from "../withdrawFunds/BankListDropDown";
-import EmptyBank from "../../../../shared-components/empty/bankEmpty";
 
 const Heading = () => {
   // const [{ successModal }] = useContext(StateContext)

@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from "react";
 import { arrowIcon } from "assets/exports";
 import Documentation from "./documentation";
-import UserCards from "./userCards";
-import UserBanks from "./userBanks";
+import UserCards from "./cards";
+import UserBanks from "./bank";
 import Profile from "./profile";
 
 const tabTitles = ["Profile", "Documentation", "Banks", "Cards"];
