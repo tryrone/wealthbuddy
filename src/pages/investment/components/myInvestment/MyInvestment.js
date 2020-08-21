@@ -9,6 +9,15 @@ import { formatCurrency } from "utils";
 const MyInvestment = (props) => {
   return props.investmentValuationLoading ? null : (
     <div className="flex flex-row flex-wrap  scroll-container ps">
+      <Link to={`/dashboard/investment/add-investment`}>
+        <div
+          style={{ border: "1px solid #F1F1F1", borderRadius: "2px" }}
+          className="card px-12 py-12 flex mr-3 justify-center content-center items-center flex-col"
+        >
+          <img src={addBtn} />
+          <p className="text-sm text-black mt-3 text-center">Add Investment</p>
+        </div>
+      </Link>
       {!props.investmentValuationData.portfolioHoldings
         ? null
         : props.investmentValuationData.portfolioHoldings.map((item, index) => {
@@ -176,15 +185,6 @@ const MyInvestment = (props) => {
               </Link>
             );
           })}
-      <Link to={`/dashboard/investment/add-investment`}>
-        <div
-          style={{ border: "1px solid #F1F1F1", borderRadius: "2px" }}
-          className="card px-12 py-12 flex mr-3 justify-center content-center items-center flex-col"
-        >
-          <img src={addBtn} />
-          <p className="text-sm text-black mt-3 text-center">Add Investment</p>
-        </div>
-      </Link>
     </div>
   );
 };

@@ -47,7 +47,7 @@ const ViewDetails = (props) => {
           <p className="font-hairline text-right text-black text-base sm:text-sm">
             {setInvestmentTypeOne.length == 0 &&
             setInvestmentTypeTwo.length == 0
-              ? makeArray[0].contractCommissionRateType
+              ? "TREASURY BILLS"
               : setInvestmentTypeTwo.length == 0 &&
                 setInvestmentTypeThree.length == 0
               ? makeArray[0].productCategory
@@ -70,6 +70,98 @@ const ViewDetails = (props) => {
         </div>
 
         {/* item */}
+        {setInvestmentTypeTwo.length == 0 &&
+        setInvestmentTypeThree.length == 0 ? null : (
+          <div className="flex flex-row mt-8 content-center justify-between items-center">
+            <p className="font-bold text-black text-base sm:text-sm">Symbol</p>
+            <p className="font-hairline text-right text-black text-base sm:text-sm">
+              {setInvestmentTypeOne.length == 0 &&
+              setInvestmentTypeTwo.length == 0
+                ? makeArray[0].label
+                : makeArray[0].symbol}
+            </p>
+          </div>
+        )}
+        {/* item */}
+
+        {/* item */}
+        <div className="flex flex-row mt-8 content-center justify-between items-center">
+          <p className="font-bold text-black text-base sm:text-sm">
+            Purchase Cost
+          </p>
+          <p className="font-hairline text-right text-black text-base sm:text-sm">
+            ₦
+            {setInvestmentTypeOne.length == 0 &&
+            setInvestmentTypeTwo.length == 0
+              ? makeArray[0].reportFaceValue.amount
+              : setInvestmentTypeTwo.length == 0 &&
+                setInvestmentTypeThree.length == 0
+              ? makeArray[0].principalBalance.amount
+              : makeArray[0].totalPurchaseCost}
+          </p>
+        </div>
+        {/* item */}
+
+        {/* item */}
+        {setInvestmentTypeOne.length == 0 &&
+        setInvestmentTypeThree.length == 0 ? (
+          <div className="flex flex-row mt-8 content-center justify-between items-center">
+            <p className="font-bold text-black text-base sm:text-sm">
+              Total Units
+            </p>
+            <p className="font-hairline text-right text-black text-base sm:text-sm">
+              {makeArray[0].totalUnitsHeld}
+            </p>
+          </div>
+        ) : null}
+        {/* item */}
+
+        {/* item */}
+        <div className="flex flex-row mt-8 content-center justify-between items-center">
+          <p className="font-bold text-black text-base sm:text-sm">
+            Daily Return
+          </p>
+          <p className="font-hairline text-right text-black text-base sm:text-sm">
+            ₦{" "}
+            {setInvestmentTypeOne.length == 0 &&
+            setInvestmentTypeTwo.length == 0
+              ? makeArray[0].dailyIncome.amount
+              : setInvestmentTypeTwo.length == 0 &&
+                setInvestmentTypeThree.length == 0
+              ? makeArray[0].dailyIncome.amount.toFixed(1)
+              : makeArray[0].dailyIncome}
+          </p>
+        </div>
+        {/* item */}
+
+        {/* item */}
+        <div className="flex flex-row mt-8 content-center justify-between items-center">
+          <p className="font-bold text-black text-base sm:text-sm">
+            Total Returns
+          </p>
+          <p className="font-hairline text-right text-black text-base sm:text-sm">
+            ₦{" "}
+            {setInvestmentTypeOne.length == 0 &&
+            setInvestmentTypeTwo.length == 0
+              ? makeArray[0].discount.amount
+              : setInvestmentTypeTwo.length == 0 &&
+                setInvestmentTypeThree.length == 0
+              ? makeArray[0].interestLessTaxes.amount.toFixed(1)
+              : makeArray[0].totalGainLoss}
+          </p>
+        </div>
+        {/* item */}
+
+        {/* item */}
+        <div className="flex flex-row mt-8 content-center justify-between items-center">
+          <p className="font-bold text-black text-base sm:text-sm">StartDate</p>
+          <p className="font-hairline text-right text-black text-base sm:text-sm">
+            {moment(makeArray[0].startDate).format("DD MM YYYY")}
+          </p>
+        </div>
+        {/* item */}
+
+        {/* item */}
         {/* <div className="flex flex-row mt-8 content-center justify-between items-center">
           <p className="font-bold text-black text-base sm:text-sm">
             Date issued
@@ -78,8 +170,8 @@ const ViewDetails = (props) => {
             17 Jun 2019
           </p>
         </div> */}
-
         {/* item */}
+
         <div className="flex flex-row mt-8 content-center justify-between items-center">
           <p className="font-bold text-black text-base sm:text-sm">
             Maturity Date
@@ -91,7 +183,7 @@ const ViewDetails = (props) => {
               : setInvestmentTypeTwo.length == 0 &&
                 setInvestmentTypeThree.length == 0
               ? moment(makeArray[0].valuationDate).format("DD MM YYYY")
-              : null}
+              : " No maturity date for this investment"}
           </p>
         </div>
 
@@ -110,26 +202,6 @@ const ViewDetails = (props) => {
           </p>
         </div>
 
-        {/* item */}
-        {setInvestmentTypeOne.length == 0 &&
-        setInvestmentTypeTwo.length == 0 ? (
-          <div className="flex flex-row mt-8 content-center justify-between items-center">
-            <p className="font-bold text-black text-base sm:text-sm">Returns</p>
-            <p className="font-hairline text-right text-black text-base sm:text-sm">
-              {setInvestmentTypeOne.length == 0 &&
-              setInvestmentTypeTwo.length == 0
-                ? !makeArray[0].interestRate
-                  ? null
-                  : makeArray[0].interestRate.toFixed(1)
-                : !makeArray[0].portPercentage
-                ? null
-                : makeArray[0].portPercentage.toFixed(1)}
-              %
-            </p>
-          </div>
-        ) : null}
-
-        {/* item */}
         {/* <div className="flex flex-row mt-8 content-center justify-between items-center">
           <p className="font-bold text-black text-base sm:text-sm">
             Minimun Deposit
@@ -138,6 +210,7 @@ const ViewDetails = (props) => {
             N10,000
           </p>
         </div> */}
+        {/* item */}
       </div>
 
       {/* second part */}
@@ -152,7 +225,7 @@ const ViewDetails = (props) => {
         <div className="flex flex-row mt-8 content-center justify-between items-center">
           <p className="font-bold text-black text-base sm:text-sm">Capital</p>
           <p className="font-hairline text-right text-black text-base sm:text-sm">
-            N{" "}
+            ₦{" "}
             {formatCurrency(
               setInvestmentTypeOne.length == 0 &&
                 setInvestmentTypeTwo.length == 0
@@ -166,48 +239,63 @@ const ViewDetails = (props) => {
         </div>
 
         {/* item */}
-        <div className="flex flex-row mt-8 content-center justify-between items-center">
-          <p className="font-bold text-black text-base sm:text-sm">
-            Current Value
-          </p>
-          <p className="font-hairline text-right text-black text-base sm:text-sm">
-            N{" "}
-            {formatCurrency(
-              setInvestmentTypeOne.length == 0 &&
-                setInvestmentTypeTwo.length == 0
-                ? makeArray[0].valueAsAtDate.amount
-                : setInvestmentTypeTwo.length == 0 &&
-                  setInvestmentTypeThree.length == 0
-                ? makeArray[0].principalBalance.amount
-                : makeArray[0].quantity
-            )}
-          </p>
-        </div>
+        {setInvestmentTypeOne.length == 0 &&
+        setInvestmentTypeTwo.length == 0 ? (
+          <div className="flex flex-row mt-8 content-center justify-between items-center">
+            <p className="font-bold text-black text-base sm:text-sm">
+              Interests
+            </p>
+            <p className="font-hairline text-right text-black text-base sm:text-sm">
+              {Math.sign(
+                setInvestmentTypeOne.length == 0 &&
+                  setInvestmentTypeTwo.length == 0
+                  ? makeArray[0].interestRate
+                  : makeArray[0].portPercentage
+              )}
+            </p>
+          </div>
+        ) : null}
+
         {/* item */}
 
         {/* item */}
-        <div className="flex flex-row mt-8 content-center justify-between items-center">
-          <p className="font-bold text-black text-base sm:text-sm">Interests</p>
-          <p className="font-hairline text-right text-black text-base sm:text-sm">
-            {Math.sign(
-              setInvestmentTypeOne.length == 0 &&
-                setInvestmentTypeTwo.length == 0
-                ? makeArray[0].interestRate
-                : makeArray[0].portPercentage
-            )}
-          </p>
-        </div>
+        {setInvestmentTypeOne.length == 0 &&
+        setInvestmentTypeTwo.length == 0 ? (
+          <div className="flex flex-row mt-8 content-center justify-between items-center">
+            <p className="font-bold text-black text-base sm:text-sm">
+              Days Spent
+            </p>
+            <p className="font-hairline text-right text-black text-base sm:text-sm">
+              {makeArray[0].daysSpent}
+            </p>
+          </div>
+        ) : null}
         {/* item */}
 
         {/* item */}
-        {/* <div className="flex flex-row mt-8 content-center justify-between items-center">
-          <p className="font-bold text-black text-base sm:text-sm">
-            Maturity Date
-          </p>
-          <p className="font-hairline text-right text-black text-base sm:text-sm">
-            {details.maturityYears}
-          </p>
-        </div> */}
+        {setInvestmentTypeOne.length == 0 &&
+        setInvestmentTypeTwo.length == 0 ? (
+          <div className="flex flex-row mt-8 content-center justify-between items-center">
+            <p className="font-bold text-black text-base sm:text-sm">
+              Days Left
+            </p>
+            <p className="font-hairline text-right text-black text-base sm:text-sm">
+              {makeArray[0].daysLeft}
+            </p>
+          </div>
+        ) : null}
+        {/* item */}
+
+        {/* item */}
+        {setInvestmentTypeOne.length == 0 &&
+        setInvestmentTypeTwo.length == 0 ? (
+          <div className="flex flex-row mt-8 content-center justify-between items-center">
+            <p className="font-bold text-black text-base sm:text-sm">Rate</p>
+            <p className="font-hairline text-right text-black text-base sm:text-sm">
+              {makeArray[0].discountRate}
+            </p>
+          </div>
+        ) : null}
         {/* item */}
       </div>
 

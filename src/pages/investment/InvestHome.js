@@ -22,17 +22,30 @@ const InvestHome = ({
   allTbillsTrasactionsData,
   allFixedTrasactionsData,
   isEmpty,
+  investmentTransactionsForFundsData,
 }) => {
   const dispatch = useDispatch();
   const tegaSum = Object.keys(investmentValuationData).length;
   useEffect(() => {
-    if (tegaSum === 0) {
-      dispatch(getInvestmentTransactionsForFund());
+    // if (tegaSum === 0) {
+    //   dispatch(getInvestmentTransactionsForFund());
+    // }
+
+    if (getAllInvestmentsData === 0) {
       dispatch(getAllInvestments());
-      dispatch(getAllFixedTransactions());
+    }
+
+    if (allTbillsTrasactionsData.length === 0) {
       dispatch(getAllTbillsTransactions());
     }
-    console.log(tegaSum, "disscussion");
+
+    if (investmentTransactionsForFundsData === 0) {
+      dispatch(getInvestmentTransactionsForFund());
+    }
+
+    if (allFixedTrasactionsData === 0) {
+      dispatch(getAllFixedTransactions());
+    }
   }, []);
 
   return investmentValuationLoading ? (
@@ -65,6 +78,8 @@ const mapStateToProps = (state) => ({
     state.investments.getAllInvetstmentTransactionsLoading,
   investmentTransactionsForFundsLoading:
     state.investments.investmentTransactionsForFundsLoading,
+  investmentTransactionsForFundsData:
+    state.investments.investmentTransactionsForFundsData,
   isEmpty: state.investments.getAllInvetstmentTransactionsisEmpty,
   allTbillsTrasactionsData: state.investments.allTbillsTrasactionsData,
   allFixedTrasactionsData: state.investments.allFixedTrasactionsData,
