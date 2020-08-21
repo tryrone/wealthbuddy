@@ -89,20 +89,20 @@ const Banks = ({ banksAccounts }) => {
               </div>
             </div>
             <div className="flex justify-between flex-wrap">
-              {banksAccounts.map((item, i) => (
+              {banksAccounts.map((bankAccount, i) => (
                 <div className="single-user--card single-bank" key={i}>
                   <div className="single-card--action flex justify-end">
                     <img src={TrashIcon} alt="" />
                   </div>
                   <div className="single-card--body flex justify-between color-black">
-                    <div className="user-bank--name">{"accountName"}</div>
+                    <div className="user-bank--name">{bankAccount.accountName}</div>
                   </div>
                   <div className="single-card--excerpt flex justify-between items-center">
                     <div className="flex items-center color-black">
-                      <span className="mr-2">{"bankName"}</span>
+                      <span className="mr-2">{bankAccount.bankName}</span>
                     </div>
                     <div className="color-black">
-                      <span className="">{"bankAccountNumber"}</span>
+                      <span className="">{bankAccount.bankAccountNumber}</span>
                     </div>
                   </div>
                 </div>
