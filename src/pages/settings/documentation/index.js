@@ -9,6 +9,9 @@ import produce from "immer";
 import SubmitIdentificationSuccessModal from "./components/SubmitIdentificationSuccessModal";
 import { uploadIdentification } from "state/slices/account";
 import { convertYmdJsonToIsoDate } from "utils";
+import { uploadUtilityBill } from "state/slices/account";
+import UtilityBillModal from "./components/UtilityBillModal";
+import SubmitUtilityBillSuccessModal from "./components/SubmitUtitlityBillSuccessModal";
 
 const Documentation = ({
   meansOfIdentificationApprovalStatus,
@@ -19,7 +22,11 @@ const Documentation = ({
     isIdentificationModalVisible: false,
     identificationLoading: false,
     identificationError: null,
-    isSuccessModalVisible: false,
+    isIdentificationSuccessModalVisible: false,
+    isUtilityBillModalVisible: false,
+    utilityBillLoading: false,
+    utilityBillError: null,
+    isUtilityBillSuccessModalVisible: false,
   });
 
   const openIdentificationModal = () => {
@@ -63,7 +70,7 @@ const Documentation = ({
         produce((draft) => {
           draft.identificationLoading = false;
           draft.isIdentificationModalVisible = false;
-          draft.isSuccessModalVisible = true;
+          draft.isIdentificationSuccessModalVisible = true;
         })
       );
     } else {
@@ -76,10 +83,66 @@ const Documentation = ({
     }
   };
 
-  const handleSuccessModalClose = () => {
+  const handleIdentificationSuccessModalClose = () => {
     setState(
       produce((draft) => {
-        draft.isSuccessModalVisible = false;
+        draft.isIdentificationSuccessModalVisible = false;
+      })
+    );
+  };
+
+  const openUtilityBillModal = () => {
+    setState(
+      produce((draft) => {
+        draft.isUtilityBillModalVisible = true;
+      })
+    );
+  };
+
+  const handleUtilityBillModalClose = () => {
+    setState(
+      produce((draft) => {
+        draft.isUtilityBillModalVisible = false;
+      })
+    );
+  };
+
+  const handleOnUtilityBillSubmit = async (formValues) => {
+    const data = { idType: formValues.idType };
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(data));
+    formData.append("file", formValues.file);
+
+    setState(
+      produce((draft) => {
+        draft.utilityBillLoading = true;
+      })
+    );
+
+    const resultAction = await dispatch(uploadUtilityBill(formData));
+
+    if (uploadUtilityBill.fulfilled.match(resultAction)) {
+      setState(
+        produce((draft) => {
+          draft.utilityBillLoading = false;
+          draft.isUtilityBillModalVisible = false;
+          draft.isUtilityBillSuccessModalVisible = true;
+        })
+      );
+    } else {
+      setState(
+        produce((draft) => {
+          draft.utilityBillLoading = false;
+          draft.utilityBillError = resultAction.error.message;
+        })
+      );
+    }
+  };
+
+  const handleUtilityBillSuccessModalClose = () => {
+    setState(
+      produce((draft) => {
+        draft.isUtilityBillSuccessModalVisible = false;
       })
     );
   };
@@ -91,14 +154,14 @@ const Documentation = ({
           <div
             className="relative shadow-card h-full bg-white rounded-lg p-8 py-16 flex flex-col justfiy-between text-center"
             onClick={() => {
-              // if (
-              //   meansOfIdentificationApprovalStatus ===
-              //     DocumentApprovalStatus.Rejected ||
-              //   meansOfIdentificationApprovalStatus ===
-              //     DocumentApprovalStatus.NotUploaded
-              // ) {
-              openIdentificationModal();
-              // }
+              if (
+                meansOfIdentificationApprovalStatus ===
+                  DocumentApprovalStatus.Rejected ||
+                meansOfIdentificationApprovalStatus ===
+                  DocumentApprovalStatus.NotUploaded
+              ) {
+                openIdentificationModal();
+              }
             }}
           >
             <img
@@ -171,7 +234,7 @@ const Documentation = ({
                 utilityBillApprovalStatus === DocumentApprovalStatus.Rejected ||
                 utilityBillApprovalStatus === DocumentApprovalStatus.NotUploaded
               ) {
-                // Show utility bill modal
+                openUtilityBillModal();
               }
             }}
           >
@@ -240,8 +303,21 @@ const Documentation = ({
       />
 
       <SubmitIdentificationSuccessModal
-        isVisible={state.isSuccessModalVisible}
-        close={handleSuccessModalClose}
+        isVisible={state.isIdentificationSuccessModalVisible}
+        close={handleIdentificationSuccessModalClose}
+      />
+
+      <UtilityBillModal
+        isVisible={state.isUtilityBillModalVisible}
+        loading={state.utilityBillLoading}
+        error={state.utilityBillError}
+        onSubmit={handleOnUtilityBillSubmit}
+        close={handleUtilityBillModalClose}
+      />
+
+      <SubmitUtilityBillSuccessModal
+        isVisible={state.isUtilityBillSuccessModalVisible}
+        close={handleUtilityBillSuccessModalClose}
       />
     </Fragment>
   );
