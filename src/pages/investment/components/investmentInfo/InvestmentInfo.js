@@ -6,10 +6,11 @@ import { connect, useDispatch } from "react-redux";
 import { getAllInvestments } from "../../../../state/slices/investments";
 // import { Redirect } from "react-router-dom";
 import Chart from "../Chart";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
 const InvestmentInfo = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const InvestmentName = props.getAllInvestmentsData.filter(
     (item) => item.investmentID == props.location.investmentId
@@ -86,14 +87,26 @@ const InvestmentInfo = (props) => {
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
       <div className="flex flex-row content-center sm:w-8/12 items-center  mb-20 ">
-        <p style={{ color: "#999999" }} className="text-xs ">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs cursor-pointer "
+        >
           Investment
         </p>
         <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
         </p>
-        <p style={{ color: "#999999" }} className="text-xs ml-4 sm:ml-1">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment/add-investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs ml-4 sm:ml-1 cursor-pointer"
+        >
           Add new Investment
         </p>
         <p style={{ color: "#999999" }} className="text-xs mx-4">

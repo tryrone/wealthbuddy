@@ -111,16 +111,23 @@ const ViewDetails = (props) => {
         </div>
 
         {/* item */}
-        <div className="flex flex-row mt-8 content-center justify-between items-center">
-          <p className="font-bold text-black text-base sm:text-sm">Returns</p>
-          <p className="font-hairline text-right text-black text-base sm:text-sm">
-            {setInvestmentTypeOne.length == 0 &&
-            setInvestmentTypeTwo.length == 0
-              ? makeArray[0].interestRate
-              : makeArray[0].portPercentage}{" "}
-            %
-          </p>
-        </div>
+        {setInvestmentTypeOne.length == 0 &&
+        setInvestmentTypeTwo.length == 0 ? (
+          <div className="flex flex-row mt-8 content-center justify-between items-center">
+            <p className="font-bold text-black text-base sm:text-sm">Returns</p>
+            <p className="font-hairline text-right text-black text-base sm:text-sm">
+              {setInvestmentTypeOne.length == 0 &&
+              setInvestmentTypeTwo.length == 0
+                ? !makeArray[0].interestRate
+                  ? null
+                  : makeArray[0].interestRate.toFixed(1)
+                : !makeArray[0].portPercentage
+                ? null
+                : makeArray[0].portPercentage.toFixed(1)}
+              %
+            </p>
+          </div>
+        ) : null}
 
         {/* item */}
         {/* <div className="flex flex-row mt-8 content-center justify-between items-center">

@@ -10,7 +10,7 @@ import {
 } from "../../imageLinks";
 import { getAllInvestments } from "../../../../state/slices/investments";
 import { connect, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { forEach } from "lodash";
 import Loading from "shared-components/Loading";
 
@@ -20,6 +20,7 @@ const AddInvestment = ({
   location,
 }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     // if (props.location.investmentId == "undefined") {
@@ -135,6 +136,23 @@ const AddInvestment = ({
 
   return (
     <div className="px-12 flex flex-col fadeIn">
+      <div className="flex flex-row  sm:w-8/12 items-center  mb-10 ">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs cursor-pointer"
+        >
+          Investment
+        </p>
+        <p style={{ color: "#999999" }} className="text-xs mx-4">
+          {" "}
+          {">>"}{" "}
+        </p>
+        <p className="text-sm text-black">Add Investment</p>
+      </div>
+
       <p className="font-bold text-xl text-black">Add new Investment </p>
 
       <div

@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Chart from "../Chart";
 import moment from "moment";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { investBars } from "../../imageLinks";
+import {
+  getAllTbillsTransactions,
+  getInvestmentTransactionsForFund,
+  getAllFixedTransactions,
+} from "../../../../state/slices/investments";
 import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
 import LinesEllipsis from "react-lines-ellipsis";
 import "./style.css";
+import EmptyCard from "pages/dashboard/components/DashboardInner/EmptyCard";
 
 const TransactHistory = (props) => {
   // const [myHeight, setHeight] = useState(400);
@@ -17,11 +23,25 @@ const TransactHistory = (props) => {
   const naira = "₦";
   const dollar = "$";
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (
+      properTransactions.length === 0 &&
+      fixedTransactions.length === 0 &&
+      tBillsTransactions.length === 0
+    ) {
+      dispatch(getAllTbillsTransactions());
+      dispatch(getAllFixedTransactions());
+      dispatch(getInvestmentTransactionsForFund());
+    }
+  }, []);
+
   const properTransactions = props.investmentTransactionsForFundsData;
   const fixedTransactions = props.allFixedTrasactionsData;
   const tBillsTransactions = props.allTbillsTrasactionsData;
 
-  console.log(fixedTransactions, "maa nigger");
+  // console.log(fixedTransactions, "maa nigger");
 
   return props.investmentTransactionsForFundsLoading ? (
     <div className="px-12 flex justify-center content-center items-center">
@@ -38,53 +58,62 @@ const TransactHistory = (props) => {
       <p className={`text-black text-base text-center mb-4 font-light`}>
         Transaction History
       </p>
-      <div className="hide-scroll overflow-y-scroll hide-scroll h-screen">
-        {/* <div className="flex justify-center content-center items-center">
-        <p className="text-xs font-bold text-teal-700">+324,442.88</p>
-        <p style={{ color: "#999999" }} className="text-xs">
-          today
-        </p>
-      </div> 
-      <Chart /> */}
-        <div className="flex flex-row mt-8 justify-between content-center items-center">
+      {fixedTransactions.length === 0 &&
+      properTransactions.length === 0 &&
+      tBillsTransactions.length === 0 ? (
+        <EmptyCard
+          title="Nothing here Yet"
+          message="Create some Investments and see them show here"
+        />
+      ) : null}
+      <div className="flex flex-row mt-8 justify-between main_border_wrap content-center items-center">
+        {fixedTransactions.length === 0 ? null : (
           <p
             onClick={() => {
               setactiveOne(true);
               setactiveTwo(false);
               setactiveThree(false);
             }}
-            className={`text-black text-base font-light cursor-pointer ${
+            className={`text-black text-base font-light sm:w-4/12 text-center cursor-pointer ${
               activeOne ? "active_me" : null
             }`}
           >
             Fixed Deposits
           </p>
+        )}
+
+        {properTransactions.length === 0 ? null : (
           <p
             onClick={() => {
               setactiveTwo(true);
               setactiveOne(false);
               setactiveThree(false);
             }}
-            className={`text-black text-base font-light cursor-pointer ${
+            className={`text-black text-base font-light sm:w-4/12 text-center two_borders cursor-pointer ${
               activeTwo ? "active_me" : null
             }`}
           >
             Mutual Funds
           </p>
+        )}
+
+        {tBillsTransactions.length === 0 ? null : (
           <p
             onClick={() => {
               setactiveThree(true);
               setactiveTwo(false);
               setactiveOne(false);
             }}
-            className={`text-black text-base font-light cursor-pointer ${
+            className={`text-black text-base font-light sm:w-4/12 text-center cursor-pointer ${
               activeThree ? "active_me" : null
             }`}
           >
             Treasury Bills
           </p>
-        </div>
+        )}
+      </div>
 
+      <div className="hide-scroll overflow-y-scroll hide-scroll h-screen">
         <div
           style={{ overflowY: "scroll", display: activeTwo ? "block" : "none" }}
         >

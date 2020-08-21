@@ -37,46 +37,51 @@ const TransactionHistory = (props) => {
       <p className={`text-black text-base text-center mb-4 font-light`}>
         Transaction History
       </p>
-      <div className="hide-scroll overflow-y-scroll h-screen">
-        <div className="flex flex-row mt-8 justify-between items-center">
+      <div className="flex flex-row main_border_wrap mt-8 justify-between items-center">
+        {fixedTransactions.length === 0 ? null : (
           <p
             onClick={() => {
               setactiveOne(true);
               setactiveTwo(false);
               setactiveThree(false);
             }}
-            className={`text-black text-base font-light cursor-pointer ${
+            className={`text-black text-base font-light sm:w-4/12 text-center cursor-pointer ${
               activeOne ? "active_me" : null
             }`}
           >
-            Fixed Tip
+            Fixed Deposits
           </p>
+        )}
+        {properTransactions.length === 0 ? null : (
           <p
             onClick={() => {
               setactiveTwo(true);
               setactiveOne(false);
               setactiveThree(false);
             }}
-            className={`text-black text-base font-light cursor-pointer ${
+            className={`text-black text-base font-light sm:w-4/12 text-center two_borders cursor-pointer ${
               activeTwo ? "active_me" : null
             }`}
           >
             Mutual Funds
           </p>
+        )}
+        {tBillsTransactions.length === 0 ? null : (
           <p
             onClick={() => {
               setactiveThree(true);
               setactiveTwo(false);
               setactiveOne(false);
             }}
-            className={`text-black text-base font-light cursor-pointer ${
+            className={`text-black text-base font-light sm:w-4/12 text-center cursor-pointer ${
               activeThree ? "active_me" : null
             }`}
           >
             Treasury Bills
           </p>
-        </div>
-
+        )}
+      </div>
+      <div className="hide-scroll no_showing overflow-y-scroll h-screen">
         {/* invest content */}
 
         <div

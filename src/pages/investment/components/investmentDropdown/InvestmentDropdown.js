@@ -47,7 +47,7 @@ const InvestmentDropdown = (props) => {
               <li
                 className="buddy-dropdown-item flex hover:bg-gray-100 flex-row items-center"
                 onClick={() => {
-                  setItem(`${item.bank}`);
+                  setItem(`${item.cardType}`);
                   setView(false);
                   settingOfMyCard(item.id);
                 }}
@@ -56,7 +56,7 @@ const InvestmentDropdown = (props) => {
                 {/* <img src={item.img} alt="" /> */}
                 <p className="dropdown-details">
                   <span className="dropdown-item--title text-black text-opacity-25">
-                    {item.bank}
+                    {item.id}
                   </span>
                 </p>
               </li>
