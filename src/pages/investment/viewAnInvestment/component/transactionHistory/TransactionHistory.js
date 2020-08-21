@@ -84,9 +84,7 @@ const TransactionHistory = (props) => {
       <div className="hide-scroll no_showing overflow-y-scroll h-screen">
         {/* invest content */}
 
-        <div
-          style={{ overflowY: "scroll", display: activeTwo ? "block" : "none" }}
-        >
+        <div style={{ display: activeTwo ? "block" : "none" }}>
           {/* invest content */}
           {props.investmentTransactionsForFundsLoading ? (
             <Loading text="" />
@@ -111,12 +109,15 @@ const TransactionHistory = (props) => {
                   </div>
 
                   <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold font-light">
+                    <p className="text-black font-bold text-right font-light">
                       {num.currency === "NGN" ? naira : dollar}
                       {formatCurrency(num.transAmount)}
                     </p>
-                    <p style={{ color: "#999999" }} className="text-sm mt-2">
-                      {/* {moment(num.orderDate).format("MMM DD YYYY")} */}
+                    <p
+                      style={{ color: "#999999" }}
+                      className="text-sm text-right w-full mt-2"
+                    >
+                      {moment(num.orderDate).format("MMM DD YYYY")}
                     </p>
                   </div>
                 </div>
@@ -125,9 +126,7 @@ const TransactionHistory = (props) => {
           )}
         </div>
 
-        <div
-          style={{ overflowY: "scroll", display: activeOne ? "block" : "none" }}
-        >
+        <div style={{ display: activeOne ? "block" : "none" }}>
           {/* invest content */}
           {props.allFixedTrasactionsLoading ? (
             <Loading text="" />
@@ -152,12 +151,15 @@ const TransactionHistory = (props) => {
                   </div>
 
                   <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold font-light">
+                    <p className="text-black font-bold text-right font-light">
                       {num.currency === "NGN" ? naira : dollar}
                       {formatCurrency(num.faceValue)}
                     </p>
-                    <p style={{ color: "#999999" }} className="text-sm mt-2">
-                      {/* {moment(num.orderDate).format("MMM DD YYYY")} */}
+                    <p
+                      style={{ color: "#999999" }}
+                      className="text-sm text-right mt-2"
+                    >
+                      {/* {moment(num.orderDate).format("DD MM YYYY")} */}
                     </p>
                   </div>
                 </div>
@@ -168,7 +170,6 @@ const TransactionHistory = (props) => {
 
         <div
           style={{
-            overflowY: "scroll",
             display: activeThree ? "block" : "none",
           }}
         >
@@ -202,7 +203,7 @@ const TransactionHistory = (props) => {
                     </p>
                     <p
                       style={{ color: "#999999" }}
-                      className="text-sm text-right mt-2"
+                      className="text-sm text-right w-full mt-2"
                     >
                       {moment(num.orderDate).format("MMM DD YYYY")}
                     </p>

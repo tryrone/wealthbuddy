@@ -12,6 +12,10 @@ const InvestModalSuccess = (props) => {
   useEffect(() => {
     dispatch(createInvestment(props.investData));
   }, []);
+
+  const refresh = () => {
+    return document.location.reload(true);
+  };
   return (
     <div>
       {props.createInvestmentLoading ? (
@@ -34,7 +38,7 @@ const InvestModalSuccess = (props) => {
             <button
               onClick={() => {
                 props.close();
-                // refresh();
+                refresh();
               }}
               className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
             >

@@ -5,6 +5,7 @@ import "./invest.css";
 import { fundInvestment } from "../../../../../state/slices/investments";
 import failedDoc from "../../../../../assets/img/failedDoc.svg";
 import { connect, useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
 import InvestmentDropdown from "../../../components/investmentDropdown/InvestmentDropdown";
 import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
@@ -30,8 +31,7 @@ const FundExistingModal = (props) => {
   const dispatch = useDispatch();
 
   const refresh = () => {
-    return document.location.reload(true);
-    // return <Redirect to="/investment/add-investment" />;
+    return <Redirect to="/investment/add-investment" />;
   };
 
   const showMyDetails = () => {
@@ -39,13 +39,13 @@ const FundExistingModal = (props) => {
       setInvestDetails.investmentType = parseInt(myDataArray[0].investmentType);
       delete setInvestDetails.itemId;
       dispatch(fundInvestment(setInvestDetails));
-      // console.log(setInvestDetails);
+      // console.log(myDataArray[0]);
     } else if (activeOne) {
       setInvestDetails.cardId = `${myCard}`;
       setInvestDetails.investmentType = parseInt(myDataArray[0].investmentType);
       delete setInvestDetails.itemId;
       dispatch(fundInvestment(setInvestDetails));
-      // console.log(setInvestDetails);
+      // console.log(myDataArray[0]);
       // console.log(props, "solo");
     }
     setInHide(false);

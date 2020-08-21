@@ -41,6 +41,9 @@ const FundInvestment = (props) => {
     if (tegaSum === 0) {
       dispatch(getInvestmentValuation());
     }
+    if (props.getAllInvestmentsData.length === 0) {
+      dispatch(getAllInvestments());
+    }
   }, []);
 
   const onclose = (val) => {
@@ -357,6 +360,7 @@ const FundInvestment = (props) => {
 const mapStateToProps = (state) => ({
   // ALL PERSONAL INVESTMENT DATA
   getAllInvestmentsLoading: state.investments.getAllInvestmentsLoading,
+  getAllInvestmentsData: state.investments.getAllInvestmentsData,
   allPersonalInvestmentsData: state.investments.allPersonalInvestmentsData,
   allPersonalInvestmentsLoading:
     state.investments.allPersonalInvestmentsLoading,

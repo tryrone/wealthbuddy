@@ -114,9 +114,7 @@ const TransactHistory = (props) => {
       </div>
 
       <div className="hide-scroll overflow-y-scroll hide-scroll h-screen">
-        <div
-          style={{ overflowY: "scroll", display: activeTwo ? "block" : "none" }}
-        >
+        <div style={{ display: activeTwo ? "block" : "none" }}>
           {/* invest content */}
           {props.investmentTransactionsForFundsLoading ? (
             <Loading text="" />
@@ -157,9 +155,7 @@ const TransactHistory = (props) => {
             })
           )}
         </div>
-        <div
-          style={{ overflowY: "scroll", display: activeOne ? "block" : "none" }}
-        >
+        <div style={{ display: activeOne ? "block" : "none" }}>
           {/* invest content */}
           {props.allFixedTrasactionsLoading ? (
             <Loading text="" />
@@ -198,7 +194,7 @@ const TransactHistory = (props) => {
                       style={{ color: "#999999" }}
                       className="text-sm mt-2 w-full text-right"
                     >
-                      {moment(num.startDate).format("MMM DD YYYY")}
+                      {moment(num.startDate).format("DD MM YYYY")}
                     </p>
                   </div>
                 </div>
@@ -209,7 +205,6 @@ const TransactHistory = (props) => {
 
         <div
           style={{
-            overflowY: "scroll",
             display: activeThree ? "block" : "none",
           }}
         >
