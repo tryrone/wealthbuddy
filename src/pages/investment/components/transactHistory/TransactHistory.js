@@ -41,11 +41,13 @@ const TransactHistory = (props) => {
   const fixedTransactions = props.allFixedTrasactionsData;
   const tBillsTransactions = props.allTbillsTrasactionsData;
 
+  // var trimmedString = string.substring(0, length);
+
   // console.log(fixedTransactions, "maa nigger");
 
   return props.investmentTransactionsForFundsLoading ? (
-    <div className="px-12 flex justify-center content-center items-center">
-      <Loading text="Loading" />
+    <div className="shadow-2xl w-full bg-white border px-8 py-5 hide-scroll overflow-y-scroll h-screen">
+      <Loading text="" />
     </div>
   ) : (
     <div
@@ -116,91 +118,96 @@ const TransactHistory = (props) => {
       <div className="hide-scroll overflow-y-scroll hide-scroll h-screen">
         <div style={{ display: activeTwo ? "block" : "none" }}>
           {/* invest content */}
-          {props.investmentTransactionsForFundsLoading ? (
-            <Loading text="" />
-          ) : (
-            properTransactions.map((num, index) => {
-              return (
-                <div
-                  key={index}
-                  className="flex flex-row justify-between content-center items-center mt-8"
-                >
-                  <div className="flex flex-col sm:flex-row content-center items-center">
-                    <img src={investBars} />
+          {props.investmentTransactionsForFundsLoading
+            ? null
+            : properTransactions.map((num, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="flex flex-row justify-between content-center items-center mt-8"
+                  >
+                    <div className="flex flex-col sm:flex-row content-center items-center">
+                      <img src={investBars} />
 
-                    <div className="ml-5 mt-4 sm:mt-0">
-                      <p className="text-black text-base font-light">
-                        {num.fundName}
+                      <div className="ml-5 mt-4 sm:mt-0">
+                        <p className="text-black text-base font-light">
+                          {num.fundName}
+                        </p>
+                        <p
+                          style={{ color: "#999999" }}
+                          className="text-sm mt-2"
+                        >
+                          {num.description}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-10 sm:mt-0">
+                      <p className="text-black font-bold text-right font-light">
+                        {num.currency === "NGN" ? naira : dollar}
+                        {formatCurrency(num.transAmount)}
                       </p>
-                      <p style={{ color: "#999999" }} className="text-sm mt-2">
-                        {num.description}
+                      <p
+                        style={{ color: "#999999" }}
+                        className="text-sm text-right w-full mt-2"
+                      >
+                        {moment(parseInt(num.orderDate)).format("L")}
                       </p>
                     </div>
                   </div>
-
-                  <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold text-right font-light">
-                      {num.currency === "NGN" ? naira : dollar}
-                      {formatCurrency(num.transAmount)}
-                    </p>
-                    <p
-                      style={{ color: "#999999" }}
-                      className="text-sm text-right w-full mt-2"
-                    >
-                      {moment(parseInt(num.orderDate)).format("MMM DD YYYY")}
-                    </p>
-                  </div>
-                </div>
-              );
-            })
-          )}
+                );
+              })}
         </div>
         <div style={{ display: activeOne ? "block" : "none" }}>
           {/* invest content */}
-          {props.allFixedTrasactionsLoading ? (
-            <Loading text="" />
-          ) : !fixedTransactions ? null : (
-            fixedTransactions.map((num, index) => {
-              return (
-                <div
-                  key={index}
-                  className="flex flex-row justify-between content-center items-center mt-8"
-                >
-                  <div className="flex flex-col sm:flex-row content-center items-center">
-                    <img src={investBars} />
+          {props.allFixedTrasactionsLoading
+            ? null
+            : !fixedTransactions
+            ? null
+            : fixedTransactions.map((num, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="flex flex-row justify-between content-center items-center mt-8"
+                  >
+                    <div className="flex flex-col sm:flex-row content-center items-center">
+                      <img src={investBars} />
 
-                    <div className="ml-5 mt-4 sm:mt-0">
-                      <p className="text-black text-sm font-light">
-                        {num.portfolioLabel}
-                      </p>
-                      <p style={{ color: "#999999" }} className="text-xs mt-2">
-                        <LinesEllipsis
+                      <div className="ml-5 mt-4 sm:mt-0">
+                        <p className="text-black text-sm font-light">
+                          {num.portfolioLabel}
+                        </p>
+                        <p
+                          style={{ color: "#999999" }}
+                          className="text-xs mt-2"
+                        >
+                          {num.label.substring(0, 15)}
+                          {/* <LinesEllipsis
                           text={`${num.label}`}
                           maxLine="2"
                           ellipsis="..."
                           trimRight
-                        />
-                        {/* {num.label} */}
+                        /> */}
+                          {/* {num.label} */}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-10 sm:mt-0">
+                      <p className="text-black font-bold text-right font-light">
+                        {num.currency === "NGN" ? naira : dollar}
+                        {formatCurrency(num.faceValue)}
+                      </p>
+                      <p
+                        style={{ color: "#999999" }}
+                        className="text-sm mt-2 w-full text-right"
+                      >
+                        {moment(num.startDate).format("L")}
                       </p>
                     </div>
                   </div>
-
-                  <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold text-right font-light">
-                      {num.currency === "NGN" ? naira : dollar}
-                      {formatCurrency(num.faceValue)}
-                    </p>
-                    <p
-                      style={{ color: "#999999" }}
-                      className="text-sm mt-2 w-full text-right"
-                    >
-                      {moment(num.startDate).format("DD MM YYYY")}
-                    </p>
-                  </div>
-                </div>
-              );
-            })
-          )}
+                );
+              })}
         </div>
 
         <div
@@ -246,7 +253,7 @@ const TransactHistory = (props) => {
                       style={{ color: "#999999" }}
                       className="text-sm text-right mt-2"
                     >
-                      {moment(num.orderDate).format("MMM DD YYYY")}
+                      {moment(num.orderDate).format("L")}
                     </p>
                   </div>
                 </div>

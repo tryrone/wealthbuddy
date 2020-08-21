@@ -1,6 +1,8 @@
 import React, { useState, Fragment } from "react";
 import CardIcon from "../../../../assets/img/cardIcon.png";
 import TermSuccessModal from "./TermSuccessModal";
+import { formatCurrency } from "utils";
+import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 
 function TerminateModal(props) {
   const [payment, setPayment] = useState(false);
@@ -14,7 +16,7 @@ function TerminateModal(props) {
     <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
       <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset">
         <span className="closeModal cursor-pointer" onClick={() => onclose()}>
-          <p className="text-hairline text-base text-right">Close</p>
+          <CloseModalIcon />
         </span>
 
         {/* UI before payment  */}
@@ -29,8 +31,11 @@ function TerminateModal(props) {
                 Terminate Investment
               </h1>
               <p className="text-center text-gray-500 leading-normal">
-                N200,000 will be terminated and sent to your wallet. This will
-                also attract 2% penalty fee on interest.
+                N{" "}
+                {!props.myTerminateData.amount
+                  ? formatCurrency(props.cost)
+                  : formatCurrency(props.myTerminateData.amount)}{" "}
+                will be terminated and sent to your wallet.
               </p>
 
               <button

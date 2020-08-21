@@ -77,7 +77,7 @@ const ViewDetails = (props) => {
             <p className="font-hairline text-right text-black text-base sm:text-sm">
               {setInvestmentTypeOne.length == 0 &&
               setInvestmentTypeTwo.length == 0
-                ? makeArray[0].label
+                ? makeArray[0].label.substring(0, 15)
                 : makeArray[0].symbol}
             </p>
           </div>
@@ -90,7 +90,7 @@ const ViewDetails = (props) => {
             Purchase Cost
           </p>
           <p className="font-hairline text-right text-black text-base sm:text-sm">
-            ₦
+            ₦{" "}
             {setInvestmentTypeOne.length == 0 &&
             setInvestmentTypeTwo.length == 0
               ? makeArray[0].reportFaceValue.amount
@@ -125,11 +125,11 @@ const ViewDetails = (props) => {
             ₦{" "}
             {setInvestmentTypeOne.length == 0 &&
             setInvestmentTypeTwo.length == 0
-              ? makeArray[0].dailyIncome.amount
+              ? makeArray[0].dailyIncome.amount.toFixed(1)
               : setInvestmentTypeTwo.length == 0 &&
                 setInvestmentTypeThree.length == 0
               ? makeArray[0].dailyIncome.amount.toFixed(1)
-              : makeArray[0].dailyIncome}
+              : makeArray[0].dailyIncome.toFixed(1)}
           </p>
         </div>
         {/* item */}
@@ -183,7 +183,7 @@ const ViewDetails = (props) => {
               : setInvestmentTypeTwo.length == 0 &&
                 setInvestmentTypeThree.length == 0
               ? moment(makeArray[0].valuationDate).format("DD MM YYYY")
-              : " No maturity date for this investment"}
+              : " N/A"}
           </p>
         </div>
 
@@ -193,12 +193,11 @@ const ViewDetails = (props) => {
           <p className="font-hairline text-right text-black text-base sm:text-sm">
             {setInvestmentTypeOne.length == 0 &&
             setInvestmentTypeTwo.length == 0
-              ? makeArray[0].basis
+              ? makeArray[0].basis + "days"
               : setInvestmentTypeTwo.length == 0 &&
                 setInvestmentTypeThree.length == 0
-              ? makeArray[0].tenor
-              : makeArray[0].duration}{" "}
-            days
+              ? makeArray[0].tenor + "days"
+              : "Open"}{" "}
           </p>
         </div>
 
@@ -211,50 +210,6 @@ const ViewDetails = (props) => {
           </p>
         </div> */}
         {/* item */}
-      </div>
-
-      {/* second part */}
-      {/* second part */}
-      <div
-        style={{
-          border: "1px solid #F1F1F1",
-        }}
-        className="card p-2 sm:p-4 flex flex-col w-auto rounded mt-4"
-      >
-        {/* item */}
-        <div className="flex flex-row mt-8 content-center justify-between items-center">
-          <p className="font-bold text-black text-base sm:text-sm">Capital</p>
-          <p className="font-hairline text-right text-black text-base sm:text-sm">
-            ₦{" "}
-            {formatCurrency(
-              setInvestmentTypeOne.length == 0 &&
-                setInvestmentTypeTwo.length == 0
-                ? makeArray[0].valueAsAtDate.amount
-                : setInvestmentTypeTwo.length == 0 &&
-                  setInvestmentTypeThree.length == 0
-                ? makeArray[0].principalBalance.amount
-                : makeArray[0].quantity
-            )}
-          </p>
-        </div>
-
-        {/* item */}
-        {setInvestmentTypeOne.length == 0 &&
-        setInvestmentTypeTwo.length == 0 ? (
-          <div className="flex flex-row mt-8 content-center justify-between items-center">
-            <p className="font-bold text-black text-base sm:text-sm">
-              Interests
-            </p>
-            <p className="font-hairline text-right text-black text-base sm:text-sm">
-              {Math.sign(
-                setInvestmentTypeOne.length == 0 &&
-                  setInvestmentTypeTwo.length == 0
-                  ? makeArray[0].interestRate
-                  : makeArray[0].portPercentage
-              )}
-            </p>
-          </div>
-        ) : null}
 
         {/* item */}
 
@@ -298,9 +253,6 @@ const ViewDetails = (props) => {
         ) : null}
         {/* item */}
       </div>
-
-      {/* second part */}
-      {/* second part */}
     </div>
   );
 };

@@ -8,6 +8,10 @@ import Loading from "shared-components/Loading";
 const TermSuccessModal = (props) => {
   const dispatch = useDispatch();
 
+  const terminate = () => {
+    return document.location.reload(true);
+  };
+
   useEffect(() => {
     dispatch(terminateFunds(props.terminateData));
   }, []);
@@ -48,7 +52,7 @@ const TermSuccessModal = (props) => {
 
         <button
           onClick={() => {
-            props.close();
+            terminate();
           }}
           className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
         >

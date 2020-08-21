@@ -117,7 +117,7 @@ const TransactionHistory = (props) => {
                       style={{ color: "#999999" }}
                       className="text-sm text-right w-full mt-2"
                     >
-                      {moment(num.orderDate).format("MMM DD YYYY")}
+                      {moment(parseInt(num.orderDate)).format("L")}
                     </p>
                   </div>
                 </div>
@@ -145,7 +145,7 @@ const TransactionHistory = (props) => {
                         {num.portfolioLabel}
                       </p>
                       <p style={{ color: "#999999" }} className="text-sm mt-2">
-                        {num.label}
+                        {num.label.substring(0, 15)}
                       </p>
                     </div>
                   </div>
@@ -157,9 +157,9 @@ const TransactionHistory = (props) => {
                     </p>
                     <p
                       style={{ color: "#999999" }}
-                      className="text-sm text-right mt-2"
+                      className="text-sm text-right w-full mt-2"
                     >
-                      {/* {moment(num.orderDate).format("DD MM YYYY")} */}
+                      {moment(num.startDate).format("L")}
                     </p>
                   </div>
                 </div>
@@ -205,7 +205,7 @@ const TransactionHistory = (props) => {
                       style={{ color: "#999999" }}
                       className="text-sm text-right w-full mt-2"
                     >
-                      {moment(num.orderDate).format("MMM DD YYYY")}
+                      {moment(num.orderDate).format("L")}
                     </p>
                   </div>
                 </div>

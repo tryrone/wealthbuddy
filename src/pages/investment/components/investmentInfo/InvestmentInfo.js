@@ -162,7 +162,7 @@ const InvestmentInfo = (props) => {
               About this investment
             </p>
 
-            <p className="text-lg text-black sm:text-base text-hairline mt-3">
+            <p className="text-lg text-black sm:text-base text-hairline  leading-loose mt-3">
               {investmentDetail[InvestmentName[0].investmentType].summary}
             </p>
           </div>
@@ -182,7 +182,7 @@ const InvestmentInfo = (props) => {
               Earning on this investment
             </p>
 
-            <p className="text-lg text-black sm:text-base text-hairline mt-3">
+            <p className="text-lg text-black sm:text-base text-hairline leading-loose  mt-3">
               {investmentDetail[InvestmentName[0].investmentType].earnings}
             </p>
           </div>
@@ -237,14 +237,24 @@ const InvestmentInfo = (props) => {
           )}
 
           {/* item */}
-          {!InvestmentName[0].assetType ? null : (
+          {!InvestmentName[0].bidPrice ? null : (
             <div className="flex flex-row mt-8 content-center justify-between items-center">
-              <p className="font-bold text-black text-base sm:text-sm">Type</p>
+              <p className="font-bold text-black text-base sm:text-sm">
+                Bid Price
+              </p>
               <p className="font-hairline text-right text-black text-base sm:text-sm">
-                {InvestmentName[0].assetType}
+                {InvestmentName[0].bidPrice.toFixed(2)}
               </p>
             </div>
           )}
+          {/* {!InvestmentName[0].bidPrice ? null : (
+            <div className="flex flex-row mt-8 content-center justify-between items-center">
+              <p className="font-bold text-black text-base sm:text-sm">Bid Price</p>
+              <p className="font-hairline text-right text-black text-base sm:text-sm">
+                {InvestmentName[0].bidPrice.toFixed(2)}
+              </p>
+            </div>
+          )} */}
 
           {/* item */}
           <div className="flex flex-row mt-8 content-center justify-between items-center">
@@ -252,7 +262,7 @@ const InvestmentInfo = (props) => {
               Date issued
             </p>
             <p className="font-hairline text-right text-black text-base sm:text-sm">
-              {moment(InvestmentName[0].dateIssued).format("MMM DD YYYY")}
+              {moment(InvestmentName[0].dateIssued).format("L")}
             </p>
           </div>
 
@@ -263,7 +273,7 @@ const InvestmentInfo = (props) => {
                 Maturity Date
               </p>
               <p className="font-hairline text-right text-black text-base sm:text-sm">
-                {InvestmentName[0].maturityDate}
+                {moment(InvestmentName[0].maturityDate).format("L")}
               </p>
             </div>
           )}
@@ -290,15 +300,17 @@ const InvestmentInfo = (props) => {
               Minimun Deposit
             </p>
             <p className="font-hairline text-right text-black text-base sm:text-sm">
-              N{InvestmentName[0].minimumAmount}
+              ₦ {InvestmentName[0].minimumAmount}
             </p>
           </div>
 
           {/* buttons */}
           <div className="justify-center flex-row flex content-center items-center">
-            <button className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm">
-              Back
-            </button>
+            <Link to="/dashboard/investment/add-investment">
+              <button className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm">
+                Back
+              </button>
+            </Link>
 
             <Link
               to={{

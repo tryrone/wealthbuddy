@@ -5,6 +5,7 @@ import { Link, Redirect, useHistory } from "react-router-dom";
 import NumberFormat from "react-number-format";
 import { connect, useDispatch } from "react-redux";
 import moment from "moment";
+import { formatCurrency } from "utils";
 
 const TerminateInvestment = (props) => {
   const [modal, changeModal] = useState(false);
@@ -18,7 +19,7 @@ const TerminateInvestment = (props) => {
   // ON MODAL CLOSE
   const onclose = (val) => {
     changeModal(val);
-    return document.location.reload(true);
+    // return document.location.reload(true);
   };
 
   if (!props.location.investmentId) {
@@ -77,7 +78,9 @@ const TerminateInvestment = (props) => {
   }
 
   if (setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0) {
-    terminateData.discountRate = `${makeArray[0].discountRate.toFixed(1)}`;
+    terminateData.discountRate = `${parseInt(
+      makeArray[0].discountRate.toFixed(1)
+    )}`;
   }
 
   return (
@@ -274,7 +277,7 @@ const TerminateInvestment = (props) => {
                   : makeArray[0].assetClass}
               </p>
             </div>
-            <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
+            {/* <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
               <p className="text-left text-black font-bold  text-base">Type</p>
               <p className="text-right text-black text-base">
                 {setInvestmentTypeOne.length == 0 &&
@@ -285,7 +288,7 @@ const TerminateInvestment = (props) => {
                   ? makeArray[0].productCategory
                   : makeArray[0].assetClass}
               </p>
-            </div>
+            </div> */}
             <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
               <p className="text-left text-black font-bold  text-base">
                 Date issued
@@ -293,13 +296,14 @@ const TerminateInvestment = (props) => {
               <p className="text-right text-black text-base">
                 {setInvestmentTypeOne.length == 0 &&
                 setInvestmentTypeTwo.length == 0
-                  ? moment(makeArray[0].startDate).format("DD MM YYYY")
+                  ? moment(makeArray[0].startDate).format("L")
                   : setInvestmentTypeTwo.length == 0 &&
                     setInvestmentTypeThree.length == 0
-                  ? moment(makeArray[0].startDate).format("DD MM YYYY")
+                  ? moment(makeArray[0].startDate).format("L")
                   : makeArray[0].yieldToMaturity}
               </p>
             </div>
+
             <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
               <p className="text-left text-black font-bold text-base">
                 Maturity Date
@@ -307,13 +311,49 @@ const TerminateInvestment = (props) => {
               <p className="text-right text-black text-base">
                 {setInvestmentTypeOne.length == 0 &&
                 setInvestmentTypeTwo.length == 0
-                  ? moment(makeArray[0].valuationDate).format("DD MM YYYY")
+                  ? moment(makeArray[0].valuationDate).format("L")
                   : setInvestmentTypeTwo.length == 0 &&
                     setInvestmentTypeThree.length == 0
-                  ? moment(makeArray[0].valuationDate).format("DD MM YYYY")
+                  ? moment(makeArray[0].valuationDate).format("L")
                   : makeArray[0].yieldToMaturity}
               </p>
             </div>
+
+            {/* item */}
+            <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
+              <p className="text-left text-black font-bold  text-base">
+                Purchase Cost
+              </p>
+              <p className="text-right text-black text-base">
+                ₦{" "}
+                {setInvestmentTypeOne.length == 0 &&
+                setInvestmentTypeTwo.length == 0
+                  ? makeArray[0].reportFaceValue.amount
+                  : setInvestmentTypeTwo.length == 0 &&
+                    setInvestmentTypeThree.length == 0
+                  ? makeArray[0].principalBalance.amount
+                  : makeArray[0].totalPurchaseCost}
+              </p>
+            </div>
+            {/* item */}
+            {/* item */}
+            <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
+              <p className="text-left text-black font-bold  text-base">
+                Total Returns
+              </p>
+              <p className="text-right text-black text-base">
+                ₦{" "}
+                {setInvestmentTypeOne.length == 0 &&
+                setInvestmentTypeTwo.length == 0
+                  ? makeArray[0].discount.amount
+                  : setInvestmentTypeTwo.length == 0 &&
+                    setInvestmentTypeThree.length == 0
+                  ? makeArray[0].interestLessTaxes.amount.toFixed(1)
+                  : makeArray[0].totalGainLoss}
+              </p>
+            </div>
+            {/* item */}
+
             <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
               <p className="text-left text-black font-bold text-base">Tenure</p>
               <p className="text-right text-black text-base">
@@ -373,7 +413,18 @@ const TerminateInvestment = (props) => {
       {/* main body of termination end */}
 
       {modal ? (
-        <TerminateModal myclose={onclose} myTerminateData={terminateData} />
+        <TerminateModal
+          myclose={onclose}
+          myTerminateData={terminateData}
+          cost={
+            setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+              ? makeArray[0].reportFaceValue.amount
+              : setInvestmentTypeTwo.length == 0 &&
+                setInvestmentTypeThree.length == 0
+              ? makeArray[0].principalBalance.amount
+              : makeArray[0].totalPurchaseCost
+          }
+        />
       ) : null}
     </div>
   );

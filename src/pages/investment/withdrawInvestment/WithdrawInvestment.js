@@ -4,9 +4,10 @@ import NumberFormat from "react-number-format";
 import moment from "moment";
 import DatePicker from "react-modern-calendar-datepicker";
 import { wallet, creditcard } from "../imageLinks";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import SuccessModal from "../components/successModal/SuccessModal";
+import { formatCurrency } from "utils";
 
 const items = [{ text: "GTB - 0179" }];
 
@@ -22,6 +23,8 @@ const WithdrawInvestment = (props) => {
   const [displayTwo, changeDisplayTwo] = useState(false);
   const [card, setCard] = useState("");
   const [amount, setAmount] = useState(null);
+
+  const history = useHistory();
 
   const onclose = (val) => {
     changeModal(val);
@@ -105,15 +108,27 @@ const WithdrawInvestment = (props) => {
 
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
-      <div className="flex flex-row sm:w-8/12 items-center  mb-10 ">
-        <p style={{ color: "#999999" }} className="text-xs ">
+      <div className="flex flex-row sm:w-8/12 items-center cursor-pointer  mb-10 ">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs "
+        >
           Investment
         </p>
         <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
         </p>
-        <p style={{ color: "#999999" }} className="text-xs ml-4 sm:ml-1">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs cursor-pointer ml-4 sm:ml-1"
+        >
           {setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
             ? makeArray[0].typeLabel
             : setInvestmentTypeTwo.length == 0 &&
@@ -378,7 +393,7 @@ const WithdrawInvestment = (props) => {
 
           {/* <p className="text-black text-lg text-center mt-2 font-bold">₦50,000</p> */}
 
-          <div className="flex flex-row justify-between w-full mt-4 px-16 items-center">
+          {/* <div className="flex flex-row justify-between w-full mt-4 px-16 items-center">
             <p className="text-left text-black text-opacity-25 text-base">
               Capital
             </p>
@@ -392,7 +407,16 @@ const WithdrawInvestment = (props) => {
                 ? makeArray[0].principalBalance.amount
                 : makeArray[0].currentValue}
             </p>
+          </div> */}
+          <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
+            <p className="text-left text-black text-opacity-25 text-base">
+              Amount to withdraw
+            </p>
+            <p className="text-right text-black text-base">
+              ₦ {formatCurrency(amount)}
+            </p>
           </div>
+
           <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
             <p className="text-left text-black text-opacity-25 text-base">
               Current value
@@ -401,14 +425,29 @@ const WithdrawInvestment = (props) => {
               ₦{" "}
               {setInvestmentTypeOne.length == 0 &&
               setInvestmentTypeTwo.length == 0
-                ? makeArray[0].amountPaid.amount
+                ? formatCurrency(makeArray[0].amountPaid.amount)
                 : setInvestmentTypeTwo.length == 0 &&
                   setInvestmentTypeThree.length == 0
-                ? makeArray[0].principalBalance.amount
-                : makeArray[0].currentValue}
+                ? formatCurrency(makeArray[0].principalBalance.amount)
+                : formatCurrency(makeArray[0].currentValue)}
             </p>
           </div>
           <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
+            <p className="text-left text-black text-opacity-25 text-base">
+              Total Returns
+            </p>
+            <p className="text-right text-black text-base">
+              ₦{" "}
+              {setInvestmentTypeOne.length == 0 &&
+              setInvestmentTypeTwo.length == 0
+                ? formatCurrency(makeArray[0].amountPaid.amount)
+                : setInvestmentTypeTwo.length == 0 &&
+                  setInvestmentTypeThree.length == 0
+                ? formatCurrency(makeArray[0].principalBalance.amount)
+                : formatCurrency(makeArray[0].totalGainLoss)}
+            </p>
+          </div>
+          {/* <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
             <p className="text-left text-black text-opacity-25 text-base">
               Interests
             </p>
@@ -423,7 +462,7 @@ const WithdrawInvestment = (props) => {
                 : makeArray[0].totalGainLoss}{" "}
               %
             </p>
-          </div>
+          </div> */}
           <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
             <p className="text-left text-black text-opacity-25 text-base">
               Maturity Date
@@ -435,7 +474,7 @@ const WithdrawInvestment = (props) => {
                 : setInvestmentTypeTwo.length == 0 &&
                   setInvestmentTypeThree.length == 0
                 ? moment(makeArray[0].valuationDate).format("DD MM YYYY")
-                : makeArray[0].yieldToMaturity}
+                : "Open"}
             </p>
           </div>
           {/* image text content end */}

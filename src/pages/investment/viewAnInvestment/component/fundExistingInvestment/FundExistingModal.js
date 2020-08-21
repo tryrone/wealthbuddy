@@ -9,6 +9,7 @@ import { Redirect } from "react-router-dom";
 import InvestmentDropdown from "../../../components/investmentDropdown/InvestmentDropdown";
 import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
+import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 
 const FundExistingModal = (props) => {
   const [payment, setPayment] = useState(false);
@@ -66,11 +67,13 @@ const FundExistingModal = (props) => {
         <span className="closeModal cursor-pointer" onClick={() => onclose()}>
           <p
             onClick={() => {
-              refresh();
+              onclose();
             }}
             className="text-hairline text-base text-right"
           >
-            Close
+            <span>
+              <CloseModalIcon />
+            </span>
           </p>
         </span>
 
@@ -185,10 +188,10 @@ const FundExistingModal = (props) => {
               <Fragment>
                 <p
                   style={{ color: "#999999" }}
-                  className="text-xs text-center mt-4 "
+                  className="text-xs text-center flex flex-row mt-4 "
                 >
                   You have{" "}
-                  <p className="text-orange-700">
+                  <p className="text-orange-700 mx-2">
                     ₦{formatCurrency(props.dashboard.walletBalance)}
                   </p>
                   in your wallet
@@ -266,7 +269,7 @@ const FundExistingModal = (props) => {
               <button
                 onClick={() => {
                   onclose();
-                  refresh();
+                  // refresh();
                 }}
                 className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
               >

@@ -8,6 +8,7 @@ import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
 import { Redirect } from "react-router-dom";
 import InvestModalSuccess from "./InvestModalSuccess";
+import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 // import { Redirect } from "react-router-dom";
 
 const InvestModal = (props) => {
@@ -23,10 +24,10 @@ const InvestModal = (props) => {
   // const myInvestType = props.investType;
   // let errorObj = props.createInvestmentError;
 
-  // const refresh = () => {
-  //   return document.location.reload(true);
-  //   // return <Redirect to="/investment/add-investment" />;
-  // };
+  const refresh = () => {
+    return document.location.reload(true);
+    // return <Redirect to="/investment/add-investment" />;
+  };
 
   // if (!activeOne) {
   //   dispatch(createInvestment(setInvestDetails));
@@ -61,7 +62,9 @@ const InvestModal = (props) => {
             // refresh();
           }}
         >
-          <p className="text-hairline text-base text-right">Close</p>
+          <span className="closeModal">
+            <CloseModalIcon />
+          </span>
         </span>
 
         {/* UI before payment  */}
@@ -154,6 +157,7 @@ const InvestModal = (props) => {
                     cardsData={props.cards}
                     settingCard={setMyAvailableCard}
                   />
+
                   <button
                     // onClick={()=>{onclose()}}
                     onClick={() => {

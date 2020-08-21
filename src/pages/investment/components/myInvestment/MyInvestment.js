@@ -11,8 +11,12 @@ const MyInvestment = (props) => {
     <div className="flex flex-row flex-wrap  scroll-container ps">
       <Link to={`/dashboard/investment/add-investment`}>
         <div
-          style={{ border: "1px solid #F1F1F1", borderRadius: "2px" }}
-          className="card px-12 py-12 flex mr-3 justify-center content-center items-center flex-col"
+          style={{
+            border: "1px solid #F1F1F1",
+            borderRadius: "2px",
+            padding: "43px 61px",
+          }}
+          className="card  flex mr-3 justify-center content-center items-center flex-col"
         >
           <img src={addBtn} />
           <p className="text-sm text-black mt-3 text-center">Add Investment</p>
@@ -168,7 +172,7 @@ const MyInvestment = (props) => {
                   <div>
                     <p className="text-black text-sm">Current Value</p>
                     <p className="text-black mt-1 font-bold text-base">
-                      N {formatCurrency(item.faceValue.amount.toFixed(2))}
+                      N {formatCurrency(item.valueAsAtDate.amount.toFixed(2))}
                     </p>
                   </div>
 
