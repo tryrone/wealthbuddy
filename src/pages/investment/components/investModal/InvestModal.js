@@ -1,7 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
 import CardIcon from "../../../../assets/img/cardIcon.png";
-import successDoc from "../../../../assets/img/success.svg";
-import failedDoc from "../../../../assets/img/failedDoc.svg";
 import "./invest.css";
 import { createInvestment } from "../../../../state/slices/investments";
 import { connect, useDispatch } from "react-redux";
@@ -9,6 +7,8 @@ import InvestmentDropdown from "../investmentDropdown/InvestmentDropdown";
 import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
 import { Redirect } from "react-router-dom";
+import InvestModalSuccess from "./InvestModalSuccess";
+import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 // import { Redirect } from "react-router-dom";
 
 const InvestModal = (props) => {
@@ -21,30 +21,27 @@ const InvestModal = (props) => {
   const [activeTwo, setActiveTwo] = useState(false);
 
   const setInvestDetails = props.MycreateInvestmentData;
-  const myInvestType = props.investType;
-  let errorObj = props.createInvestmentError;
-
-  const dispatch = useDispatch();
+  // const myInvestType = props.investType;
+  // let errorObj = props.createInvestmentError;
 
   const refresh = () => {
     return document.location.reload(true);
     // return <Redirect to="/investment/add-investment" />;
   };
 
-  const showMyDetails = () => {
-    if (!activeOne) {
-      dispatch(createInvestment(setInvestDetails));
-    } else if (activeOne) {
-      setInvestDetails.cardId = `${myCard}`;
-      dispatch(createInvestment(setInvestDetails));
-      console.log(setInvestDetails);
-    }
+  // if (!activeOne) {
+  //   dispatch(createInvestment(setInvestDetails));
+  // } else
+  if (activeOne) {
+    setInvestDetails.cardId = `${myCard}`;
+    // dispatch(createInvestment(setInvestDetails));
+    // console.log(setInvestDetails);
+  }
 
-    if (props.createInvestmentError && !props.createInvestmentLoading) {
-      setPayment(true);
-    }
-    setInHide(false);
-  };
+  // if (props.createInvestmentError && !props.createInvestmentLoading) {
+  //   setPayment(true);
+  // }
+  // setInHide(false);
 
   const setMyAvailableCard = (val) => {
     setMyCard(val);
@@ -62,15 +59,17 @@ const InvestModal = (props) => {
           className="closeModal cursor-pointer"
           onClick={() => {
             onclose();
-            refresh();
+            // refresh();
           }}
         >
-          <p className="text-hairline text-base text-right">Close</p>
+          <span className="closeModal">
+            <CloseModalIcon />
+          </span>
         </span>
 
         {/* UI before payment  */}
         {/* UI before payment  */}
-        {props.createInvestmentLoading ? null : inHide ? (
+        {!payment ? (
           <Fragment>
             <div className="flex flex-col items-center mb-0">
               <i className="w-20 mb-4">
@@ -158,10 +157,12 @@ const InvestModal = (props) => {
                     cardsData={props.cards}
                     settingCard={setMyAvailableCard}
                   />
+
                   <button
                     // onClick={()=>{onclose()}}
                     onClick={() => {
-                      showMyDetails();
+                      // showMyDetails();
+                      setPayment(true);
                     }}
                     className={`mt-6 w-40 text-center leading-loose mx-auto bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
                   >
@@ -175,22 +176,22 @@ const InvestModal = (props) => {
 
             {/* wallet display text */}
             {/* wallet display text */}
-            {props.createInvestmentLoading ? null : activeTwo ? (
+            {activeTwo ? (
               <Fragment>
                 <p
                   style={{ color: "#999999" }}
-                  className="text-xs text-center mt-4 "
+                  className="text-xs text-center flex flex-row mt-4 "
                 >
                   You have{" "}
-                  <p className="text-orange-700">
+                  <p className="text-orange-700 mx-2">
                     ₦{formatCurrency(props.dashboard.walletBalance)}
                   </p>
                   in your wallet
                 </p>
                 <button
                   onClick={() => {
-                    showMyDetails();
-                    // setPayment(true);
+                    // showMyDetails();
+                    setPayment(true);
                   }}
                   className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
                 >
@@ -211,66 +212,11 @@ const InvestModal = (props) => {
         {/* UI before payment end  */}
         {/* UI before payment  end */}
 
-        {/* Loading UI for PayMent */}
-        {/* Loading UI for PayMent */}
-        {props.createInvestmentLoading ? (
-          <Fragment>
-            <Loading text="Creating Investment" />
-          </Fragment>
+        {/* UI after payment */}
+        {/* UI after payment */}
+        {payment ? (
+          <InvestModalSuccess investData={setInvestDetails} close={onclose} />
         ) : null}
-        {/* Loading UI for PayMent */}
-        {/* Loading UI for PayMent */}
-
-        {/* UI after payment */}
-        {/* UI after payment */}
-        {!(errorObj && !props.createInvestmentLoading && !payment) &&
-        props.createInvestmentMe ? (
-          <Fragment>
-            <div className="flex flex-col items-center mb-0">
-              <i className="w-20 mb-4">
-                <img src={successDoc} alt="" />
-              </i>
-              <h1 className="text-2xl font-medium mb-2">Success</h1>
-              <p className="text-center text-gray-500 leading-normal">
-                You have successfully created an investment.
-              </p>
-
-              <button
-                onClick={() => {
-                  onclose();
-                  refresh();
-                }}
-                className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
-              >
-                Done
-              </button>
-            </div>
-          </Fragment>
-        ) : errorObj && !props.createInvestmentLoading && !payment ? (
-          <Fragment>
-            <div className="flex flex-col items-center mb-0">
-              <i className="w-20 mb-4">
-                <img src={failedDoc} alt="" />
-              </i>
-              <h1 className="text-2xl font-medium mb-2">Failed</h1>
-              <p className="text-center text-gray-500 leading-normal">
-                {errorObj.message}.
-              </p>
-
-              <button
-                onClick={() => {
-                  onclose();
-                  refresh();
-                }}
-                className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
-              >
-                Done
-              </button>
-            </div>
-          </Fragment>
-        ) : (
-          ""
-        )}
 
         {/* UI after payment end */}
         {/* UI after payment end*/}

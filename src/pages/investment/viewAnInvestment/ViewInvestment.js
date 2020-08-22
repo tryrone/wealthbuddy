@@ -4,10 +4,12 @@ import { bulb } from "../imageLinks";
 import TransactionHistory from "./component/transactionHistory/TransactionHistory";
 import { connect, useDispatch } from "react-redux";
 import ViewDetails from "./component/viewInvestDetails/ViewDetails";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
 const ViewInvestment = (props) => {
   //RELOAD HANDLER
+  const history = useHistory();
+
   if (!props.location.investmentId) {
     return <Redirect to="/dashboard/investment" />;
   }
@@ -41,7 +43,13 @@ const ViewInvestment = (props) => {
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
       <div className="flex flex-row content-center sm:w-6/12 items-center  mb-10 ">
-        <p style={{ color: "#999999" }} className="text-xs ">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs cursor-pointer"
+        >
           Investment
         </p>
         <p style={{ color: "#999999" }} className="text-xs mx-4 ">

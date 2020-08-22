@@ -65,6 +65,7 @@ const initialState = {
       approvalStatus: null,
     },
     jwtToken: null,
+    sessionTimedOut: false,
   },
 };
 
@@ -74,6 +75,17 @@ export const login = createAsyncThunk("account/login", async (payload) => {
   data.jwtToken = response.headers["token"];
   return data;
 });
+
+export const resumeSession = createAsyncThunk(
+  "account/resumeSession",
+  async (payload) => {
+    const response = await Customer.login(payload);
+    const data = response.data.data;
+    data.sessionTimedOut = false;
+    data.jwtToken = response.headers["token"];
+    return data;
+  }
+);
 
 export const resetPassword = createAsyncThunk(
   "account/resetPassword",
@@ -151,6 +163,10 @@ const accountSlice = createSlice({
     setIsCardAddedToTrue: (state) => {
       state.data.isCardAdded = true;
     },
+    timeOutAccountSession: (state) => {
+      state.data.jwtToken = null;
+      state.data.sessionTimedOut = true;
+    },
     logout: (state) => {
       state.data = initialState.data;
     },
@@ -169,6 +185,9 @@ const accountSlice = createSlice({
       state.data = initialState.data;
       state.loginLoading = false;
       state.loginError = action.error.message || action.error;
+    },
+    [resumeSession.fulfilled]: (state, action) => {
+      state.data = action.payload;
     },
     [addBvn.pending]: (state) => {
       state.addBvnLoading = true;
@@ -232,6 +251,10 @@ const accountSlice = createSlice({
   },
 });
 
-export const { setIsCardAddedToTrue, logout } = accountSlice.actions;
+export const {
+  setIsCardAddedToTrue,
+  timeOutAccountSession,
+  logout,
+} = accountSlice.actions;
 
 export default accountSlice.reducer;

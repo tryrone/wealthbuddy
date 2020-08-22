@@ -5,9 +5,11 @@ import "./invest.css";
 import { fundInvestment } from "../../../../../state/slices/investments";
 import failedDoc from "../../../../../assets/img/failedDoc.svg";
 import { connect, useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
 import InvestmentDropdown from "../../../components/investmentDropdown/InvestmentDropdown";
 import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
+import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 
 const FundExistingModal = (props) => {
   const [payment, setPayment] = useState(false);
@@ -30,8 +32,7 @@ const FundExistingModal = (props) => {
   const dispatch = useDispatch();
 
   const refresh = () => {
-    return document.location.reload(true);
-    // return <Redirect to="/investment/add-investment" />;
+    return <Redirect to="/investment/add-investment" />;
   };
 
   const showMyDetails = () => {
@@ -39,13 +40,13 @@ const FundExistingModal = (props) => {
       setInvestDetails.investmentType = parseInt(myDataArray[0].investmentType);
       delete setInvestDetails.itemId;
       dispatch(fundInvestment(setInvestDetails));
-      console.log(setInvestDetails);
+      // console.log(myDataArray[0]);
     } else if (activeOne) {
       setInvestDetails.cardId = `${myCard}`;
       setInvestDetails.investmentType = parseInt(myDataArray[0].investmentType);
       delete setInvestDetails.itemId;
       dispatch(fundInvestment(setInvestDetails));
-      console.log(setInvestDetails);
+      // console.log(myDataArray[0]);
       // console.log(props, "solo");
     }
     setInHide(false);
@@ -66,11 +67,13 @@ const FundExistingModal = (props) => {
         <span className="closeModal cursor-pointer" onClick={() => onclose()}>
           <p
             onClick={() => {
-              refresh();
+              onclose();
             }}
             className="text-hairline text-base text-right"
           >
-            Close
+            <span>
+              <CloseModalIcon />
+            </span>
           </p>
         </span>
 
@@ -185,10 +188,10 @@ const FundExistingModal = (props) => {
               <Fragment>
                 <p
                   style={{ color: "#999999" }}
-                  className="text-xs text-center mt-4 "
+                  className="text-xs text-center flex flex-row mt-4 "
                 >
                   You have{" "}
-                  <p className="text-orange-700">
+                  <p className="text-orange-700 mx-2">
                     ₦{formatCurrency(props.dashboard.walletBalance)}
                   </p>
                   in your wallet
@@ -221,7 +224,7 @@ const FundExistingModal = (props) => {
         {/* Loading UI for PayMent */}
         {props.fundInvestmentLoading ? (
           <Fragment>
-            <Loading text="Creating Investment" />
+            <Loading text="Funding Investment" />
           </Fragment>
         ) : null}
         {/* Loading UI for PayMent */}
@@ -266,7 +269,7 @@ const FundExistingModal = (props) => {
               <button
                 onClick={() => {
                   onclose();
-                  refresh();
+                  // refresh();
                 }}
                 className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
               >
@@ -289,6 +292,7 @@ const mapStateToProps = (state) => ({
   fundInvestmentData: state.investments.fundInvestmentData,
   fundInvestmentMe: state.investments.fundInvestmentMe,
   getAllInvestmentsData: state.investments.getAllInvestmentsData,
+  investmentValuationData: state.investments.investmentValuationData,
   cards: state.cards.data,
   dashboard: state.dashboard.data,
 });

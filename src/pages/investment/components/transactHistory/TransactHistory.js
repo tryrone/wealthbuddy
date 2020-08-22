@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Chart from "../Chart";
 import moment from "moment";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { investBars } from "../../imageLinks";
+import {
+  getAllTbillsTransactions,
+  getInvestmentTransactionsForFund,
+  getAllFixedTransactions,
+} from "../../../../state/slices/investments";
 import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
+import LinesEllipsis from "react-lines-ellipsis";
 import "./style.css";
+import EmptyCard from "pages/dashboard/components/DashboardInner/EmptyCard";
 
 const TransactHistory = (props) => {
   // const [myHeight, setHeight] = useState(400);
@@ -16,157 +23,195 @@ const TransactHistory = (props) => {
   const naira = "₦";
   const dollar = "$";
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (
+      properTransactions.length === 0 &&
+      fixedTransactions.length === 0 &&
+      tBillsTransactions.length === 0
+    ) {
+      dispatch(getAllTbillsTransactions());
+      dispatch(getAllFixedTransactions());
+      dispatch(getInvestmentTransactionsForFund());
+    }
+  }, []);
+
   const properTransactions = props.investmentTransactionsForFundsData;
   const fixedTransactions = props.allFixedTrasactionsData;
   const tBillsTransactions = props.allTbillsTrasactionsData;
 
+  // var trimmedString = string.substring(0, length);
+
+  // console.log(fixedTransactions, "maa nigger");
+
   return props.investmentTransactionsForFundsLoading ? (
-    <div className="px-12 flex justify-center content-center items-center">
-      <Loading text="Loading" />
+    <div className="shadow-2xl w-full bg-white border px-8 py-5 hide-scroll overflow-y-scroll h-screen">
+      <Loading text="" />
     </div>
   ) : (
     <div
       style={{
         border: "1px solid #F1F1F1",
-        borderRadius: "2px",
+        borderRadius: "14px",
       }}
       className="shadow-2xl w-full bg-white border px-8 py-5 hide-scroll overflow-y-scroll h-screen"
     >
       <p className={`text-black text-base text-center mb-4 font-light`}>
         Transaction History
       </p>
-      <div className="hide-scroll overflow-y-scroll h-screen">
-        {/* <div className="flex justify-center content-center items-center">
-        <p className="text-xs font-bold text-teal-700">+324,442.88</p>
-        <p style={{ color: "#999999" }} className="text-xs">
-          today
-        </p>
-      </div>
-      <Chart /> */}
-        <div className="flex flex-row mt-8 justify-between content-center items-center">
+      {fixedTransactions.length === 0 &&
+      properTransactions.length === 0 &&
+      tBillsTransactions.length === 0 ? (
+        <EmptyCard
+          title="Nothing here Yet"
+          message="Create some Investments and see them show here"
+        />
+      ) : null}
+      <div className="flex flex-row mt-8 justify-between main_border_wrap content-center items-center">
+        {fixedTransactions.length === 0 ? null : (
           <p
             onClick={() => {
               setactiveOne(true);
               setactiveTwo(false);
               setactiveThree(false);
             }}
-            className={`text-black text-base font-light cursor-pointer ${
+            className={`text-black text-base font-light sm:w-4/12 text-center cursor-pointer ${
               activeOne ? "active_me" : null
             }`}
           >
-            Fixed History
+            Fixed Deposits
           </p>
+        )}
+
+        {properTransactions.length === 0 ? null : (
           <p
             onClick={() => {
               setactiveTwo(true);
               setactiveOne(false);
               setactiveThree(false);
             }}
-            className={`text-black text-base font-light cursor-pointer ${
+            className={`text-black text-base font-light sm:w-4/12 text-center two_borders cursor-pointer ${
               activeTwo ? "active_me" : null
             }`}
           >
-            Mutual Funds History
+            Mutual Funds
           </p>
+        )}
+
+        {tBillsTransactions.length === 0 ? null : (
           <p
             onClick={() => {
               setactiveThree(true);
               setactiveTwo(false);
               setactiveOne(false);
             }}
-            className={`text-black text-base font-light cursor-pointer ${
+            className={`text-black text-base font-light sm:w-4/12 text-center cursor-pointer ${
               activeThree ? "active_me" : null
             }`}
           >
-            Treasury Bills History
+            Treasury Bills
           </p>
-        </div>
+        )}
+      </div>
 
-        <div
-          style={{ overflowY: "scroll", display: activeTwo ? "block" : "none" }}
-        >
+      <div className="hide-scroll overflow-y-scroll hide-scroll h-screen">
+        <div style={{ display: activeTwo ? "block" : "none" }}>
           {/* invest content */}
-          {props.investmentTransactionsForFundsLoading ? (
-            <Loading text="" />
-          ) : (
-            properTransactions.map((num, index) => {
-              return (
-                <div
-                  key={index}
-                  className="flex flex-row justify-between content-center items-center mt-8"
-                >
-                  <div className="flex flex-col sm:flex-row content-center items-center">
-                    <img src={investBars} />
+          {props.investmentTransactionsForFundsLoading
+            ? null
+            : properTransactions.map((num, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="flex flex-row justify-between content-center items-center mt-8"
+                  >
+                    <div className="flex flex-col sm:flex-row content-center items-center">
+                      <img src={investBars} />
 
-                    <div className="ml-5 mt-4 sm:mt-0">
-                      <p className="text-black text-base font-light">
-                        {num.fundName}
+                      <div className="ml-5 mt-4 sm:mt-0">
+                        <p className="text-black text-base font-light">
+                          {num.fundName}
+                        </p>
+                        <p
+                          style={{ color: "#999999" }}
+                          className="text-sm mt-2"
+                        >
+                          {num.description}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-10 sm:mt-0">
+                      <p className="text-black font-bold text-right font-light">
+                        {num.currency === "NGN" ? naira : dollar}
+                        {formatCurrency(num.transAmount)}
                       </p>
-                      <p style={{ color: "#999999" }} className="text-sm mt-2">
-                        {num.description}
+                      <p
+                        style={{ color: "#999999" }}
+                        className="text-sm text-right w-full mt-2"
+                      >
+                        {moment(parseInt(num.orderDate)).format("L")}
                       </p>
                     </div>
                   </div>
-
-                  <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold font-light">
-                      {num.currency === "NGN" ? naira : dollar}
-                      {formatCurrency(num.transAmount)}
-                    </p>
-                    <p style={{ color: "#999999" }} className="text-sm mt-2">
-                      {/* {moment(num.orderDate).format("MMM DD YYYY")} */}
-                    </p>
-                  </div>
-                </div>
-              );
-            })
-          )}
+                );
+              })}
         </div>
-
-        <div
-          style={{ overflowY: "scroll", display: activeOne ? "block" : "none" }}
-        >
+        <div style={{ display: activeOne ? "block" : "none" }}>
           {/* invest content */}
-          {props.allFixedTrasactionsLoading ? (
-            <Loading text="" />
-          ) : (
-            fixedTransactions.map((num, index) => {
-              return (
-                <div
-                  key={index}
-                  className="flex flex-row justify-between content-center items-center mt-8"
-                >
-                  <div className="flex flex-col sm:flex-row content-center items-center">
-                    <img src={investBars} />
+          {props.allFixedTrasactionsLoading
+            ? null
+            : !fixedTransactions
+            ? null
+            : fixedTransactions.map((num, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="flex flex-row justify-between content-center items-center mt-8"
+                  >
+                    <div className="flex flex-col sm:flex-row content-center items-center">
+                      <img src={investBars} />
 
-                    <div className="ml-5 mt-4 sm:mt-0">
-                      <p className="text-black text-base font-light">
-                        {num.portfolioLabel}
+                      <div className="ml-5 mt-4 sm:mt-0">
+                        <p className="text-black text-sm font-light">
+                          {num.portfolioLabel}
+                        </p>
+                        <p
+                          style={{ color: "#999999" }}
+                          className="text-xs mt-2"
+                        >
+                          {num.label.substring(0, 15)}
+                          {/* <LinesEllipsis
+                          text={`${num.label}`}
+                          maxLine="2"
+                          ellipsis="..."
+                          trimRight
+                        /> */}
+                          {/* {num.label} */}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-10 sm:mt-0">
+                      <p className="text-black font-bold text-right font-light">
+                        {num.currency === "NGN" ? naira : dollar}
+                        {formatCurrency(num.faceValue)}
                       </p>
-                      <p style={{ color: "#999999" }} className="text-sm mt-2">
-                        {num.label}
+                      <p
+                        style={{ color: "#999999" }}
+                        className="text-sm mt-2 w-full text-right"
+                      >
+                        {moment(num.startDate).format("L")}
                       </p>
                     </div>
                   </div>
-
-                  <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold font-light">
-                      {num.currency === "NGN" ? naira : dollar}
-                      {formatCurrency(num.faceValue)}
-                    </p>
-                    <p style={{ color: "#999999" }} className="text-sm mt-2">
-                      {/* {moment(num.orderDate).format("MMM DD YYYY")} */}
-                    </p>
-                  </div>
-                </div>
-              );
-            })
-          )}
+                );
+              })}
         </div>
 
         <div
           style={{
-            overflowY: "scroll",
             display: activeThree ? "block" : "none",
           }}
         >
@@ -188,18 +233,27 @@ const TransactHistory = (props) => {
                         {num.instrumentTypeLabel}
                       </p>
                       <p style={{ color: "#999999" }} className="text-sm mt-2">
-                        {num.label}
+                        <LinesEllipsis
+                          text={`${num.label}`}
+                          maxLine="2"
+                          ellipsis="..."
+                          trimRight
+                        />
+                        {/* {num.label} */}
                       </p>
                     </div>
                   </div>
 
                   <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold font-light">
+                    <p className="text-black text-right font-bold font-light">
                       {num.currency === "NGN" ? naira : dollar}
                       {formatCurrency(num.faceValue)}
                     </p>
-                    <p style={{ color: "#999999" }} className="text-sm mt-2">
-                      {/* {moment(num.orderDate).format("MMM DD YYYY")} */}
+                    <p
+                      style={{ color: "#999999" }}
+                      className="text-sm text-right mt-2"
+                    >
+                      {moment(num.orderDate).format("L")}
                     </p>
                   </div>
                 </div>

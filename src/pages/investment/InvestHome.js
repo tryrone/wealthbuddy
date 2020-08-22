@@ -5,6 +5,7 @@ import { connect, useDispatch } from "react-redux";
 import {
   getInvestmentTransactionsForFund,
   getAllInvestments,
+  investmentValuationData,
   getAllFixedTransactions,
   getAllTbillsTransactions,
 } from "../../state/slices/investments";
@@ -15,27 +16,43 @@ import "./style.css";
 
 const InvestHome = ({
   investmentTransactionsForFundsLoading,
+  investmentValuationLoading,
   getAllInvestmentsData,
+  investmentValuationData,
   allTbillsTrasactionsData,
   allFixedTrasactionsData,
   isEmpty,
+  investmentTransactionsForFundsData,
 }) => {
   const dispatch = useDispatch();
-
+  const tegaSum = Object.keys(investmentValuationData).length;
   useEffect(() => {
-    if (
-      getAllInvestmentsData.length == 0 &&
-      allTbillsTrasactionsData.length == 0 &&
-      allFixedTrasactionsData.length == 0
-    ) {
+    if (tegaSum === 0) {
       dispatch(getInvestmentTransactionsForFund());
       dispatch(getAllInvestments());
-      dispatch(getAllFixedTransactions());
       dispatch(getAllTbillsTransactions());
+      dispatch(getInvestmentTransactionsForFund());
+      dispatch(getAllFixedTransactions());
     }
+
+    // if (getAllInvestmentsData === 0) {
+    //   dispatch(getAllInvestments());
+    // }
+
+    // if (allTbillsTrasactionsData.length === 0) {
+    //   dispatch(getAllTbillsTransactions());
+    // }
+
+    // if (investmentTransactionsForFundsData === 0) {
+    //   dispatch(getInvestmentTransactionsForFund());
+    // }
+
+    // if (allFixedTrasactionsData === 0) {
+    //   dispatch(getAllFixedTransactions());
+    // }
   }, []);
 
-  return investmentTransactionsForFundsLoading ? (
+  return investmentValuationLoading ? (
     <div className="px-12 flex justify-center content-center items-center">
       <Loading text="Loading" />
     </div>
@@ -58,12 +75,15 @@ const InvestHome = ({
 
 const mapStateToProps = (state) => ({
   investmentValuationLoading: state.investments.investmentValuationLoading,
+  investmentValuationData: state.investments.investmentValuationData,
   allPersonalInvestmentsLoading:
     state.investments.allPersonalInvestmentsLoading,
   getAllInvetstmentTransactionsLoading:
     state.investments.getAllInvetstmentTransactionsLoading,
   investmentTransactionsForFundsLoading:
     state.investments.investmentTransactionsForFundsLoading,
+  investmentTransactionsForFundsData:
+    state.investments.investmentTransactionsForFundsData,
   isEmpty: state.investments.getAllInvetstmentTransactionsisEmpty,
   allTbillsTrasactionsData: state.investments.allTbillsTrasactionsData,
   allFixedTrasactionsData: state.investments.allFixedTrasactionsData,

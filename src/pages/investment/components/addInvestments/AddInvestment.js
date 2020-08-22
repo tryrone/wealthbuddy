@@ -10,7 +10,7 @@ import {
 } from "../../imageLinks";
 import { getAllInvestments } from "../../../../state/slices/investments";
 import { connect, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { forEach } from "lodash";
 import Loading from "shared-components/Loading";
 
@@ -20,6 +20,7 @@ const AddInvestment = ({
   location,
 }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     // if (props.location.investmentId == "undefined") {
@@ -133,94 +134,111 @@ const AddInvestment = ({
       item.investmentType === 3
   );
 
-  return (
+  return getAllInvestmentsLoading ? (
+    <div className="flex my-auto content-center justify-center items-center  mx-auto">
+      <Loading text="Fetching available invetsments" />
+    </div>
+  ) : (
     <div className="px-12 flex flex-col fadeIn">
+      <div className="flex flex-row  sm:w-8/12 items-center  mb-10 ">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs cursor-pointer"
+        >
+          Investment
+        </p>
+        <p style={{ color: "#999999" }} className="text-xs mx-4">
+          {" "}
+          {">>"}{" "}
+        </p>
+        <p className="text-sm text-black">Add Investment</p>
+      </div>
+
       <p className="font-bold text-xl text-black">Add new Investment </p>
 
       <div
         style={{ border: "1px solid #F1F1F1" }}
         className="bg-white px-8 mt-8 flex-row flex flex-wrap justify-between py-10 px-2"
       >
-        {getAllInvestmentsLoading ? (
-          <div className="flex my-auto content-center justify-center items-center  mx-auto">
-            <Loading text="Fetching available invetsments" />
-          </div>
-        ) : (
-          availInvest.map((items) => {
-            return (
-              <Link
-                key={items.label}
-                to={{
-                  pathname: "/dashboard/investment/investment-info",
-                  investmentId: `${items.investmentID}`,
-                  // investName: `${items.textHead}`,
-                }}
-              >
-                <div className="flex card rounded flex-col sm:flex-row  bg-white ">
-                  <div
-                    style={{
-                      backgroundColor: `${
-                        colors[items.investmentID] || "#DCCDF5"
-                      }`,
-                    }}
-                    className="flex justify-center content-center py-6 px-8  items-center"
-                  >
-                    <img
-                      src={icons[items.investmentID]}
-                      style={{ height: "50px", width: "50px" }}
-                    />
-                  </div>
-
-                  {/* innewr text content */}
-                  <div className="py-3 px-3 justify-between flex flex-col sm:flex-row">
-                    {/* left content of the inside */}
-                    <div>
-                      <p
-                        style={{ width: "200px" }}
-                        className="font-bold text-black text-base"
-                      >
-                        {items.label}
-                      </p>
-                      <p className="font-bold text-black mt-5 text-base">
-                        N{items.minimumAmount}
-                      </p>
-                      <p className="text-xs ">Minimum Capital</p>
+        {!availInvest
+          ? null
+          : availInvest.map((items) => {
+              return (
+                <Link
+                  key={items.label}
+                  to={{
+                    pathname: "/dashboard/investment/investment-info",
+                    investmentId: `${items.investmentID}`,
+                    // investName: `${items.textHead}`,
+                  }}
+                >
+                  <div className="flex card rounded flex-col sm:flex-row  bg-white ">
+                    <div
+                      style={{
+                        backgroundColor: `${
+                          colors[items.investmentID] || "#DCCDF5"
+                        }`,
+                      }}
+                      className="flex justify-center content-center py-6 px-8  items-center"
+                    >
+                      <img
+                        src={icons[items.investmentID]}
+                        style={{ height: "50px", width: "50px" }}
+                      />
                     </div>
-                    <div className="flex justify-between flex-col">
-                      <div
-                        style={{
-                          backgroundColor: `${
-                            colors[items.investmentID] || "#DCCDF5"
-                          }`,
-                          padding: "6px",
-                          fontSize: "10px",
-                          alignSelf: "flex-end",
-                          // width: "70px",
-                          // position: "relative",
-                          // left: "25px",
-                        }}
-                        className="mt-6 mb-4  text-xs sm:mb-0 sm:mt-0 rounded-full"
-                      >
-                        {assetType[items.investmentType] || null}
-                      </div>
+
+                    {/* innewr text content */}
+                    <div className="py-3 px-3 justify-between flex flex-col sm:flex-row">
+                      {/* left content of the inside */}
                       <div>
                         <p
-                          style={{ color: "#6F8A15" }}
-                          className="text-xs font-bold"
+                          style={{ width: "200px" }}
+                          className="font-bold text-black text-base"
                         >
-                          {items.interestRate.toFixed(1)}% per annum
+                          {items.label}
                         </p>
-                        <p className="text-base text-black text-right font-hairline">
-                          Returns
+                        <p className="font-bold text-black mt-5 text-base">
+                          N{items.minimumAmount}
                         </p>
+                        <p className="text-xs ">Minimum Capital</p>
+                      </div>
+                      <div className="flex justify-between flex-col">
+                        <div
+                          style={{
+                            backgroundColor: `${
+                              colors[items.investmentID] || "#DCCDF5"
+                            }`,
+                            padding: "6px",
+                            fontSize: "10px",
+                            alignSelf: "flex-end",
+                            // width: "70px",
+                            // position: "relative",
+                            // left: "25px",
+                          }}
+                          className="mt-6 mb-4  text-xs sm:mb-0 sm:mt-0 rounded-full"
+                        >
+                          {assetType[items.investmentType] || null}
+                        </div>
+                        <div>
+                          <p
+                            style={{ color: "#6F8A15" }}
+                            className="text-xs font-bold"
+                          >
+                            {items.interestRate.toFixed(1)}% per annum
+                          </p>
+                          <p className="text-base text-black text-right font-hairline">
+                            Returns
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            );
-          })
-        )}
+                </Link>
+              );
+            })}
       </div>
     </div>
   );
