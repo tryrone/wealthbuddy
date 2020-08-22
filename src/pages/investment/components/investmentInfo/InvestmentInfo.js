@@ -235,6 +235,46 @@ const InvestmentInfo = (props) => {
               </p>
             </div>
           )}
+          {!InvestmentName[0].currency ? null : (
+            <div className="flex flex-row mt-8 content-center justify-between items-center">
+              <p className="font-bold text-black text-base sm:text-sm">
+                Currency
+              </p>
+              <p className="font-hairline text-right text-black text-base sm:text-sm">
+                {InvestmentName[0].currency}
+              </p>
+            </div>
+          )}
+          {!InvestmentName[0].penaltyPercentage ? null : (
+            <div className="flex flex-row mt-8 content-center justify-between items-center">
+              <p className="font-bold text-black text-base sm:text-sm">
+                Penalty Percentage
+              </p>
+              <p className="font-hairline text-right text-black text-base sm:text-sm">
+                {InvestmentName[0].penaltyPercentage}%
+              </p>
+            </div>
+          )}
+          {!InvestmentName[0].interestRate ? null : (
+            <div className="flex flex-row mt-8 content-center justify-between items-center">
+              <p className="font-bold text-black text-base sm:text-sm">
+                Interest Rate
+              </p>
+              <p className="font-hairline text-right text-black text-base sm:text-sm">
+                {InvestmentName[0].interestRate.toFixed(1)}%
+              </p>
+            </div>
+          )}
+          {!InvestmentName[0].isTerminationAllowed ? null : (
+            <div className="flex flex-row mt-8 content-center justify-between items-center">
+              <p className="font-bold text-black text-base sm:text-sm">
+                Can be terminated
+              </p>
+              <p className="font-hairline text-right text-black text-base sm:text-sm">
+                {InvestmentName[0].isTerminationAllowed ? "Yes" : "No"}
+              </p>
+            </div>
+          )}
 
           {/* item */}
           {!InvestmentName[0].bidPrice ? null : (
@@ -267,7 +307,7 @@ const InvestmentInfo = (props) => {
           </div>
 
           {/* item */}
-          {!InvestmentName[0].maturityDate ? null : (
+          {/* {!InvestmentName[0].maturityDate ? null : (
             <div className="flex flex-row mt-8 content-center justify-between items-center">
               <p className="font-bold text-black text-base sm:text-sm">
                 Maturity Date
@@ -276,11 +316,13 @@ const InvestmentInfo = (props) => {
                 {moment(InvestmentName[0].maturityDate).format("L")}
               </p>
             </div>
-          )}
+          )} */}
 
           {/* item */}
           <div className="flex flex-row mt-8 content-center justify-between items-center">
-            <p className="font-bold text-black text-base sm:text-sm">Tenure</p>
+            <p className="font-bold text-black text-base sm:text-sm">
+              Minimum Duration
+            </p>
             <p className="font-hairline text-right text-black text-base sm:text-sm">
               {InvestmentName[0].minimumDurationInDays} days
             </p>
