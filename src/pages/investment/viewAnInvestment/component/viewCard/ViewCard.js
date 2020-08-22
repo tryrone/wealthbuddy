@@ -73,7 +73,7 @@ const ViewCard = (props) => {
       </div>
 
       <p className="text-gray-100 text-4xl font-bold pl-6">
-        {`N${formatCurrency(
+        {`₦${formatCurrency(
           setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
             ? makeArray[0].reportCurrentValue.amount
             : setInvestmentTypeTwo.length == 0 &&
@@ -89,7 +89,7 @@ const ViewCard = (props) => {
             Total Interest
           </p>
           <p className="ext-gray-100 text-2xl font-bold">
-            {`N${formatCurrency(
+            {`₦${formatCurrency(
               setInvestmentTypeOne.length == 0 &&
                 setInvestmentTypeTwo.length == 0
                 ? makeArray[0].reportAccruedInterest.amount.toFixed(2)
