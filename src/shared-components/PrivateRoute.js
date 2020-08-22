@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 const PrivateRoute = ({ account, ...props }) => {
   const location = useLocation();
 
-  return account.jwtToken ? (
+  return account.jwtToken || account.sessionTimedOut ? (
     <Route path={props.path} exact={props.exact} component={props.component} />
   ) : (
     <Redirect
