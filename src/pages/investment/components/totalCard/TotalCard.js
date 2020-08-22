@@ -76,8 +76,10 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
               <Loading text="" />
             </div>
           ) : (
-            `N${formatCurrency(
-              !investmentValuationData.totalPortfolioValue ? null : myTotalCost
+            `₦${formatCurrency(
+              !investmentValuationData.totalPortfolioValue
+                ? null
+                : myTotalCost.toFixed(2)
             )} `
           )}
         </p>
@@ -93,7 +95,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
                   <Loading text="" />
                 </div>
               ) : (
-                `N${formatCurrency(
+                `₦${formatCurrency(
                   !investmentValuationData.commodityPerc
                     ? null
                     : fundReturns +
