@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NumberFormat from "react-number-format";
 import { addPhoto, dogs, dogsBg, catfish, corn } from "../../../imageLinks";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import InvestModal from "../../../components/investModal/InvestModal";
@@ -11,6 +11,7 @@ import FundExistingModal from "./FundExistingModal";
 const FundExistingInvestment = (props) => {
   const [amount, setAmount] = useState(null);
   const [modal, changeModal] = useState(false);
+  const history = useHistory();
 
   const onclose = (val) => {
     changeModal(val);
@@ -97,7 +98,13 @@ const FundExistingInvestment = (props) => {
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
       {/* navigation */}
       <div className="flex flex-row content-center sm:w-8/12 items-center  mb-10 ">
-        <p style={{ color: "#999999" }} className="text-xs ">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs cursor-pointer "
+        >
           Investment
         </p>
         <p style={{ color: "#999999" }} className="text-xs mx-4">
@@ -208,19 +215,10 @@ const FundExistingInvestment = (props) => {
 
           <div className="flex flex-row justify-between w-full mt-4 px-16 items-center">
             <p className="text-left text-black text-opacity-25 text-base">
-              Capital
+              Top Up Amount
             </p>
             <p className="text-right text-black text-base">
-              ₦{" "}
-              {formatCurrency(
-                setInvestmentTypeOne.length == 0 &&
-                  setInvestmentTypeTwo.length == 0
-                  ? makeArray[0].amountPaid.amount.toFixed(2)
-                  : setInvestmentTypeTwo.length == 0 &&
-                    setInvestmentTypeThree.length == 0
-                  ? makeArray[0].principalBalance.amount
-                  : makeArray[0].totalPurchaseCost.toFixed(2)
-              )}
+              ₦ {formatCurrency(amount)}
             </p>
           </div>
           <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">

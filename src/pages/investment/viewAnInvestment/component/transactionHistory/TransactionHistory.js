@@ -4,6 +4,7 @@ import { connect, useDispatch } from "react-redux";
 import { investBars } from "../../../imageLinks";
 import moment from "moment";
 import Loading from "shared-components/Loading";
+import "./style.css";
 import { formatCurrency } from "utils";
 
 const TransactionHistory = (props) => {
@@ -20,7 +21,10 @@ const TransactionHistory = (props) => {
 
   return (
     <div
-      style={{ border: "1px solid #F1F1F1", borderRadius: "2px" }}
+      style={{
+        border: "1px solid #F1F1F1",
+        borderRadius: "14px",
+      }}
       className="shadow-2xl mt-6 w-full bg-white border px-8 py-5"
     >
       {/* <div className="flex justify-center content-center items-center">
@@ -33,51 +37,54 @@ const TransactionHistory = (props) => {
       <p className={`text-black text-base text-center mb-4 font-light`}>
         Transaction History
       </p>
-      <div className="hide-scroll overflow-y-scroll h-screen">
-        <div className="flex flex-row mt-8 justify-between items-center">
+      <div className="flex flex-row main_border_wrap mt-8 justify-between items-center">
+        {fixedTransactions.length === 0 ? null : (
           <p
             onClick={() => {
               setactiveOne(true);
               setactiveTwo(false);
               setactiveThree(false);
             }}
-            className={`text-black text-base font-light cursor-pointer ${
+            className={`text-black text-base font-light sm:w-4/12 text-center cursor-pointer ${
               activeOne ? "active_me" : null
             }`}
           >
-            Fixed History
+            Fixed Deposits
           </p>
+        )}
+        {properTransactions.length === 0 ? null : (
           <p
             onClick={() => {
               setactiveTwo(true);
               setactiveOne(false);
               setactiveThree(false);
             }}
-            className={`text-black text-base font-light cursor-pointer ${
+            className={`text-black text-base font-light sm:w-4/12 text-center two_borders cursor-pointer ${
               activeTwo ? "active_me" : null
             }`}
           >
-            Mutual Funds History
+            Mutual Funds
           </p>
+        )}
+        {tBillsTransactions.length === 0 ? null : (
           <p
             onClick={() => {
               setactiveThree(true);
               setactiveTwo(false);
               setactiveOne(false);
             }}
-            className={`text-black text-base font-light cursor-pointer ${
+            className={`text-black text-base font-light sm:w-4/12 text-center cursor-pointer ${
               activeThree ? "active_me" : null
             }`}
           >
-            Treasury Bills History
+            Treasury Bills
           </p>
-        </div>
-
+        )}
+      </div>
+      <div className="hide-scroll no_showing overflow-y-scroll h-screen">
         {/* invest content */}
 
-        <div
-          style={{ overflowY: "scroll", display: activeTwo ? "block" : "none" }}
-        >
+        <div style={{ display: activeTwo ? "block" : "none" }}>
           {/* invest content */}
           {props.investmentTransactionsForFundsLoading ? (
             <Loading text="" />
@@ -92,22 +99,25 @@ const TransactionHistory = (props) => {
                     <img src={investBars} />
 
                     <div className="ml-5 mt-4 sm:mt-0">
-                      <p className="text-black text-base font-light">
+                      <p className="text-black text-xs font-light">
                         {num.fundName}
                       </p>
-                      <p style={{ color: "#999999" }} className="text-sm mt-2">
+                      <p style={{ color: "#999999" }} className="text-xs mt-2">
                         {num.description}
                       </p>
                     </div>
                   </div>
 
                   <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold font-light">
+                    <p className="text-black font-bold text-right font-light">
                       {num.currency === "NGN" ? naira : dollar}
                       {formatCurrency(num.transAmount)}
                     </p>
-                    <p style={{ color: "#999999" }} className="text-sm mt-2">
-                      {/* {moment(num.orderDate).format("MMM DD YYYY")} */}
+                    <p
+                      style={{ color: "#999999" }}
+                      className="text-sm text-right w-full mt-2"
+                    >
+                      {moment(parseInt(num.orderDate)).format("L")}
                     </p>
                   </div>
                 </div>
@@ -116,9 +126,7 @@ const TransactionHistory = (props) => {
           )}
         </div>
 
-        <div
-          style={{ overflowY: "scroll", display: activeOne ? "block" : "none" }}
-        >
+        <div style={{ display: activeOne ? "block" : "none" }}>
           {/* invest content */}
           {props.allFixedTrasactionsLoading ? (
             <Loading text="" />
@@ -137,18 +145,21 @@ const TransactionHistory = (props) => {
                         {num.portfolioLabel}
                       </p>
                       <p style={{ color: "#999999" }} className="text-sm mt-2">
-                        {num.label}
+                        {num.label.substring(0, 15)}
                       </p>
                     </div>
                   </div>
 
                   <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold font-light">
+                    <p className="text-black font-bold text-right font-light">
                       {num.currency === "NGN" ? naira : dollar}
                       {formatCurrency(num.faceValue)}
                     </p>
-                    <p style={{ color: "#999999" }} className="text-sm mt-2">
-                      {/* {moment(num.orderDate).format("MMM DD YYYY")} */}
+                    <p
+                      style={{ color: "#999999" }}
+                      className="text-sm text-right w-full mt-2"
+                    >
+                      {moment(num.startDate).format("L")}
                     </p>
                   </div>
                 </div>
@@ -159,7 +170,6 @@ const TransactionHistory = (props) => {
 
         <div
           style={{
-            overflowY: "scroll",
             display: activeThree ? "block" : "none",
           }}
         >
@@ -187,12 +197,15 @@ const TransactionHistory = (props) => {
                   </div>
 
                   <div className="mt-10 sm:mt-0">
-                    <p className="text-black font-bold font-light">
+                    <p className="text-black font-bold text-right font-light">
                       {num.currency === "NGN" ? naira : dollar}
                       {formatCurrency(num.faceValue)}
                     </p>
-                    <p style={{ color: "#999999" }} className="text-sm mt-2">
-                      {/* {moment(num.orderDate).format("MMM DD YYYY")} */}
+                    <p
+                      style={{ color: "#999999" }}
+                      className="text-sm text-right w-full mt-2"
+                    >
+                      {moment(num.orderDate).format("L")}
                     </p>
                   </div>
                 </div>

@@ -9,16 +9,16 @@ import { info } from "../../imageLinks";
 import moment, { duration } from "moment";
 import { Redirect } from "react-router-dom";
 import UploadIcon from "assets/img/uploadIcon.svg";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import InvestModal from "../investModal/InvestModal";
 import StartDropdown from "./StartDropdown";
-// import { createInvestment } from "../../../../state/slices/investments";
 import { connect, useDispatch } from "react-redux";
 import "./check.scss";
 
 function AddInvestmentForm(props) {
   const [modal, changeModal] = useState(false);
+  const history = useHistory();
   const [files, setFiles] = useState({
     file: "",
     imagePreviewUrl: "",
@@ -142,13 +142,12 @@ function AddInvestmentForm(props) {
 
   const investmentTbills = {
     investmentID: `${InvestmentName[0].investmentID}`,
-    investmentType: InvestmentName[0].investmentType,
+    investmentType: parseInt(InvestmentName[0].investmentType),
     treasuryBillTypeName: `${InvestmentName[0].name}`,
-    currency: "NGN",
     faceValue: parseInt(state.amount),
-    discountRate: 9.5,
+    discountRate: 9,
     startDate: `${date}`,
-    status: "pending",
+    status: "PENDING",
     tenor: `${InvestmentName[0].minimumDurationInDays}`,
     investmentImage: `${files.file.name}`,
   };
@@ -179,15 +178,27 @@ function AddInvestmentForm(props) {
 
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
-      <div className="flex flex-row  content-center sm:w-3/6 items-center  mb-10 ">
-        <p style={{ color: "#999999" }} className="text-xs ">
+      <div className="flex flex-row sm:w-8/12 items-center  mb-10 ">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs cursor-pointer"
+        >
           Investment
         </p>
         <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
         </p>
-        <p style={{ color: "#999999" }} className="text-xs ml-4 sm:ml-1">
+        <p
+          onClick={() => {
+            return history.push("/dashboard/investment/add-investment");
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs ml-4 sm:ml-1 cursor-pointer"
+        >
           Add new Investment
         </p>
         <p style={{ color: "#999999" }} className="text-xs mx-4">
@@ -243,16 +254,16 @@ function AddInvestmentForm(props) {
           {/* input content one end */}
 
           {/* input two */}
-          {/* {InvestmentName[0].investmentType == 1 ? null : ( */}
-          <fieldset className="mb-4 w-full px-6 mx-auto">
-            <label className="block text-xs font-medium">
-              How long would you want to invest
-            </label>
-            <div className="fieldset mt-2 w-full">
-              <StartDropdown myDuration={setDurationDays} />
-            </div>
-          </fieldset>
-          {/* )} */}
+          {InvestmentName[0].investmentType == 1 ? (
+            <fieldset className="mb-4 w-full px-6 mx-auto">
+              <label className="block text-xs font-medium">
+                How long would you want to invest
+              </label>
+              <div className="fieldset mt-2 w-full">
+                <StartDropdown myDuration={setDurationDays} />
+              </div>
+            </fieldset>
+          ) : null}
           {/* input two */}
 
           {/* input three */}
@@ -448,7 +459,7 @@ function AddInvestmentForm(props) {
             <p className="text-right text-black text-base">
               {moment(state.date === null ? Date.now() : state.date)
                 // .subtract(1, "months")
-                .format("MMM DD YYYY")}
+                .format("L")}
             </p>
           </div>
 
@@ -457,7 +468,7 @@ function AddInvestmentForm(props) {
           {/* nav buttons */}
           <div className="nav-buttons flex justify-center">
             <Link
-              to=""
+              to="/dashboard/investment/add-investment"
               className="mt-12 w-20 sm:w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
             >
               Back

@@ -5,6 +5,7 @@ import {
   withdram,
   terminate,
   fundInvestment,
+  investBars,
 } from "../../../imageLinks";
 import { formatCurrency } from "utils";
 import { connect, useDispatch } from "react-redux";
@@ -49,19 +50,32 @@ const ViewCard = (props) => {
 
   return (
     <div
-      style={{ borderRadius: "2px" }}
+      // style={{ borderRadius: "2px" }}
       className="card-padding card h-auto mt-6  card-black  flex-column  text-white"
     >
-      <div className="flex flex-row items-center content-center">
-        <img src={smallDollar} alt="wealth-buddy" />
-        <p className="text-white text-opacity-25 self-center pt-1 pl-3">
-          Total Investments
-        </p>
+      <div className="flex flex-row justify-between">
+        <div className="flex flex-row items-center content-center">
+          {/* <img src={smallDollar} alt="wealth-buddy" /> */}
+          <p className="text-white text-opacity-25 self-center pt-1 pl-3">
+            Total Investments
+          </p>
+        </div>
+        <img
+          src={investBars}
+          alt="wealth-buddy"
+          style={{
+            height: "45px",
+            width: "45px",
+            position: "relative",
+            top: "10px",
+          }}
+        />
       </div>
+
       <p className="text-gray-100 text-4xl font-bold pl-6">
         {`N${formatCurrency(
           setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
-            ? makeArray[0].interestRate.toFixed(2)
+            ? makeArray[0].reportCurrentValue.amount
             : setInvestmentTypeTwo.length == 0 &&
               setInvestmentTypeThree.length == 0
             ? makeArray[0].netInstrumentValue.amount
@@ -108,39 +122,74 @@ const ViewCard = (props) => {
       </div>
 
       <div className="flex flex-summary flex-col sm:flex-row justify-between items-center content-center pt-6">
-        <Link
-          to={{
-            pathname: "fund-investment/existing",
-            // investmentId: `${specificData[0].securityId}`,
-            investmentId: `${
-              setInvestmentTypeOne.length == 0 &&
-              setInvestmentTypeTwo.length == 0
-                ? makeArray[0].id
-                : setInvestmentTypeTwo.length == 0 &&
-                  setInvestmentTypeThree.length == 0
-                ? makeArray[0].instrumentId
-                : makeArray[0].securityId
-            }`,
-          }}
-          className="pl-2 flex items-center content-center"
-        >
-          <img src={fundInvestment} alt="wealth-buddy" className="pr-3" />
-          <p className="text-white text-base self-center">Fund Investment</p>
-        </Link>
-        <Link
-          to="/dashboard/investment/view-investment/withdraw"
-          className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
-        >
-          <img src={withblack} alt="wealth-buddy" className="pr-3" />
-          <p className="text-white text-base self-center">Withdraw</p>
-        </Link>
-        <Link
-          to="/dashboard/investment/view-investment/terminate"
-          className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
-        >
-          <img src={terminate} alt="wealth-buddy" className="pr-3" />
-          <p className="text-white text-base self-center">Terminate</p>
-        </Link>
+        {setInvestmentTypeOne.length == 0 &&
+        setInvestmentTypeThree.length == 0 ? (
+          <Link
+            to={{
+              pathname: "fund-investment/existing",
+              // investmentId: `${specificData[0].securityId}`,
+              investmentId: `${
+                setInvestmentTypeOne.length == 0 &&
+                setInvestmentTypeTwo.length == 0
+                  ? makeArray[0].id
+                  : setInvestmentTypeTwo.length == 0 &&
+                    setInvestmentTypeThree.length == 0
+                  ? makeArray[0].instrumentId
+                  : makeArray[0].securityId
+              }`,
+            }}
+            className="pl-2 flex items-center content-center"
+          >
+            <img src={fundInvestment} alt="wealth-buddy" className="pr-3" />
+            <p className="text-white text-base self-center">Fund Investment</p>
+          </Link>
+        ) : null}
+
+        {setInvestmentTypeOne.length == 0 &&
+        setInvestmentTypeThree.length == 0 ? (
+          <Link
+            to={{
+              pathname: "/dashboard/investment/view-investment/withdraw",
+              // investmentId: `${specificData[0].securityId}`,
+              investmentId: `${
+                setInvestmentTypeOne.length == 0 &&
+                setInvestmentTypeTwo.length == 0
+                  ? makeArray[0].id
+                  : setInvestmentTypeTwo.length == 0 &&
+                    setInvestmentTypeThree.length == 0
+                  ? makeArray[0].instrumentId
+                  : makeArray[0].securityId
+              }`,
+            }}
+            className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
+          >
+            <img src={withblack} alt="wealth-buddy" className="pr-3" />
+            <p className="text-white text-base self-center">Withdraw</p>
+          </Link>
+        ) : null}
+
+        {setInvestmentTypeOne.length == 0 &&
+        setInvestmentTypeThree.length == 0 ? null : (
+          <Link
+            to={{
+              pathname: "/dashboard/investment/view-investment/terminate",
+              // investmentId: `${specificData[0].securityId}`,
+              investmentId: `${
+                setInvestmentTypeOne.length == 0 &&
+                setInvestmentTypeTwo.length == 0
+                  ? makeArray[0].id
+                  : setInvestmentTypeTwo.length == 0 &&
+                    setInvestmentTypeThree.length == 0
+                  ? makeArray[0].instrumentId
+                  : makeArray[0].securityId
+              }`,
+            }}
+            className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
+          >
+            <img src={terminate} alt="wealth-buddy" className="pr-3" />
+            <p className="text-white text-base self-center">Terminate</p>
+          </Link>
+        )}
       </div>
     </div>
   );
