@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { formatCurrency } from "utils";
 import { SavingsFrequency } from "constants/enums";
 import { FaTimes } from "react-icons/fa";
+import { connect } from "react-redux";
 
 const Member = ({ email, removeItem }) => (
   <div className="w-full flex flex-row justify-between my-2">
@@ -54,6 +55,7 @@ const CreateSavings = ({
   initialFormValues,
   isVisible,
   onSubmit: handleOnSubmit,
+  customerDetails,
 }) => {
   const [memberEmail, setMemberEmail] = useState("");
 
@@ -372,7 +374,10 @@ const CreateSavings = ({
                                       type="button"
                                       className="flex-initial color-green text-center text-sm py-3 ml-5"
                                       onClick={() => {
-                                        if (!isEmail(memberEmail)) {
+                                        if (
+                                          !isEmail(memberEmail) ||
+                                          memberEmail === customerDetails.email
+                                        ) {
                                           return false;
                                         }
                                         arrayHelpers.push({
@@ -427,4 +432,8 @@ const CreateSavings = ({
   );
 };
 
-export default CreateSavings;
+const mapStateToProps = (state) => ({
+  customerDetails: state.account.data.customerDetails,
+});
+
+export default connect(mapStateToProps)(CreateSavings);
