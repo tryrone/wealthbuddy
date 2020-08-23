@@ -74,11 +74,11 @@ const ViewGroupSavings = ({ customerSavings }) => {
         })
       );
     } else {
-      // setState(
-      //     produce((draft) => {
-      //         draft.transactionsLoaded = true;
-      //     })
-      // );
+      setState(
+          produce((draft) => {
+              draft.transactionsLoaded = false;
+          })
+      );
     }
   };
 

@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from "react";
-import BankIcon from "assets/img/bankIcon.png";
 import Loading from "shared-components/Loading";
 import { Field, Form, Formik } from "formik";
 import { useHistory } from "react-router-dom";
@@ -7,6 +6,7 @@ import * as yup from "yup";
 import { resumeSession, logout } from "state/slices/account";
 import { connect, useDispatch } from "react-redux";
 import produce from "immer";
+import "./styles.scss";
 
 const LockedOutModal = ({ customerDetails }) => {
   const dispatch = useDispatch();
@@ -68,7 +68,7 @@ const LockedOutModal = ({ customerDetails }) => {
   };
 
   return (
-    <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
+    <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active blur-background">
       <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset empty-modal">
         <div className="flex flex-col w-full justify-center items-center mb-12 text-white">
           {customerDetails.picture !== null ? (
