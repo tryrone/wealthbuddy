@@ -76,8 +76,10 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
               <Loading text="" />
             </div>
           ) : (
-            `N${formatCurrency(
-              !investmentValuationData.totalPortfolioValue ? null : myTotalCost
+            `₦${formatCurrency(
+              !investmentValuationData.totalPortfolioValue
+                ? null
+                : myTotalCost.toFixed(2)
             )} `
           )}
         </p>
@@ -93,12 +95,12 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
                   <Loading text="" />
                 </div>
               ) : (
-                `N${formatCurrency(
-                  !investmentValuationData.commodityPerc
-                    ? null
-                    : fundReturns +
-                        investmentValuationData.totalFixedDepositIncome +
-                        investmentValuationData.totalTBillInterestValue
+                `+ ₦${formatCurrency(
+                  !investmentValuationData
+                  ? null
+                  : (fundReturns + 
+                      investmentValuationData.totalFixedDepositIncome +
+                        investmentValuationData.totalTBillInterestValue )
                 )}`
               )}
             </p>
@@ -108,7 +110,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
           />
           <div className="text-left card-margin--y ml-6 sm:ml-0 pr-6">
             <p className="text-base text-white text-opacity-25">
-              Today's returns
+              Total Returns
             </p>
             <p className="text-gray-100 text-2xl font-bold text-right">
               {investmentValuationLoading ? (
@@ -116,10 +118,14 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
                   <Loading text="" />
                 </div>
               ) : (
-                `${Math.sign(
-                  !investmentValuationData.totalPortfolioReturn
+                `₦${formatCurrency(
+                  !investmentValuationData
                     ? null
-                    : investmentValuationData.totalPortfolioReturn.toFixed(1)
+                    : (fundReturns + 
+                       investmentValuationData.totalFixedDepositIncome +
+                        investmentValuationData.totalTBillInterestValue +
+                        myTotalCost).toFixed(2)
+                    
                 )}`
               )}
             </p>

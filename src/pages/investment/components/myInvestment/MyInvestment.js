@@ -57,7 +57,7 @@ const MyInvestment = (props) => {
                   <div>
                     <p className="text-black text-sm">Current Value</p>
                     <p className="text-black mt-1 font-bold text-base">
-                      N {formatCurrency(item.currentValue.toFixed(2))}
+                      ₦{formatCurrency(item.currentValue.toFixed(2))}
                     </p>
                   </div>
 
@@ -113,7 +113,7 @@ const MyInvestment = (props) => {
                   <div>
                     <p className="text-black text-sm">Current Value</p>
                     <p className="text-black mt-1 font-bold text-base">
-                      N{" "}
+                      ₦{" "}
                       {formatCurrency(
                         item.netInstrumentValue.amount.toFixed(2)
                       )}
@@ -172,7 +172,7 @@ const MyInvestment = (props) => {
                   <div>
                     <p className="text-black text-sm">Current Value</p>
                     <p className="text-black mt-1 font-bold text-base">
-                      N {formatCurrency(item.valueAsAtDate.amount.toFixed(2))}
+                      ₦ {formatCurrency(item.valueAsAtDate.amount.toFixed(2))}
                     </p>
                   </div>
 

@@ -342,14 +342,43 @@ const TerminateInvestment = (props) => {
                 Total Returns
               </p>
               <p className="text-right text-black text-base">
-                ₦{" "}
-                {setInvestmentTypeOne.length == 0 &&
-                setInvestmentTypeTwo.length == 0
-                  ? makeArray[0].discount.amount
-                  : setInvestmentTypeTwo.length == 0 &&
-                    setInvestmentTypeThree.length == 0
-                  ? makeArray[0].interestLessTaxes.amount.toFixed(1)
-                  : makeArray[0].totalGainLoss}
+                {`₦${formatCurrency(
+                  setInvestmentTypeOne.length == 0 &&
+                    setInvestmentTypeTwo.length == 0
+                    ? (
+                        makeArray[0].reportCurrentValue.amount +
+                        makeArray[0].interestAccrued.amount
+                      ).toFixed(2)
+                    : setInvestmentTypeTwo.length == 0 &&
+                      setInvestmentTypeThree.length == 0
+                    ? (
+                        makeArray[0].interestLessTaxes.amount +
+                        makeArray[0].netInstrumentValue.amount
+                      ).toFixed(2)
+                    : (
+                        makeArray[0].totalGainLoss +
+                        makeArray[0].totalPurchaseCost
+                      ).toFixed(2)
+                )}`}
+              </p>
+            </div>
+            {/* item */}
+
+            {/* item */}
+            <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
+              <p className="text-left text-black font-bold  text-base">
+                Total Interest
+              </p>
+              <p className="text-right text-black text-base">
+                {`+ ₦${formatCurrency(
+                  setInvestmentTypeOne.length == 0 &&
+                    setInvestmentTypeTwo.length == 0
+                    ? makeArray[0].interestAccrued.amount.toFixed(2)
+                    : setInvestmentTypeTwo.length == 0 &&
+                      setInvestmentTypeThree.length == 0
+                    ? makeArray[0].interestLessTaxes.amount
+                    : makeArray[0].totalGainLoss
+                )} `}
               </p>
             </div>
             {/* item */}
@@ -367,7 +396,7 @@ const TerminateInvestment = (props) => {
                 days
               </p>
             </div>
-            <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
+            {/* <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
               <p className="text-left text-black font-bold text-base">
                 Returns
               </p>
@@ -382,7 +411,7 @@ const TerminateInvestment = (props) => {
                 )}
                 %
               </p>
-            </div>
+            </div> */}
             {/* image text content end */}
             {/* image text content end */}
           </div>

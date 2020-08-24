@@ -437,32 +437,42 @@ const WithdrawInvestment = (props) => {
               Total Returns
             </p>
             <p className="text-right text-black text-base">
-              ₦{" "}
-              {setInvestmentTypeOne.length == 0 &&
-              setInvestmentTypeTwo.length == 0
-                ? formatCurrency(makeArray[0].amountPaid.amount)
-                : setInvestmentTypeTwo.length == 0 &&
-                  setInvestmentTypeThree.length == 0
-                ? formatCurrency(makeArray[0].principalBalance.amount)
-                : formatCurrency(makeArray[0].totalGainLoss)}
+              {`₦${formatCurrency(
+                setInvestmentTypeOne.length == 0 &&
+                  setInvestmentTypeTwo.length == 0
+                  ? (
+                      makeArray[0].reportCurrentValue.amount +
+                      makeArray[0].interestAccrued.amount
+                    ).toFixed(2)
+                  : setInvestmentTypeTwo.length == 0 &&
+                    setInvestmentTypeThree.length == 0
+                  ? (
+                      makeArray[0].interestLessTaxes.amount +
+                      makeArray[0].netInstrumentValue.amount
+                    ).toFixed(2)
+                  : (
+                      makeArray[0].totalGainLoss +
+                      makeArray[0].totalPurchaseCost
+                    ).toFixed(2)
+              )}`}
             </p>
           </div>
-          {/* <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
+          <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
             <p className="text-left text-black text-opacity-25 text-base">
-              Interests
+              Total Interests
             </p>
             <p className="text-right text-black text-base">
-              ₦{" "}
-              {setInvestmentTypeOne.length == 0 &&
-              setInvestmentTypeTwo.length == 0
-                ? makeArray[0].netReturn.amount
-                : setInvestmentTypeTwo.length == 0 &&
-                  setInvestmentTypeThree.length == 0
-                ? makeArray[0].grossInterest.amount
-                : makeArray[0].totalGainLoss}{" "}
-              %
+              {`+ ₦${formatCurrency(
+                setInvestmentTypeOne.length == 0 &&
+                  setInvestmentTypeTwo.length == 0
+                  ? makeArray[0].interestAccrued.amount.toFixed(2)
+                  : setInvestmentTypeTwo.length == 0 &&
+                    setInvestmentTypeThree.length == 0
+                  ? makeArray[0].interestLessTaxes.amount
+                  : makeArray[0].totalGainLoss
+              )} `}
             </p>
-          </div> */}
+          </div>
           <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
             <p className="text-left text-black text-opacity-25 text-base">
               Maturity Date

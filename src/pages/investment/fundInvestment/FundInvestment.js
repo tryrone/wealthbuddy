@@ -327,7 +327,7 @@ const FundInvestment = (props) => {
           <div className="nav-buttons flex justify-center">
             <Link
               className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
-              to="/dashboard"
+              to="/dashboard/investment"
             >
               Back
             </Link>
