@@ -211,6 +211,7 @@ const CreateSavings = ({
                 handleChange,
                 handleBlur,
                 values,
+                errors,
               }) => {
                 return (
                   <Form
@@ -390,7 +391,10 @@ const CreateSavings = ({
                             Group members
                           </div>
                           <div className="p-5 rounded border border-solid border-gray-200">
-                            <FieldArray name="participants">
+                            <FieldArray
+                              name="participants"
+                              validateOnChange={false}
+                            >
                               {(arrayHelpers) => (
                                 <Fragment>
                                   {values.participants.map((member, index) => (
