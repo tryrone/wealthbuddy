@@ -2,7 +2,7 @@ import React from "react";
 import DashboardSummary from "./DashboardInner/DashboardSummary";
 import DashboardSavings from "./DashboardInner/DashboardSavings";
 import DashboardAnalysis from "./DashboardInner/DashboardAnalysis";
-import SummaryFeeds from "../components/DashboardInner/SummaryFeeds";
+import UpdateFeeds from "./UpdateFeeds";
 
 const DashboardHome = () => {
   return (
@@ -14,8 +14,8 @@ const DashboardHome = () => {
           <DashboardSavings />
           <DashboardAnalysis />
         </div>
-        <div className="flex home-card card summary-feeds">
-          <SummaryFeeds />
+        <div className="flex flex-col home-card card summary-feeds card-padding has-scrollBar">
+          <UpdateFeeds />
         </div>
       </div>
     </div>

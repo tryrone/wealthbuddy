@@ -2,6 +2,10 @@
   "name": "wealthbuddy-frontend",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.4.1"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^4.2.4",
@@ -24,9 +28,11 @@
     "react-code-input": "^3.9.0",
     "react-dom": "^16.13.1",
     "react-icons": "^3.10.0",
+    "react-idle-timer": "^4.3.6",
     "react-images-upload": "^1.2.8",
     "react-lines-ellipsis": "^0.14.1",
     "react-lottie": "^1.2.3",
+    "react-modal": "^3.11.2",
     "react-modern-calendar-datepicker": "^3.1.6",
     "react-number-format": "^4.4.1",
     "react-paystack": "^3.0.1",
@@ -53,7 +59,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "build:css": "postcss src/styles/app.css -o src/styles/index.css",
-    "watch:css": "postcss src/styles/app.css -o src/styles/index.css"
+    "watch:css": "postcss src/styles/app.css -o src/styles/index.css",
+    "deploy": "surge"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -80,6 +87,7 @@
     "postcss-nested": "^4.2.3",
     "postcss-simple-vars": "^5.0.2",
     "react-context-devtool": "^2.0.0",
+    "surge": "^0.21.6",
     "tailwindcss": "^1.4.6"
   }
 }

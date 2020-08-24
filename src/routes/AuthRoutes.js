@@ -5,8 +5,7 @@ import SignUpPersonalDetails from "../pages/auth/SignUp/PersonalDetails";
 import SignUpConfirmEmail from "../pages/auth/SignUp/ConfirmEmail";
 import SignUpSetPassword from "../pages/auth/SignUp/SetPassword";
 import SignUpSuccess from "../pages/auth/SignUp/Success";
-import ForgotPassword from "../pages/auth/ForgotPassword/ForgotPassword";
-import ForgotPasswordSuccess from "../pages/auth/ForgotPassword/ForgotPassTwo";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 
 const AuthRoutes = () => {
     let { path } = useRouteMatch();
@@ -19,7 +18,6 @@ const AuthRoutes = () => {
             <Route exact path={`${path}/sign-up/set-password`} component={SignUpSetPassword} />
             <Route exact path={`${path}/sign-up/success`} component={SignUpSuccess} />
             <Route exact path={`${path}/forgot-password`} component={ForgotPassword} />
-            <Route exact path={`${path}/forgot-password/success`} component={ForgotPasswordSuccess} />
         </Switch>
     );
 }

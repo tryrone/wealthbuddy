@@ -1,5 +1,5 @@
 import axios from "services/api";
-import urls from "../../constants/urls";
+import urls from "constants/urls";
 
 export const getCustomerSavings = (data) => {
   return axios.post(urls.getCustomerSavings, data);
@@ -18,4 +18,7 @@ export const getAllSavings = (savingsId) => {
 export const getSavingsConfiguration = (data) => {
   return axios.get(urls.getSavingsConfiguration, data);
 };
- 
+
+export const getPendingSavingsInvitations = () => {
+  return axios.post(urls.getPendingSavingsInvitations);
+};

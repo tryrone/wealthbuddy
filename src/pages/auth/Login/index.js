@@ -88,7 +88,7 @@ const Login = ({ history, loading, error, dispatchLogin }) => {
 
                       <fieldset className="w-full justify-between flex items-center">
                         <Link
-                          to="/forgot-password"
+                          to="/auth/forgot-password"
                           className="forgot-password text-gray-500 "
                         >
                           Forgot Password?

@@ -7,7 +7,6 @@ import AddBvnModal from "./components/AddBvnModal";
 import "./style.css";
 import produce from "immer";
 import AddBvnSuccessModal from "./components/AddBvnSuccessModal";
-import { addBvn } from "state/slices/account";
 import moment from "moment";
 import PaystackModal from "./components/PaystackModal";
 import AddCardSuccessModal from "./components/AddCardSuccessModal";
@@ -15,6 +14,7 @@ import {
   startFundWalletWithNewCard,
   verifyFundWalletWithNewCard,
 } from "state/slices/cards";
+import { addBvn } from "state/slices/account";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { setIsCardAddedToTrue } from "state/slices/account";
 
@@ -104,7 +104,7 @@ const NewUser = ({ account }) => {
       })
     );
 
-    const resultAction = await dispatch(startAddBvnAction(payload));
+    const resultAction = await dispatch(addBvn(payload));
 
     if (addBvn.fulfilled.match(resultAction)) {
       setState(
@@ -209,7 +209,7 @@ const NewUser = ({ account }) => {
               className={`flex quick-action font-medium justify-start items-center ${
                 isBVNAdded ? `card-success` : `card-pending`
               }`}
-              onClick={addBvn}
+              onClick={startAddBvnAction}
             >
               <img src={Card} alt="" />
               <span>Set up your BVN</span>
@@ -263,9 +263,4 @@ const mapStateToProps = (state) => ({
   account: state.account.data,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchVerifyFundWalletWithNewCard: (payload, meta) =>
-    dispatch(verifyFundWalletWithNewCard(payload, meta)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(NewUser);
+export default connect(mapStateToProps)(NewUser);

@@ -1,0 +1,14 @@
+.text-left-f {
+    text-align: left !important;
+}
+
+.image-footer {
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.pretty.p-switch .state {
+    position: initial;
+    height: 100%;
+}

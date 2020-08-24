@@ -34,7 +34,16 @@ const Index = ({
   };
 
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
+
+  const canBeCancelled =
+    savings.type !== SavingsType.GroupChallengeSavings &&
+    savings.type !== SavingsType.GroupContributorySavings;
+
   const canBeWithdrawn =
+    savings.type !== SavingsType.GroupContributorySavings &&
+    savings.type !== SavingsType.GroupChallengeSavings &&
+    savings.type === SavingsType.GroupTargetSavings &&
+    savings.isAdmin === true &&
     new Date(savings.estimatedTerminationDate) > new Date() &&
     savings.amountSaved !== 0;
 
@@ -181,8 +190,9 @@ const Index = ({
             className={classNames({
               "w-40 border-b text-center bg-white cta-del leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm": true,
               loading: startCancelLoading,
+              opaque: !canBeCancelled,
             })}
-            onClick={startCancelSavings}
+            onClick={canBeCancelled ? startCancelSavings : null}
           >
             Cancel <span className="loader" />
           </div>
