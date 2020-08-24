@@ -70,7 +70,7 @@ const ViewDetails = (props) => {
         </div>
 
         {/* item */}
-        {setInvestmentTypeTwo.length == 0 &&
+        {/* {setInvestmentTypeTwo.length == 0 &&
         setInvestmentTypeThree.length == 0 ? null : (
           <div className="flex flex-row mt-8 content-center justify-between items-center">
             <p className="font-bold text-black text-base sm:text-sm">Symbol</p>
@@ -81,7 +81,7 @@ const ViewDetails = (props) => {
                 : makeArray[0].symbol}
             </p>
           </div>
-        )}
+        )} */}
         {/* item */}
 
         {/* item */}
@@ -91,13 +91,15 @@ const ViewDetails = (props) => {
           </p>
           <p className="font-hairline text-right text-black text-base sm:text-sm">
             ₦{" "}
-            {setInvestmentTypeOne.length == 0 &&
-            setInvestmentTypeTwo.length == 0
-              ? makeArray[0].reportFaceValue.amount
-              : setInvestmentTypeTwo.length == 0 &&
-                setInvestmentTypeThree.length == 0
-              ? makeArray[0].principalBalance.amount
-              : makeArray[0].totalPurchaseCost}
+            {formatCurrency(
+              setInvestmentTypeOne.length == 0 &&
+                setInvestmentTypeTwo.length == 0
+                ? makeArray[0].reportFaceValue.amount
+                : setInvestmentTypeTwo.length == 0 &&
+                  setInvestmentTypeThree.length == 0
+                ? makeArray[0].principalBalance.amount
+                : makeArray[0].totalPurchaseCost
+            )}
           </p>
         </div>
         {/* item */}
@@ -140,14 +142,23 @@ const ViewDetails = (props) => {
             Total Returns
           </p>
           <p className="font-hairline text-right text-black text-base sm:text-sm">
-            ₦{" "}
-            {setInvestmentTypeOne.length == 0 &&
-            setInvestmentTypeTwo.length == 0
-              ? makeArray[0].discount.amount
-              : setInvestmentTypeTwo.length == 0 &&
-                setInvestmentTypeThree.length == 0
-              ? makeArray[0].interestLessTaxes.amount.toFixed(1)
-              : makeArray[0].totalGainLoss}
+            {`₦${formatCurrency(
+              setInvestmentTypeOne.length == 0 &&
+                setInvestmentTypeTwo.length == 0
+                ? (
+                    makeArray[0].reportCurrentValue.amount +
+                    makeArray[0].interestAccrued.amount
+                  ).toFixed(2)
+                : setInvestmentTypeTwo.length == 0 &&
+                  setInvestmentTypeThree.length == 0
+                ? (
+                    makeArray[0].interestLessTaxes.amount +
+                    makeArray[0].netInstrumentValue.amount
+                  ).toFixed(2)
+                : (
+                    makeArray[0].totalGainLoss + makeArray[0].totalPurchaseCost
+                  ).toFixed(2)
+            )}`}
           </p>
         </div>
         {/* item */}

@@ -3,32 +3,65 @@ import NumberFormat from "react-number-format";
 import { Link } from "react-router-dom";
 import UploadIcon from "assets/img/uploadIcon.svg";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
-import * as Yup from "yup";
+import * as yup from "yup";
 import { formatCurrency } from "utils";
 import { SavingsFrequency } from "constants/enums";
-import { FaTimes } from "react-icons/fa";
+import { FaArrowUp, FaArrowDown, FaTimes } from "react-icons/fa";
 import { connect } from "react-redux";
 
-const Member = ({ email, removeItem }) => (
+yup.addMethod(yup.array, "unique", function (message, mapper = (a) => a) {
+  return this.test("unique", message, function (list) {
+    return list.length === new Set(list.map(mapper)).size;
+  });
+});
+
+const Member = ({ member, removeItem, moveUp, moveDown }) => (
   <div className="w-full flex flex-row justify-between my-2">
     <div className="flex flex-grow">
       <div className="flex-initial text-gray-700 text-center text-sm bg-teal-100 rounded-full p-3 mr-2">
-        {email.toString().substring(0, 2).toUpperCase()}
+        {member.email.toString().substring(0, 2).toUpperCase()}
       </div>
       <div className="flex-initial text-gray-700 text-center text-sm py-3 mr-2 member-email truncate">
-        {email}
+        {member.email}
       </div>
     </div>
-    <a
-      href="#"
-      onClick={(e) => {
-        e.preventDefault();
-        removeItem && removeItem();
-      }}
-      className="text-red-300 text-center text-sm py-3"
-    >
-      <FaTimes />
-    </a>
+
+    <div className="flex flex-row">
+      {member.isModifiable && (
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            removeItem && removeItem();
+          }}
+          className="text-red-300 text-center text-sm py-3 mx-1"
+        >
+          <FaTimes />
+        </a>
+      )}
+
+      <a
+        href="#"
+        onClick={(e) => {
+          e.preventDefault();
+          moveUp && moveUp();
+        }}
+        className="text-gray-200 text-center text-sm py-3 mx-1"
+      >
+        <FaArrowUp />
+      </a>
+
+      <a
+        href="#"
+        onClick={(e) => {
+          e.preventDefault();
+          moveDown && moveDown();
+        }}
+        className="text-gray-200 text-center text-sm py-3 mx-1"
+      >
+        <FaArrowDown />
+      </a>
+    </div>
   </div>
 );
 
@@ -70,9 +103,15 @@ const CreateSavings = ({
   const maximumDurationInWeeks = maximumDurationInDays / 7;
   const maximumDurationInMonths = maximumDurationInDays / 30;
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().label("Name").required(),
-    amount: Yup.number()
+  const initialValues = {
+    ...initialFormValues,
+    participants: [{ email: customerDetails.email, isModifiable: false }],
+  };
+
+  const validationSchema = yup.object().shape({
+    name: yup.string().label("Name").required(),
+    amount: yup
+      .number()
       .min(
         minimumAmount,
         `You can only save a minimum of ₦${formatCurrency(minimumAmount)}`
@@ -83,13 +122,15 @@ const CreateSavings = ({
       )
       .label("Amount")
       .required(),
-    frequency: Yup.string().label("Schedule").required(),
-    duration: Yup.number()
+    frequency: yup.string().label("Schedule").required(),
+    duration: yup
+      .number()
       .label("Duration")
       .required()
       .when("frequency", {
         is: SavingsFrequency.Daily.toString(),
-        then: Yup.number()
+        then: yup
+          .number()
           .min(
             minimumDurationInDays,
             `You can only save for a minimum of ${minimumDurationInDays} Days`
@@ -101,7 +142,8 @@ const CreateSavings = ({
       })
       .when("frequency", {
         is: SavingsFrequency.Weekly.toString(),
-        then: Yup.number()
+        then: yup
+          .number()
           .min(
             minimumDurationInWeeks,
             `You can only save for a minimum of ${minimumDurationInWeeks} weeks`
@@ -113,7 +155,8 @@ const CreateSavings = ({
       })
       .when("frequency", {
         is: SavingsFrequency.Monthly.toString(),
-        then: Yup.number()
+        then: yup
+          .number()
           .min(
             minimumDurationInMonths,
             `You can only save for a minimum of ${minimumDurationInDays} month`
@@ -123,12 +166,16 @@ const CreateSavings = ({
             `You can only save for a maximum of ${maximumDurationInDays} month`
           ),
       }),
-    participants: Yup.array()
+    participants: yup
+      .array()
       .of(
-        Yup.object().shape({
-          email: Yup.string().email().required("Required"),
+        yup.object().shape({
+          email: yup.string().email().required("Required"),
+          isModifiable: yup.boolean(),
         })
       )
+      .unique("Duplicate member email", (a) => a.email)
+      .min(2, "You must have at least 2 participants")
       .required("No members added to savings invite"),
   });
 
@@ -152,7 +199,7 @@ const CreateSavings = ({
         <div className="flex-grow flex justify-center items-start fadeIn">
           <div className="create-saving--overview overview-full w-full">
             <Formik
-              initialValues={initialFormValues}
+              initialValues={initialValues}
               validationSchema={validationSchema}
               validateOnMount={true}
               onSubmit={handleOnSubmit}
@@ -349,10 +396,23 @@ const CreateSavings = ({
                                   {values.participants.map((member, index) => (
                                     <div key={index}>
                                       <Member
-                                        email={values.participants[index].email}
+                                        member={values.participants[index]}
                                         removeItem={() =>
                                           arrayHelpers.remove(index)
                                         }
+                                        moveUp={() => {
+                                          if (index !== 0) {
+                                            arrayHelpers.move(index, index - 1);
+                                          }
+                                        }}
+                                        moveDown={() => {
+                                          if (
+                                            index !==
+                                            values.participants.length - 1
+                                          ) {
+                                            arrayHelpers.move(index, index + 1);
+                                          }
+                                        }}
                                       />
                                     </div>
                                   ))}
@@ -382,6 +442,7 @@ const CreateSavings = ({
                                         }
                                         arrayHelpers.push({
                                           email: memberEmail,
+                                          isModifiable: true,
                                         });
                                         setMemberEmail("");
                                       }}
@@ -395,11 +456,8 @@ const CreateSavings = ({
 
                             <ErrorMessage
                               name="participants"
-                              render={(errorMessage) => (
-                                <p className="label-error--text mt-3 text-xs color-red font-medium text-center bg-red-200">
-                                  {errorMessage}
-                                </p>
-                              )}
+                              component="p"
+                              className="label-error--text mt-3 text-xs color-red font-medium text-center bg-red-200"
                             />
                           </div>
                         </div>

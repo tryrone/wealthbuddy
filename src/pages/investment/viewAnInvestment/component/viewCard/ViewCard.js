@@ -73,7 +73,7 @@ const ViewCard = (props) => {
       </div>
 
       <p className="text-gray-100 text-4xl font-bold pl-6">
-        {`N${formatCurrency(
+        {`₦${formatCurrency(
           setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
             ? makeArray[0].reportCurrentValue.amount
             : setInvestmentTypeTwo.length == 0 &&
@@ -89,14 +89,14 @@ const ViewCard = (props) => {
             Total Interest
           </p>
           <p className="ext-gray-100 text-2xl font-bold">
-            {`N${formatCurrency(
+            {`+ ₦${formatCurrency(
               setInvestmentTypeOne.length == 0 &&
                 setInvestmentTypeTwo.length == 0
-                ? makeArray[0].reportAccruedInterest.amount.toFixed(2)
+                ? makeArray[0].interestAccrued.amount.toFixed(2)
                 : setInvestmentTypeTwo.length == 0 &&
                   setInvestmentTypeThree.length == 0
-                ? makeArray[0].grossInterest.amount
-                : makeArray[0].currentYield
+                ? makeArray[0].interestLessTaxes.amount
+                : makeArray[0].totalGainLoss
             )} `}
           </p>
         </div>
@@ -105,18 +105,22 @@ const ViewCard = (props) => {
         />
         <div className="text-left card-margin--y ml-6 sm:ml-0 pr-6">
           <p className="text-base text-white text-opacity-25">
-            Today's returns
+            Total Returns
           </p>
           <p className="text-gray-100 text-2xl font-bold text-right">
-            {Math.sign(
+            {`₦${formatCurrency(
               setInvestmentTypeOne.length == 0 &&
                 setInvestmentTypeTwo.length == 0
-                ? makeArray[0].reportAccruedInterest.amount.toFixed(2)
+                ? (makeArray[0].reportCurrentValue.amount + 
+                  makeArray[0].interestAccrued.amount).toFixed(2)
                 : setInvestmentTypeTwo.length == 0 &&
                   setInvestmentTypeThree.length == 0
-                ? makeArray[0].interestRate.toFixed(2)
-                : makeArray[0].totalGainLossPercent.toFixed(2)
-            )}
+                ? (makeArray[0].interestLessTaxes.amount + 
+                  makeArray[0].netInstrumentValue.amount).toFixed(2)
+                : (makeArray[0].totalGainLoss
+                  +makeArray[0].totalPurchaseCost).toFixed(2)
+            )}`
+            }
           </p>
         </div>
       </div>
