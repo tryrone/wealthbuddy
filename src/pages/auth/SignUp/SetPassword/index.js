@@ -140,8 +140,8 @@ const SignUpSetPassword = ({
 };
 
 const mapStateToProps = (state) => ({
-  loading: state.createUser.login,
-  error: state.createUser.login,
+  loading: state.createUser.loading,
+  error: state.createUser.error,
   signUpParams: state.signUpParams,
 });
 

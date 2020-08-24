@@ -54,10 +54,6 @@ const ViewGroupSavings = ({ customerSavings }) => {
     getGroupSavings().then(undefined);
   }, [savings]);
 
-  useEffect(() => {
-    getGroupSavings().then(undefined);
-  }, []);
-
   const getGroupSavings = async () => {
     const resultAction = await dispatch(fetchGroupSavingsById(savings));
     if (fetchGroupSavingsById.fulfilled.match(resultAction)) {
