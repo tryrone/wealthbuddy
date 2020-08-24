@@ -122,12 +122,13 @@ const WithdrawInvestment = (props) => {
           {" "}
           {">>"}{" "}
         </p>
-        <p
-          onClick={() => {
-            return history.push("/dashboard/investment");
+        <Link
+          to={{
+            pathname: "/dashboard/investment/view-investment",
+            investmentId: makeArray[0].securityId,
           }}
           style={{ color: "#999999" }}
-          className="text-xs cursor-pointer ml-4 sm:ml-1"
+          className="text-xs ml-4 sm:ml-1"
         >
           {setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
             ? makeArray[0].typeLabel
@@ -135,7 +136,7 @@ const WithdrawInvestment = (props) => {
               setInvestmentTypeThree.length == 0
             ? makeArray[0].productLabel
             : makeArray[0].companyName}
-        </p>
+        </Link>
         <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
@@ -343,7 +344,7 @@ const WithdrawInvestment = (props) => {
             >
               Back
             </button>
-            {/* <button className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm ${(checkEmpty(state) === true || status) && "opaque"}`} onClick={(checkEmpty(state) === false && !status) && confirm}> */}
+
             <button
               disabled={amount == null ? true : false}
               // onClick={()=>{changeDisplayOne(false)}}
