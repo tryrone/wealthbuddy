@@ -22,7 +22,6 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
     if (totSum === 0) {
       dispatch(getInvestmentValuation());
     }
-    console.log(investmentValuationData, "gang gang");
   }, []);
 
   const handleChange = (checked) => {
@@ -97,10 +96,10 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
               ) : (
                 `+ ₦${formatCurrency(
                   !investmentValuationData
-                  ? null
-                  : (fundReturns + 
-                      investmentValuationData.totalFixedDepositIncome +
-                        investmentValuationData.totalTBillInterestValue )
+                    ? null
+                    : fundReturns +
+                        investmentValuationData.totalFixedDepositIncome +
+                        investmentValuationData.totalTBillInterestValue
                 )}`
               )}
             </p>
@@ -121,11 +120,12 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
                 `₦${formatCurrency(
                   !investmentValuationData
                     ? null
-                    : (fundReturns + 
-                       investmentValuationData.totalFixedDepositIncome +
+                    : (
+                        fundReturns +
+                        investmentValuationData.totalFixedDepositIncome +
                         investmentValuationData.totalTBillInterestValue +
-                        myTotalCost).toFixed(2)
-                    
+                        myTotalCost
+                      ).toFixed(2)
                 )}`
               )}
             </p>

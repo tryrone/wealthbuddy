@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 import successDoc from "../../../../../assets/img/success.svg";
 import { connect, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { fundInvestment } from "../../../../../state/slices/investments";
 import FailedDoc from "../../../../../assets/img/failedDoc.svg";
 import Loading from "shared-components/Loading";
@@ -68,14 +68,15 @@ const FundSuccess = (props) => {
                 {props.text}
               </p>
 
-              <button
-                onClick={() => {
-                  refresh();
-                }}
+              <Link
+                to="/dashboard/investment"
+                // onClick={() => {
+                //   refresh();
+                // }}
                 className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
               >
                 Done
-              </button>
+              </Link>
             </div>
           </Fragment>
         )}

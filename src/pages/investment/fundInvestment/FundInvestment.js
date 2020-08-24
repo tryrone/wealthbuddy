@@ -126,9 +126,7 @@ const FundInvestment = (props) => {
             {/* dropsown for list of investments */}
             {/* dropsown for list of investments */}
             <div className="fieldset w-11/12 mt-2 w-full">
-              {props.investmentValuationLoading ? (
-                <Loading text="" />
-              ) : (
+              {props.investmentValuationLoading ? null : (
                 <React.Fragment>
                   <div className="fund-dropdown">
                     {/* <div className="select-option" onClick={() => toggleList()}> */}

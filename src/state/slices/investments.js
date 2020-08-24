@@ -90,8 +90,19 @@ export const withdrawFunds = createAsyncThunk(
 export const terminateFunds = createAsyncThunk(
   "investment/terminateFunds",
   async (props) => {
-    const response = await Investment.terminateTbills(props);
+    let requestTerminate;
+    if (props.typeId == 2) {
+      requestTerminate = Investment.terminateFixed;
+    } else if (props.typeId == 3) {
+      requestTerminate = Investment.terminateTbills;
+    }
+    delete props.typeId;
+
+    const response = await requestTerminate(props);
     return response.data;
+
+    // const response = await Investment.terminateTbills(props);
+    // return response.data;
   }
 );
 

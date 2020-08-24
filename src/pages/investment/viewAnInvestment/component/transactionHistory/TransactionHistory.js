@@ -100,10 +100,10 @@ const TransactionHistory = (props) => {
 
                     <div className="ml-5 mt-4 sm:mt-0">
                       <p className="text-black text-xs font-light">
-                        {num.fundName}
+                        {num.description}
                       </p>
                       <p style={{ color: "#999999" }} className="text-xs mt-2">
-                        {num.description}
+                        {num.transType}
                       </p>
                     </div>
                   </div>
