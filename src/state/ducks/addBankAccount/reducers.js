@@ -8,7 +8,12 @@ import {
 const initialState = {
   loading: false,
   error: null,
-  status: null
+  data: {
+    accountNumber: "",
+    accountName: "",
+    id: "",
+    bankId: "",
+  }
 };
 
 export default function rootReducer(baseState = initialState, action) {
@@ -17,20 +22,21 @@ export default function rootReducer(baseState = initialState, action) {
       return produce(baseState, (draftState) => {
         draftState.loading = true;
         draftState.error = null;
+        draftState.data = initialState.data;
       });
     }
     case ADD_BANK_ACCOUNT_SUCCESS: {
       return produce(baseState, (draftState) => {
         draftState.loading = false;
         draftState.error = null;
-        draftState.status = action.payload;
+        draftState.data = action.payload;
       });
     }
     case ADD_BANK_ACCOUNT_FAIL: {
       return produce(baseState, (draftState) => {
         draftState.loading = false;
-        draftState.status = initialState.status;
         draftState.error = action.payload;
+        draftState.data = initialState.data;
       });
     }
     default:

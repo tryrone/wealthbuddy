@@ -23,7 +23,7 @@ export const fundWalletWithExistingCard = (payload, meta) => ({
   type: FUND_WALLET_WITH_EXISTING_CARD,
   payload,
   meta,
-});
+}); 
 
 export default {
   fundWalletWithExistingCardStart,

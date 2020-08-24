@@ -1,78 +1,86 @@
 import axios from 'services/api';
 import urls from "../../constants/urls";
 
-export const login = (params) => {
-  return axios.post(urls.login, params);
+export const login = (data) => {
+  return axios.post(urls.login, data);
 };
 
-export const createUser = (params) => {
-  return axios.post(urls.createUser, params);
+export const createUser = (data) => {
+  return axios.post(urls.createUser, data);
 };
 
-export const startVerifyEmail = (params) => {
-  return axios.post(urls.startVerifyEmail, params);
+export const startVerifyEmail = (data) => {
+  return axios.post(urls.startVerifyEmail, data);
 };
 
-export const completeVerifyEmail = (params) => {
-  return axios.post(urls.completeVerifyEmail, params);
+export const completeVerifyEmail = (data) => {
+  return axios.post(urls.completeVerifyEmail, data);
 };
 
-export const addBvn = (params) => {
-  return axios.post(urls.addBvn, params);
+export const addBvn = (data) => {
+  return axios.post(urls.addBvn, data);
 };
 
-export const startFundNewCard = (params) => {
-  return axios.post(urls.startFundNewCard, params);
+export const startFundWalletWithNewCard = (data) => {
+  return axios.post(urls.startFundNewCard, data);
 };
 
-export const verifyFundNewCard = (params) => {
-  return axios.post(urls.verifyFundNewCard, params);
+export const verifyFundWalletWithNewCard = (data) => {
+  return axios.post(urls.verifyFundNewCard, data);
 };
 
-export const getCustomerCards = (params) => {
-  return axios.post(urls.getCustomerCards, params);
+export const getCustomerCards = (data) => {
+  return axios.post(urls.getCustomerCards, data);
 };
 
-export const getDashboard = (params) => {
-  return axios.get(urls.getDashboard, params);
+export const getDashboard = (data) => {
+  return axios.get(urls.getDashboard, data);
 };
 
-export const uploadProfilePicture = (params) => {
-  return axios.post(urls.uploadProfilePicture, params);
+export const uploadProfilePicture = (data) => {
+  return axios.post(urls.uploadProfilePicture, data);
 };
 
-export const uploadUtilityBill = (params) => {
-  return axios.post(urls.uploadUtilityBill, params);
+export const uploadUtilityBill = (data) => {
+  return axios.post(urls.uploadUtilityBill, data);
 };
 
-export const uploadIdentification = (params) => {
-  return axios.post(urls.uploadIdentification, params);
+export const uploadIdentification = (data) => {
+  return axios.post(urls.uploadIdentification, data);
 };
 
-export const fundWalletWithExistingCard = (params) => {
-  return axios.post(urls.fundWalletWithExistingCard, params);
+export const fundWalletWithExistingCard = (data) => {
+  return axios.post(urls.fundWalletWithExistingCard, data);
 };
 
-export const resetPassword = (params) => {
-  return axios.post(urls.resetPassword, params);
+export const resetPassword = (data) => {
+  return axios.post(urls.resetPassword, data);
 };
 
-export const changePassword = (params) => {
-  return axios.post(urls.changePassword, params);
+export const changePassword = (data) => {
+  return axios.post(urls.changePassword, data);
 };
 
-export const saveProfile = (params) => {
-  return axios.post(urls.saveProfile, params);
+export const updateProfile = (data) => {
+  return axios.post(urls.updateProfile, data);
 };
 
-export const getBankList = (params) => {
-  return axios.get(urls.getBankList, params);
+export const getBankList = (data) => {
+  return axios.get(urls.getBankList, data);
 };
 
-export const getUserBanks = (params) => {
-  return axios.post(urls.getUserBanks, params);
+export const getUserBanks = (data) => {
+  return axios.post(urls.getUserBanks, data);
 };
 
-export const addBankAccount = (params) => {
-  return axios.post(urls.addBankAccount, params);
+export const addBankAccount = (data) => {
+  return axios.post(urls.addBankAccount, data);
+};
+
+export const sendToken = (data) => {
+  return axios.post(urls.sendToken, data);
+};
+
+export const verifyAddBankAccount = (data) => {
+  return axios.post(urls.verifyAddBankAccount, data);
 };

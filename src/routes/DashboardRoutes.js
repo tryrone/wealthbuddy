@@ -1,38 +1,100 @@
-import React from "react";
+import React, { Fragment, useEffect } from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import MobileNav from "../pages/dashboard/components/MobileNav";
-import NavBar from "../pages/dashboard/components/NavBar";
-import Header from "../pages/dashboard/components/Header";
-import DashboardHome from "../pages/dashboard/components/DashboardHome";
-import Savings from "../pages/savings";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import { getApplicationBootstrapData } from "state/ducks/applicationBootstrap/actions";
+import MobileNav from "pages/dashboard/components/MobileNav";
+import NavBar from "pages/dashboard/components/NavBar";
+import Header from "pages/dashboard/components/Header";
+import Loader from "shared-components/Loader";
+import DashboardHome from "pages/dashboard/components/DashboardHome";
+import Savings from "routes/SavingsRoutes";
+import Wallet from "pages/Wallet";
+import Investment from "pages/investment";
+import Settings from "pages/settings";
+import classNames from "classnames";
+import NavigationProvider from "providers/NavigationProvider";
+import NewUser from "../pages/NewUser";
+import LockedOutModal from "../pages/auth/components/LockedOutModal";
+import { timeOutAccountSession } from "../state/slices/account";
+import IdleTimer from "react-idle-timer";
 
-const mobileMenu = false;
+const DashboardRoutes = ({
+  account,
+  applicationBootstrapLoading,
+  applicationBootstrapComplete,
+  dispatchApplicationBootstrapData,
+}) => {
+  const { path } = useRouteMatch();
+  const dispatch = useDispatch();
 
-const DashboardRoutes = ({ user }) => {
-  let { path } = useRouteMatch();
+  useEffect(() => {
+    dispatchApplicationBootstrapData();
+  }, []);
+
+  const userIsNew = !(account.isBVNAdded && account.isCardAdded);
+
+  const timeOutUserSession = () => {
+    dispatch(timeOutAccountSession());
+  };
 
   return (
-    <div className="flex">
-      {mobileMenu && <MobileNav />}
-      <NavBar />
-      <section
-        className={`flex-grow ${
-          !(user.isBVNAdded && user.isCardAdded) ? "new-user" : "existing-entry"
-        }`}
-      >
-        <Header />
-        <Switch>
-          <Route exact path={`${path}/`} component={DashboardHome} />
-          <Route path={`${path}/savings`} component={Savings} />
-        </Switch>
-      </section>
-    </div>
+    <Fragment>
+      {!applicationBootstrapLoading || applicationBootstrapComplete ? (
+        <NavigationProvider>
+          <IdleTimer
+            timeout={1000 * 300}
+            onIdle={timeOutUserSession}
+            debounce={250}
+          />
+
+          <div className="flex">
+            <MobileNav />
+            <NavBar />
+            <section
+              className={classNames({
+                "flex-grow": true,
+                "new-user": userIsNew,
+                "existing-entry": !userIsNew,
+              })}
+            >
+              <Header />
+              {userIsNew ? (
+                <NewUser />
+              ) : (
+                <Fragment>
+                  <Switch>
+                    <Route exact path={`${path}`} component={DashboardHome} />
+                    <Route path={`${path}/savings`} component={Savings} />
+                    <Route path={`${path}/investment`} component={Investment} />
+                    <Route exact path={`${path}/wallet`} component={Wallet} />
+                    <Route
+                      exact
+                      path={`${path}/settings`}
+                      component={Settings}
+                    />
+                  </Switch>
+                  {account.sessionTimedOut && <LockedOutModal />}
+                </Fragment>
+              )}
+            </section>
+          </div>
+        </NavigationProvider>
+      ) : (
+        <Loader />
+      )}
+    </Fragment>
   );
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user.data,
+  account: state.account.data,
+  applicationBootstrapLoading: state.applicationBootstrap.loading,
+  applicationBootstrapComplete: state.applicationBootstrap.completed,
 });
 
-export default connect(mapStateToProps)(DashboardRoutes);
+const mapDispatchToProps = (dispatch) => ({
+  dispatchApplicationBootstrapData: () =>
+    dispatch(getApplicationBootstrapData()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardRoutes);

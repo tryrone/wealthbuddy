@@ -1,22 +1,22 @@
-import axios from 'services/api';
+import axios from "services/api";
 import urls from "../../constants/urls";
 
-export const createPersonalTargetSaving = (params) => {
-  return axios.post(urls.createPersonalSaving, params);
+export const createPersonalTargetSavings = (data) => {
+  return axios.post(urls.createPersonalSaving, data);
 };
 
-export const startPersonalTargetWithdrawal = (params) => {
-  return axios.post(urls.startPersonalWithdrawal, params);
+export const startPersonalTargetWithdrawal = (data) => {
+  return axios.post(urls.startPersonalWithdrawal, data);
 };
 
-export const completePersonalTargetWithdrawal = (params) => {
-  return axios.post(urls.completePersonalWithdrawal, params);
+export const completePersonalTargetWithdrawal = (data) => {
+  return axios.post(urls.completePersonalWithdrawal, data);
 };
 
-export const startCancelPersonalTargetSavings = (params) => {
-  return axios.post(urls.startCancelPersonalSavings, params);
+export const startCancelPersonalTargetSavings = (savingsID) => {
+  return axios.post(urls.startCancelPersonalSavings, { savingsID });
 };
 
-export const completeCancelPersonalTargetSavings = (params) => {
-  return axios.post(urls.completeCancelPersonalSavings, params);
+export const completeCancelPersonalTargetSavings = (savingsID) => {
+  return axios.post(urls.completeCancelPersonalSavings, { savingsID });
 };

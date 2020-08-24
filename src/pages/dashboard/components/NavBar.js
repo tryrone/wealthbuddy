@@ -1,45 +1,18 @@
-import React from "react";
-import DashboardIcon from "static/dashboard.svg";
+import React, { useContext } from "react";
 import LetterMark from "static/lettermark.svg";
 import Logo from "static/white_logo.svg";
-import SavingsIcon from "static/savings.svg";
-import InvestmentIcon from "static/investment.png";
-import WalletIcon from "static/wallet.svg";
-import SettingsIcon from "static/settings.svg";
 import { NavLink } from "react-router-dom";
+import LegalIcon from "shared-components/svgs/LegalIcon";
 import Logout from "shared-components/svgs/Logout";
 import NavShape from "shared-components/svgs/NavShape";
-import LegalIcon from "shared-components/svgs/LegalIcon";
-import { logout } from "../../../state/ducks/user/actions";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import classNames from "classnames";
+import NavigationContext from "contexts/NavigationContext";
+import navbarMenuItems from "config/navbarMenuItems";
 
-const menuItems = [
-  {
-    name: "Savings",
-    icon: SavingsIcon,
-    path: "/dashboard/savings",
-  },
-  {
-    name: "Investment",
-    icon: InvestmentIcon,
-    path: "/dashboard/investment",
-  },
-  {
-    name: "Wallet",
-    icon: WalletIcon,
-    path: "/dashboard/wallet",
-  },
-  {
-    name: "Settings",
-    icon: SettingsIcon,
-    path: "/dashboard/settings",
-  },
-];
-
-const NavMenuItem = ({ name, icon, path }) => (
-  <li className=" ">
-    <NavLink to={path} className="flex items-center px-6 py-4">
+const NavMenuItem = ({ name, icon, path, exact }) => (
+  <li>
+    <NavLink exact={exact} to={path} className="flex items-center px-6 py-4">
       <i className="inline-block w-8 mr-2">
         <img src={icon} alt="" />
       </i>
@@ -48,20 +21,17 @@ const NavMenuItem = ({ name, icon, path }) => (
   </li>
 );
 
-const NavBar = ({ user, dispatchLogout }) => {
-  const history = useHistory();
-  const { customerDetails } = user;
+const NavBar = ({ account }) => {
+  const { logoutUser } = useContext(NavigationContext);
+  const { customerDetails } = account;
+  const userIsNew = !(account.isBVNAdded && account.isCardAdded);
 
   return (
     <nav className="w-72 desktop-nav h-screen flex flex-col bg-wb-primary justify-between items-center pt-20 pb-5">
       <div className="flex flex-col w-full justify-center items-center mb-12 text-white">
         <figure className="flex flex-col items-center justify-center">
           {customerDetails.picture !== null ? (
-            <img
-              src={customerDetails.picture}
-              alt={`Wealth Buddy Investments`}
-              className="mb-4"
-            />
+            <img src={customerDetails.picture} alt="" className="mb-4" />
           ) : (
             <div className="user-no--picture mb-4">
               {`${customerDetails.otherNames.charAt(
@@ -75,23 +45,12 @@ const NavBar = ({ user, dispatchLogout }) => {
         </figure>
       </div>
       <ul
-        className={`flex-grow navIcons w-full text-white ${
-          !(user.isBVNAdded && user.isCardAdded) ? "menu-inactive" : ""
-        }`}
+        className={classNames({
+          "flex-grow navIcons w-full text-white": true,
+          "menu-inactive": userIsNew,
+        })}
       >
-        <li className="cursor-pointer">
-          <NavLink
-            to={`/dashboard`}
-            exact
-            className="flex items-center px-6 py-4"
-          >
-            <i className="inline-block w-8 mr-2">
-              <img src={DashboardIcon} alt="" />
-            </i>
-            <span>{`Dashboard`}</span>
-          </NavLink>
-        </li>
-        {menuItems.map((item) => (
+        {navbarMenuItems.map((item) => (
           <NavMenuItem key={item.name} {...item} />
         ))}
       </ul>
@@ -102,10 +61,7 @@ const NavBar = ({ user, dispatchLogout }) => {
           </span>
           Legal
         </li>
-        <li
-          className="nav-extra"
-          onClick={() => dispatchLogout(null, { history })}
-        >
+        <li className="nav-extra" onClick={logoutUser}>
           <span className="extra-icon">
             <Logout />
           </span>
@@ -124,11 +80,7 @@ const NavBar = ({ user, dispatchLogout }) => {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user.data,
+  account: state.account.data,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchLogout: (payload, meta) => dispatch(logout(payload, meta)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps)(NavBar);

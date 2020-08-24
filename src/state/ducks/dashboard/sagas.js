@@ -5,18 +5,18 @@ import {
   getDashboardDataSuccess,
   getDashboardDataFail,
 } from "./actions";
-import { Customer } from "services/network";
+import { Customer } from "services/network"; 
 
 function* operation() {
-  yield put(getDashboardDataStart());
+  yield put(getDashboardDataStart()); 
 
   try {
-    const response = yield call(Customer.getDashboard);
+    const response = yield call(Customer.getDashboard); 
     let { data } = response.data;
     yield put(getDashboardDataSuccess(data));
   } catch (error) {
     yield put(getDashboardDataFail(error));
-  }
+  } 
 }
 
 export default function* saga() {

@@ -23,7 +23,7 @@ export default function rootReducer(baseState = initialState, action) {
       return produce(baseState, (draftState) => {
         draftState.loading = false;
         draftState.error = null;
-        draftState.data = action.payload;
+        draftState.data = action.payload || [];
       });
     }
     case GET_CUSTOMER_SAVINGS_DATA_FAIL: {

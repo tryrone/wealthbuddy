@@ -4,7 +4,9 @@
       <w>axios</w>
       <w>crossorigin</w>
       <w>formik</w>
+      <w>paystack</w>
       <w>persistor</w>
+      <w>tranx</w>
     </words>
   </dictionary>
 </component>

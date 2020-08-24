@@ -25,6 +25,11 @@ a {
   color: inherit;
 }
 
+.cheching{
+  border:1px solid #8CB13D;
+  background-color: #8cb13d31;
+}
+
 .wealth-buddy--cta {
   min-height: 46px;
   font-weight: 500;
@@ -1606,7 +1611,6 @@ form.create-card {
 
 .min-wallet {
   height: calc(40rem - 0px) !important;
-  overflow: hidden;
 }
 
 .min-screen {
@@ -2381,7 +2385,7 @@ fieldset {
 
 .id-modal .personalize--card {
   height: 150px;
-  margin-bottom: 45px;
+  margin-bottom: 0;
 }
 
 .id-modal .buddy-image--drop img {
@@ -3270,6 +3274,7 @@ nav .user-no--picture {
   position: absolute;
   right: 20px;
   top: 25px;
+  cursor: pointer;
 }
 
 .user-no--picture {
@@ -3284,6 +3289,11 @@ nav .user-no--picture {
 
 .empty-modal svg {
   width: 170px !important;
+  height: auto;
+}
+
+.empty-modal .closeModal svg {
+  width: 24px !important;
   height: auto;
 }
 
@@ -3526,3 +3536,4 @@ nav .user-no--picture {
 .account-content {
   flex-wrap: wrap;
 }
+

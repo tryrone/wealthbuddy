@@ -1,6 +1,5 @@
 import { fork } from "redux-saga/effects";
 import { apiSagas } from "./ducks/api";
-import { userSagas } from "./ducks/user";
 import { createUserSagas } from "./ducks/createUser";
 import { dashboardSagas } from "./ducks/dashboard";
 import { customerSavingsSagas } from "./ducks/customerSavings";
@@ -13,12 +12,17 @@ import { fundWalletWithExistingCardSagas } from "./ducks/fundWalletWithExistingC
 import { addBankAccountSagas } from "./ducks/addBankAccount";
 import { startVerifyEmailSagas } from "./ducks/startVerifyEmail";
 import { completeVerifyEmailSagas } from "./ducks/completeVerifyEmail";
-import { addBvnSagas } from "./ducks/addBvn";
 import { saveProfileSagas } from "./ducks/saveProfile";
+import { startFundWalletWithNewCardSagas } from "./ducks/startFundWalletWithNewCard";
+import { verifyFundWalletWithNewCardSagas } from "./ducks/verifyFundWalletWithNewCard";
+import { applicationBootstrapSagas } from "./ducks/applicationBootstrap";
+import { sendTokenSagas } from "./ducks/sendToken";
+import { verifyAddBankAccountSagas } from "./ducks/verifyAddBankAccount";
+import { getAllSavingsSagas } from "./ducks/getAllSavings";
+import { configureInvestmentSagas } from "./ducks/configureInvestment";
 
 export default function* rootSaga() {
   yield fork(apiSagas);
-  yield fork(userSagas);
   yield fork(createUserSagas);
   yield fork(dashboardSagas);
   yield fork(customerSavingsSagas);
@@ -31,6 +35,12 @@ export default function* rootSaga() {
   yield fork(addBankAccountSagas);
   yield fork(startVerifyEmailSagas);
   yield fork(completeVerifyEmailSagas);
-  yield fork(addBvnSagas);
   yield fork(saveProfileSagas);
+  yield fork(startFundWalletWithNewCardSagas);
+  yield fork(verifyFundWalletWithNewCardSagas);
+  yield fork(applicationBootstrapSagas);
+  yield fork(sendTokenSagas);
+  yield fork(verifyAddBankAccountSagas);
+  yield fork(getAllSavingsSagas);
+  yield fork(configureInvestmentSagas);
 }

@@ -1,19 +1,24 @@
 import axios from "axios";
 import store from "state/store";
+import { logout } from "../state/slices/account";
 
 const transformResponse = (data) => {
-    let response = JSON.parse(data);
+  let response = data;
 
-    if (response.status === false) {
-        throw Error(response.message);
-    }
+  try {
+    response = JSON.parse(data);
+  } catch (e) {}
 
-    return response;
+  if (typeof response === "object" && response.status === false) {
+    throw Error(response.message);
+  }
+
+  return response;
 };
 
 const Axios = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
-  timeout: 15 * 1000,
+  timeout: 120 * 1000,
   credentials: "same-origin",
   headers: {
     "Content-Type": "application/json",
@@ -27,7 +32,7 @@ const Axios = axios.create({
 Axios.interceptors.request.use(
   async (config) => {
     const state = store.getState();
-    const { jwtToken } = state.user.data;
+    const { jwtToken } = state.account.data;
 
     if (jwtToken) {
       config.headers.Authorization = `Bearer ${jwtToken}`;
@@ -51,9 +56,11 @@ Axios.interceptors.response.use(
   },
 
   async (error) => {
-    if (error.response && error.response.status === 403) {
-      localStorage.removeItem("persist:root");
+    if (error.message.includes("401")) {
+      store.dispatch(logout());
+      sessionStorage.removeItem("persist:root");
     }
+
     return Promise.reject(error);
   }
 );

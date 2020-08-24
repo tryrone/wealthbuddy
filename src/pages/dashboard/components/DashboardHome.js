@@ -1,26 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import DashboardSummary from "./DashboardInner/DashboardSummary";
 import DashboardSavings from "./DashboardInner/DashboardSavings";
 import DashboardAnalysis from "./DashboardInner/DashboardAnalysis";
-import SummaryFeeds from "../components/DashboardInner/SummaryFeeds";
-import { connect } from "react-redux";
-import { getDashboardData } from "state/ducks/dashboard/actions";
-import { getCustomerSavingsData } from "state/ducks/customerSavings/actions";
-import { getSavingsConfigurationData } from "state/ducks/savingsConfiguration/actions";
-import { getBankAccountsData } from "state/ducks/bankAccounts/actions";
-import {getCardsData} from "state/ducks/cards/actions";
-import {getRecentSavingTransactionsData} from "../../../state/ducks/recentSavingTransactions/actions";
+import UpdateFeeds from "./UpdateFeeds";
 
-const DashboardHome = (props) => {
-  useEffect(() => {
-    props.dispatchGetDashboardData();
-    props.dispatchGetCardsData();
-    props.dispatchGetCustomerSavingsData();
-    props.dispatchGetRecentSavingTransactionsData();
-    props.dispatchGetSavingsConfigurationData();
-    props.dispatchGetBankAccountsData();
-  });
-
+const DashboardHome = () => {
   return (
     <div className="px-12 flex flex-col fadeIn">
       <h1 className="text-4xl mb-6 font-medium">Overview</h1>
@@ -30,26 +14,12 @@ const DashboardHome = (props) => {
           <DashboardSavings />
           <DashboardAnalysis />
         </div>
-        <div className="flex home-card card summary-feeds">
-          <SummaryFeeds />
+        <div className="flex flex-col home-card card summary-feeds card-padding has-scrollBar">
+          <UpdateFeeds />
         </div>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  loading: state.user.loginLoading,
-  error: state.user.loginError,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  dispatchGetDashboardData: () => dispatch(getDashboardData()),
-  dispatchGetCardsData: () => dispatch(getCardsData()),
-  dispatchGetCustomerSavingsData: () => dispatch(getCustomerSavingsData()),
-  dispatchGetRecentSavingTransactionsData: () => dispatch(getRecentSavingTransactionsData()),
-  dispatchGetSavingsConfigurationData: () => dispatch(getSavingsConfigurationData()),
-  dispatchGetBankAccountsData: () => dispatch(getBankAccountsData()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardHome);
+export default DashboardHome;

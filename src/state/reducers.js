@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import userReducer from "./ducks/user";
 import createUserReducer from "./ducks/createUser";
 import signUpParamsReducer from "./ducks/signUpParams";
 import dashboardReducer from "./ducks/dashboard";
@@ -13,11 +12,19 @@ import fundWalletWithExistingCardReducer from "./ducks/fundWalletWithExistingCar
 import addBankAccountReducer from "./ducks/addBankAccount";
 import startVerifyEmailReducer from "./ducks/startVerifyEmail";
 import completeVerifyEmailReducer from "./ducks/completeVerifyEmail";
-import addBvnReducer from "./ducks/addBvn";
 import saveProfileReducer from "./ducks/saveProfile";
+import startFundWalletWithNewCardReducer from "./ducks/startFundWalletWithNewCard";
+import verifyFundWalletWithNewCardReducer from "./ducks/verifyFundWalletWithNewCard";
+import applicationBootstrapReducer from "./ducks/applicationBootstrap";
+import sendTokenReducer from "./ducks/sendToken";
+import verifyAddBankAccountReducer from "./ducks/verifyAddBankAccount";
+import getAllSavingsReducer from "./ducks/getAllSavings";
+import accountReducer from "./slices/account";
+import savingsReducer from "./slices/savings";
+import cardsSlice from "./slices/cards";
+import investmentsReducer from "./slices/investments";
 
 export default combineReducers({
-  user: userReducer,
   createUser: createUserReducer,
   signUpParams: signUpParamsReducer,
   dashboard: dashboardReducer,
@@ -31,6 +38,15 @@ export default combineReducers({
   addBankAccount: addBankAccountReducer,
   startVerifyEmail: startVerifyEmailReducer,
   completeVerifyEmail: completeVerifyEmailReducer,
-  addBvn: addBvnReducer,
   saveProfile: saveProfileReducer,
+  startFundWalletWithNewCard: startFundWalletWithNewCardReducer,
+  verifyFundWalletWithNewCard: verifyFundWalletWithNewCardReducer,
+  applicationBootstrap: applicationBootstrapReducer,
+  sendToken: sendTokenReducer,
+  verifyAddBankAccount: verifyAddBankAccountReducer,
+  getAllSavings: getAllSavingsReducer,
+  account: accountReducer,
+  savings: savingsReducer,
+  cardsSlice: cardsSlice,
+  investments: investmentsReducer,
 });
