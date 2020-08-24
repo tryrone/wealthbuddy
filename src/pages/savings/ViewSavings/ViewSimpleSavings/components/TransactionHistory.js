@@ -3,7 +3,7 @@ import { getDesiredTime } from "utilities";
 import personalSavings from "assets/img/personalIcon.png";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import EmptyCard from "shared-components/empty/empty-card";
+import EmptyCard from "shared-components/EmptyCard";
 import { formatCurrency } from "utils";
 
 const ViewSavings = ({ groupedTransactions }) => (

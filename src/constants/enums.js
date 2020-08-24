@@ -13,6 +13,12 @@ export const SavingsType = {
   GroupContributorySavings: 6,
 };
 
+export const GroupSavingsType = {
+  GroupTargetSavings: 1,
+  GroupChallengeSavings: 2,
+  GroupContributorySavings: 3,
+};
+
 export const InvestmentType = {
   MutualFunds: 1,
   FixedDeposits: 2,
@@ -35,5 +41,12 @@ export const GroupSavingsStatus = {
 export const GroupInvitationStatus = {
   Pending: 1,
   Accepted: 2,
-  Declined: 3
+  Declined: 3,
+};
+
+export const DocumentApprovalStatus = {
+  Submitted: 1,
+  Approved: 2,
+  Rejected: 3,
+  NotUploaded: 4,
 }

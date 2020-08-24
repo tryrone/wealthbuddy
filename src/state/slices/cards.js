@@ -4,6 +4,7 @@ import { getDashboardData } from "../ducks/dashboard/actions";
 import { getRecentSavingTransactionsData } from "../ducks/recentSavingTransactions/actions";
 import { getCustomerSavingsData } from "../ducks/customerSavings/actions";
 import { setIsCardAddedToTrue } from "./account";
+import {getCardsData} from "../ducks/cards/actions";
 
 const initialState = {
   verifyFundWalletWithNewCardLoading: false,
@@ -27,6 +28,7 @@ export const verifyFundWalletWithNewCard = createAsyncThunk(
     thunkAPI.dispatch(getDashboardData());
     thunkAPI.dispatch(getCustomerSavingsData());
     thunkAPI.dispatch(getRecentSavingTransactionsData());
+    thunkAPI.dispatch(getCardsData());
 
     return response.data.data;
   }

@@ -2385,7 +2385,7 @@ fieldset {
 
 .id-modal .personalize--card {
   height: 150px;
-  margin-bottom: 45px;
+  margin-bottom: 0;
 }
 
 .id-modal .buddy-image--drop img {

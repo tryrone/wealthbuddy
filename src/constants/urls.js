@@ -7,6 +7,7 @@ const urls = {
   startFundNewCard: "/api/Customer/StartFundWalletWithNewCard",
   verifyFundNewCard: "/api/Customer/VerifyFundWalletWithNewCard",
   getCustomerSavings: "/api/Savings/getcustomersavings",
+  getPendingSavingsInvitations: "/api/Savings/getpendinginvitations",
   getCustomerCards: "/api/Customer/getcards",
   createPersonalSaving:
     "/api/PersonalTargetSavings/CreateNewPersonalTargetSavings",
@@ -14,19 +15,26 @@ const urls = {
   createFixedFlexible: "/api/FixedFlexibleSavings/createfixedflexiblesavings",
   getDashboard: "/api/Customer/dashboard",
   getSavingsTransactions: "/api/Savings/getrecentsavingstransactions",
-  //Group Challenge Savings
-  createGroupChallengeSavings: "/api/GroupChallengeSavings/creategroupsavings",
-  getGroupChallengeSavingsById:
-    "/api/GroupChallengeSavings/getgroupsavings/:id",
-  startGroupChallengeSavings: "/api/GroupChallengeSavings/startgroupsavings",
-  startGroupChallengeWithdraw: "/api/GroupChallengeSavings/startwithdraw",
-  completeGroupChallengeWithdraw: "/api/GroupChallengeSavings/completewithdraw",
   //Group Target Savings
   createGroupTargetSavings: "/api/GroupTargetSavings/creategroupsavings",
   getGroupTargetSavingsById: "/api/GroupTargetSavings/getgroupsavings/:id",
   startGroupTargetSavings: "/api/GroupTargetSavings/startgroupsavings",
   startGroupTargetWithdraw: "/api/GroupTargetSavings/startwithdraw",
   completeGroupTargetWithdraw: "/api/GroupTargetSavings/completewithdraw",
+  treatGroupTargetInvitation: "/api/GroupTargetSavings/treatgroupsavingsinvitation",
+  //Group Challenge Savings
+  createGroupChallengeSavings: "/api/GroupChallengeSavings/creategroupsavings",
+  getGroupChallengeSavingsById: "/api/GroupChallengeSavings/getgroupsavings/:id",
+  startGroupChallengeSavings: "/api/GroupChallengeSavings/startgroupsavings",
+  startGroupChallengeWithdraw: "/api/GroupChallengeSavings/startwithdraw",
+  completeGroupChallengeWithdraw: "/api/GroupChallengeSavings/completewithdraw",
+  treatGroupChallengeInvitation: "/api/GroupChallengeSavings/treatgroupsavingsinvitation",
+  //Group Contributory Savings
+  createGroupContributorySavings: "/api/GroupContributorySavings/creategroupsavings",
+  getGroupContributorySavingsById: "/api/GroupContributorySavings/getgroupsavings/:id",
+  startGroupContributorySavings: "/api/GroupContributorySavings/startgroupsavings",
+  treatGroupContributoryInvitation: "/api/GroupContributorySavings/treatgroupsavingsinvitation",
+  //
   uploadProfilePicture: "/api/Customer/UploadProfilePicture",
   uploadUtilityBill: "/api/Customer/UploadUtilityBill",
   uploadIdentification: "/api/Customer/UploadIdentification",
@@ -48,7 +56,7 @@ const urls = {
   startCancelFixedLockSavings: "/api/FixedLockSavings/startcancel",
   completeCancelFixedLockSavings: "/api/FixedLockSavings/completecancel",
   getSavingsConfiguration: "/api/Savings/getsavingsconfiguration",
-  saveProfile: "/api/Customer/updateothercustomerinfo",
+  updateProfile: "/api/Customer/updateothercustomerinfo",
   getBankList: "/api/Customer/getbanklist",
   getUserBanks: "/api/Customer/getbankaccount",
   addBankAccount: "/api/Customer/AddBankAccount",

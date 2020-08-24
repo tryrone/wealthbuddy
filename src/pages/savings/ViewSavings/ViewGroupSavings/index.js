@@ -57,23 +57,24 @@ const ViewGroupSavings = ({ customerSavings }) => {
   const getGroupSavings = async () => {
     const resultAction = await dispatch(fetchGroupSavingsById(savings));
     if (fetchGroupSavingsById.fulfilled.match(resultAction)) {
-      const groupSavings = unwrapResult(resultAction);
+      const groupSavingsResponse = unwrapResult(resultAction);
+      groupSavingsResponse.groupSavings.type = savings.savingsType;
+
       setState(
         produce((draft) => {
           draft.transactionsLoaded = true;
-          draft.groupSavings = groupSavings.groupSavings;
-          draft.groupSavings.type = savings.savingsType;
-          draft.groupMembers = groupSavings.groupMembers || [];
-          draft.invitations = groupSavings.invitations || [];
-          draft.savingsTransactions = groupSavings.transactions || [];
+          draft.groupSavings = groupSavingsResponse.groupSavings;
+          draft.groupMembers = groupSavingsResponse.groupMembers || [];
+          draft.invitations = groupSavingsResponse.invitations || [];
+          draft.savingsTransactions = groupSavingsResponse.transactions || [];
         })
       );
     } else {
-      // setState(
-      //     produce((draft) => {
-      //         draft.transactionsLoaded = true;
-      //     })
-      // );
+      setState(
+          produce((draft) => {
+              draft.transactionsLoaded = false;
+          })
+      );
     }
   };
 

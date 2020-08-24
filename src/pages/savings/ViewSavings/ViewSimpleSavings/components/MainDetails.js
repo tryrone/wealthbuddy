@@ -1,6 +1,6 @@
 import React from "react";
 import { arrowIcon } from "assets/exports";
-import { formatMoney, getHumanDate } from "utilities";
+import { getHumanDate } from "utilities";
 import personalSavings from "assets/img/personalIcon.png";
 import fixedSavings from "assets/img/fixedIcon.png";
 import groupSavings from "assets/img/groupIcon.png";
@@ -143,7 +143,7 @@ const MainDetails = ({
             <h5 className="savings-inner--subtitle text-gray-300 text-xs">
               Contribution
             </h5>
-            <h1 className="mt-3 font-medium">{`₦${formatMoney(
+            <h1 className="mt-3 font-medium">{`₦${formatCurrency(
               savings.installmentalContribution
             )}/${
               savings.schedule === 2
@@ -185,7 +185,7 @@ const MainDetails = ({
               <h5 className="savings-inner--subtitle text-gray-300 text-xs">
                 Interest Earned
               </h5>
-              <h1 className="mt-3 font-medium color-primary">{`₦${formatMoney(
+              <h1 className="mt-3 font-medium color-primary">{`₦${formatCurrency(
                 savings.totalInterestEarned
               )}`}</h1>
             </div>

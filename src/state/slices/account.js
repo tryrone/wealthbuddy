@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Customer } from "services/network";
+import { DocumentApprovalStatus } from "../../constants/enums";
 
 const initialState = {
   loginLoading: false,
@@ -64,6 +65,7 @@ const initialState = {
       approvalStatus: null,
     },
     jwtToken: null,
+    sessionTimedOut: false,
   },
 };
 
@@ -73,6 +75,57 @@ export const login = createAsyncThunk("account/login", async (payload) => {
   data.jwtToken = response.headers["token"];
   return data;
 });
+
+export const resumeSession = createAsyncThunk(
+  "account/resumeSession",
+  async (payload) => {
+    const response = await Customer.login(payload);
+    const data = response.data.data;
+    data.sessionTimedOut = false;
+    data.jwtToken = response.headers["token"];
+    return data;
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "account/resetPassword",
+  async (payload) => {
+    const response = await Customer.resetPassword(payload);
+    return response.data.data;
+  }
+);
+
+export const uploadProfilePicture = createAsyncThunk(
+  "account/uploadProfilePicture",
+  async (payload) => {
+    const response = await Customer.uploadProfilePicture(payload);
+    return response.data.data;
+  }
+);
+
+export const updateProfile = createAsyncThunk(
+  "account/updateProfile",
+  async (payload) => {
+    const response = await Customer.updateProfile(payload);
+    return response.data.data;
+  }
+);
+
+export const uploadIdentification = createAsyncThunk(
+  "account/uploadIdentification",
+  async (payload) => {
+    const response = await Customer.uploadIdentification(payload);
+    return response.data.data;
+  }
+);
+
+export const uploadUtilityBill = createAsyncThunk(
+  "account/uploadUtilityBill",
+  async (payload) => {
+    const response = await Customer.uploadUtilityBill(payload);
+    return response.data.data;
+  }
+);
 
 export const addBvn = createAsyncThunk("account/addBvn", async (payload) => {
   const response = await Customer.addBvn(payload);
@@ -110,6 +163,10 @@ const accountSlice = createSlice({
     setIsCardAddedToTrue: (state) => {
       state.data.isCardAdded = true;
     },
+    timeOutAccountSession: (state) => {
+      state.data.jwtToken = null;
+      state.data.sessionTimedOut = true;
+    },
     logout: (state) => {
       state.data = initialState.data;
     },
@@ -128,6 +185,9 @@ const accountSlice = createSlice({
       state.data = initialState.data;
       state.loginLoading = false;
       state.loginError = action.error.message || action.error;
+    },
+    [resumeSession.fulfilled]: (state, action) => {
+      state.data = action.payload;
     },
     [addBvn.pending]: (state) => {
       state.addBvnLoading = true;
@@ -178,9 +238,23 @@ const accountSlice = createSlice({
       state.sendBankAccountTokenLoading = false;
       state.sendBankAccountTokenError = action.error;
     },
+    [uploadIdentification.fulfilled]: (state) => {
+      state.data.meansOfIdentificationUploadStatus.isUploaded = true;
+      state.data.meansOfIdentificationUploadStatus.approvalStatus =
+        DocumentApprovalStatus.Submitted;
+    },
+    [uploadUtilityBill.fulfilled]: (state) => {
+      state.data.utilityBillUploadStatus.isUploaded = true;
+      state.data.utilityBillUploadStatus.approvalStatus =
+        DocumentApprovalStatus.Submitted;
+    },
   },
 });
 
-export const { setIsCardAddedToTrue, logout } = accountSlice.actions;
+export const {
+  setIsCardAddedToTrue,
+  timeOutAccountSession,
+  logout,
+} = accountSlice.actions;
 
 export default accountSlice.reducer;

@@ -1,16 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-  Savings,
   PersonalTargetSavings,
   FixedFlexibleSavings,
   FixedLockSavings,
+  Savings,
   GroupTargetSavings,
   GroupChallengeSavings,
+  GroupContributorySavings,
 } from "services/network";
 import { getDashboardData } from "../ducks/dashboard/actions";
 import { getRecentSavingTransactionsData } from "../ducks/recentSavingTransactions/actions";
 import { getCustomerSavingsData } from "../ducks/customerSavings/actions";
 import { SavingsType } from "constants/enums";
+import { GroupSavingsType } from "../../constants/enums";
 
 const initialState = {
   createPersonalTargetSavingsLoading: false,
@@ -34,6 +36,9 @@ const initialState = {
   completeWithdrawLoading: false,
   completeWithdrawError: null,
   completeWithdrawEntities: [],
+  pendingInvitationsLoading: false,
+  pendingInvitationsError: null,
+  pendingInvitationsEntities: [],
 };
 
 export const createPersonalTargetSavings = createAsyncThunk(
@@ -42,6 +47,32 @@ export const createPersonalTargetSavings = createAsyncThunk(
     const response = await PersonalTargetSavings.createPersonalTargetSavings(
       payload
     );
+
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
+
+    return response.data.data;
+  }
+);
+
+export const createFixedLockSavings = createAsyncThunk(
+  "savings/createFixedLockSavings",
+  async (payload, thunkAPI) => {
+    const response = await FixedLockSavings.createFixedLock(payload);
+
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
+
+    return response.data.data;
+  }
+);
+
+export const createFixedFlexibleSavings = createAsyncThunk(
+  "savings/createFixedFlexibleSavings",
+  async (payload, thunkAPI) => {
+    const response = await FixedFlexibleSavings.createFixedFlexible(payload);
 
     thunkAPI.dispatch(getDashboardData());
     thunkAPI.dispatch(getCustomerSavingsData());
@@ -79,6 +110,21 @@ export const createGroupChallengeSavings = createAsyncThunk(
   }
 );
 
+export const createGroupContributorySavings = createAsyncThunk(
+  "savings/createGroupContributorySavings",
+  async (payload, thunkAPI) => {
+    const response = await GroupContributorySavings.createGroupContributorySavings(
+      payload
+    );
+
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
+
+    return response.data.data;
+  }
+);
+
 export const fetchSavingsById = createAsyncThunk(
   "savings/fetchSavingsById",
   async (savingsId) => {
@@ -105,6 +151,8 @@ export const fetchGroupSavingsById = createAsyncThunk(
         GroupTargetSavings.fetchGroupTargetSavingsById,
       [SavingsType.GroupChallengeSavings]:
         GroupChallengeSavings.fetchGroupChallengeSavingsById,
+      [SavingsType.GroupContributorySavings]:
+        GroupContributorySavings.fetchGroupContributorySavingsById,
     };
     const response = await request[savingsType](savingsID);
     return response.data.data;
@@ -119,6 +167,8 @@ export const startGroupSavings = createAsyncThunk(
         GroupTargetSavings.startGroupTargetSavings,
       [SavingsType.GroupChallengeSavings]:
         GroupChallengeSavings.startGroupChallengeSavings,
+      [SavingsType.GroupContributorySavings]:
+        GroupContributorySavings.startGroupContributorySavings,
     };
     const response = await request[savingsType]({ savingsID });
 
@@ -207,9 +257,44 @@ export const completeWithdrawSavings = createAsyncThunk(
   }
 );
 
+export const treatGroupSavingsInvitation = createAsyncThunk(
+  "savings/treatGroupSavingsInvitation",
+  async ({ formValues, groupSavingsType }, thunkAPI) => {
+    const request = {
+      [GroupSavingsType.GroupTargetSavings]:
+        GroupTargetSavings.treatGroupTargetInvitation,
+      [GroupSavingsType.GroupChallengeSavings]:
+        GroupChallengeSavings.treatGroupChallengeInvitation,
+      [GroupSavingsType.GroupContributorySavings]:
+        GroupContributorySavings.treatGroupContributoryInvitation,
+    };
+    const response = await request[groupSavingsType](formValues);
+
+    thunkAPI.dispatch(getDashboardData());
+    thunkAPI.dispatch(getCustomerSavingsData());
+    thunkAPI.dispatch(getRecentSavingTransactionsData());
+    thunkAPI.dispatch(getPendingSavingsInvitations());
+
+    return response.data.data;
+  }
+);
+
+export const getPendingSavingsInvitations = createAsyncThunk(
+  "savings/getPendingInvitations",
+  async () => {
+    const response = await Savings.getPendingSavingsInvitations();
+    return response.data.data;
+  }
+);
+
 const savings = createSlice({
   name: "savings",
   initialState,
+  reducers: {
+    setPendingSavingsInvitations: (state, action) => {
+      state.pendingInvitationsEntities = action.payload;
+    },
+  },
   extraReducers: {
     [fetchSavingsById.pending]: (state) => {
       state.fetchByIdLoading = true;
@@ -281,7 +366,23 @@ const savings = createSlice({
       state.completeWithdrawLoading = false;
       state.completeWithdrawError = action.error.message;
     },
+    [getPendingSavingsInvitations.pending]: (state) => {
+      state.pendingInvitationsLoading = true;
+      state.pendingInvitationsError = null;
+    },
+    [getPendingSavingsInvitations.fulfilled]: (state, action) => {
+      state.pendingInvitationsEntities = action.payload;
+      state.pendingInvitationsLoading = false;
+      state.pendingInvitationsError = null;
+    },
+    [getPendingSavingsInvitations.rejected]: (state, action) => {
+      state.pendingInvitationsEntities = null;
+      state.pendingInvitationsLoading = false;
+      state.pendingInvitationsError = action.error;
+    },
   },
 });
+
+export const { setPendingSavingsInvitations } = savings.actions;
 
 export default savings.reducer;
