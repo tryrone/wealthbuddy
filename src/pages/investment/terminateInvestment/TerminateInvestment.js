@@ -59,13 +59,13 @@ const TerminateInvestment = (props) => {
 
   // TERMINATION DATA
   const terminateDataFixed = {
-    transactionID: `${
+    instrumentID: parseInt(
       setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
         ? makeArray[0].id
         : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
         ? makeArray[0].instrumentId
         : null
-    }`,
+    ),
     terminationDate: `${date}`,
     typeId: 2,
   };

@@ -29,8 +29,6 @@ const ViewDetails = (props) => {
   ) {
     makeArray = setInvestmentTypeTwo;
   }
-
-  console.log(makeArray, "mobile new issues");
   return (
     <div>
       <div

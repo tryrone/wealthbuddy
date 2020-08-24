@@ -34,22 +34,6 @@ const InvestHome = ({
       dispatch(getInvestmentTransactionsForFund());
       dispatch(getAllFixedTransactions());
     }
-
-    // if (getAllInvestmentsData === 0) {
-    //   dispatch(getAllInvestments());
-    // }
-
-    // if (allTbillsTrasactionsData.length === 0) {
-    //   dispatch(getAllTbillsTransactions());
-    // }
-
-    // if (investmentTransactionsForFundsData === 0) {
-    //   dispatch(getInvestmentTransactionsForFund());
-    // }
-
-    // if (allFixedTrasactionsData === 0) {
-    //   dispatch(getAllFixedTransactions());
-    // }
   }, []);
 
   return investmentValuationLoading ? (
