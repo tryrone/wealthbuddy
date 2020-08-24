@@ -41,7 +41,7 @@ const FundInvestment = (props) => {
     if (tegaSum === 0) {
       dispatch(getInvestmentValuation());
     }
-    if (props.getAllInvestmentsData.length === 0) {
+    if (!props.getAllInvestmentsData) {
       dispatch(getAllInvestments());
     }
   }, []);

@@ -130,30 +130,33 @@ const TerminateInvestment = (props) => {
           {/* optinal buttons to withdraw from */}
           {displayOne ? (
             <Fragment>
-              <div
-                style={{
-                  borderColor: selectOne ? "#8CB13D" : "#E6E6E6",
-                  backgroundColor: selectOne ? "#F9FFEB" : "",
-                }}
-                onClick={() => {
-                  changeSelectOne(true);
-                  changeSelectTwo(false);
-                  changeDisplayOne(false);
-                }}
-                className="flex flex-row border cursor-pointer w-8/12 border-solid items-center self-center"
-              >
+              {setInvestmentTypeTwo.length == 0 &&
+              setInvestmentTypeThree.length == 0 ? null : (
                 <div
                   style={{
-                    height: "65px",
-                    width: "65px",
-                    backgroundColor: "#B8DDE9",
+                    borderColor: selectOne ? "#8CB13D" : "#E6E6E6",
+                    backgroundColor: selectOne ? "#F9FFEB" : "",
                   }}
-                  className="flex mr-6 justify-center items-center"
+                  onClick={() => {
+                    changeSelectOne(true);
+                    changeSelectTwo(false);
+                    changeDisplayOne(false);
+                  }}
+                  className="flex flex-row border cursor-pointer w-8/12 border-solid items-center self-center"
                 >
-                  <img src={partTerm} alt="" className="" />
+                  <div
+                    style={{
+                      height: "65px",
+                      width: "65px",
+                      backgroundColor: "#B8DDE9",
+                    }}
+                    className="flex mr-6 justify-center items-center"
+                  >
+                    <img src={partTerm} alt="" className="" />
+                  </div>
+                  <p>Part Terminate</p>
                 </div>
-                <p>Part Terminate</p>
-              </div>
+              )}
 
               <div
                 style={{
