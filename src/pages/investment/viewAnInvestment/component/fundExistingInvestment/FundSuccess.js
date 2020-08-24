@@ -15,8 +15,6 @@ const FundSuccess = (props) => {
     dispatch(fundInvestment(props.investData));
   }, []);
 
-  console.log(props.investData, "keeke");
-
   const refresh = () => {
     document.location.reload(true);
     return <Redirect to="/investment/add-investment" />;

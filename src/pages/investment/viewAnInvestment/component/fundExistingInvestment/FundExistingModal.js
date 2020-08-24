@@ -49,7 +49,6 @@ const FundExistingModal = (props) => {
 
   const showMyDetails = () => {
     if (myDataArray.length == 0) {
-      console.log(setInvestDetails, "azonto");
       return (
         <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
           <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset">
@@ -146,7 +145,7 @@ const FundExistingModal = (props) => {
                 </div>
                 <label
                   className="ml-4 font-medium text-base"
-                  for="payment_method"
+                  htmlFor="payment_method"
                 >
                   Use debit card{" "}
                 </label>
@@ -175,7 +174,7 @@ const FundExistingModal = (props) => {
                 </div>
                 <label
                   className="ml-4 font-medium text-base"
-                  for="payment_method"
+                  htmlFor="payment_method"
                 >
                   Use wallet{" "}
                 </label>

@@ -11,7 +11,6 @@ import {
 import { getAllInvestments } from "../../../../state/slices/investments";
 import { connect, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { forEach } from "lodash";
 import Loading from "shared-components/Loading";
 
 const AddInvestment = ({

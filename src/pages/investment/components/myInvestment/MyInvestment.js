@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { corn, catfish, dogs, addBtn } from "../../imageLinks";
-import { allPersonalInvestments } from "../../../../state/slices/investments";
-import { connect, useDispatch } from "react-redux";
+import React from "react";
+import { addBtn } from "../../imageLinks";
+import dollBox from "../../../../assets/img/doll_box.svg";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import Loading from "shared-components/Loading";
+
 import { formatCurrency } from "utils";
 
 const MyInvestment = (props) => {
@@ -37,7 +37,8 @@ const MyInvestment = (props) => {
               >
                 <div className="flex flex-row content-center items-center">
                   <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                    // src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                    src={dollBox}
                     alt=""
                     className="rounded-sm"
                     style={{ height: "78.41px", width: "90.71px" }}
@@ -93,7 +94,8 @@ const MyInvestment = (props) => {
               >
                 <div className="flex flex-row content-center items-center">
                   <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                    // src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                    src={dollBox}
                     alt=""
                     className="rounded-sm"
                     style={{ height: "78.41px", width: "90.71px" }}
@@ -152,7 +154,8 @@ const MyInvestment = (props) => {
               >
                 <div className="flex flex-row content-center items-center">
                   <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                    // src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                    src={dollBox}
                     alt=""
                     className="rounded-sm"
                     style={{ height: "78.41px", width: "90.71px" }}
