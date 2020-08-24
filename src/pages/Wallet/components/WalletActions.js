@@ -3,7 +3,7 @@ import { addFundIcon, arrowRight } from "assets/exports";
 import AddBankContext from "contexts/AddBankContext";
 
 const WalletActions = () => {
-  const { openFundWalletModal, openWithdrawFundsModal } = useContext(
+  const { openFundWalletModal, startWithdrawFundsIntent } = useContext(
     AddBankContext
   );
 
@@ -28,7 +28,7 @@ const WalletActions = () => {
         </div>
         <div
           className="wallet-action flex items-center card justify-between"
-          onClick={openWithdrawFundsModal}
+          onClick={startWithdrawFundsIntent}
         >
           <div className="flex items-center">
             <span

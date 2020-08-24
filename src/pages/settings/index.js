@@ -4,7 +4,6 @@ import Documentation from "./documentation";
 import UserCards from "./cards";
 import UserBanks from "./banks";
 import Profile from "./profile";
-import AddBankProvider from "../../providers/AddBankProvider";
 
 const tabTitles = ["Profile", "Documentation", "Banks", "Cards"];
 
@@ -32,11 +31,7 @@ const Settings = () => {
   const tabsComponents = {
     profile: <Profile activeTabId={activeId} handleTab={handleActive} />,
     documentation: <Documentation />,
-    banks: (
-      <AddBankProvider>
-        <UserBanks />
-      </AddBankProvider>
-    ),
+    banks: <UserBanks />,
     cards: <UserCards />,
   };
 
