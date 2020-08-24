@@ -1,5 +1,5 @@
 import React from "react";
-import AddBankProvider from "providers/AddBankProvider";
+import WalletProvider from "providers/WalletProvider";
 import StickyBox from "react-sticky-box";
 import WalletSummary from "./components/WalletSummary";
 import WalletActions from "./components/WalletActions";
@@ -7,7 +7,7 @@ import TransactionHistory from "./components/TransactionHistory";
 
 const Wallet = () => {
   return (
-    <AddBankProvider>
+    <WalletProvider>
       <div className="px-12 flex flex-col fadeIn">
         <h1 className="text-4xl mb-6 font-medium">Wallet</h1>
         <div className="flex">
@@ -27,7 +27,7 @@ const Wallet = () => {
           </div>
         </div>
       </div>
-    </AddBankProvider>
+    </WalletProvider>
   );
 };
 

@@ -6,11 +6,16 @@ import PaystackModal from "./components/PaystackModal";
 import FundWalletModal from "./components/FundWalletModal";
 import NoBankYetModal from "./components/NoBankYetModal";
 import AddBankModal from "./components/AddBankModal";
-import WithdrawFundsSuccess from "./components/WithdrawFundsSuccess";
+import FundWalletSuccess from "./components/FundWalletSuccess";
 import AddBankSuccess from "./components/AddBankSuccess";
+import WithdrawFundsModal from "./components/WithdrawFundsModal";
 import produce from "immer";
 
-const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
+const WalletProvider = ({
+  bankAccounts,
+  dispatchVerifyFundWalletWithNewCard,
+  ...props
+}) => {
   const [state, setState] = useState({
     tranxRef: "",
     amount: 0,
@@ -20,6 +25,7 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
     isNoBankYetModalOpen: false,
     isAddBankModalOpen: false,
     isAddBankSuccessModalOpen: false,
+    isWithdrawFundsModalOpen: false,
   });
 
   const openFundWalletModal = () => {
@@ -127,8 +133,12 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
     );
   };
 
-  const openWithdrawFundsModal = () => {
-    openNoBankYetModal();
+  const startWithdrawFundsIntent = () => {
+    if (bankAccounts && bankAccounts.length > 0) {
+      openWithdrawFundsModal();
+    } else {
+      openNoBankYetModal();
+    }
   };
 
   const continueToPaystack = (tranxRef) => {
@@ -174,6 +184,22 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
     );
   };
 
+  const openWithdrawFundsModal = () => {
+    setState(
+      produce((draftState) => {
+        draftState.isWithdrawFundsModalOpen = true;
+      })
+    );
+  };
+
+  const closeWithdrawFundsModal = () => {
+    setState(
+      produce((draftState) => {
+        draftState.isWithdrawFundsModalOpen = false;
+      })
+    );
+  };
+
   const contextValues = {
     tranxRef: state.tranxRef,
     amount: state.amount,
@@ -183,6 +209,7 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
     isNoBankYetModalOpen: state.isNoBankYetModalOpen,
     isAddBankModalOpen: state.isAddBankModalOpen,
     isAddBankSuccessModalOpen: state.isAddBankSuccessModalOpen,
+    isWithdrawFundsModalOpen: state.isWithdrawFundsModalOpen,
     openFundWalletModal,
     closeFundWalletModal,
     showSuccessModal,
@@ -196,10 +223,12 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
     showAddBankSuccessModal,
     closeAddBankSuccessModal,
     setAmount,
-    openWithdrawFundsModal,
     continueToPaystack,
     completePaystackPayment,
     handlePaystackSuccess,
+    startWithdrawFundsIntent,
+    openWithdrawFundsModal,
+    closeWithdrawFundsModal,
     continueToAddBankDetails,
     showAddBankSuccess,
   };
@@ -210,19 +239,19 @@ const AddBankProvider = ({ dispatchVerifyFundWalletWithNewCard, ...props }) => {
         {props.children}
         <FundWalletModal />
         <PaystackModal />
-        <WithdrawFundsSuccess />
+        <FundWalletSuccess />
         <NoBankYetModal />
         <AddBankModal />
         <AddBankSuccess />
+
+        <WithdrawFundsModal />
       </AddBankContext.Provider>
     </Fragment>
   );
 };
 
 const mapStateToProps = (state) => ({
-  customerDetails: state.account.data.customerDetails,
-  startFundWithNewCardLoading: state.startFundWalletWithNewCard.loading,
-  startFundWithNewCardError: state.startFundWalletWithNewCard.error,
+  bankAccounts: state.bankAccounts.data,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -230,4 +259,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(verifyFundWalletWithNewCard(payload, meta)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddBankProvider);
+export default connect(mapStateToProps, mapDispatchToProps)(WalletProvider);

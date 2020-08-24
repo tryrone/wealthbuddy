@@ -42,7 +42,7 @@ const DashboardRoutes = ({
       {!applicationBootstrapLoading || applicationBootstrapComplete ? (
         <NavigationProvider>
           <IdleTimer
-            timeout={1000 * 30}
+            timeout={1000 * 300}
             onIdle={timeOutUserSession}
             debounce={250}
           />

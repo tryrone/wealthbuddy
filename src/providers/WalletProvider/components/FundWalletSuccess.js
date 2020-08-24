@@ -4,7 +4,7 @@ import { formatCurrency } from "utils";
 import CardIcon from "assets/img/cardIcon.png";
 import SuccessModal from "shared-components/modals/SuccessModal";
 
-const WithdrawFundsSuccess = () => {
+const FundWalletSuccess = () => {
   const { isSuccessModalOpen, amount, closeSuccessModal } = useContext(
     AddBankContext
   );
@@ -27,4 +27,4 @@ const WithdrawFundsSuccess = () => {
   );
 };
 
-export default WithdrawFundsSuccess;
+export default FundWalletSuccess;
