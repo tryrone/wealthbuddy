@@ -1,6 +1,6 @@
 import React from "react";
 import { addBtn } from "../../imageLinks";
-import dollBox from "../../../../assets/img/doll_box.svg";
+import dollBox from "../../../../assets/img/investbars.svg";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
