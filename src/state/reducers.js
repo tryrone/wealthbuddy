@@ -20,6 +20,7 @@ import sendTokenReducer from "./ducks/sendToken";
 import verifyAddBankAccountReducer from "./ducks/verifyAddBankAccount";
 import getAllSavingsReducer from "./ducks/getAllSavings";
 import accountReducer from "./slices/account";
+import customerReducer from "./slices/customer";
 import savingsReducer from "./slices/savings";
 import cardsSlice from "./slices/cards";
 import investmentsReducer from "./slices/investments";
@@ -46,6 +47,7 @@ export default combineReducers({
   verifyAddBankAccount: verifyAddBankAccountReducer,
   getAllSavings: getAllSavingsReducer,
   account: accountReducer,
+  customer: customerReducer,
   savings: savingsReducer,
   cardsSlice: cardsSlice,
   investments: investmentsReducer,

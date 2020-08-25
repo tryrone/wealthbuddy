@@ -1,38 +1,79 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Icon from "assets/img/emailConfirm.png";
 import "../../styles.css";
 import Loading from "shared-components/Loading";
 import * as yup from "yup";
 import { Form, Formik } from "formik";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import ReactCodeInput from "react-code-input";
 import { completeVerifyEmail } from "state/ducks/completeVerifyEmail/actions";
+import { resendVerifyEmail } from "state/slices/customer";
 import { Redirect } from "react-router-dom";
-
-const initialValues = {
-  otp: "",
-};
-
-const validationSchema = yup.object().shape({
-  otp: yup.string().label("OTP").length(6).required(),
-});
+import produce from "immer";
 
 const SignUpConfirmEmail = ({
   history,
-  loading,
-  error,
-  verificationID,
+  isCompleteVerifyEmailLoading,
+  completeVerifyEmailError,
+  signUpParams,
   dispatchCompleteVerifyEmail,
 }) => {
+  const initialValues = { otp: "" };
+
+  const validationSchema = yup.object().shape({
+    otp: yup.string().label("OTP").length(6).required(),
+  });
+
+  const dispatch = useDispatch();
+
+  const [state, setState] = useState({
+    isResendVerifyEmailLoading: false,
+    resendVerifyEmailError: null,
+  });
+
+  if (!signUpParams.emailVerificationID) {
+    return <Redirect to="/auth/sign-up" />;
+  }
+
   const handleOnSubmit = (formValues, formikProps) => {
-    const payload = { ...formValues, verificationID };
+    const payload = {
+      ...formValues,
+      verificationID: signUpParams.emailVerificationID,
+    };
     const meta = { formikProps, history };
     dispatchCompleteVerifyEmail(payload, meta);
   };
 
-  if (!verificationID) {
-    return <Redirect to="/auth/sign-up" />;
-  }
+  const handleResendVerifyEmail = async (e) => {
+    e.preventDefault();
+
+    const data = { email: signUpParams.email };
+
+    setState(
+      produce((draft) => {
+        draft.isResendVerifyEmailLoading = true;
+        draft.resendVerifyEmailError = null;
+      })
+    );
+
+    const resultAction = await dispatch(resendVerifyEmail(data));
+
+    if (resendVerifyEmail.fulfilled.match(resultAction)) {
+      setState(
+        produce((draft) => {
+          draft.isResendVerifyEmailLoading = false;
+          draft.resendVerifyEmailError = null;
+        })
+      );
+    } else {
+      setState(
+        produce((draft) => {
+          draft.isResendVerifyEmailLoading = false;
+          draft.resendVerifyEmailError = resultAction.error.message;
+        })
+      );
+    }
+  };
 
   return (
     <section className="h-screen w-full setup-screens flex flex-col justify-center items-center leafy-bg">
@@ -49,14 +90,24 @@ const SignUpConfirmEmail = ({
           </p>
         </div>
 
-        {loading ? (
+        {isCompleteVerifyEmailLoading ? (
           <Loading text="Verifying your email" />
+        ) : state.isResendVerifyEmailLoading ? (
+          <Loading text="Resending token" />
         ) : (
           <Fragment>
-            {error && (
+            {completeVerifyEmailError && (
               <div className="w-72 mb-8 text-xs text-left">
                 <p className="w-full p-3 bg-red-200 text-red-700 rounded text-center font-medium">
-                  {error}
+                  {completeVerifyEmailError}
+                </p>
+              </div>
+            )}
+
+            {state.resendVerifyEmailError && (
+              <div className="w-72 mb-8 text-xs text-left">
+                <p className="w-full p-3 bg-red-200 text-red-700 rounded text-center font-medium">
+                  {state.resendVerifyEmailError}
                 </p>
               </div>
             )}
@@ -77,9 +128,11 @@ const SignUpConfirmEmail = ({
                       <fieldset className="is-six--code">
                         <ReactCodeInput
                           type="number"
+                          name="number"
                           placeholder="*"
                           fields={6}
                           onChange={(value) => setFieldValue("otp", value)}
+                          inputMode="numeric"
                         />
                       </fieldset>
 
@@ -91,6 +144,19 @@ const SignUpConfirmEmail = ({
                       >
                         Confirm
                       </button>
+
+                      <div className="mt-8 ">
+                        <p className="text-sm text-gray-500">
+                          Did not receive an email?{" "}
+                          <a
+                            className="text-wb-primary"
+                            href="/"
+                            onClick={handleResendVerifyEmail}
+                          >
+                            Resend Token
+                          </a>
+                        </p>
+                      </div>
                     </Form>
                   </Fragment>
                 );
@@ -104,9 +170,10 @@ const SignUpConfirmEmail = ({
 };
 
 const mapStateToProps = (state) => ({
-  loading: state.completeVerifyEmail.loading,
-  error: state.completeVerifyEmail.error,
+  isCompleteVerifyEmailLoading: state.completeVerifyEmail.loading,
+  completeVerifyEmail: state.completeVerifyEmail.error,
   verificationID: state.signUpParams.emailVerificationID,
+  signUpParams: state.signUpParams,
 });
 
 const mapDispatchToProps = (dispatch) => ({

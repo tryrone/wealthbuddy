@@ -1,6 +1,7 @@
 const urls = {
   login: "/api/Customer/login",
   startVerifyEmail: "/api/Customer/StartVerifyEmail",
+  resendVerifyEmail: "/api/Customer/ResendVerifyEmail",
   completeVerifyEmail: "/api/Customer/CompleteVerifyEmail",
   createUser: "/api/Customer/create",
   addBvn: "/api/Customer/AddbvnToProfile",
