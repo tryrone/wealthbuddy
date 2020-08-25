@@ -80,10 +80,10 @@ const CreateSavings = ({
   const maximumDurationInWeeks = maximumDurationInDays / 7;
   const maximumDurationInMonths = maximumDurationInDays / 30;
 
-  const initialValues = {
-    ...initialFormValues,
-    participants: [{ email: customerDetails.email, isModifiable: false }],
-  };
+  // const initialValues = {
+  //   ...initialFormValues,
+  //   participants: [{ email: customerDetails.email, isModifiable: false }],
+  // };
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().label("Name").required(),
@@ -170,7 +170,7 @@ const CreateSavings = ({
         <div className="flex-grow flex justify-center items-start fadeIn">
           <div className="create-saving--overview overview-full w-full">
             <Formik
-              initialValues={initialValues}
+              initialValues={initialFormValues}
               validationSchema={validationSchema}
               validateOnMount={true}
               onSubmit={handleOnSubmit}

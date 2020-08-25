@@ -80,10 +80,11 @@ const CreateSavings = ({
   const maximumDurationInWeeks = maximumDurationInDays / 7;
   const maximumDurationInMonths = maximumDurationInDays / 30;
 
-  const initialValues = {
-    ...initialFormValues,
-    participants: [{ email: customerDetails.email, isModifiable: false }],
-  };
+  // const initialValues = {
+  //   ...initialFormValues,
+  //   participants: [{ email: customerDetails.email, isModifiable: false }],
+  // };
+  // console.log(initialValues)
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().label("Name").required(),
@@ -170,7 +171,7 @@ const CreateSavings = ({
         <div className="flex-grow flex justify-center items-start fadeIn">
           <div className="create-saving--overview overview-full w-full">
             <Formik
-              initialValues={initialValues}
+              initialValues={initialFormValues}
               validationSchema={validationSchema}
               validateOnMount={true}
               onSubmit={handleOnSubmit}
@@ -310,11 +311,12 @@ const CreateSavings = ({
                         </p>
                         <h1 className="font-medium text-2xl">
                           {`₦${formatCurrency(
-                            values.amount / (values.duration || 1)
+                            values.amount / (values.duration || 1) / (values.participants.length + 1)
                           )}/${
                             savingsFrequencies[values.frequency] ||
                             savingsFrequencies[SavingsFrequency.Daily]
-                          }`}
+                          }
+                          `}
                         </h1>
                       </div>
                     </div>
