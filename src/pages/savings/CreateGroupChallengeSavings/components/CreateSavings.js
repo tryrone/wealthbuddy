@@ -204,7 +204,7 @@ const CreateSavings = ({
 
                         <fieldset className="mb-6">
                           <label className="block text-xs mb-3">
-                            How much do you want to save?
+                          What is the challenge Amount?
                           </label>
                           <NumberFormat
                             thousandSeparator={true}

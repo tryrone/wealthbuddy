@@ -234,7 +234,7 @@ const CreateSavings = ({
 
                         <fieldset className="mb-6">
                           <label className="block text-xs mb-3">
-                            How much do you want to save?
+                          How much is each member's contribution ?
                           </label>
                           <NumberFormat
                             thousandSeparator={true}
@@ -262,7 +262,7 @@ const CreateSavings = ({
 
                         <fieldset className="mb-6">
                           <label className="block text-xs mb-3">
-                            How often do you want to save?
+                            How often is this contribution ?
                           </label>
                           <select
                             name="frequency"
@@ -286,7 +286,7 @@ const CreateSavings = ({
 
                         <fieldset className="mb-6">
                           <label className="block text-xs mb-3">
-                            How long do you want to save for?
+                            How long is this contribution ?
                           </label>
                           <div className="amount-wrap">
                             <NumberFormat
