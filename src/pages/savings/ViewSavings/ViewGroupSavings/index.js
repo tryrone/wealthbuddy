@@ -9,15 +9,14 @@ import MainDetails from "./components/MainDetails";
 import TransactionHistory from "./components/TransactionHistory";
 import { unwrapResult } from "@reduxjs/toolkit";
 import produce from "immer";
-import CancelSavingsModal from "./components/StartCancelSavingsModal";
 import {
   fetchGroupSavingsById,
   startWithdrawSavings,
   completeWithdrawSavings,
-  completeCancelSavings,
-  startCancelSavings,
+  cancelGroupSavings,
   startGroupSavings as startGroupSavingsRequest,
 } from "state/slices/savings";
+import CancelSavingsModal from "./components/ConfirmCancelSavingsModal";
 import CancelSavingsSuccess from "./components/CancelSavingsSuccess";
 import StartWithdrawSavingsModal from "./components/StartWithdrawSavingsModal";
 import WithdrawalSummaryModal from "./components/WithdrawalSummaryModal";
@@ -43,11 +42,13 @@ const ViewGroupSavings = ({ customerSavings }) => {
     penalty: 0,
     amountSaved: 0,
     isStartGroupSavingsLoading: false,
-    isStartCancelSavingsModalVisible: false,
+    isConfirmCancelSavingsModalVisible: false,
     isCancelSavingsSuccessModalVisible: false,
     isStartWithdrawSavingsModalVisible: false,
     isWithdrawalSummaryModalVisible: false,
     isWithdrawSavingsSuccessModalVisible: false,
+    isCancelSavingsLoading: false,
+    cancelSavingsError: null,
   });
 
   useEffect(() => {
@@ -71,9 +72,9 @@ const ViewGroupSavings = ({ customerSavings }) => {
       );
     } else {
       setState(
-          produce((draft) => {
-              draft.transactionsLoaded = false;
-          })
+        produce((draft) => {
+          draft.transactionsLoaded = false;
+        })
       );
     }
   };
@@ -124,30 +125,46 @@ const ViewGroupSavings = ({ customerSavings }) => {
     }
   };
 
-  const startCancelProcess = () => {
-    dispatch(startCancelSavings(state.groupSavings))
-      .then(unwrapResult)
-      .then((data) => {
-        setState(
-          produce((draft) => {
-            draft.isStartCancelSavingsModalVisible = true;
-            draft.amountToDisburse = data.amountToDisburse;
-          })
-        );
-      });
+  const confirmCancel = () => {
+    setState(
+      produce((draft) => {
+        draft.isConfirmCancelSavingsModalVisible = true;
+      })
+    );
   };
 
-  const completeCancelProcess = () => {
-    dispatch(completeCancelSavings(state.groupSavings))
-      .then(unwrapResult)
-      .then(() => {
-        setState(
-          produce((draft) => {
-            draft.isStartCancelSavingsModalVisible = false;
-            draft.isCancelSavingsSuccessModalVisible = true;
-          })
-        );
-      });
+  const cancelSavings = async () => {
+    const payload = {
+      savingsType: savings.savingsType,
+      savingsID: state.groupSavings.id,
+    };
+
+    setState(
+      produce((draft) => {
+        draft.isCancelSavingsLoading = true;
+        draft.cancelSavingsError = null;
+      })
+    );
+
+    const resultAction = await dispatch(cancelGroupSavings(payload));
+
+    if (cancelGroupSavings.fulfilled.match(resultAction)) {
+      setState(
+        produce((draft) => {
+          draft.isCancelSavingsLoading = false;
+          draft.cancelSavingsError = null;
+          draft.isConfirmCancelSavingsModalVisible = false;
+          draft.isCancelSavingsSuccessModalVisible = true;
+        })
+      );
+    } else {
+      setState(
+        produce((draft) => {
+          draft.isCancelSavingsLoading = false;
+          draft.cancelSavingsError = resultAction.error.message;
+        })
+      );
+    }
   };
 
   const startWithdrawProcess = async (formValues) => {
@@ -159,22 +176,20 @@ const ViewGroupSavings = ({ customerSavings }) => {
       },
     };
 
-    try {
-      const resultAction = await dispatch(startWithdrawSavings(payload));
+    const resultAction = await dispatch(startWithdrawSavings(payload));
 
-      if (startWithdrawSavings.fulfilled.match(resultAction)) {
-        const withdrawalDetails = unwrapResult(resultAction);
-        setState(
-          produce((draft) => {
-            draft.isStartWithdrawSavingsModalVisible = false;
-            draft.isWithdrawalSummaryModalVisible = true;
-            draft.penalty = withdrawalDetails.penalty;
-            draft.amountSaved = withdrawalDetails.amountSaved;
-            draft.amountToDisburse = withdrawalDetails.amountToDisburse;
-          })
-        );
-      }
-    } catch (err) {}
+    if (startWithdrawSavings.fulfilled.match(resultAction)) {
+      const withdrawalDetails = unwrapResult(resultAction);
+      setState(
+        produce((draft) => {
+          draft.isStartWithdrawSavingsModalVisible = false;
+          draft.isWithdrawalSummaryModalVisible = true;
+          draft.penalty = withdrawalDetails.penalty;
+          draft.amountSaved = withdrawalDetails.amountSaved;
+          draft.amountToDisburse = withdrawalDetails.amountToDisburse;
+        })
+      );
+    }
   };
 
   const completeWithdrawProcess = async () => {
@@ -198,15 +213,15 @@ const ViewGroupSavings = ({ customerSavings }) => {
     }
   };
 
-  const closeStartCancelSavingsModal = () => {
+  const closeConfirmCancelSavingsModal = () => {
     setState(
       produce((draft) => {
-        draft.isStartCancelSavingsModalVisible = false;
+        draft.isConfirmCancelSavingsModalVisible = false;
       })
     );
   };
 
-  const closeStartCancelSavingsSuccessModal = () => {
+  const closeCancelSavingsSuccessModal = () => {
     setState(
       produce((draft) => {
         draft.isCancelSavingsSuccessModalVisible = false;
@@ -276,7 +291,7 @@ const ViewGroupSavings = ({ customerSavings }) => {
                   isStartGroupSavingsLoading={state.isStartGroupSavingsLoading}
                   startWithdrawSavings={openStartWithdrawSavingsModal}
                   startGroupSavings={startGroupSavings}
-                  startCancelSavings={startCancelProcess}
+                  confirmCancel={confirmCancel}
                 />
               </div>
             </div>
@@ -299,16 +314,16 @@ const ViewGroupSavings = ({ customerSavings }) => {
       </div>
 
       <CancelSavingsModal
-        isVisible={state.isStartCancelSavingsModalVisible}
-        closeModal={closeStartCancelSavingsModal}
-        amountToDisburse={state.amountToDisburse}
-        completeCancelSavings={completeCancelProcess}
+        isVisible={state.isConfirmCancelSavingsModalVisible}
+        isCancelSavingsLoading={state.isCancelSavingsLoading}
+        cancelSavingsError={state.cancelSavingsError}
+        cancelSavings={cancelSavings}
+        closeModal={closeConfirmCancelSavingsModal}
       />
 
       <CancelSavingsSuccess
         isVisible={state.isCancelSavingsSuccessModalVisible}
-        closeModal={closeStartCancelSavingsSuccessModal}
-        amountToDisburse={state.amountToDisburse}
+        closeModal={closeCancelSavingsSuccessModal}
       />
 
       <StartWithdrawSavingsModal

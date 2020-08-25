@@ -17,14 +17,13 @@ import InvitedMember from "./components/InvitedMember";
 import Member from "./components/Member";
 import "./styles.css";
 
-const Index = ({
+const MainDetails = ({
   savings,
   groupMembers,
   invitations,
   isStartGroupSavingsLoading,
   startGroupSavings,
-  startCancelSavings,
-  startCancelLoading,
+  confirmCancel,
   startWithdrawSavings,
 }) => {
   const savingsTypeNames = {
@@ -37,7 +36,9 @@ const Index = ({
 
   const canBeCancelled =
     savings.type !== SavingsType.GroupChallengeSavings &&
-    savings.type !== SavingsType.GroupContributorySavings;
+    savings.type !== SavingsType.GroupContributorySavings &&
+    savings.status === GroupSavingsStatus.Pending &&
+    savings.isAdmin === true;
 
   const canBeWithdrawn =
     savings.type !== SavingsType.GroupContributorySavings &&
@@ -189,10 +190,9 @@ const Index = ({
           <div
             className={classNames({
               "w-40 border-b text-center bg-white cta-del leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm": true,
-              loading: startCancelLoading,
               opaque: !canBeCancelled,
             })}
-            onClick={canBeCancelled ? startCancelSavings : null}
+            onClick={canBeCancelled ? confirmCancel : null}
           >
             Cancel <span className="loader" />
           </div>
@@ -226,7 +226,6 @@ const Index = ({
 
 const mapStateToProps = (state) => ({
   customerSavings: state.customerSavings.data,
-  startCancelLoading: state.savings.startCancelLoading,
 });
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps)(MainDetails);

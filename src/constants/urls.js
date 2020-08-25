@@ -20,6 +20,7 @@ const urls = {
   createGroupTargetSavings: "/api/GroupTargetSavings/creategroupsavings",
   getGroupTargetSavingsById: "/api/GroupTargetSavings/getgroupsavings/:id",
   startGroupTargetSavings: "/api/GroupTargetSavings/startgroupsavings",
+  cancelGroupTargetSavings: "/api/GroupTargetSavings/cancelgroupsavings",
   startGroupTargetWithdraw: "/api/GroupTargetSavings/startwithdraw",
   completeGroupTargetWithdraw: "/api/GroupTargetSavings/completewithdraw",
   treatGroupTargetInvitation: "/api/GroupTargetSavings/treatgroupsavingsinvitation",
@@ -27,6 +28,7 @@ const urls = {
   createGroupChallengeSavings: "/api/GroupChallengeSavings/creategroupsavings",
   getGroupChallengeSavingsById: "/api/GroupChallengeSavings/getgroupsavings/:id",
   startGroupChallengeSavings: "/api/GroupChallengeSavings/startgroupsavings",
+  cancelGroupChallengeSavings: "/api/GroupChallengeSavings/cancelgroupsavings",
   startGroupChallengeWithdraw: "/api/GroupChallengeSavings/startwithdraw",
   completeGroupChallengeWithdraw: "/api/GroupChallengeSavings/completewithdraw",
   treatGroupChallengeInvitation: "/api/GroupChallengeSavings/treatgroupsavingsinvitation",
@@ -34,6 +36,7 @@ const urls = {
   createGroupContributorySavings: "/api/GroupContributorySavings/creategroupsavings",
   getGroupContributorySavingsById: "/api/GroupContributorySavings/getgroupsavings/:id",
   startGroupContributorySavings: "/api/GroupContributorySavings/startgroupsavings",
+  cancelGroupContributorySavings: "/api/GroupContributorySavings/cancelgroupsavings",
   treatGroupContributoryInvitation: "/api/GroupContributorySavings/treatgroupsavingsinvitation",
   //
   uploadProfilePicture: "/api/Customer/UploadProfilePicture",

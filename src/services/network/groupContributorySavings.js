@@ -9,8 +9,12 @@ export const fetchGroupContributorySavingsById = (savingsId) => {
   return axios.get(urls.getGroupContributorySavingsById.replace(":id", savingsId));
 };
 
-export const startGroupContributorySavings = (data) => {
-  return axios.post(urls.startGroupContributorySavings, data);
+export const startGroupContributorySavings = (savingsID) => {
+  return axios.post(urls.startGroupContributorySavings, { savingsID });
+};
+
+export const cancelGroupContributorySavings = (data) => {
+  return axios.post(urls.cancelGroupContributorySavings, data);
 };
 
 export const treatGroupContributoryInvitation = (data) => {
