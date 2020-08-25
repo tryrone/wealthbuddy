@@ -150,7 +150,7 @@ const CreateSavings = ({
 
                         <fieldset className="mb-6">
                           <label className="block text-xs mb-3">
-                            When will you like this it mature?
+                          For how long?
                           </label>
                           <DatePicker
                             inputPlaceholder="Select Maturity Date"
