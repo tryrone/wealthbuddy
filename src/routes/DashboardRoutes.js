@@ -8,7 +8,7 @@ import Header from "pages/dashboard/components/Header";
 import Loader from "shared-components/Loader";
 import DashboardHome from "pages/dashboard/components/DashboardHome";
 import Savings from "routes/SavingsRoutes";
-import Wallet from "pages/Wallet";
+import Wallet from "pages/wallet";
 import Investment from "pages/investment";
 import Settings from "pages/settings";
 import classNames from "classnames";

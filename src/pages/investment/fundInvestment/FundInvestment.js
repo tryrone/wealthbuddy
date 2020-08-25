@@ -5,6 +5,7 @@ import { dogs, dogsBg, catfish, corn } from "../imageLinks";
 import { Link, Redirect } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
+import dollBox from "../../../assets/img/doll_box.svg";
 import {
   allPersonalInvestments,
   getAllInvestments,
@@ -278,7 +279,8 @@ const FundInvestment = (props) => {
             <div className="h-32 w-full  border-dashed border border-gray-400 rounded flex flex-col justify-center items-center">
               {/* image preview content start */}
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                // src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                src={dollBox}
                 alt=""
                 className="w-full h-full"
               />

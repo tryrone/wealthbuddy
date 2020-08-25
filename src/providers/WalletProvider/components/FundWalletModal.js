@@ -4,7 +4,7 @@ import { Field, Form, Formik } from "formik";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
 import CardIcon from "assets/img/cardIcon.png";
-import WalletDropdown from "pages/Wallet/components/fundWallet/PaymentCardDropdown";
+import WalletDropdown from "pages/wallet/components/fundWallet/PaymentCardDropdown";
 import Loading from "shared-components/Loading";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 import { fundWalletWithExistingCard } from "state/ducks/fundWalletWithExistingCard/actions";
