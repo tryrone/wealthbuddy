@@ -143,7 +143,8 @@ function AddInvestmentForm(props) {
     investmentID: `${InvestmentName[0].investmentID}`,
     transAmount: parseInt(state.amount),
     currency: `${InvestmentName[0].currency}`,
-    duration: parseInt(state.duration),
+    duration:
+      InvestmentName[0].duration === 0 ? 30 : InvestmentName[0].duration,
     fundName: `${InvestmentName[0].name}`,
     frequency: `${state.frequency}`,
     investmentImage: `${files.file.name}`,
@@ -268,7 +269,7 @@ function AddInvestmentForm(props) {
           {/* input content one end */}
 
           {/* input two */}
-          {InvestmentName[0].investmentType == 1 ? (
+          {/* {InvestmentName[0].investmentType == 1 ? (
             <fieldset className="mb-4 w-full px-6 mx-auto">
               <label className="block text-xs font-medium">
                 How long would you want to invest
@@ -277,7 +278,7 @@ function AddInvestmentForm(props) {
                 <StartDropdown myDuration={setDurationDays} />
               </div>
             </fieldset>
-          ) : null}
+          ) : null} */}
           {/* input two */}
           {/* input for fixed and tbills dropdown */}
           {InvestmentName[0].investmentType == 2 ||
@@ -310,7 +311,7 @@ function AddInvestmentForm(props) {
           {/* input for fixed roll over rule */}
 
           {/* input three */}
-          {InvestmentName[0].investmentType == 2 ||
+          {/* {InvestmentName[0].investmentType == 2 ||
           InvestmentName[0].investmentType == 3 ? null : (
             <fieldset className="mb-4 w-full px-6 mx-auto">
               <label className="block text-xs mb-2 font-medium">
@@ -330,7 +331,7 @@ function AddInvestmentForm(props) {
                 inputClassName="w-full text-xs p-3 border border-gray-400 rounded text-left-f"
               />
             </fieldset>
-          )}
+          )} */}
           {/* input three end */}
 
           {/* checkbox input four */}
@@ -540,7 +541,7 @@ function AddInvestmentForm(props) {
                 onClick={(e) => {
                   handleOnSubmit(e);
                 }}
-                disabled={state.date === null ? true : false}
+                disabled={state.amount === null ? true : false}
                 className={`mt-12 w-20 sm:w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm `}
               >
                 Next
