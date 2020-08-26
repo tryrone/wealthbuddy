@@ -32,6 +32,10 @@ const MainDetails = ({
     [SavingsType.GroupContributorySavings]: "Group contributory savings",
   };
 
+  if (savings.type === SavingsType.GroupContributorySavings) {
+    groupMembers = groupMembers.slice().sort((a, b) => (a.order > b.order ? 1 : -1));
+  }
+
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
 
   const canBeCancelled =
