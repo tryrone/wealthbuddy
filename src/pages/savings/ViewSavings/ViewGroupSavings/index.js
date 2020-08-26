@@ -21,6 +21,9 @@ import CancelSavingsSuccess from "./components/CancelSavingsSuccess";
 import StartWithdrawSavingsModal from "./components/StartWithdrawSavingsModal";
 import WithdrawalSummaryModal from "./components/WithdrawalSummaryModal";
 import WithdrawSavingsSuccess from "./components/WithdrawSavingsSuccess";
+import { getDashboardData } from "state/ducks/dashboard/actions";
+import { getCustomerSavingsData } from "state/ducks/customerSavings/actions";
+import { getRecentSavingTransactionsData } from "state/ducks/recentSavingTransactions/actions";
 
 const ViewGroupSavings = ({ customerSavings }) => {
   const { savingsId } = useParams();
@@ -227,6 +230,10 @@ const ViewGroupSavings = ({ customerSavings }) => {
         draft.isCancelSavingsSuccessModalVisible = false;
       })
     );
+
+    dispatch(getDashboardData());
+    dispatch(getCustomerSavingsData());
+    dispatch(getRecentSavingTransactionsData());
 
     history.push("/dashboard/savings");
   };

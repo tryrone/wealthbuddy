@@ -35,10 +35,11 @@ const MainDetails = ({
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
 
   const canBeCancelled =
-    savings.type !== SavingsType.GroupChallengeSavings &&
-    savings.type !== SavingsType.GroupContributorySavings &&
-    savings.status === GroupSavingsStatus.Pending &&
-    savings.isAdmin === true;
+    savings.isAdmin === true &&
+    (savings.status === GroupSavingsStatus.Pending ||
+      (savings.type !== SavingsType.GroupChallengeSavings &&
+        savings.type !== SavingsType.GroupContributorySavings &&
+        savings.status === GroupSavingsStatus.InProgress));
 
   const canBeWithdrawn =
     savings.type !== SavingsType.GroupContributorySavings &&
@@ -47,6 +48,8 @@ const MainDetails = ({
     savings.isAdmin === true &&
     new Date(savings.estimatedTerminationDate) > new Date() &&
     savings.amountSaved !== 0;
+
+  const canBeStarted = savings.isAdmin === true;
 
   return (
     <div className="card card-padding min-card w-full flex flex-col justify-between">
@@ -202,8 +205,9 @@ const MainDetails = ({
               className={classNames({
                 "w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta cta-green text-white rounded-sm": true,
                 loading: isStartGroupSavingsLoading,
+                opaque: !canBeStarted,
               })}
-              onClick={startGroupSavings}
+              onClick={canBeStarted ? startGroupSavings : null}
             >
               Start <span className="loader" />
             </button>

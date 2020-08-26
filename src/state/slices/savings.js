@@ -207,11 +207,6 @@ export const completeCancelSavings = createAsyncThunk(
         FixedFlexibleSavings.completeCancelFixedFlexibleSavings,
     };
     const response = await request[savingsType](savingsID);
-
-    thunkAPI.dispatch(getDashboardData());
-    thunkAPI.dispatch(getCustomerSavingsData());
-    thunkAPI.dispatch(getRecentSavingTransactionsData());
-
     return response.data.data;
   }
 );
@@ -298,11 +293,6 @@ export const cancelGroupSavings = createAsyncThunk(
         GroupContributorySavings.cancelGroupContributorySavings,
     };
     const response = await request[savingsType](savingsID);
-
-    thunkAPI.dispatch(getDashboardData());
-    thunkAPI.dispatch(getCustomerSavingsData());
-    thunkAPI.dispatch(getRecentSavingTransactionsData());
-
     return response.data.data;
   }
 );
