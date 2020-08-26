@@ -18,6 +18,7 @@ const InvestHome = ({
   investmentTransactionsForFundsLoading,
   investmentValuationLoading,
   getAllInvestmentsData,
+  investmentValuationCompleted,
   investmentValuationData,
   allTbillsTrasactionsData,
   allFixedTrasactionsData,
@@ -59,6 +60,7 @@ const InvestHome = ({
 
 const mapStateToProps = (state) => ({
   investmentValuationLoading: state.investments.investmentValuationLoading,
+  investmentValuationCompleted: state.investments.investmentValuationCompleted,
   investmentValuationData: state.investments.investmentValuationData,
   allPersonalInvestmentsLoading:
     state.investments.allPersonalInvestmentsLoading,

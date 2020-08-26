@@ -336,11 +336,17 @@ const CreateSavings = ({
 
                       <div className="saving-summary  flex justify-center flex-col items-center pt-10 pb-10 has-summary--bg">
                         <p className="text-xs mb-2 text-center text-faded">
-                          Contribution
+                         Each Member's Contribution
                         </p>
                         <h1 className="font-medium text-2xl">
-                          {`₦${formatCurrency(
+                        {/* {`₦${formatCurrency(
                             values.amount / (values.duration || 1)
+                          )}/${
+                            savingsFrequencies[values.frequency] ||
+                            savingsFrequencies[SavingsFrequency.Daily]
+                          }`} */}
+                          {`₦${formatCurrency(
+                            values.amount
                           )}/${
                             savingsFrequencies[values.frequency] ||
                             savingsFrequencies[SavingsFrequency.Daily]

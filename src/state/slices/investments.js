@@ -31,6 +31,7 @@ const initialState = {
   fundInvestmentMe: false,
   //INVESTMENT VALUATION
   investmentValuationLoading: false,
+  investmentValuationCompleted: false,
   investmentValuationError: null,
   investmentValuationData: {},
   investmentValuationEntities: [],
@@ -344,6 +345,7 @@ const investmentsSlice = createSlice({
     [getInvestmentValuation.fulfilled]: (state, action) => {
       state.investmentValuationData = action.payload;
       state.investmentValuationLoading = false;
+      state.investmentValuationCompleted = true;
       state.investmentValuationError = null;
       state.investmentValuationEntities.push(
         action.payload.fixedDeposits,

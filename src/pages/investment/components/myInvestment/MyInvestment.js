@@ -14,7 +14,7 @@ const MyInvestment = (props) => {
           style={{
             border: "1px solid #F1F1F1",
             borderRadius: "2px",
-            padding: "43px 61px",
+            padding: "43px 62px",
           }}
           className="card  flex mr-3 justify-center content-center items-center flex-col"
         >
