@@ -49,4 +49,5 @@ export const DocumentApprovalStatus = {
   Approved: 2,
   Rejected: 3,
   NotUploaded: 4,
+  Uploaded: 5,
 }
