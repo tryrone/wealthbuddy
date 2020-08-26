@@ -15,6 +15,8 @@ import InvestModal from "../investModal/InvestModal";
 import StartDropdown from "./StartDropdown";
 import { connect, useDispatch } from "react-redux";
 import "./check.scss";
+import DropdownFixed from "./DropdownFixed";
+import RollOver from "./RollOver";
 
 function AddInvestmentForm(props) {
   const [modal, changeModal] = useState(false);
@@ -27,6 +29,7 @@ function AddInvestmentForm(props) {
   // const [duration, setDuration] = useState("");
   const [state, setState] = useState({
     duration: "",
+    rollOver: "PRINCIPAL_INTEREST",
     amount: null,
     date: null,
     amountError: "",
@@ -37,6 +40,12 @@ function AddInvestmentForm(props) {
     setState({
       ...state,
       duration: val,
+    });
+  };
+  const setRollOverRule = (val) => {
+    setState({
+      ...state,
+      rollOver: val,
     });
   };
 
@@ -127,11 +136,15 @@ function AddInvestmentForm(props) {
     }
   };
 
+  const myDate = Date.now();
+  const todaysDate = moment(myDate).toISOString();
+
   const investmentFundsData = {
     investmentID: `${InvestmentName[0].investmentID}`,
     transAmount: parseInt(state.amount),
     currency: `${InvestmentName[0].currency}`,
-    duration: parseInt(state.duration),
+    duration:
+      InvestmentName[0].duration === 0 ? 30 : InvestmentName[0].duration,
     fundName: `${InvestmentName[0].name}`,
     frequency: `${state.frequency}`,
     investmentImage: `${files.file.name}`,
@@ -146,9 +159,10 @@ function AddInvestmentForm(props) {
     treasuryBillTypeName: `${InvestmentName[0].name}`,
     faceValue: parseInt(state.amount),
     discountRate: 9,
-    startDate: `${date}`,
+    startDate: `${todaysDate}`, //date . now todaysDate no more date display only for mutual funds
     status: "PENDING",
-    tenor: `${InvestmentName[0].minimumDurationInDays}`,
+    // tenor: `${InvestmentName[0].minimumDurationInDays}`, //drop down duration 31 days ,72 days,180 days,270days
+    tenor: `${state.duration}`, //drop down duration 31 days ,72 days,180 days,270days
     investmentImage: `${files.file.name}`,
   };
   const investFixedData = {
@@ -158,10 +172,12 @@ function AddInvestmentForm(props) {
     autoRollover: state.frequency,
     currentRate: InvestmentName[0].interestRate,
     instrumentTypeName: `${InvestmentName[0].name}`,
-    rollOverrule: `PRINCIPAL_INTREST`,
-    startDate: `${date}`,
+    // rollOverrule: `PRINCIPAL_INTREST`, //dropdown rule for roll over rule should apply
+    rollOverrule: `${state.rollOver}`, //dropdown rule for roll over rule should apply
+    startDate: `${todaysDate}`, //no more date only dropdown
     faceValue: parseInt(state.amount),
-    tenure: `${InvestmentName[0].minimumDurationInDays}`,
+    // tenure: `${InvestmentName[0].minimumDurationInDays}`, // 1 year ,1,2,3,6 month
+    tenure: `${state.duration}`, // 1 year ,1,2,3,6 month
     investmentType: InvestmentName[0].investmentType,
   };
 
@@ -215,7 +231,6 @@ function AddInvestmentForm(props) {
 
       <div className="flex flex-col sm:flex-row">
         {/* column one */}
-
         <div
           style={{ border: "1px solid #F1F1F1" }}
           className="card sm:w-1/2 pt-24 pb-56 w-auto mb-20 flex flex-col justify-center content-center mt-6 sm:mr-4"
@@ -254,7 +269,7 @@ function AddInvestmentForm(props) {
           {/* input content one end */}
 
           {/* input two */}
-          {InvestmentName[0].investmentType == 1 ? (
+          {/* {InvestmentName[0].investmentType == 1 ? (
             <fieldset className="mb-4 w-full px-6 mx-auto">
               <label className="block text-xs font-medium">
                 How long would you want to invest
@@ -263,28 +278,60 @@ function AddInvestmentForm(props) {
                 <StartDropdown myDuration={setDurationDays} />
               </div>
             </fieldset>
-          ) : null}
+          ) : null} */}
           {/* input two */}
+          {/* input for fixed and tbills dropdown */}
+          {InvestmentName[0].investmentType == 2 ||
+          InvestmentName[0].investmentType == 3 ? (
+            <fieldset className="mb-4 w-full px-6 mx-auto">
+              <label className="block text-xs font-medium">
+                How long would you want to invest
+              </label>
+              <div className="fieldset mt-2 w-full">
+                <DropdownFixed
+                  myDuration={setDurationDays}
+                  type={InvestmentName[0].investmentType}
+                />
+              </div>
+            </fieldset>
+          ) : null}
+          {/* input for fixed and tbills dropdown */}
+
+          {/* input for fixed roll over rule */}
+          {InvestmentName[0].investmentType == 2 ? (
+            <fieldset className="mb-4 w-full px-6 mx-auto">
+              <label className="block text-xs font-medium">
+                Roll over rule
+              </label>
+              <div className="fieldset mt-2 w-full">
+                <RollOver myRollover={setRollOverRule} />
+              </div>
+            </fieldset>
+          ) : null}
+          {/* input for fixed roll over rule */}
 
           {/* input three */}
-          <fieldset className="mb-4 w-full px-6 mx-auto">
-            <label className="block text-xs mb-2 font-medium">
-              When will you like to start saving?
-            </label>
-            <DatePicker
-              inputPlaceholder="Select Start Date"
-              value={state.date}
-              onChange={(value) => {
-                setState({
-                  ...state,
-                  date: value,
-                });
-              }}
-              shouldHighlightWeekends
-              minimumDate={utils("en").getToday()}
-              inputClassName="w-full text-xs p-3 border border-gray-400 rounded text-left-f"
-            />
-          </fieldset>
+          {/* {InvestmentName[0].investmentType == 2 ||
+          InvestmentName[0].investmentType == 3 ? null : (
+            <fieldset className="mb-4 w-full px-6 mx-auto">
+              <label className="block text-xs mb-2 font-medium">
+                When will you like to start Investing?
+              </label>
+              <DatePicker
+                inputPlaceholder="Select Start Date"
+                value={state.date}
+                onChange={(value) => {
+                  setState({
+                    ...state,
+                    date: value,
+                  });
+                }}
+                shouldHighlightWeekends
+                minimumDate={utils("en").getToday()}
+                inputClassName="w-full text-xs p-3 border border-gray-400 rounded text-left-f"
+              />
+            </fieldset>
+          )} */}
           {/* input three end */}
 
           {/* checkbox input four */}
@@ -451,17 +498,19 @@ function AddInvestmentForm(props) {
               {InvestmentName[0].interestRate.toFixed(2)}%
             </p>
           </div>
-          <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
-            <p className="text-left text-black text-opacity-25 text-base">
-              Start date
-            </p>
+          {InvestmentName[0].investmentType == 1 ? (
+            <div className="flex flex-row justify-between px-16 mt-6 w-full items-center">
+              <p className="text-left text-black text-opacity-25 text-base">
+                Start date
+              </p>
 
-            <p className="text-right text-black text-base">
-              {moment(state.date === null ? Date.now() : state.date)
-                // .subtract(1, "months")
-                .format("L")}
-            </p>
-          </div>
+              <p className="text-right text-black text-base">
+                {moment(state.date === null ? Date.now() : state.date)
+                  // .subtract(1, "months")
+                  .format("L")}
+              </p>
+            </div>
+          ) : null}
 
           {/* image text content end */}
 
@@ -474,7 +523,32 @@ function AddInvestmentForm(props) {
               Back
             </Link>
             {/* <button className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm ${(checkEmpty(state) === true || status) && "opaque"}`} onClick={(checkEmpty(state) === false && !status) && confirm}> */}
-            <button
+            {InvestmentName[0].investmentType == 2 ||
+            InvestmentName[0].investmentType == 3 ? (
+              <button
+                onClick={(e) => {
+                  handleOnSubmit(e);
+                }}
+                disabled={state.duration.length === 0 ? true : false}
+                className={`mt-12 w-20 sm:w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm `}
+              >
+                Next
+              </button>
+            ) : null}
+
+            {InvestmentName[0].investmentType == 1 ? (
+              <button
+                onClick={(e) => {
+                  handleOnSubmit(e);
+                }}
+                disabled={state.amount === null ? true : false}
+                className={`mt-12 w-20 sm:w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm `}
+              >
+                Next
+              </button>
+            ) : null}
+
+            {/* <button
               onClick={(e) => {
                 handleOnSubmit(e);
               }}
@@ -482,7 +556,7 @@ function AddInvestmentForm(props) {
               className={`mt-12 w-20 sm:w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm `}
             >
               Next
-            </button>
+            </button> */}
           </div>
           {/* nav buttons end */}
         </div>

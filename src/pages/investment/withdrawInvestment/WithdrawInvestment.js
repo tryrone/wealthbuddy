@@ -353,7 +353,7 @@ const WithdrawInvestment = (props) => {
               }}
               className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
             >
-              Next
+              Proceed
             </button>
           </div>
         </div>
