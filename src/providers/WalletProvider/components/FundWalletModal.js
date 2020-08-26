@@ -4,7 +4,6 @@ import { Field, Form, Formik } from "formik";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
 import CardIcon from "assets/img/cardIcon.png";
-import WalletDropdown from "pages/wallet/components/fundWallet/PaymentCardDropdown";
 import Loading from "shared-components/Loading";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 import { fundWalletWithExistingCard } from "state/ducks/fundWalletWithExistingCard/actions";
@@ -12,6 +11,7 @@ import { startFundWalletWithNewCard } from "state/ducks/startFundWalletWithNewCa
 import { closeModalOnOutsideClick } from "utils";
 import { ADD_NEW_CARD } from "constants/strings";
 import AddBankContext from "contexts/AddBankContext";
+import PaymentCardDropdown from "./PaymentCardDropdown";
 
 const initialValues = {
   amount: "",
@@ -126,7 +126,7 @@ const FundWalletModal = ({
                           Select Card
                         </label>
                         <div className="fieldset">
-                          <WalletDropdown
+                          <PaymentCardDropdown
                             selectedItemId={values.customerCardDataID}
                             optionIdKey="id"
                             onSelectItem={(item) =>
