@@ -40,6 +40,12 @@ const MainDetails = ({
 
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
 
+  let installmentalContribution = savings.installmentalContribution;
+
+  if (savings.type === SavingsType.GroupContributorySavings) {
+    installmentalContribution = savings.amountToSave;
+  }
+
   const canBeCancelled =
     savings.isAdmin === true &&
     (savings.status === GroupSavingsStatus.Pending ||
@@ -132,7 +138,7 @@ const MainDetails = ({
                   Contribution
                 </h5>
                 <h1 className="mt-3 font-medium">{`₦${formatCurrency(
-                  savings.installmentalContribution
+                  installmentalContribution
                 )}/${
                   savings.schedule === SavingsFrequency.Weekly
                     ? "Week"
