@@ -146,7 +146,7 @@ const CreateSavings = ({
         })
       )
       .unique("Duplicate member email", (a) => a.email)
-      .min(1, "You must have at least 2 participants")
+      .min(1, "You must have at least 1 participants")
       .required("No members added to savings invite"),
   });
 
