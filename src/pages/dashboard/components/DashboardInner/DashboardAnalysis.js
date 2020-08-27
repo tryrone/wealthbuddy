@@ -85,14 +85,14 @@ const DashboardAnalysis = () => {
         {/*  // height={300}*/}
         {/*  // width={780}*/}
         {/*/>*/}
-        <ReactApexChart
+        {/* <ReactApexChart
           className="gggggg"
           options={state.options}
           series={state.series}
           type="area"
           height={300}
           width={780}
-        />
+        /> */}
       </div>
     </div>
   );
