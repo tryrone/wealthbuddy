@@ -7,6 +7,9 @@ import "./styles/index.css";
 import AuthRoutes from "routes/AuthRoutes";
 import DashboardRoutes from "routes/DashboardRoutes";
 import PrivateRoute from "shared-components/PrivateRoute";
+import "react-notifications-component/dist/theme.css";
+import "animate.css/animate.compat.css";
+import ReactNotification from "react-notifications-component";
 
 const App = () => {
   return (
@@ -14,6 +17,7 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <main>
+            <ReactNotification />
             <Switch>
               <Route path="/auth" component={AuthRoutes} />
               <PrivateRoute path="/dashboard" component={DashboardRoutes} />

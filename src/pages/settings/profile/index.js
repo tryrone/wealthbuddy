@@ -10,6 +10,8 @@ import { Form, Formik } from "formik";
 import { updateProfile } from "state/slices/account";
 import classNames from "classnames";
 import { convertIsoDateToYmdJson, convertYmdJsonToIsoDate } from "utils";
+import notification from "config/notification";
+import { store } from "react-notifications-component";
 
 const Profile = ({ account, activeTabId, handleTab }) => {
   useEffect(() => {
@@ -59,26 +61,26 @@ const Profile = ({ account, activeTabId, handleTab }) => {
     : null;
 
   const initialValues = {
-    title: customerDetails.title || '',
-    maidenName: customerDetails.maidenName || '',
-    gender: customerDetails.gender || '',
-    maritalStatus: customerDetails.marritalStatus || '',
-    religion: customerDetails.religion || '',
+    title: customerDetails.title || "",
+    maidenName: customerDetails.maidenName || "",
+    gender: customerDetails.gender || "",
+    maritalStatus: customerDetails.marritalStatus || "",
+    religion: customerDetails.religion || "",
     dateOfBirth: customerDateOfBirth,
-    address: customerDetails.address || '',
-    landmark: customerDetails.landmark || '',
-    state: customerDetails.state || '',
-    lga: customerDetails.lga || '',
-    homeTown: customerDetails.homeTown || '',
-    nationality: customerDetails.nationality || '',
-    occupation: customerDetails.occupation || '',
-    employerName: customerDetails.employerName || '',
-    employerAddress: customerDetails.employerAddress || '',
-    nextOfKinName: customerDetails.nextOfKinName || '',
-    nextOfKinPhoneNumber: customerDetails.nextOfKinPhoneNumber || '',
-    nextOfKinEmail: customerDetails.nextOfKinEmail || '',
-    nextOfKinRelationship: customerDetails.nextOfKinRelationship || '',
-    nextOfKinAddress: customerDetails.nextOfKinAddress || '',
+    address: customerDetails.address || "",
+    landmark: customerDetails.landmark || "",
+    state: customerDetails.state || "",
+    lga: customerDetails.lga || "",
+    homeTown: customerDetails.homeTown || "",
+    nationality: customerDetails.nationality || "",
+    occupation: customerDetails.occupation || "",
+    employerName: customerDetails.employerName || "",
+    employerAddress: customerDetails.employerAddress || "",
+    nextOfKinName: customerDetails.nextOfKinName || "",
+    nextOfKinPhoneNumber: customerDetails.nextOfKinPhoneNumber || "",
+    nextOfKinEmail: customerDetails.nextOfKinEmail || "",
+    nextOfKinRelationship: customerDetails.nextOfKinRelationship || "",
+    nextOfKinAddress: customerDetails.nextOfKinAddress || "",
     picture: customerDetails.picture,
   };
 
@@ -129,6 +131,13 @@ const Profile = ({ account, activeTabId, handleTab }) => {
     const resultAction = await dispatch(updateProfile(payload));
     if (updateProfile.fulfilled.match(resultAction)) {
       setIsSaving(false);
+
+      store.addNotification({
+        ...notification,
+        title: "Success",
+        message: "Profile updated successfully",
+        type: "success",
+      });
     } else {
       if (resultAction.payload) {
         setIsSaving(false);

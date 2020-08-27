@@ -27,7 +27,7 @@ const ViewSavings = ({ groupedTransactions }) => (
                 <div className="transaction--heading card-padding transaction-padding">
                   <h4 className="transaction-range--header">{3005060}</h4>
                 </div>
-                {item.transactions.map((items, key) => (
+                {item.transactions.map((transaction, key) => (
                   <div
                     key={key}
                     className="transaction-body flex justify-between items-center card-padding transaction-padding"
@@ -37,20 +37,23 @@ const ViewSavings = ({ groupedTransactions }) => (
                         <img src={personalSavings} alt="" />
                       </div>
                       <div className="flex flex-col justify-center">
+                        <p className="tran-single--title">
+                          {transaction.customerName}
+                        </p>
                         <p className="tran-single--title font-medium">
-                          {`${getDesiredTime(items.creationDate)}`}
+                          {`${getDesiredTime(transaction.creationDate)}`}
                         </p>
                       </div>
                     </div>
                     <div className="right-tran--summary">
                       <h3
                         className={`tran-single--title card-header flex font-medium ${
-                          items.action === 2 ? "" : "color-red"
+                          transaction.action === 2 ? "" : "color-red"
                         }`}
                       >
-                        {`${items.action === 2 ? "+" : "-"}₦${formatCurrency(
-                          items.amount
-                        )}`}
+                        {`${
+                          transaction.action === 2 ? "+" : "-"
+                        }₦${formatCurrency(transaction.amount)}`}
                       </h3>
                     </div>
                   </div>

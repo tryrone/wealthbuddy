@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Customer } from "services/network";
-import { DocumentApprovalStatus } from "../../constants/enums";
+import { DocumentApprovalStatus } from "constants/enums";
 
 const initialState = {
   loginLoading: false,

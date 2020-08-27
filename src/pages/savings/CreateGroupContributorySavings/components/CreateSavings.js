@@ -5,7 +5,6 @@ import UploadIcon from "assets/img/uploadIcon.svg";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import * as yup from "yup";
 import { formatCurrency } from "utils";
-import { SavingsFrequency } from "constants/enums";
 import { FaArrowUp, FaArrowDown, FaTimes } from "react-icons/fa";
 import { connect } from "react-redux";
 
@@ -65,14 +64,17 @@ const Member = ({ member, removeItem, moveUp, moveDown }) => (
   </div>
 );
 
+const SavingsFrequency = {
+  Weekly: 2,
+  Monthly: 3,
+};
+
 const savingsFrequencies = {
-  [SavingsFrequency.Daily.toString()]: "Day",
   [SavingsFrequency.Weekly.toString()]: "Week",
   [SavingsFrequency.Monthly.toString()]: "Month",
 };
 
 const savingsFrequenciesPluralized = {
-  [SavingsFrequency.Daily.toString()]: "Days",
   [SavingsFrequency.Weekly.toString()]: "Weeks",
   [SavingsFrequency.Monthly.toString()]: "Months",
 };
@@ -127,19 +129,6 @@ const CreateSavings = ({
       .number()
       .label("Duration")
       .required()
-      .when("frequency", {
-        is: SavingsFrequency.Daily.toString(),
-        then: yup
-          .number()
-          .min(
-            minimumDurationInDays,
-            `You can only save for a minimum of ${minimumDurationInDays} Days`
-          )
-          .max(
-            maximumDurationInDays,
-            `You can only save for a maximum of ${maximumDurationInDays} Days`
-          ),
-      })
       .when("frequency", {
         is: SavingsFrequency.Weekly.toString(),
         then: yup
@@ -291,12 +280,12 @@ const CreateSavings = ({
                           <div className="amount-wrap">
                             <NumberFormat
                               placeholder={
-                                "E.g 30 " +
+                                "E.g 4 " +
                                   savingsFrequenciesPluralized[
                                     values.frequency
                                   ] ||
                                 savingsFrequenciesPluralized[
-                                  SavingsFrequency.Daily
+                                  SavingsFrequency.Weekly
                                 ]
                               }
                               type="text"
@@ -316,10 +305,10 @@ const CreateSavings = ({
                                     values.frequency
                                   ] ||
                                   savingsFrequenciesPluralized[
-                                    SavingsFrequency.Daily
+                                    SavingsFrequency.Weekly
                                   ]
                                 : savingsFrequencies[values.frequency] ||
-                                  savingsFrequencies[SavingsFrequency.Daily]}
+                                  savingsFrequencies[SavingsFrequency.Weekly]}
                             </span>
                           </div>
 
@@ -349,7 +338,7 @@ const CreateSavings = ({
                             values.amount
                           )}/${
                             savingsFrequencies[values.frequency] ||
-                            savingsFrequencies[SavingsFrequency.Daily]
+                            savingsFrequencies[SavingsFrequency.Weekly]
                           }`}
                         </h1>
                       </div>
