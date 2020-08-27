@@ -30,7 +30,7 @@ const GroupContributorySavings = ({ savingsConfiguration }) => {
     formValues: {
       name: "",
       amount: "",
-      frequency: SavingsFrequency.Daily.toString(),
+      frequency: SavingsFrequency.Weekly.toString(),
       duration: "",
       description: "",
       applyInterest: true,
