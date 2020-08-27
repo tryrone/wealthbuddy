@@ -41,6 +41,11 @@ const GroupContributorySavings = ({ savingsConfiguration }) => {
   });
 
   const onSubmitCreatePersonalSavings = (values) => {
+    values = {
+      ...values,
+      duration: values.participants.length,
+    };
+
     setState(
       produce((draft) => {
         draft.showCreationPage = false;

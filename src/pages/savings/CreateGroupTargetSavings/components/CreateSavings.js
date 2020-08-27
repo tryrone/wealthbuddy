@@ -80,12 +80,6 @@ const CreateSavings = ({
   const maximumDurationInWeeks = Math.floor(maximumDurationInDays / 7);
   const maximumDurationInMonths = Math.floor(maximumDurationInDays / 30);
 
-  // const initialValues = {
-  //   ...initialFormValues,
-  //   participants: [{ email: customerDetails.email, isModifiable: false }],
-  // };
-  // console.log(initialValues)
-
   const validationSchema = Yup.object().shape({
     name: Yup.string().label("Name").required(),
     amount: Yup.number()
@@ -180,6 +174,7 @@ const CreateSavings = ({
                 handleSubmit,
                 isValid,
                 setFieldValue,
+                setFieldError,
                 handleChange,
                 handleBlur,
                 values,
@@ -311,7 +306,9 @@ const CreateSavings = ({
                         </p>
                         <h1 className="font-medium text-2xl">
                           {`₦${formatCurrency(
-                            values.amount / (values.duration || 1) / (values.participants.length + 1)
+                            values.amount /
+                              (values.duration || 1) /
+                              (values.participants.length + 1)
                           )}/${
                             savingsFrequencies[values.frequency] ||
                             savingsFrequencies[SavingsFrequency.Daily]
@@ -394,12 +391,20 @@ const CreateSavings = ({
                                       type="button"
                                       className="flex-initial color-green text-center text-sm py-3 ml-5"
                                       onClick={() => {
-                                        if (
-                                          !isEmail(memberEmail) ||
-                                          memberEmail === customerDetails.email
-                                        ) {
+                                        if (!isEmail(memberEmail)) {
                                           return false;
                                         }
+
+                                        if (
+                                          memberEmail === customerDetails.email
+                                        ) {
+                                          setFieldError(
+                                            "participants",
+                                            "You can't add yourself as a participant"
+                                          );
+                                          return false;
+                                        }
+
                                         arrayHelpers.push({
                                           email: memberEmail,
                                           isModifiable: true,

@@ -179,6 +179,7 @@ const CreateSavings = ({
                 handleSubmit,
                 isValid,
                 setFieldValue,
+                setFieldError,
                 handleChange,
                 handleBlur,
                 values,
@@ -204,7 +205,7 @@ const CreateSavings = ({
 
                         <fieldset className="mb-6">
                           <label className="block text-xs mb-3">
-                          What is the challenge Amount?
+                            What is the challenge Amount?
                           </label>
                           <NumberFormat
                             thousandSeparator={true}
@@ -392,12 +393,20 @@ const CreateSavings = ({
                                       type="button"
                                       className="flex-initial color-green text-center text-sm py-3 ml-5"
                                       onClick={() => {
-                                        if (
-                                          !isEmail(memberEmail) ||
-                                          memberEmail === customerDetails.email
-                                        ) {
+                                        if (!isEmail(memberEmail)) {
                                           return false;
                                         }
+
+                                        if (
+                                          memberEmail === customerDetails.email
+                                        ) {
+                                          setFieldError(
+                                            "participants",
+                                            "You can't add yourself as a participant"
+                                          );
+                                          return false;
+                                        }
+
                                         arrayHelpers.push({
                                           email: memberEmail,
                                           isModifiable: true,
