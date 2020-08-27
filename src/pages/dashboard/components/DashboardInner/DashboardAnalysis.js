@@ -72,18 +72,18 @@ const DashboardAnalysis = () => {
     <div className="flex flex-col card w-full">
       <h1 className="text-4xl mb-6 font-medium card-header">Analytics</h1>
       <div className="flex-grow flex justify-center items-center">
-        <EmptyCard
-          title="Nothing to see here yet."
-          message="Find any of your savings plan to and see you your transactions history here."
-        />
-        {/*<ReactApexChart*/}
-        {/*    className="gggggg"*/}
-        {/*  options={state.options}*/}
-        {/*  series={state.series}*/}
-        {/*  type="area"*/}
-        {/*  // height={300}*/}
-        {/*  // width={780}*/}
+        {/*<EmptyCard*/}
+        {/*  title="Nothing to see here yet."*/}
+        {/*  message="Find any of your savings plan to and see you your transactions history here."*/}
         {/*/>*/}
+        <ReactApexChart
+          className="gggggg"
+          options={state.options}
+          series={state.series}
+          type="area"
+          height={300}
+          width={780}
+        />
       </div>
     </div>
   );
