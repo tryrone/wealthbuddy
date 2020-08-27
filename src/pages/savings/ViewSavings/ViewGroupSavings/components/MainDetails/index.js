@@ -33,7 +33,9 @@ const MainDetails = ({
   };
 
   if (savings.type === SavingsType.GroupContributorySavings) {
-    groupMembers = groupMembers.slice().sort((a, b) => (a.order > b.order ? 1 : -1));
+    groupMembers = groupMembers
+      .slice()
+      .sort((a, b) => (a.order > b.order ? 1 : -1));
   }
 
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
@@ -46,12 +48,12 @@ const MainDetails = ({
         savings.status === GroupSavingsStatus.InProgress));
 
   const canBeWithdrawn =
-    savings.type !== SavingsType.GroupContributorySavings &&
-    savings.type !== SavingsType.GroupChallengeSavings &&
-    savings.type === SavingsType.GroupTargetSavings &&
-    savings.isAdmin === true &&
-    new Date(savings.estimatedTerminationDate) > new Date() &&
-    savings.amountSaved !== 0;
+    (savings.type !== SavingsType.GroupContributorySavings &&
+      savings.type === SavingsType.GroupTargetSavings &&
+      savings.isAdmin === true &&
+      new Date(savings.estimatedTerminationDate) > new Date() &&
+      savings.amountSaved !== 0) ||
+    savings.type === SavingsType.GroupChallengeSavings;
 
   const canBeStarted = savings.isAdmin === true;
 
@@ -157,7 +159,9 @@ const MainDetails = ({
                   Start Date
                 </h5>
                 <h1 className=" mt-3 font-medium">
-                  {moment(savings.startDate).format("MMM Do YYYY")}
+                  {savings.status !== GroupSavingsStatus.Pending
+                    ? moment(savings.startDate).format("MMM Do YYYY")
+                    : "N/A"}
                 </h1>
               </div>
               <div className="w-1/2 p-5 text-left">
@@ -165,9 +169,11 @@ const MainDetails = ({
                   Maturity Date
                 </h5>
                 <h1 className="mt-3 font-medium">
-                  {moment(savings.estimatedTerminationDate).format(
-                    "MMM Do YYYY"
-                  )}
+                  {savings.status !== GroupSavingsStatus.Pending
+                    ? moment(savings.estimatedTerminationDate).format(
+                        "MMM Do YYYY"
+                      )
+                    : "N/A"}
                 </h1>
               </div>
             </div>

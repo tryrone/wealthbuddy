@@ -6,7 +6,7 @@ import groupSavings from "assets/img/groupIcon.png";
 import fixedFlexSavings from "assets/img/fixedFlex.png";
 import { formatCurrency } from "utils";
 import moment from "moment";
-import { SavingsType } from "../../../../constants/enums";
+import { GroupSavingsStatus, SavingsType } from "../../../../constants/enums";
 
 const SavingsListItem = ({ savings }) => {
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
@@ -111,7 +111,9 @@ const SavingsListItem = ({ savings }) => {
           <div>
             <h5 className="text-xs mb-2">Start Date</h5>
             <h2 className="summary-balance font-medium">
-              {`${moment(savings.startDate).format("MMM D, YYYY")}`}
+              {savings.status !== GroupSavingsStatus.Pending
+                ? moment(savings.startDate).format("MMM Do YYYY")
+                : "N/A"}
             </h2>
           </div>
         </div>
@@ -119,9 +121,9 @@ const SavingsListItem = ({ savings }) => {
           <div>
             <h5 className="text-xs mb-2">Maturity Date</h5>
             <h2 className="summary-balance font-medium">
-              {`${moment(savings.estimatedTerminationDate).format(
-                "MMM D, YYYY"
-              )}`}
+              {savings.status !== GroupSavingsStatus.Pending
+                ? moment(savings.estimatedTerminationDate).format("MMM Do YYYY")
+                : "N/A"}
             </h2>
           </div>
         </div>
