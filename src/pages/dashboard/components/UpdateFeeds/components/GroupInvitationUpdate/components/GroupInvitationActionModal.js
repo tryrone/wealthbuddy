@@ -27,7 +27,15 @@ const GroupInvitationActionModal = ({
   const invitation =
     invitations.find((invitation) => invitation.id === invitationId) || {};
 
-  const contribution = invitation.amountToContribute;
+  let interestRate = 0;
+
+  if (invitation.groupSavingsType === GroupSavingsType.GroupTargetSavings) {
+    interestRate = 12.75;
+  } else if (invitation.groupSavingsType === GroupSavingsType.GroupChallengeSavings) {
+    interestRate = 12.5;
+  } else if (invitation.groupSavingsType === GroupSavingsType.GroupContributorySavings) {
+    interestRate = 12.5;
+  }
 
   return (
     isVisible && (
@@ -72,7 +80,7 @@ const GroupInvitationActionModal = ({
                     <div className="w-1/2 py-3 text-left">
                       <h5 className="text-gray-300 text-xs">Contribution</h5>
                       <h1 className="mt-3 font-medium">
-                        {`₦${formatCurrency(contribution)}`}
+                        {`₦${formatCurrency(invitation.amountToContribute)}`}
                       </h1>
                     </div>
                     <div className="w-1/2 py-3 text-left">
@@ -80,7 +88,7 @@ const GroupInvitationActionModal = ({
                         Total contribution
                       </h5>
                       <h1 className="mt-3 font-medium">{`₦${formatCurrency(
-                        invitation.amountToContribute
+                        invitation.targetAmount
                       )}`}</h1>
                     </div>
                   </div>
@@ -88,7 +96,7 @@ const GroupInvitationActionModal = ({
                   <div className="w-full flex flex-row">
                     <div className="w-1/2 py-3 text-left">
                       <h5 className="text-gray-300 text-xs">Interest Rate</h5>
-                      <h1 className="mt-3 font-medium">N/A</h1>
+                      <h1 className="mt-3 font-medium">{`${interestRate}%`}</h1>
                     </div>
                     <div className="w-1/2 py-3 text-left">
                       <h5 className="text-gray-300 text-xs">Members</h5>
