@@ -71,14 +71,14 @@ const WithdrawInvestment = (props) => {
   };
 
   const withdrawData = {
-    description: `${
+    fundName: `${
       setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
         ? makeArray[0].typeLabel
         : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
         ? makeArray[0].productLabel
         : makeArray[0].symbol
     }`,
-    securityID: `${
+    securityId: `${
       setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
         ? makeArray[0].typeId
         : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
@@ -93,7 +93,7 @@ const WithdrawInvestment = (props) => {
         ? makeArray[0].netInstrumentValue.currency
         : "NGN"
     }`,
-    fundName: `${
+    description: `${
       setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
         ? makeArray[0].typeLabel
         : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0

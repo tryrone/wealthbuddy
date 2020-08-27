@@ -242,7 +242,7 @@ function AddInvestmentForm(props) {
             </label>
             <NumberFormat
               thousandSeparator={true}
-              placeholder="Min 20,000"
+              placeholder="ex. 1000"
               autoComplete="off"
               type="text"
               id="amount"
@@ -335,6 +335,8 @@ function AddInvestmentForm(props) {
           {/* input three end */}
 
           {/* checkbox input four */}
+          {InvestmentName[0].investmentType == 2 ||
+          InvestmentName[0].investmentType == 3 ? (
           <div className="pl-6 sm:pl-24 my-2">
             <input
               onClick={() => {
@@ -357,6 +359,7 @@ function AddInvestmentForm(props) {
               Would like this to be a recuring investment
             </label>
           </div>
+          ) : null }
           {/* checkbox input four */}
 
           {/* showing the tenors available for MT_LIP */}
