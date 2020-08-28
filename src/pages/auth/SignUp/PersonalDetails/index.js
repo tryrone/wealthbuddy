@@ -72,7 +72,7 @@ const SignUpPersonalDetails = ({
                     <fieldset className="mb-5">
                       <label className="block text-xs mb-2">First name</label>
                       <Field
-                        placeholder=""
+                        placeholder="ex. Adebanjo"
                         type="text"
                         id="firstName"
                         name="firstName"
@@ -83,7 +83,7 @@ const SignUpPersonalDetails = ({
                     <fieldset className="mb-5">
                       <label className="block text-xs mb-2">Last name</label>
                       <Field
-                        placeholder=""
+                        placeholder="ex. Adebowale"
                         type="text"
                         id="lastName"
                         name="lastName"
@@ -105,7 +105,7 @@ const SignUpPersonalDetails = ({
                     <fieldset className="mb-5">
                       <label className="block text-xs mb-2">Phone number</label>
                       <Field
-                        placeholder=""
+                        placeholder="08012345678"
                         type="text"
                         id="phoneNumber"
                         name="phoneNumber"
@@ -115,7 +115,7 @@ const SignUpPersonalDetails = ({
 
                     <fieldset className="mb-5">
                       <label className="block text-xs mb-2">
-                        Referral code
+                        Referral code (optional)
                       </label>
                       <Field
                         placeholder=""

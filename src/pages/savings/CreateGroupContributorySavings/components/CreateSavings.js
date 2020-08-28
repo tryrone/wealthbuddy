@@ -383,7 +383,8 @@ const CreateSavings = ({
                       <div className="mx-5">
                         <div className="w-full items-center justify-between pt-6">
                           <div className="block font-semi-bold text-gray-700 text-xs mb-3">
-                            Group members
+                            Group members<br  />
+                            (add group members in the order in which they will be paid)
                           </div>
                           <div className="p-5 rounded border border-solid border-gray-200">
                             <FieldArray
