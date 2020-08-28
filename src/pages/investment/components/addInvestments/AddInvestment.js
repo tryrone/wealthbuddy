@@ -125,9 +125,9 @@ const AddInvestment = ({
     1: "Funds",
     3: "Treasury Bills",
     3: "Treasury Bills",
-    2: "Fixed Tip",
-    2: "Fixed Tip",
-    2: "Fixed Tip",
+    2: "Fixed Deposit",
+    2: "Fixed Deposit",
+    2: "Fixed Deposit",
   };
 
   const availInvest = getAllInvestmentsData.filter(

@@ -189,37 +189,50 @@ const InvestmentInfo = (props) => {
           {/* box two end */}
 
           {/* box three start */}
-          
-          <div
-            style={{
-              border: "1px solid #F1F1F1",
-            }}
-            className="card py-4  rounded mt-10"
-          >
-            <p
-              style={{ color: "#999999" }}
-              className="text-lg font-bold pl-4 sm:text-base"
+          {InvestmentName[0].investmentType === 1 ? (
+            <div
+              style={{
+                border: "1px solid #F1F1F1",
+              }}
+              className="card py-4  rounded mt-10"
             >
-              {
-                InvestmentName[0].investmentType === 1 ? "Price History":
-                InvestmentName[0].investmentType === 3 ?"Auction" : 
-                InvestmentName[0].investmentType === 2 ? null : ""    
-              }
-              
-            </p>
+              <p
+                style={{ color: "#999999" }}
+                className="text-lg font-bold pl-4 sm:text-base"
+              >
+                Price History
+              </p>
 
-            <div>
-             {
-                InvestmentName[0].investmentType === 1 ? <Chart />:
-                InvestmentName[0].investmentType === 3 ?"" : 
-                InvestmentName[0].investmentType === 2 ? null : ""    
-              }
-              
+              <div>
+                InvestmentName[0].investmentType === 1 ? <Chart />
+              </div>
             </div>
-          </div>
+          ) : InvestmentName[0].investmentType === 3 ? (
+            <div
+              style={{
+                border: "1px solid #F1F1F1",
+              }}
+              className="card py-4  rounded mt-10"
+            >
+              <p
+                style={{ color: "#999999" }}
+                className="text-lg font-bold pl-4 sm:text-base"
+              >
+                Auction
+              </p>
+
+              <div>
+                {/* {
+                    InvestmentName[0].investmentType === 1 ? <Chart /> :
+                      InvestmentName[0].investmentType === 3 ? "" :
+                        null
+                  } */}
+              </div>
+            </div>
+          ) : null}
           {/* box three end */}
         </div>
-        {/* edn of column one */}
+        {/* end of column one */}
 
         {/* second coulumn */}
         <div
@@ -308,18 +321,16 @@ const InvestmentInfo = (props) => {
           )} */}
 
           {/* item */}
-          {
-            InvestmentName[0].investmentType === 1 ?
+          {InvestmentName[0].investmentType === 1 ? (
             <div className="flex flex-row mt-8 content-center justify-between items-center">
-          <p className="font-bold text-black text-base sm:text-sm">
-            Date issued
-          </p>            
-          <p className="font-hairline text-right text-black text-base sm:text-sm">
-            {moment(InvestmentName[0].dateIssued).format("L")}
-          </p>
-        </div> : null
-          }
-        
+              <p className="font-bold text-black text-base sm:text-sm">
+                Date issued
+              </p>
+              <p className="font-hairline text-right text-black text-base sm:text-sm">
+                {moment(InvestmentName[0].dateIssued).format("L")}
+              </p>
+            </div>
+          ) : null}
 
           {/* item */}
           {/* {!InvestmentName[0].maturityDate ? null : (
@@ -357,8 +368,7 @@ const InvestmentInfo = (props) => {
               Minimun Deposit
             </p>
             <p className="font-hairline text-right text-black text-base sm:text-sm">
-              {` ₦ ${InvestmentName[0].minimumAmount}` }
-              
+              {` ₦ ${InvestmentName[0].minimumAmount}`}
             </p>
           </div>
 

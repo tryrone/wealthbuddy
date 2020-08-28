@@ -19,6 +19,8 @@ const WithdrawInvestment = (props) => {
   const [selectOne, changeSelectOne] = useState(false);
   const [selectTwo, changeSelectTwo] = useState(false);
   const [displayOne, changeDisplayOne] = useState(true);
+  const [check, setCheck] = useState(true);
+
   const [fullWithdrawal, setFullWithdrawal] = useState(false);
   const [picture, setPicture] = useState([]);
   const [displayTwo, changeDisplayTwo] = useState(false);
@@ -337,14 +339,34 @@ const WithdrawInvestment = (props) => {
           {/* if withdraw to wallet is clicked display this */}
 
           <div className="nav-buttons flex justify-center pl-4 pr-4 ">
-            <button
-              onClick={() => {
-                changeDisplayOne(true);
-              }}
-              className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
-            >
-              Back
-            </button>
+            {check && displayOne ? (
+              <Link
+                to={{
+                  pathname: "/dashboard/investment/view-investment",
+                  investmentId: makeArray[0].securityId,
+                }}
+              >
+                <button
+                  onClick={() => {
+                    changeDisplayOne(true);
+                  }}
+                  className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
+                >
+                  Back
+                </button>
+              </Link>
+            ) : null}
+            {!(check && displayOne) ? (
+              <button
+                onClick={() => {
+                  setCheck(true);
+                  changeDisplayOne(true);
+                }}
+                className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
+              >
+                Back
+              </button>
+            ) : null}
 
             <button
               disabled={amount == null ? true : false}
@@ -370,11 +392,7 @@ const WithdrawInvestment = (props) => {
           {/* image setting */}
           <div className="w-72 shadow-lg p-2">
             <div className="h-32 w-full border-dashed border border-gray-400 rounded flex flex-col justify-center items-center">
-              <img
-                src={dollBox}
-                alt=""
-                className="w-full h-full"
-              />
+              <img src={dollBox} alt="" className="w-full h-full" />
             </div>
           </div>
           {/* image setting end */}
