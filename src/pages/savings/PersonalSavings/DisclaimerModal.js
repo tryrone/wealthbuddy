@@ -46,24 +46,20 @@ const DisclaimerModal = ({
 
               <div className="disclaimer-text">
                 <p className="mb-6 text-gray-300">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
+                I authorize MWML act in accordance with our instructions or 
+                that of any person authorized by us in respect of this savings 
+                (including those transmitted and received by telephone, fax, 
+                electronic mail or the internet), and to do all things necessary to 
+                give effect thereto.
+
                 </p>
                 <p className="text-gray-300">
-                  Consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                  ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                  ea commodo consequat. Duis aute irure dolor in reprehenderit
-                  in voluptate velit esse cillum dolore eu fugiat nulla
-                  pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                  in culpa qui officia deserunt mollit anim id est laborum.
+                I agree that this savings instance therein shall be 
+                locked-in for the period I have specified in the setup 
+                of this savings instance.
+
                 </p>
+                
               </div>
 
               <div className="nav-buttons flex justify-center">
