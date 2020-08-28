@@ -13,6 +13,10 @@ export const startGroupContributorySavings = (data) => {
   return axios.post(urls.startGroupContributorySavings, data);
 };
 
+export const cancelGroupContributorySavings = (savingsID) => {
+  return axios.post(urls.cancelGroupContributorySavings, { savingsID });
+};
+
 export const treatGroupContributoryInvitation = (data) => {
   return axios.post(urls.treatGroupContributoryInvitation, data);
 };

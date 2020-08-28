@@ -42,7 +42,9 @@ const ConfirmSavings = ({
                   <div className="savings-heading text-center">
                     <h5 className="savings-subtitle">{formValues.name}</h5>
                     <h1 className="savings-title mt-2">
-                      {`₦${formatCurrency(formValues.amount)}`}
+                      {`₦${formatCurrency(
+                        formValues.amount * formValues.participants.length
+                      )}`}
                     </h1>
                   </div>
                 </div>
@@ -50,12 +52,10 @@ const ConfirmSavings = ({
                 <div className="savings-summary--items">
                   <div className="savings-inner--item">
                     <h5 className="savings-inner--subtitle text-gray-300 text-xs">
-                      Contribution
+                      Each Member's Contribution
                     </h5>
                     <h1 className="savings-inner--title mt-3 font-medium">
-                      {`₦${formatCurrency(
-                        formValues.amount / formValues.duration
-                      )}
+                      {`₦${formatCurrency(formValues.amount)}
                           /
                           ${savingsFrequencies[formValues.frequency]}`}
                     </h1>

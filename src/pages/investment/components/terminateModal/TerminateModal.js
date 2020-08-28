@@ -41,6 +41,7 @@ function TerminateModal(props) {
               <button
                 onClick={() => {
                   setPayment(true);
+                  // console.log(props.myTerminateData, "fella");
                 }}
                 className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
               >

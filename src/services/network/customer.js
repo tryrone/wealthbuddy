@@ -17,6 +17,10 @@ export const completeVerifyEmail = (data) => {
   return axios.post(urls.completeVerifyEmail, data);
 };
 
+export const resendVerifyEmail = (data) => {
+  return axios.post(urls.resendVerifyEmail, data);
+};
+
 export const addBvn = (data) => {
   return axios.post(urls.addBvn, data);
 };

@@ -96,6 +96,8 @@ const GroupInvitationUpdate = ({ invitations }) => {
       setState(
         produce((draft) => {
           draft.isAcceptLoading = false;
+          draft.isSelectCardModalVisible = false;
+          draft.isAcceptSavingsSuccessModalVisible = true;
         })
       );
     } else {

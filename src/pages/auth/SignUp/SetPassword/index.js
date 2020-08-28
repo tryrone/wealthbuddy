@@ -7,6 +7,7 @@ import { Field, Form, Formik } from "formik";
 import { connect } from "react-redux";
 import { createUser } from "state/ducks/createUser/actions";
 import { Link, Redirect } from "react-router-dom";
+import PasswordStrengthMeter from "./components/PasswordStrengthMeter";
 
 const initialValues = {
   password: "",
@@ -95,6 +96,7 @@ const SignUpSetPassword = ({
                           name="password"
                           className="block w-72 text-xs p-3 border border-gray-400 rounded"
                         />
+                        <PasswordStrengthMeter />
                       </fieldset>
 
                       <fieldset className="mb-5">
@@ -140,8 +142,8 @@ const SignUpSetPassword = ({
 };
 
 const mapStateToProps = (state) => ({
-  loading: state.createUser.login,
-  error: state.createUser.login,
+  loading: state.createUser.loading,
+  error: state.createUser.error,
   signUpParams: state.signUpParams,
 });
 

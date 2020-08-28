@@ -13,6 +13,10 @@ export const startGroupChallengeSavings = (data) => {
   return axios.post(urls.startGroupChallengeSavings, data);
 };
 
+export const cancelGroupChallengeSavings = (savingsID) => {
+  return axios.post(urls.cancelGroupChallengeSavings, { savingsID });
+};
+
 export const startGroupChallengeWithdraw = (data) => {
   return axios.post(urls.startGroupChallengeWithdraw, data);
 };

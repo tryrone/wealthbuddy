@@ -74,7 +74,7 @@ const ForgotPassword = () => {
             <Fragment>
               <h1 className="text-2xl font-medium">Password reset</h1>
               <p className="text-center mt-3 text-gray-500 leading-normal">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+              Enter your email below, to reset your password
               </p>
             </Fragment>
           ) : (
@@ -131,7 +131,7 @@ const ForgotPassword = () => {
                             onSubmit={handleSubmit}
                             disabled={!isValid}
                           >
-                            Reset
+                            Reset Password
                           </button>
                         </Form>
 
@@ -143,6 +143,12 @@ const ForgotPassword = () => {
                               className="text-wb-primary"
                             >
                               Sign Up
+                            </Link>
+                             &nbsp; |  &nbsp; <Link
+                              to="/auth/login"
+                              className="text-wb-primary"
+                            >
+                              Login
                             </Link>
                           </p>
                         </div>

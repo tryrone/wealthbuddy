@@ -11,7 +11,7 @@ import { createGroupContributorySavings } from "state/slices/savings";
 import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
 import "./styles.css";
 
-const Index = ({ savingsConfiguration }) => {
+const GroupContributorySavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -30,7 +30,7 @@ const Index = ({ savingsConfiguration }) => {
     formValues: {
       name: "",
       amount: "",
-      frequency: SavingsFrequency.Daily.toString(),
+      frequency: SavingsFrequency.Weekly.toString(),
       duration: "",
       description: "",
       applyInterest: true,
@@ -41,6 +41,11 @@ const Index = ({ savingsConfiguration }) => {
   });
 
   const onSubmitCreatePersonalSavings = (values) => {
+    values = {
+      ...values,
+      duration: values.participants.length,
+    };
+
     setState(
       produce((draft) => {
         draft.showCreationPage = false;
@@ -204,4 +209,4 @@ const mapStateToProps = (state) => ({
   savingsConfiguration: state.savingsConfiguration.data,
 });
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps)(GroupContributorySavings);

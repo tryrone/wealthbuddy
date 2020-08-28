@@ -8,6 +8,7 @@ import { Link, Redirect, useHistory } from "react-router-dom";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import SuccessModal from "../components/successModal/SuccessModal";
 import { formatCurrency } from "utils";
+import dollBox from "../../../assets/img/funds_img.jpg";
 
 const items = [{ text: "GTB - 0179" }];
 
@@ -71,14 +72,14 @@ const WithdrawInvestment = (props) => {
   };
 
   const withdrawData = {
-    description: `${
+    fundName: `${
       setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
         ? makeArray[0].typeLabel
         : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
         ? makeArray[0].productLabel
         : makeArray[0].symbol
     }`,
-    securityID: `${
+    securityId: `${
       setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
         ? makeArray[0].typeId
         : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
@@ -93,7 +94,7 @@ const WithdrawInvestment = (props) => {
         ? makeArray[0].netInstrumentValue.currency
         : "NGN"
     }`,
-    fundName: `${
+    description: `${
       setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
         ? makeArray[0].typeLabel
         : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
@@ -122,12 +123,13 @@ const WithdrawInvestment = (props) => {
           {" "}
           {">>"}{" "}
         </p>
-        <p
-          onClick={() => {
-            return history.push("/dashboard/investment");
+        <Link
+          to={{
+            pathname: "/dashboard/investment/view-investment",
+            investmentId: makeArray[0].securityId,
           }}
           style={{ color: "#999999" }}
-          className="text-xs cursor-pointer ml-4 sm:ml-1"
+          className="text-xs ml-4 sm:ml-1"
         >
           {setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
             ? makeArray[0].typeLabel
@@ -135,7 +137,7 @@ const WithdrawInvestment = (props) => {
               setInvestmentTypeThree.length == 0
             ? makeArray[0].productLabel
             : makeArray[0].companyName}
-        </p>
+        </Link>
         <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
@@ -343,17 +345,16 @@ const WithdrawInvestment = (props) => {
             >
               Back
             </button>
-            {/* <button className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm ${(checkEmpty(state) === true || status) && "opaque"}`} onClick={(checkEmpty(state) === false && !status) && confirm}> */}
+
             <button
               disabled={amount == null ? true : false}
               // onClick={()=>{changeDisplayOne(false)}}
               onClick={() => {
                 changeModal(true);
-                console.log(withdrawData);
               }}
               className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
             >
-              Next
+              Proceed
             </button>
           </div>
         </div>
@@ -370,7 +371,7 @@ const WithdrawInvestment = (props) => {
           <div className="w-72 shadow-lg p-2">
             <div className="h-32 w-full border-dashed border border-gray-400 rounded flex flex-col justify-center items-center">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                src={dollBox}
                 alt=""
                 className="w-full h-full"
               />

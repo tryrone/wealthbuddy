@@ -11,7 +11,6 @@ import {
 import { getAllInvestments } from "../../../../state/slices/investments";
 import { connect, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { forEach } from "lodash";
 import Loading from "shared-components/Loading";
 
 const AddInvestment = ({
@@ -27,10 +26,14 @@ const AddInvestment = ({
     //   return props.history.push("/dashboard/investment");
     // }
     // console.log(location, "location");
-    if (getAllInvestmentsData.length == 0) {
+    if (!getAllInvestmentsData || getAllInvestmentsData.length == 0) {
       dispatch(getAllInvestments());
     }
   }, []);
+
+  if (!getAllInvestmentsData) {
+    return <div className="text-4xl text-center">No investments found</div>;
+  }
 
   const data = [
     {

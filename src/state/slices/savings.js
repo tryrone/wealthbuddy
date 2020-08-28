@@ -11,8 +11,7 @@ import {
 import { getDashboardData } from "../ducks/dashboard/actions";
 import { getRecentSavingTransactionsData } from "../ducks/recentSavingTransactions/actions";
 import { getCustomerSavingsData } from "../ducks/customerSavings/actions";
-import { SavingsType } from "constants/enums";
-import { GroupSavingsType } from "../../constants/enums";
+import { SavingsType, GroupSavingsType } from "constants/enums";
 
 const initialState = {
   createPersonalTargetSavingsLoading: false,
@@ -208,11 +207,6 @@ export const completeCancelSavings = createAsyncThunk(
         FixedFlexibleSavings.completeCancelFixedFlexibleSavings,
     };
     const response = await request[savingsType](savingsID);
-
-    thunkAPI.dispatch(getDashboardData());
-    thunkAPI.dispatch(getCustomerSavingsData());
-    thunkAPI.dispatch(getRecentSavingTransactionsData());
-
     return response.data.data;
   }
 );
@@ -283,6 +277,22 @@ export const getPendingSavingsInvitations = createAsyncThunk(
   "savings/getPendingInvitations",
   async () => {
     const response = await Savings.getPendingSavingsInvitations();
+    return response.data.data;
+  }
+);
+
+export const cancelGroupSavings = createAsyncThunk(
+  "savings/cancelGroupSavings",
+  async ({ savingsID, savingsType }, thunkAPI) => {
+    const request = {
+      [SavingsType.GroupTargetSavings]:
+        GroupTargetSavings.cancelGroupTargetSavings,
+      [SavingsType.GroupChallengeSavings]:
+        GroupChallengeSavings.cancelGroupChallengeSavings,
+      [SavingsType.GroupContributorySavings]:
+        GroupContributorySavings.cancelGroupContributorySavings,
+    };
+    const response = await request[savingsType](savingsID);
     return response.data.data;
   }
 );

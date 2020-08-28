@@ -1,4 +1,4 @@
-import axios from 'services/api';
+import axios from "services/api";
 import urls from "constants/urls";
 
 export const createGroupTargetSavings = (data) => {
@@ -11,6 +11,10 @@ export const fetchGroupTargetSavingsById = (savingsId) => {
 
 export const startGroupTargetSavings = (data) => {
   return axios.post(urls.startGroupTargetSavings, data);
+};
+
+export const cancelGroupTargetSavings = (savingsID) => {
+  return axios.post(urls.cancelGroupTargetSavings, { savingsID });
 };
 
 export const startGroupTargetWithdraw = (data) => {

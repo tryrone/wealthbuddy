@@ -10,6 +10,7 @@ import InvestmentDropdown from "../../../components/investmentDropdown/Investmen
 import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
+import FundSuccess from "./FundSuccess";
 
 const FundExistingModal = (props) => {
   const [payment, setPayment] = useState(false);
@@ -20,32 +21,64 @@ const FundExistingModal = (props) => {
   const [activeTwo, setActiveTwo] = useState(false);
 
   const setInvestDetails = props.MycreateInvestmentData;
-  let errorObj = props.fundInvestmentError;
+
+  if (!props.getAllInvestmentsData) {
+    return (
+      <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
+        <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset">
+          <p className="text-hairline text-base text-center">
+            There seems to be an issues with the platform , please contact
+            customer services.
+          </p>
+          <button
+            onClick={() => {
+              return document.location.reload(true);
+            }}
+            className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const myDataArray = props.getAllInvestmentsData.filter(
     (item) => item.investmentID == setInvestDetails.itemId
   );
 
-  console.log(myDataArray, "my baby");
-  // setInvestDetails.securityID
-
-  const dispatch = useDispatch();
-
-  const refresh = () => {
-    return <Redirect to="/investment/add-investment" />;
-  };
-
   const showMyDetails = () => {
+    if (myDataArray.length == 0) {
+      return (
+        <div className="modal fixed inset-0 bg-wb-overlay flex justify-center items-center modal-active">
+          <div className="auth-modal flex flex-col items-center bg-white fadeIn login-fieldset">
+            <p className="text-hairline text-base text-center">
+              There seems to be an issues with the platform , please contact
+              customer services.
+            </p>
+            <button
+              onClick={() => {
+                return <Redirect to="/investment/investment" />;
+              }}
+              className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     if (!activeOne) {
       setInvestDetails.investmentType = parseInt(myDataArray[0].investmentType);
       delete setInvestDetails.itemId;
-      dispatch(fundInvestment(setInvestDetails));
+      // dispatch(fundInvestment(setInvestDetails));
       // console.log(myDataArray[0]);
     } else if (activeOne) {
       setInvestDetails.cardId = `${myCard}`;
       setInvestDetails.investmentType = parseInt(myDataArray[0].investmentType);
       delete setInvestDetails.itemId;
-      dispatch(fundInvestment(setInvestDetails));
+      // dispatch(fundInvestment(setInvestDetails));
       // console.log(myDataArray[0]);
       // console.log(props, "solo");
     }
@@ -77,7 +110,6 @@ const FundExistingModal = (props) => {
           </p>
         </span>
 
-        {/* UI before payment  */}
         {/* UI before payment  */}
         {props.fundInvestmentLoading ? null : inHide ? (
           <Fragment>
@@ -113,7 +145,7 @@ const FundExistingModal = (props) => {
                 </div>
                 <label
                   className="ml-4 font-medium text-base"
-                  for="payment_method"
+                  htmlFor="payment_method"
                 >
                   Use debit card{" "}
                 </label>
@@ -142,7 +174,7 @@ const FundExistingModal = (props) => {
                 </div>
                 <label
                   className="ml-4 font-medium text-base"
-                  for="payment_method"
+                  htmlFor="payment_method"
                 >
                   Use wallet{" "}
                 </label>
@@ -171,11 +203,18 @@ const FundExistingModal = (props) => {
                     // onClick={()=>{onclose()}}
                     onClick={() => {
                       showMyDetails();
+                      setPayment(true);
                     }}
                     className={`mt-6 w-40 text-center leading-loose mx-auto bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
                   >
                     Done
                   </button>
+                  {myDataArray.length == 0 ? (
+                    <p className="mt-2 font-hairline text-center text-xs">
+                      there seems to be something wrong with the investment
+                      please contact customer services
+                    </p>
+                  ) : null}
                 </div>
               </Fragment>
             ) : null}
@@ -199,12 +238,18 @@ const FundExistingModal = (props) => {
                 <button
                   onClick={() => {
                     showMyDetails();
-                    // setPayment(true);
+                    setPayment(true);
                   }}
                   className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
                 >
                   Continue
                 </button>
+                {myDataArray.length == 0 ? (
+                  <p className="mt-2 font-hairline text-center text-xs">
+                    there seems to be something wrong with the investment please
+                    contact customer services
+                  </p>
+                ) : null}
               </Fragment>
             ) : (
               ""
@@ -216,72 +261,17 @@ const FundExistingModal = (props) => {
         ) : (
           ""
         )}
-
         {/* UI before payment end  */}
-        {/* UI before payment  end */}
 
         {/* Loading UI for PayMent */}
-        {/* Loading UI for PayMent */}
-        {props.fundInvestmentLoading ? (
-          <Fragment>
-            <Loading text="Funding Investment" />
-          </Fragment>
+        {payment ? (
+          <FundSuccess
+            investData={setInvestDetails}
+            close={onclose}
+            text="you have successfully funded an investment"
+          />
         ) : null}
         {/* Loading UI for PayMent */}
-        {/* Loading UI for PayMent */}
-
-        {/* UI after payment */}
-        {/* UI after payment */}
-        {!(errorObj && !props.fundInvestmentLoading && !payment) &&
-        props.fundInvestmentMe ? (
-          <Fragment>
-            <div className="flex flex-col items-center mb-0">
-              <i className="w-20 mb-4">
-                <img src={successDoc} alt="" />
-              </i>
-              <h1 className="text-2xl font-medium mb-2">Success</h1>
-              <p className="text-center text-gray-500 leading-normal">
-                You have successfully funded an investment.
-              </p>
-
-              <button
-                onClick={() => {
-                  onclose();
-                  refresh();
-                }}
-                className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
-              >
-                Done
-              </button>
-            </div>
-          </Fragment>
-        ) : errorObj && !props.fundInvestmentLoading && !payment ? (
-          <Fragment>
-            <div className="flex flex-col items-center mb-0">
-              <i className="w-20 mb-4">
-                <img src={failedDoc} alt="" />
-              </i>
-              <h1 className="text-2xl font-medium mb-2">Failed</h1>
-              <p className="text-center text-gray-500 leading-normal">
-                {errorObj.message}.
-              </p>
-
-              <button
-                onClick={() => {
-                  onclose();
-                  // refresh();
-                }}
-                className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
-              >
-                Done
-              </button>
-            </div>
-          </Fragment>
-        ) : (
-          ""
-        )}
-        {/* UI after payment end */}
-        {/* UI after payment end*/}
       </div>
     </div>
   );

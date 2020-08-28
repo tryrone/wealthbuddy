@@ -3,7 +3,7 @@ import SuccessModal from "shared-components/modals/SuccessModal";
 import CardIcon from "assets/img/cardIcon.png";
 import { formatCurrency } from "utils";
 
-const CancelSavingsSuccess = ({ isVisible, closeModal, amountToDisburse }) => {
+const CancelSavingsSuccess = ({ isVisible, closeModal }) => {
   if (!isVisible) {
     return null;
   }
@@ -11,15 +11,7 @@ const CancelSavingsSuccess = ({ isVisible, closeModal, amountToDisburse }) => {
   return (
     <SuccessModal
       title="Success"
-      subtitle={
-        <span>
-          You have successfully deleted your savings, and{" "}
-          <span className="font-bold color-black">
-            ₦{formatCurrency(amountToDisburse)}
-          </span>{" "}
-          has been added to your Wallet.
-        </span>
-      }
+      subtitle={<span>You have successfully deleted your savings</span>}
       icon={CardIcon}
       buttonTitle="Done"
       closeModal={closeModal}

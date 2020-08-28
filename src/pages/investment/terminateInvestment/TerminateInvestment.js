@@ -13,6 +13,8 @@ const TerminateInvestment = (props) => {
   const [selectOne, changeSelectOne] = useState(false);
   const [selectTwo, changeSelectTwo] = useState(false);
   const [displayOne, changeDisplayOne] = useState(true);
+  const [userDescp, setUserDescp] = useState("");
+  const [despError, setDespError] = useState(false);
 
   const history = useHistory();
 
@@ -55,33 +57,42 @@ const TerminateInvestment = (props) => {
   const myDate = Date.now();
   const date = moment(myDate).toISOString();
 
-  const terminateData = {
-    transactionID: `${
+  // TERMINATION DATA
+  const terminateDataFixed = {
+    instrumentID: parseInt(
       setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
-        ? makeArray[0].typeId
+        ? makeArray[0].id
         : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
-        ? makeArray[0].typeId
-        : makeArray[0].securityId
-    }`,
-    description: `${
-      setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
-        ? makeArray[0].typeLabel
-        : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
-        ? makeArray[0].productLabel
-        : makeArray[0].symbol
-    }`,
+        ? makeArray[0].instrumentId
+        : null
+    ),
     terminationDate: `${date}`,
+    typeId: 2,
   };
+  const terminateDataTbills = {
+    transactionID: parseInt(
+      setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+        ? makeArray[0].id
+        : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
+        ? makeArray[0].instrumentId
+        : null
+    ),
+    isFullTermination: !displayOne && selectOne ? false : true,
+    description: userDescp,
+    terminationDate: `${date}`,
+    typeId: 3,
+  };
+  // TERMINATION DATA
 
   if (!displayOne && selectOne) {
-    terminateData.amount = parseInt(amount);
+    terminateDataTbills.amount = parseInt(amount);
   }
 
-  if (setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0) {
-    terminateData.discountRate = `${parseInt(
-      makeArray[0].discountRate.toFixed(1)
-    )}`;
-  }
+  // if (setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0) {
+  //   terminateData.discountRate = `${parseInt(
+  //     makeArray[0].discountRate.toFixed(1)
+  //   )}`;
+  // }
 
   return (
     <div className="px-12">
@@ -99,14 +110,23 @@ const TerminateInvestment = (props) => {
           {" "}
           {">>"}{" "}
         </p>
-        <p style={{ color: "#999999" }} className="text-xs ml-4 sm:ml-1">
+        <Link
+          to={{
+            pathname: "/dashboard/investment/view-investment",
+            investmentId: makeArray[0].typeId,
+            fixedId: makeArray[0].instrumentId,
+            tBillId: makeArray[0].id,
+          }}
+          style={{ color: "#999999" }}
+          className="text-xs ml-4 sm:ml-1"
+        >
           {setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
             ? makeArray[0].typeLabel
             : setInvestmentTypeTwo.length == 0 &&
               setInvestmentTypeThree.length == 0
             ? makeArray[0].productLabel
             : makeArray[0].companyName}
-        </p>
+        </Link>
         <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
@@ -121,7 +141,6 @@ const TerminateInvestment = (props) => {
       {/* main body of termination */}
       <div className="flex flex-col sm:flex-row">
         {/* column one */}
-        {/* column one */}
         <div
           style={{ border: "1px solid #F1F1F1" }}
           className="card sm:w-1/2  w-auto pt-20 pb-20 mb-24 flex flex-col justify-center content-center mt-6 sm:mr-4"
@@ -130,30 +149,40 @@ const TerminateInvestment = (props) => {
           {/* optinal buttons to withdraw from */}
           {displayOne ? (
             <Fragment>
-              <div
-                style={{
-                  borderColor: selectOne ? "#8CB13D" : "#E6E6E6",
-                  backgroundColor: selectOne ? "#F9FFEB" : "",
-                }}
-                onClick={() => {
-                  changeSelectOne(true);
-                  changeSelectTwo(false);
-                  changeDisplayOne(false);
-                }}
-                className="flex flex-row border cursor-pointer w-8/12 border-solid items-center self-center"
-              >
+              {setInvestmentTypeTwo.length == 0 &&
+              setInvestmentTypeThree.length == 0 ? null : (
                 <div
                   style={{
-                    height: "65px",
-                    width: "65px",
-                    backgroundColor: "#B8DDE9",
+                    borderColor: selectOne ? "#8CB13D" : "#E6E6E6",
+                    backgroundColor: selectOne ? "#F9FFEB" : "",
                   }}
-                  className="flex mr-6 justify-center items-center"
+                  onClick={() => {
+                    changeSelectOne(true);
+                    changeSelectTwo(false);
+                    changeDisplayOne(false);
+                  }}
+                  className="flex flex-row border cursor-pointer w-8/12 border-solid items-center self-center"
                 >
-                  <img src={partTerm} alt="" className="" />
+                  <div
+                    style={{
+                      height: "65px",
+                      width: "65px",
+                      backgroundColor: "#B8DDE9",
+                    }}
+                    className="flex mr-6 justify-center items-center"
+                  >
+                    <img src={partTerm} alt="" className="" />
+                  </div>
+                  <p className="pr-4">Part Terminate</p>
                 </div>
-                <p>Part Terminate</p>
-              </div>
+              )}
+
+              {setInvestmentTypeTwo.length == 0 &&
+              setInvestmentTypeThree.length == 0 ? (
+                <p className="text-center text-green-400 font-medium my-4">
+                  Please Click on full terminate to proceed
+                </p>
+              ) : null}
 
               <div
                 style={{
@@ -186,24 +215,38 @@ const TerminateInvestment = (props) => {
           {/* if part terminate is clicked display this */}
           {/* if part terminate is clicked display this */}
           {!displayOne && selectOne ? (
-            <fieldset className="mb-4 w-full px-6 mx-auto">
-              <label className="block text-xs font-medium">
-                How much do you want to withdraw
-              </label>
-              <NumberFormat
-                thousandSeparator={true}
-                placeholder="How much do you want to withdraw"
-                autoComplete="off"
-                type="text"
-                id="amount"
-                name="amount"
-                className="block w-full text-xs mt-2 p-3 border border-gray-400 rounded"
-                value={amount}
-                onValueChange={({ value }) => {
-                  setAmount(value);
-                }}
-              />
-            </fieldset>
+            <Fragment>
+              <fieldset className="mb-4 w-full px-6 mx-auto">
+                <label className="block text-xs font-medium">
+                  How much do you want to withdraw
+                </label>
+                <NumberFormat
+                  thousandSeparator={true}
+                  placeholder="How much do you want to withdraw"
+                  autoComplete="off"
+                  type="text"
+                  id="amount"
+                  name="amount"
+                  className="block w-full text-xs mt-2 p-3 border border-gray-400 rounded"
+                  value={amount}
+                  onValueChange={({ value }) => {
+                    setAmount(value);
+                  }}
+                />
+              </fieldset>
+              <fieldset className="mb-4 w-full px-6 mx-auto">
+                <label className="block text-xs font-medium">
+                  Please sate your reasons for termination
+                </label>
+                <input
+                  type="text"
+                  className="block w-full text-xs mt-2 p-3 border border-gray-400 rounded"
+                  onChange={(e) => {
+                    setUserDescp(e.target.value);
+                  }}
+                />
+              </fieldset>
+            </Fragment>
           ) : null}
           {/* if part terminate  is clicked display this */}
           {/* if part terminate  is clicked display this */}
@@ -211,14 +254,20 @@ const TerminateInvestment = (props) => {
           {/* BUTTONS FOR CONFIRMATION */}
           {/* BUTTONS FOR CONFIRMATION */}
           <div className="nav-buttons flex justify-center pl-4 pr-4 ">
-            <button
+            <Link
+              to={{
+                pathname: "/dashboard/investment/view-investment",
+                investmentId: makeArray[0].typeId,
+                fixedId: makeArray[0].instrumentId,
+                tBillId: makeArray[0].id,
+              }}
               onClick={() => {
                 changeDisplayOne(true);
               }}
               className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
             >
               Back
-            </button>
+            </Link>
             {/* <button className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm ${(checkEmpty(state) === true || status) && "opaque"}`} onClick={(checkEmpty(state) === false && !status) && confirm}> */}
             <button
               // onClick={()=>{changeDisplayOne(false)}}
@@ -228,16 +277,14 @@ const TerminateInvestment = (props) => {
               }}
               className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
             >
-              Next
+              Proceed
             </button>
           </div>
           {/* BUTTONS FOR CONFIRMATION */}
           {/* BUTTONS FOR CONFIRMATION */}
         </div>
         {/* column one end */}
-        {/* column one end */}
 
-        {/* column two */}
         {/* column two */}
         <div className="sm:w-1/2">
           <div
@@ -426,13 +473,12 @@ const TerminateInvestment = (props) => {
               {selectOne
                 ? `Part of your investment would be 
                                     terminated and would be sent 
-                                    to you wallet along with your interest,
-                                     with 2% penalty fee.`
+                                    to you wallet along with your interest.`
                 : `This investment would be fuly 
                                     terminated and your 
                                     funds would be transfered 
                                     to your wallet along with your 
-                                    interest with 20% penalty fee`}
+                                    interest.`}
             </p>
           </div>
           {/* notification for termination text  end*/}
@@ -444,7 +490,11 @@ const TerminateInvestment = (props) => {
       {modal ? (
         <TerminateModal
           myclose={onclose}
-          myTerminateData={terminateData}
+          myTerminateData={
+            setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+              ? terminateDataTbills
+              : terminateDataFixed
+          }
           cost={
             setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
               ? makeArray[0].reportFaceValue.amount

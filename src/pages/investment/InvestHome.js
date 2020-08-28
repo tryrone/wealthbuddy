@@ -18,6 +18,7 @@ const InvestHome = ({
   investmentTransactionsForFundsLoading,
   investmentValuationLoading,
   getAllInvestmentsData,
+  investmentValuationCompleted,
   investmentValuationData,
   allTbillsTrasactionsData,
   allFixedTrasactionsData,
@@ -34,22 +35,6 @@ const InvestHome = ({
       dispatch(getInvestmentTransactionsForFund());
       dispatch(getAllFixedTransactions());
     }
-
-    // if (getAllInvestmentsData === 0) {
-    //   dispatch(getAllInvestments());
-    // }
-
-    // if (allTbillsTrasactionsData.length === 0) {
-    //   dispatch(getAllTbillsTransactions());
-    // }
-
-    // if (investmentTransactionsForFundsData === 0) {
-    //   dispatch(getInvestmentTransactionsForFund());
-    // }
-
-    // if (allFixedTrasactionsData === 0) {
-    //   dispatch(getAllFixedTransactions());
-    // }
   }, []);
 
   return investmentValuationLoading ? (
@@ -75,6 +60,7 @@ const InvestHome = ({
 
 const mapStateToProps = (state) => ({
   investmentValuationLoading: state.investments.investmentValuationLoading,
+  investmentValuationCompleted: state.investments.investmentValuationCompleted,
   investmentValuationData: state.investments.investmentValuationData,
   allPersonalInvestmentsLoading:
     state.investments.allPersonalInvestmentsLoading,

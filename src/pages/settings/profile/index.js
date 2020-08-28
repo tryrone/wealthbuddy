@@ -10,6 +10,8 @@ import { Form, Formik } from "formik";
 import { updateProfile } from "state/slices/account";
 import classNames from "classnames";
 import { convertIsoDateToYmdJson, convertYmdJsonToIsoDate } from "utils";
+import notification from "config/notification";
+import { store } from "react-notifications-component";
 
 const Profile = ({ account, activeTabId, handleTab }) => {
   useEffect(() => {
@@ -129,6 +131,13 @@ const Profile = ({ account, activeTabId, handleTab }) => {
     const resultAction = await dispatch(updateProfile(payload));
     if (updateProfile.fulfilled.match(resultAction)) {
       setIsSaving(false);
+
+      store.addNotification({
+        ...notification,
+        title: "Success",
+        message: "Profile updated successfully",
+        type: "success",
+      });
     } else {
       if (resultAction.payload) {
         setIsSaving(false);

@@ -7,6 +7,7 @@ import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import InvestModal from "../../../components/investModal/InvestModal";
 import { formatCurrency } from "utils";
 import FundExistingModal from "./FundExistingModal";
+import dollBox from "../../../../../assets/img/funds_img.jpg";
 
 const FundExistingInvestment = (props) => {
   const [amount, setAmount] = useState(null);
@@ -48,8 +49,6 @@ const FundExistingInvestment = (props) => {
   ) {
     makeArray = setInvestmentTypeTwo;
   }
-
-  console.log(makeArray, "take over");
 
   // onclick of dropdown
   const clickView = (value) => {
@@ -111,14 +110,20 @@ const FundExistingInvestment = (props) => {
           {" "}
           {">>"}{" "}
         </p>
-        <p style={{ color: "#999999" }} className="text-xs ml-4 sm:ml-1">
+        <Link
+          to={{
+            pathname: "/dashboard/investment/view-investment",
+            investmentId: makeArray[0].securityId,
+          }}
+          className="text-xs ml-4 sm:ml-1"
+        >
           {setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
             ? makeArray[0].typeLabel
             : setInvestmentTypeTwo.length == 0 &&
               setInvestmentTypeThree.length == 0
             ? makeArray[0].productLabel
             : makeArray[0].companyName}
-        </p>
+        </Link>
         <p style={{ color: "#999999" }} className="text-xs mx-4">
           {" "}
           {">>"}{" "}
@@ -164,7 +169,13 @@ const FundExistingInvestment = (props) => {
 
           {/* nav buttons */}
           <div className="nav-buttons flex justify-center ">
-            <Link className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm">
+            <Link
+              to={{
+                pathname: "/dashboard/investment/view-investment",
+                investmentId: makeArray[0].securityId,
+              }}
+              className="mt-12 w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
+            >
               Back
             </Link>
             {/* <button className={`mt-12 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm ${(checkEmpty(state) === true || status) && "opaque"}`} onClick={(checkEmpty(state) === false && !status) && confirm}> */}
@@ -191,7 +202,7 @@ const FundExistingInvestment = (props) => {
           <div className="w-72 shadow-lg p-2">
             <div className="h-32 w-full border-dashed border border-gray-400 rounded flex flex-col justify-center items-center">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                src={dollBox}
                 alt=""
                 className="w-full h-full"
               />

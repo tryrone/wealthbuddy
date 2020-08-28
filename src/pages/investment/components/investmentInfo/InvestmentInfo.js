@@ -146,7 +146,7 @@ const InvestmentInfo = (props) => {
       {/* div for the two main coloumns */}
 
       <div className="flex flex-col sm:flex-row">
-        {/* first coloumn */}
+        {/* first coloumn  */}
         <div className="sm:w-1/2 w-auto sm:mr-4">
           {/* box one start */}
           <div
@@ -189,6 +189,7 @@ const InvestmentInfo = (props) => {
           {/* box two end */}
 
           {/* box three start */}
+          
           <div
             style={{
               border: "1px solid #F1F1F1",
@@ -199,11 +200,21 @@ const InvestmentInfo = (props) => {
               style={{ color: "#999999" }}
               className="text-lg font-bold pl-4 sm:text-base"
             >
-              Price history
+              {
+                InvestmentName[0].investmentType === 1 ? "Price History":
+                InvestmentName[0].investmentType === 3 ?"Auction" : 
+                InvestmentName[0].investmentType === 2 ? null : ""    
+              }
+              
             </p>
 
             <div>
-              <Chart />
+             {
+                InvestmentName[0].investmentType === 1 ? <Chart />:
+                InvestmentName[0].investmentType === 3 ?"" : 
+                InvestmentName[0].investmentType === 2 ? null : ""    
+              }
+              
             </div>
           </div>
           {/* box three end */}
@@ -297,14 +308,18 @@ const InvestmentInfo = (props) => {
           )} */}
 
           {/* item */}
-          <div className="flex flex-row mt-8 content-center justify-between items-center">
-            <p className="font-bold text-black text-base sm:text-sm">
-              Date issued
-            </p>
-            <p className="font-hairline text-right text-black text-base sm:text-sm">
-              {moment(InvestmentName[0].dateIssued).format("L")}
-            </p>
-          </div>
+          {
+            InvestmentName[0].investmentType === 1 ?
+            <div className="flex flex-row mt-8 content-center justify-between items-center">
+          <p className="font-bold text-black text-base sm:text-sm">
+            Date issued
+          </p>            
+          <p className="font-hairline text-right text-black text-base sm:text-sm">
+            {moment(InvestmentName[0].dateIssued).format("L")}
+          </p>
+        </div> : null
+          }
+        
 
           {/* item */}
           {/* {!InvestmentName[0].maturityDate ? null : (
@@ -342,7 +357,8 @@ const InvestmentInfo = (props) => {
               Minimun Deposit
             </p>
             <p className="font-hairline text-right text-black text-base sm:text-sm">
-              ₦ {InvestmentName[0].minimumAmount}
+              {` ₦ ${InvestmentName[0].minimumAmount}` }
+              
             </p>
           </div>
 

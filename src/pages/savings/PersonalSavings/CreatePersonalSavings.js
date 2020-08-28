@@ -34,12 +34,12 @@ const CreatePersonalSavings = ({
   const maximumAmount = savingsConfiguration.maximumAmount;
 
   const minimumDurationInDays = savingsConfiguration.minimumDurationInDays;
-  const minimumDurationInWeeks = minimumDurationInDays / 7;
-  const minimumDurationInMonths = minimumDurationInDays / 30;
+  const minimumDurationInWeeks = Math.floor(minimumDurationInDays / 7);
+  const minimumDurationInMonths =  Math.floor(minimumDurationInDays / 30);
 
   const maximumDurationInDays = savingsConfiguration.maximumDurationInDays;
-  const maximumDurationInWeeks = maximumDurationInDays / 7;
-  const maximumDurationInMonths = maximumDurationInDays / 30;
+  const maximumDurationInWeeks =  Math.floor(maximumDurationInDays / 7);
+  const maximumDurationInMonths =  Math.floor(maximumDurationInDays / 30);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().label("Name").required(),
@@ -88,11 +88,11 @@ const CreatePersonalSavings = ({
         then: Yup.number()
           .min(
             minimumDurationInMonths,
-            `You can only save for a minimum of ${minimumDurationInDays} month`
+            `You can only save for a minimum of ${minimumDurationInMonths} month`
           )
           .max(
             maximumDurationInMonths,
-            `You can only save for a maximum of ${maximumDurationInDays} month`
+            `You can only save for a maximum of ${maximumDurationInMonths} month`
           ),
       }),
     applyInterest: Yup.boolean().label("Apply Interest").required(),

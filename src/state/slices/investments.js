@@ -31,6 +31,7 @@ const initialState = {
   fundInvestmentMe: false,
   //INVESTMENT VALUATION
   investmentValuationLoading: false,
+  investmentValuationCompleted: false,
   investmentValuationError: null,
   investmentValuationData: {},
   investmentValuationEntities: [],
@@ -90,8 +91,19 @@ export const withdrawFunds = createAsyncThunk(
 export const terminateFunds = createAsyncThunk(
   "investment/terminateFunds",
   async (props) => {
-    const response = await Investment.terminateTbills(props);
+    let requestTerminate;
+    if (props.typeId == 2) {
+      requestTerminate = Investment.terminateFixed;
+    } else if (props.typeId == 3) {
+      requestTerminate = Investment.terminateTbills;
+    }
+    delete props.typeId;
+
+    const response = await requestTerminate(props);
     return response.data;
+
+    // const response = await Investment.terminateTbills(props);
+    // return response.data;
   }
 );
 
@@ -333,6 +345,7 @@ const investmentsSlice = createSlice({
     [getInvestmentValuation.fulfilled]: (state, action) => {
       state.investmentValuationData = action.payload;
       state.investmentValuationLoading = false;
+      state.investmentValuationCompleted = true;
       state.investmentValuationError = null;
       state.investmentValuationEntities.push(
         action.payload.fixedDeposits,

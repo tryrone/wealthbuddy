@@ -5,6 +5,8 @@ import { dogs, dogsBg, catfish, corn } from "../imageLinks";
 import { Link, Redirect } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
+// import dollBox from "../../../assets/img/doll_box.svg";
+import dollBox from "../../../assets/img/funds_img.jpg";
 import {
   allPersonalInvestments,
   getAllInvestments,
@@ -41,7 +43,7 @@ const FundInvestment = (props) => {
     if (tegaSum === 0) {
       dispatch(getInvestmentValuation());
     }
-    if (props.getAllInvestmentsData.length === 0) {
+    if (!props.getAllInvestmentsData) {
       dispatch(getAllInvestments());
     }
   }, []);
@@ -126,9 +128,7 @@ const FundInvestment = (props) => {
             {/* dropsown for list of investments */}
             {/* dropsown for list of investments */}
             <div className="fieldset w-11/12 mt-2 w-full">
-              {props.investmentValuationLoading ? (
-                <Loading text="" />
-              ) : (
+              {props.investmentValuationLoading ? null : (
                 <React.Fragment>
                   <div className="fund-dropdown">
                     {/* <div className="select-option" onClick={() => toggleList()}> */}
@@ -280,7 +280,8 @@ const FundInvestment = (props) => {
             <div className="h-32 w-full  border-dashed border border-gray-400 rounded flex flex-col justify-center items-center">
               {/* image preview content start */}
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                // src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                src={dollBox}
                 alt=""
                 className="w-full h-full"
               />

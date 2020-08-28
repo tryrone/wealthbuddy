@@ -155,10 +155,12 @@ const Documentation = ({
             className="relative shadow-card h-full bg-white rounded-lg p-8 py-16 flex flex-col justfiy-between text-center"
             onClick={() => {
               if (
-                meansOfIdentificationApprovalStatus ===
-                  DocumentApprovalStatus.Rejected ||
-                meansOfIdentificationApprovalStatus ===
-                  DocumentApprovalStatus.NotUploaded
+                meansOfIdentificationApprovalStatus !==
+                  DocumentApprovalStatus.Submitted &&
+                meansOfIdentificationApprovalStatus !==
+                  DocumentApprovalStatus.Approved &&
+                meansOfIdentificationApprovalStatus !==
+                  DocumentApprovalStatus.Uploaded
               ) {
                 openIdentificationModal();
               }
@@ -199,7 +201,9 @@ const Documentation = ({
               dangerouslySetInnerHTML={{
                 __html:
                   meansOfIdentificationApprovalStatus ===
-                  DocumentApprovalStatus.Submitted
+                    DocumentApprovalStatus.Submitted ||
+                  meansOfIdentificationApprovalStatus ===
+                    DocumentApprovalStatus.Uploaded
                     ? progressDoc
                     : meansOfIdentificationApprovalStatus ===
                       DocumentApprovalStatus.Approved
@@ -209,7 +213,9 @@ const Documentation = ({
             />
 
             {meansOfIdentificationApprovalStatus ===
-            DocumentApprovalStatus.Submitted ? (
+              DocumentApprovalStatus.Submitted ||
+            meansOfIdentificationApprovalStatus ===
+              DocumentApprovalStatus.Uploaded ? (
               <div className="wealth-buddy--cta bg-wb-primary opaque text-white">
                 Awaiting Approval
               </div>
@@ -231,8 +237,10 @@ const Documentation = ({
             className="relative shadow-card h-full bg-white rounded-lg p-8 py-16 flex flex-col justfiy-between text-center"
             onClick={() => {
               if (
-                utilityBillApprovalStatus === DocumentApprovalStatus.Rejected ||
-                utilityBillApprovalStatus === DocumentApprovalStatus.NotUploaded
+                utilityBillApprovalStatus !==
+                  DocumentApprovalStatus.Submitted &&
+                utilityBillApprovalStatus !== DocumentApprovalStatus.Approved &&
+                utilityBillApprovalStatus !== DocumentApprovalStatus.Uploaded
               ) {
                 openUtilityBillModal();
               }
@@ -268,7 +276,9 @@ const Documentation = ({
               className="doc-status--icon top-0 right-0 absolute -mt-3 -mr-3"
               dangerouslySetInnerHTML={{
                 __html:
-                  utilityBillApprovalStatus === DocumentApprovalStatus.Submitted
+                  utilityBillApprovalStatus ===
+                    DocumentApprovalStatus.Submitted ||
+                  utilityBillApprovalStatus === DocumentApprovalStatus.Uploaded
                     ? progressDoc
                     : utilityBillApprovalStatus ===
                       DocumentApprovalStatus.Approved
@@ -276,7 +286,8 @@ const Documentation = ({
                     : pendingDoc,
               }}
             />
-            {utilityBillApprovalStatus === DocumentApprovalStatus.Submitted ? (
+            {utilityBillApprovalStatus === DocumentApprovalStatus.Submitted ||
+            utilityBillApprovalStatus === DocumentApprovalStatus.Uploaded ? (
               <div className="wealth-buddy--cta bg-wb-primary opaque text-white">
                 Awaiting Approval
               </div>

@@ -7,28 +7,38 @@ import * as Yup from "yup";
 import { formatCurrency } from "utils";
 import { SavingsFrequency } from "constants/enums";
 import { FaTimes } from "react-icons/fa";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
+import * as yup from "yup";
 
-const Member = ({ email, removeItem }) => (
+yup.addMethod(yup.array, "unique", function (message, mapper = (a) => a) {
+  return this.test("unique", message, function (list) {
+    return list.length === new Set(list.map(mapper)).size;
+  });
+});
+
+const Member = ({ member, removeItem }) => (
   <div className="w-full flex flex-row justify-between my-2">
     <div className="flex flex-grow">
       <div className="flex-initial text-gray-700 text-center text-sm bg-teal-100 rounded-full p-3 mr-2">
-        {email.toString().substring(0, 2).toUpperCase()}
+        {member.email.toString().substring(0, 2).toUpperCase()}
       </div>
       <div className="flex-initial text-gray-700 text-center text-sm py-3 mr-2 member-email truncate">
-        {email}
+        {member.email}
       </div>
     </div>
-    <a
-      href="#"
-      onClick={(e) => {
-        e.preventDefault();
-        removeItem && removeItem();
-      }}
-      className="text-red-300 text-center text-sm py-3"
-    >
-      <FaTimes />
-    </a>
+
+    {member.isModifiable && (
+      <a
+        href="#"
+        onClick={(e) => {
+          e.preventDefault();
+          removeItem && removeItem();
+        }}
+        className="text-red-300 text-center text-sm py-3"
+      >
+        <FaTimes />
+      </a>
+    )}
   </div>
 );
 
@@ -63,12 +73,17 @@ const CreateSavings = ({
   const maximumAmount = savingsConfiguration.maximumAmount;
 
   const minimumDurationInDays = savingsConfiguration.minimumDurationInDays;
-  const minimumDurationInWeeks = minimumDurationInDays / 7;
-  const minimumDurationInMonths = minimumDurationInDays / 30;
+  const minimumDurationInWeeks = Math.floor(minimumDurationInDays / 7);
+  const minimumDurationInMonths = Math.floor(minimumDurationInDays / 30);
 
   const maximumDurationInDays = savingsConfiguration.maximumDurationInDays;
-  const maximumDurationInWeeks = maximumDurationInDays / 7;
-  const maximumDurationInMonths = maximumDurationInDays / 30;
+  const maximumDurationInWeeks = Math.floor(maximumDurationInDays / 7);
+  const maximumDurationInMonths = Math.floor(maximumDurationInDays / 30);
+
+  // const initialValues = {
+  //   ...initialFormValues,
+  //   participants: [{ email: customerDetails.email, isModifiable: false }],
+  // };
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().label("Name").required(),
@@ -116,19 +131,22 @@ const CreateSavings = ({
         then: Yup.number()
           .min(
             minimumDurationInMonths,
-            `You can only save for a minimum of ${minimumDurationInDays} month`
+            `You can only save for a minimum of ${minimumDurationInMonths} month`
           )
           .max(
             maximumDurationInMonths,
-            `You can only save for a maximum of ${maximumDurationInDays} month`
+            `You can only save for a maximum of ${maximumDurationInMonths} month`
           ),
       }),
     participants: Yup.array()
       .of(
         Yup.object().shape({
           email: Yup.string().email().required("Required"),
+          isModifiable: yup.boolean(),
         })
       )
+      .unique("Duplicate member email", (a) => a.email)
+      .min(1, "You must have at least 1 participants")
       .required("No members added to savings invite"),
   });
 
@@ -161,6 +179,7 @@ const CreateSavings = ({
                 handleSubmit,
                 isValid,
                 setFieldValue,
+                setFieldError,
                 handleChange,
                 handleBlur,
                 values,
@@ -186,7 +205,7 @@ const CreateSavings = ({
 
                         <fieldset className="mb-6">
                           <label className="block text-xs mb-3">
-                            How much do you want to save?
+                            What is the challenge Amount?
                           </label>
                           <NumberFormat
                             thousandSeparator={true}
@@ -349,7 +368,7 @@ const CreateSavings = ({
                                   {values.participants.map((member, index) => (
                                     <div key={index}>
                                       <Member
-                                        email={values.participants[index].email}
+                                        member={values.participants[index]}
                                         removeItem={() =>
                                           arrayHelpers.remove(index)
                                         }
@@ -374,14 +393,23 @@ const CreateSavings = ({
                                       type="button"
                                       className="flex-initial color-green text-center text-sm py-3 ml-5"
                                       onClick={() => {
-                                        if (
-                                          !isEmail(memberEmail) ||
-                                          memberEmail === customerDetails.email
-                                        ) {
+                                        if (!isEmail(memberEmail)) {
                                           return false;
                                         }
+
+                                        if (
+                                          memberEmail === customerDetails.email
+                                        ) {
+                                          setFieldError(
+                                            "participants",
+                                            "You can't add yourself as a participant"
+                                          );
+                                          return false;
+                                        }
+
                                         arrayHelpers.push({
                                           email: memberEmail,
+                                          isModifiable: true,
                                         });
                                         setMemberEmail("");
                                       }}
@@ -395,11 +423,8 @@ const CreateSavings = ({
 
                             <ErrorMessage
                               name="participants"
-                              render={(errorMessage) => (
-                                <p className="label-error--text mt-3 text-xs color-red font-medium text-center bg-red-200">
-                                  {errorMessage}
-                                </p>
-                              )}
+                              component="p"
+                              className="label-error--text mt-3 text-xs color-red font-medium text-center bg-red-200"
                             />
                           </div>
                         </div>

@@ -73,17 +73,12 @@ const CreateSavings = ({
   const maximumAmount = savingsConfiguration.maximumAmount;
 
   const minimumDurationInDays = savingsConfiguration.minimumDurationInDays;
-  const minimumDurationInWeeks = minimumDurationInDays / 7;
-  const minimumDurationInMonths = minimumDurationInDays / 30;
+  const minimumDurationInWeeks = Math.floor(minimumDurationInDays / 7);
+  const minimumDurationInMonths = Math.floor(minimumDurationInDays / 30);
 
   const maximumDurationInDays = savingsConfiguration.maximumDurationInDays;
-  const maximumDurationInWeeks = maximumDurationInDays / 7;
-  const maximumDurationInMonths = maximumDurationInDays / 30;
-
-  const initialValues = {
-    ...initialFormValues,
-    participants: [{ email: customerDetails.email, isModifiable: false }],
-  };
+  const maximumDurationInWeeks = Math.floor(maximumDurationInDays / 7);
+  const maximumDurationInMonths = Math.floor(maximumDurationInDays / 30);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().label("Name").required(),
@@ -131,11 +126,11 @@ const CreateSavings = ({
         then: Yup.number()
           .min(
             minimumDurationInMonths,
-            `You can only save for a minimum of ${minimumDurationInDays} month`
+            `You can only save for a minimum of ${minimumDurationInMonths} month`
           )
           .max(
             maximumDurationInMonths,
-            `You can only save for a maximum of ${maximumDurationInDays} month`
+            `You can only save for a maximum of ${maximumDurationInMonths} month`
           ),
       }),
     participants: Yup.array()
@@ -146,7 +141,7 @@ const CreateSavings = ({
         })
       )
       .unique("Duplicate member email", (a) => a.email)
-      .min(2, "You must have at least 2 participants")
+      .min(1, "You must have at least 1 participants")
       .required("No members added to savings invite"),
   });
 
@@ -170,7 +165,7 @@ const CreateSavings = ({
         <div className="flex-grow flex justify-center items-start fadeIn">
           <div className="create-saving--overview overview-full w-full">
             <Formik
-              initialValues={initialValues}
+              initialValues={initialFormValues}
               validationSchema={validationSchema}
               validateOnMount={true}
               onSubmit={handleOnSubmit}
@@ -179,6 +174,7 @@ const CreateSavings = ({
                 handleSubmit,
                 isValid,
                 setFieldValue,
+                setFieldError,
                 handleChange,
                 handleBlur,
                 values,
@@ -204,7 +200,7 @@ const CreateSavings = ({
 
                         <fieldset className="mb-6">
                           <label className="block text-xs mb-3">
-                            How much do you want to save?
+                            What is the Target Amount ?
                           </label>
                           <NumberFormat
                             thousandSeparator={true}
@@ -232,7 +228,7 @@ const CreateSavings = ({
 
                         <fieldset className="mb-6">
                           <label className="block text-xs mb-3">
-                            How often do you want to save?
+                            How often is this savings ?
                           </label>
                           <select
                             name="frequency"
@@ -256,7 +252,7 @@ const CreateSavings = ({
 
                         <fieldset className="mb-6">
                           <label className="block text-xs mb-3">
-                            How long do you want to save for?
+                            How long is this savings ?
                           </label>
                           <div className="amount-wrap">
                             <NumberFormat
@@ -310,11 +306,14 @@ const CreateSavings = ({
                         </p>
                         <h1 className="font-medium text-2xl">
                           {`₦${formatCurrency(
-                            values.amount / (values.duration || 1)
+                            values.amount /
+                              (values.duration || 1) /
+                              (values.participants.length + 1)
                           )}/${
                             savingsFrequencies[values.frequency] ||
                             savingsFrequencies[SavingsFrequency.Daily]
-                          }`}
+                          }
+                          `}
                         </h1>
                       </div>
                     </div>
@@ -392,12 +391,20 @@ const CreateSavings = ({
                                       type="button"
                                       className="flex-initial color-green text-center text-sm py-3 ml-5"
                                       onClick={() => {
-                                        if (
-                                          !isEmail(memberEmail) ||
-                                          memberEmail === customerDetails.email
-                                        ) {
+                                        if (!isEmail(memberEmail)) {
                                           return false;
                                         }
+
+                                        if (
+                                          memberEmail === customerDetails.email
+                                        ) {
+                                          setFieldError(
+                                            "participants",
+                                            "You can't add yourself as a participant"
+                                          );
+                                          return false;
+                                        }
+
                                         arrayHelpers.push({
                                           email: memberEmail,
                                           isModifiable: true,

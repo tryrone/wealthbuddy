@@ -5,13 +5,12 @@ import Loading from "shared-components/Loading";
 import { formatCurrency } from "utils";
 import { connect } from "react-redux";
 
-const StartCancelSavingsModal = ({
+const ConfirmCancelSavingsModal = ({
   isVisible,
-  amountToDisburse,
   closeModal,
-  completeCancelSavings,
-  completeCancelLoading,
-  completeCancelError,
+  cancelSavings,
+  isCancelSavingsLoading,
+  cancelSavingsError,
 }) => {
   if (!isVisible) {
     return null;
@@ -29,16 +28,16 @@ const StartCancelSavingsModal = ({
           </i>
         </div>
 
-        {completeCancelLoading ? (
+        {isCancelSavingsLoading ? (
           <div className="flex flex-col items-center mt-8">
             <Loading text="Deleting Your Savings." />
           </div>
         ) : (
           <Fragment>
-            {completeCancelError && (
+            {cancelSavingsError && (
               <div className="w-72 text-xs text-left mt-8 ">
                 <p className="w-full p-3 bg-red-200 text-red-700 rounded text-center font-medium">
-                  {completeCancelError}
+                  {cancelSavingsError}
                 </p>
               </div>
             )}
@@ -48,11 +47,8 @@ const StartCancelSavingsModal = ({
                 Are you sure you want delete this savings?
               </h1>
               <p className="text-center text-gray-500 leading-normal">
-                A total of{" "}
-                <span className="color-black font-medium">
-                  {`₦${formatCurrency(amountToDisburse)}`}
-                </span>{" "}
-                will be transferred to your wallet if you proceed.
+                This savings will automatically be cancelled for members you
+                have invited.
               </p>
             </div>
             <div className="nav-buttons flex justify-center">
@@ -64,7 +60,7 @@ const StartCancelSavingsModal = ({
               </div>
               <button
                 className={` w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
-                onClick={completeCancelSavings}
+                onClick={cancelSavings}
               >
                 Proceed
               </button>
@@ -76,9 +72,4 @@ const StartCancelSavingsModal = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  completeCancelLoading: state.savings.completeCancelLoading,
-  completeCancelError: state.savings.completeCancelError,
-});
-
-export default connect(mapStateToProps)(StartCancelSavingsModal);
+export default ConfirmCancelSavingsModal;

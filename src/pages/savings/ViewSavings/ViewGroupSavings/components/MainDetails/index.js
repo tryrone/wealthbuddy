@@ -17,14 +17,13 @@ import InvitedMember from "./components/InvitedMember";
 import Member from "./components/Member";
 import "./styles.css";
 
-const Index = ({
+const MainDetails = ({
   savings,
   groupMembers,
   invitations,
   isStartGroupSavingsLoading,
   startGroupSavings,
-  startCancelSavings,
-  startCancelLoading,
+  confirmCancel,
   startWithdrawSavings,
 }) => {
   const savingsTypeNames = {
@@ -33,19 +32,36 @@ const Index = ({
     [SavingsType.GroupContributorySavings]: "Group contributory savings",
   };
 
+  if (savings.type === SavingsType.GroupContributorySavings) {
+    groupMembers = groupMembers
+      .slice()
+      .sort((a, b) => (a.order > b.order ? 1 : -1));
+  }
+
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
 
+  let installmentalContribution = savings.installmentalContribution;
+
+  if (savings.type === SavingsType.GroupContributorySavings) {
+    installmentalContribution = savings.amountToSave;
+  }
+
   const canBeCancelled =
-    savings.type !== SavingsType.GroupChallengeSavings &&
-    savings.type !== SavingsType.GroupContributorySavings;
+    savings.isAdmin === true &&
+    (savings.status === GroupSavingsStatus.Pending ||
+      (savings.type !== SavingsType.GroupChallengeSavings &&
+        savings.type !== SavingsType.GroupContributorySavings &&
+        savings.status === GroupSavingsStatus.InProgress));
 
   const canBeWithdrawn =
-    savings.type !== SavingsType.GroupContributorySavings &&
-    savings.type !== SavingsType.GroupChallengeSavings &&
-    savings.type === SavingsType.GroupTargetSavings &&
-    savings.isAdmin === true &&
-    new Date(savings.estimatedTerminationDate) > new Date() &&
-    savings.amountSaved !== 0;
+    (savings.type !== SavingsType.GroupContributorySavings &&
+      savings.type === SavingsType.GroupTargetSavings &&
+      savings.isAdmin === true &&
+      new Date(savings.estimatedTerminationDate) > new Date() &&
+      savings.amountSaved !== 0) ||
+    savings.type === SavingsType.GroupChallengeSavings;
+
+  const canBeStarted = savings.isAdmin === true;
 
   return (
     <div className="card card-padding min-card w-full flex flex-col justify-between">
@@ -122,7 +138,7 @@ const Index = ({
                   Contribution
                 </h5>
                 <h1 className="mt-3 font-medium">{`₦${formatCurrency(
-                  savings.installmentalContribution
+                  installmentalContribution
                 )}/${
                   savings.schedule === SavingsFrequency.Weekly
                     ? "Week"
@@ -149,7 +165,9 @@ const Index = ({
                   Start Date
                 </h5>
                 <h1 className=" mt-3 font-medium">
-                  {moment(savings.startDate).format("MMM Do YYYY")}
+                  {savings.status !== GroupSavingsStatus.Pending
+                    ? moment(savings.startDate).format("MMM Do YYYY")
+                    : "N/A"}
                 </h1>
               </div>
               <div className="w-1/2 p-5 text-left">
@@ -157,9 +175,11 @@ const Index = ({
                   Maturity Date
                 </h5>
                 <h1 className="mt-3 font-medium">
-                  {moment(savings.estimatedTerminationDate).format(
-                    "MMM Do YYYY"
-                  )}
+                  {savings.status !== GroupSavingsStatus.Pending
+                    ? moment(savings.estimatedTerminationDate).format(
+                        "MMM Do YYYY"
+                      )
+                    : "N/A"}
                 </h1>
               </div>
             </div>
@@ -189,10 +209,9 @@ const Index = ({
           <div
             className={classNames({
               "w-40 border-b text-center bg-white cta-del leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm": true,
-              loading: startCancelLoading,
               opaque: !canBeCancelled,
             })}
-            onClick={canBeCancelled ? startCancelSavings : null}
+            onClick={canBeCancelled ? confirmCancel : null}
           >
             Cancel <span className="loader" />
           </div>
@@ -202,8 +221,9 @@ const Index = ({
               className={classNames({
                 "w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta cta-green text-white rounded-sm": true,
                 loading: isStartGroupSavingsLoading,
+                opaque: !canBeStarted,
               })}
-              onClick={startGroupSavings}
+              onClick={canBeStarted ? startGroupSavings : null}
             >
               Start <span className="loader" />
             </button>
@@ -226,7 +246,6 @@ const Index = ({
 
 const mapStateToProps = (state) => ({
   customerSavings: state.customerSavings.data,
-  startCancelLoading: state.savings.startCancelLoading,
 });
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps)(MainDetails);
