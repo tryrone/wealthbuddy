@@ -110,25 +110,46 @@ const SavingsListItem = ({ savings }) => {
         <div className="text-black flex">
           <div>
             <h5 className="text-xs mb-2">Start Date</h5>
-            <h2 className="summary-balance font-medium">
-              {savings.status !== GroupSavingsStatus.Pending
-                ? moment(savings.startDate).format("MMM Do YYYY")
-                : "N/A"}
-            </h2>
+            {savings.savingsType === SavingsType.PersonalTargetSavings ||
+            savings.savingsType === SavingsType.FixedLockSavings ||
+            savings.savingsType === SavingsType.FixedFlexibleSavings ? (
+              <h2 className="summary-balance font-medium">
+                {moment(savings.startDate).format("MMM Do YYYY")}
+              </h2>
+            ) : (
+              <h2 className="summary-balance font-medium">
+                {savings.status !== GroupSavingsStatus.Pending
+                  ? moment(savings.startDate).format("MMM Do YYYY")
+                  : "N/A"}
+              </h2>
+            )}
           </div>
         </div>
         <div className="text-black flex">
           <div>
             <h5 className="text-xs mb-2">Maturity Date</h5>
-            <h2 className="summary-balance font-medium">
-              {savings.status !== GroupSavingsStatus.Pending
-                ? moment(savings.estimatedTerminationDate).format("MMM Do YYYY")
-                : "N/A"}
-            </h2>
+            {savings.savingsType === SavingsType.PersonalTargetSavings ||
+            savings.savingsType === SavingsType.FixedLockSavings ||
+            savings.savingsType === SavingsType.FixedFlexibleSavings ? (
+              <h2 className="summary-balance font-medium">
+                {moment(savings.estimatedTerminationDate).format("MMM Do YYYY")}
+              </h2>
+            ) : (
+              <h2 className="summary-balance font-medium">
+                <h2 className="summary-balance font-medium">
+                  {savings.status !== GroupSavingsStatus.Pending
+                    ? moment(savings.estimatedTerminationDate).format(
+                        "MMM Do YYYY"
+                      )
+                    : "N/A"}
+                </h2>
+              </h2>
+            )}
           </div>
         </div>
       </div>
     </Link>
   );
 };
+
 export default SavingsListItem;
