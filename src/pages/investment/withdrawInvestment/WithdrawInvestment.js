@@ -8,6 +8,7 @@ import { Link, Redirect, useHistory } from "react-router-dom";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import SuccessModal from "../components/successModal/SuccessModal";
 import { formatCurrency } from "utils";
+import dollBox from "../../../assets/img/funds_img.jpg";
 
 const items = [{ text: "GTB - 0179" }];
 
@@ -370,7 +371,7 @@ const WithdrawInvestment = (props) => {
           <div className="w-72 shadow-lg p-2">
             <div className="h-32 w-full border-dashed border border-gray-400 rounded flex flex-col justify-center items-center">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8CyHlXfQ0X5KJ_kj1pRohugCUtBom9Qk1wg&usqp=CAU"
+                src={dollBox}
                 alt=""
                 className="w-full h-full"
               />

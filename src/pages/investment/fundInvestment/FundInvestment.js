@@ -5,7 +5,8 @@ import { dogs, dogsBg, catfish, corn } from "../imageLinks";
 import { Link, Redirect } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import dollBox from "../../../assets/img/doll_box.svg";
+// import dollBox from "../../../assets/img/doll_box.svg";
+import dollBox from "../../../assets/img/funds_img.jpg";
 import {
   allPersonalInvestments,
   getAllInvestments,
