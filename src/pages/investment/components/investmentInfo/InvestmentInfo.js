@@ -380,7 +380,32 @@ const InvestmentInfo = (props) => {
               </button>
             </Link>
 
-            <Link
+            {InvestmentName[0].currency === "USD" ? (
+              <Link
+                to={{
+                  pathname: "/dashboard/investment/dollar-investment",
+                  investmentId: `${InvestmentName[0].investmentID}`,
+                }}
+              >
+                <button className="mt-12 w-40  border-b text-center bg-wb-primary leading-loose border-wb-primary text-white mr-3 border wealth-buddy--cta text-white rounded-sm">
+                  Invest
+                </button>
+              </Link>
+            ) : null}
+            {InvestmentName[0].currency !== "USD" ? (
+              <Link
+                to={{
+                  pathname: "/dashboard/investment/add-investment-form",
+                  investmentId: `${InvestmentName[0].investmentID}`,
+                }}
+              >
+                <button className="mt-12 w-40  border-b text-center bg-wb-primary leading-loose border-wb-primary text-white mr-3 border wealth-buddy--cta text-white rounded-sm">
+                  Invest
+                </button>
+              </Link>
+            ) : null}
+
+            {/* <Link
               to={{
                 pathname: "/dashboard/investment/add-investment-form",
                 investmentId: `${InvestmentName[0].investmentID}`,
@@ -389,7 +414,7 @@ const InvestmentInfo = (props) => {
               <button className="mt-12 w-40  border-b text-center bg-wb-primary leading-loose border-wb-primary text-white mr-3 border wealth-buddy--cta text-white rounded-sm">
                 Invest
               </button>
-            </Link>
+            </Link> */}
           </div>
         </div>
         {/* second coulumn end */}
