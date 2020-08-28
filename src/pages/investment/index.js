@@ -11,6 +11,7 @@ import WithdrawInvestment from "./withdrawInvestment/WithdrawInvestment";
 import RollOver from "./rollOverInvestment/RollOver";
 import TerminateInvestment from "./terminateInvestment/TerminateInvestment";
 import InvestModal from "./components/investModal/InvestModal";
+import DollarInvestment from "./dollarInvestment/DollarInvestment";
 
 const Investment = () => {
   const { path } = useRouteMatch();
@@ -89,6 +90,11 @@ const Investment = () => {
         exact
         path={`${path}/view-investment/terminate`}
         component={TerminateInvestment}
+      />
+      <Route
+        exact
+        path={`${path}/dollar-investment`}
+        component={DollarInvestment}
       />
 
       {/* {modalOne ? (

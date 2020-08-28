@@ -3,7 +3,7 @@ import { partTerm, fullterm, information } from "../imageLinks";
 import TerminateModal from "../components/terminateModal/TerminateModal";
 import { Link, Redirect, useHistory } from "react-router-dom";
 import NumberFormat from "react-number-format";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import moment from "moment";
 import { formatCurrency } from "utils";
 
@@ -14,7 +14,7 @@ const TerminateInvestment = (props) => {
   const [selectTwo, changeSelectTwo] = useState(false);
   const [displayOne, changeDisplayOne] = useState(true);
   const [userDescp, setUserDescp] = useState("");
-  const [despError, setDespError] = useState(false);
+  // const [despError, setDespError] = useState(false);
 
   const history = useHistory();
 
@@ -29,27 +29,27 @@ const TerminateInvestment = (props) => {
   }
 
   const setInvestmentTypeOne = props.investmentValuationData.fixedDeposits.filter(
-    (item) => item.instrumentId == props.location.investmentId
+    (item) => item.instrumentId === props.location.investmentId
   );
   const setInvestmentTypeTwo = props.investmentValuationData.portfolioHoldings.filter(
-    (item) => item.securityId == props.location.investmentId
+    (item) => item.securityId === props.location.investmentId
   );
   const setInvestmentTypeThree = props.investmentValuationData.treasuryBills.filter(
-    (item) => item.id == props.location.investmentId
+    (item) => item.id === props.location.investmentId
   );
 
   let makeArray = [];
 
-  if (setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0) {
+  if (setInvestmentTypeOne.length === 0 && setInvestmentTypeTwo.length === 0) {
     makeArray = setInvestmentTypeThree;
   } else if (
-    setInvestmentTypeTwo.length == 0 &&
-    setInvestmentTypeThree.length == 0
+    setInvestmentTypeTwo.length === 0 &&
+    setInvestmentTypeThree.length === 0
   ) {
     makeArray = setInvestmentTypeOne;
   } else if (
-    setInvestmentTypeOne.length == 0 &&
-    setInvestmentTypeThree.length == 0
+    setInvestmentTypeOne.length === 0 &&
+    setInvestmentTypeThree.length === 0
   ) {
     makeArray = setInvestmentTypeTwo;
   }
@@ -60,9 +60,10 @@ const TerminateInvestment = (props) => {
   // TERMINATION DATA
   const terminateDataFixed = {
     instrumentID: parseInt(
-      setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+      setInvestmentTypeOne.length === 0 && setInvestmentTypeTwo.length === 0
         ? makeArray[0].id
-        : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
+        : setInvestmentTypeTwo.length === 0 &&
+          setInvestmentTypeThree.length === 0
         ? makeArray[0].instrumentId
         : null
     ),
@@ -71,9 +72,10 @@ const TerminateInvestment = (props) => {
   };
   const terminateDataTbills = {
     transactionID: parseInt(
-      setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+      setInvestmentTypeOne.length === 0 && setInvestmentTypeTwo.length === 0
         ? makeArray[0].id
-        : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
+        : setInvestmentTypeTwo.length === 0 &&
+          setInvestmentTypeThree.length === 0
         ? makeArray[0].instrumentId
         : null
     ),
@@ -88,7 +90,7 @@ const TerminateInvestment = (props) => {
     terminateDataTbills.amount = parseInt(amount);
   }
 
-  // if (setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0) {
+  // if (setInvestmentTypeOne.length === 0 && setInvestmentTypeTwo.length === 0) {
   //   terminateData.discountRate = `${parseInt(
   //     makeArray[0].discountRate.toFixed(1)
   //   )}`;
@@ -120,10 +122,11 @@ const TerminateInvestment = (props) => {
           style={{ color: "#999999" }}
           className="text-xs ml-4 sm:ml-1"
         >
-          {setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+          {setInvestmentTypeOne.length === 0 &&
+          setInvestmentTypeTwo.length === 0
             ? makeArray[0].typeLabel
-            : setInvestmentTypeTwo.length == 0 &&
-              setInvestmentTypeThree.length == 0
+            : setInvestmentTypeTwo.length === 0 &&
+              setInvestmentTypeThree.length === 0
             ? makeArray[0].productLabel
             : makeArray[0].companyName}
         </Link>
@@ -149,8 +152,8 @@ const TerminateInvestment = (props) => {
           {/* optinal buttons to withdraw from */}
           {displayOne ? (
             <Fragment>
-              {setInvestmentTypeTwo.length == 0 &&
-              setInvestmentTypeThree.length == 0 ? null : (
+              {setInvestmentTypeTwo.length === 0 &&
+              setInvestmentTypeThree.length === 0 ? null : (
                 <div
                   style={{
                     borderColor: selectOne ? "#8CB13D" : "#E6E6E6",
@@ -177,8 +180,8 @@ const TerminateInvestment = (props) => {
                 </div>
               )}
 
-              {setInvestmentTypeTwo.length == 0 &&
-              setInvestmentTypeThree.length == 0 ? (
+              {setInvestmentTypeTwo.length === 0 &&
+              setInvestmentTypeThree.length === 0 ? (
                 <p className="text-center text-green-400 font-medium my-4">
                   Please Click on full terminate to proceed
                 </p>
@@ -491,15 +494,17 @@ const TerminateInvestment = (props) => {
         <TerminateModal
           myclose={onclose}
           myTerminateData={
-            setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+            setInvestmentTypeOne.length === 0 &&
+            setInvestmentTypeTwo.length === 0
               ? terminateDataTbills
               : terminateDataFixed
           }
           cost={
-            setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
+            setInvestmentTypeOne.length === 0 &&
+            setInvestmentTypeTwo.length === 0
               ? makeArray[0].reportFaceValue.amount
-              : setInvestmentTypeTwo.length == 0 &&
-                setInvestmentTypeThree.length == 0
+              : setInvestmentTypeTwo.length === 0 &&
+                setInvestmentTypeThree.length === 0
               ? makeArray[0].principalBalance.amount
               : makeArray[0].totalPurchaseCost
           }

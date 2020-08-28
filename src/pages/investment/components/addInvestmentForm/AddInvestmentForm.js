@@ -49,7 +49,7 @@ function AddInvestmentForm(props) {
     });
   };
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   // // ON COMPONENT MOUNT
   // useEffect(() => {
@@ -337,29 +337,29 @@ function AddInvestmentForm(props) {
           {/* checkbox input four */}
           {InvestmentName[0].investmentType == 2 ||
           InvestmentName[0].investmentType == 3 ? (
-          <div className="pl-6 sm:pl-24 my-2">
-            <input
-              onClick={() => {
-                setState({
-                  ...state,
-                  frequency: !state.frequency,
-                });
-              }}
-              type="checkbox"
-              id="todo"
-              name="todo"
-              className=""
-              value="todo"
-            />
-            <label
-              style={{ position: "relative", top: "-7px" }}
-              htmlFor="todo"
-              className="text-xs font-bold sm:pl-2 pr-4 text-center"
-            >
-              Would like this to be a recuring investment
-            </label>
-          </div>
-          ) : null }
+            <div className="pl-6 sm:pl-24 my-2">
+              <input
+                onClick={() => {
+                  setState({
+                    ...state,
+                    frequency: !state.frequency,
+                  });
+                }}
+                type="checkbox"
+                id="todo"
+                name="todo"
+                className=""
+                value="todo"
+              />
+              <label
+                style={{ position: "relative", top: "-7px" }}
+                htmlFor="todo"
+                className="text-xs font-bold sm:pl-2 pr-4 text-center"
+              >
+                Would like this to be a recuring investment
+              </label>
+            </div>
+          ) : null}
           {/* checkbox input four */}
 
           {/* showing the tenors available for MT_LIP */}

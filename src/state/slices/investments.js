@@ -65,11 +65,11 @@ export const createInvestment = createAsyncThunk(
   "investment/createInvestment",
   async (props) => {
     let requestCreate;
-    if (props.investmentType == 1) {
+    if (props.investmentType === 1) {
       requestCreate = Investment.createFundInvestment;
-    } else if (props.investmentType == 2) {
+    } else if (props.investmentType === 2) {
       requestCreate = Investment.createTerminstrumentsInvestment;
-    } else if (props.investmentType == 3) {
+    } else if (props.investmentType === 3) {
       requestCreate = Investment.createTbillsInvestment;
     } else {
       requestCreate = Investment.createFundInvestment;
@@ -92,9 +92,9 @@ export const terminateFunds = createAsyncThunk(
   "investment/terminateFunds",
   async (props) => {
     let requestTerminate;
-    if (props.typeId == 2) {
+    if (props.typeId === 2) {
       requestTerminate = Investment.terminateFixed;
-    } else if (props.typeId == 3) {
+    } else if (props.typeId === 3) {
       requestTerminate = Investment.terminateTbills;
     }
     delete props.typeId;
@@ -150,11 +150,11 @@ export const fundInvestment = createAsyncThunk(
   "investment/fundInvestment",
   async (props) => {
     let requestFund;
-    if (props.investmentType == 1) {
+    if (props.investmentType === 1) {
       requestFund = Investment.fundMutualFund;
-    } else if (props.investmentType == 2) {
+    } else if (props.investmentType === 2) {
       requestFund = Investment.fundFixed;
-    } else if (props.investmentType == 3) {
+    } else if (props.investmentType === 3) {
       requestFund = Investment.fundTbills;
     } else {
       requestFund = Investment.fundMutualFund;

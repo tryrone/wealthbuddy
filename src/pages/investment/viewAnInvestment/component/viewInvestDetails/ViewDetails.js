@@ -5,27 +5,27 @@ import { connect } from "react-redux";
 
 const ViewDetails = (props) => {
   const setInvestmentTypeOne = props.investmentValuationData.fixedDeposits.filter(
-    (item) => item.instrumentId == props.investmentIdFixed
+    (item) => item.instrumentId === props.investmentIdFixed
   );
   const setInvestmentTypeTwo = props.investmentValuationData.portfolioHoldings.filter(
-    (item) => item.securityId == props.investmentIdFunds
+    (item) => item.securityId === props.investmentIdFunds
   );
   const setInvestmentTypeThree = props.investmentValuationData.treasuryBills.filter(
-    (item) => item.typeId == props.investmentIdTbills
+    (item) => item.typeId === props.investmentIdTbills
   );
 
   let makeArray = [];
 
-  if (setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0) {
+  if (setInvestmentTypeOne.length === 0 && setInvestmentTypeTwo.length === 0) {
     makeArray = setInvestmentTypeThree;
   } else if (
-    setInvestmentTypeTwo.length == 0 &&
-    setInvestmentTypeThree.length == 0
+    setInvestmentTypeTwo.length === 0 &&
+    setInvestmentTypeThree.length === 0
   ) {
     makeArray = setInvestmentTypeOne;
   } else if (
-    setInvestmentTypeOne.length == 0 &&
-    setInvestmentTypeThree.length == 0
+    setInvestmentTypeOne.length === 0 &&
+    setInvestmentTypeThree.length === 0
   ) {
     makeArray = setInvestmentTypeTwo;
   }
@@ -43,11 +43,11 @@ const ViewDetails = (props) => {
             Asset Class
           </p>
           <p className="font-hairline text-right text-black text-base sm:text-sm">
-            {setInvestmentTypeOne.length == 0 &&
-            setInvestmentTypeTwo.length == 0
+            {setInvestmentTypeOne.length === 0 &&
+            setInvestmentTypeTwo.length === 0
               ? "TREASURY BILLS"
-              : setInvestmentTypeTwo.length == 0 &&
-                setInvestmentTypeThree.length == 0
+              : setInvestmentTypeTwo.length === 0 &&
+                setInvestmentTypeThree.length === 0
               ? makeArray[0].productCategory
               : makeArray[0].assetClass}
           </p>
@@ -57,24 +57,24 @@ const ViewDetails = (props) => {
         <div className="flex flex-row mt-8 content-center justify-between items-center">
           <p className="font-bold text-black text-base sm:text-sm">Type</p>
           <p className="font-hairline text-right text-black text-base sm:text-sm">
-            {setInvestmentTypeOne.length == 0 &&
-            setInvestmentTypeTwo.length == 0
+            {setInvestmentTypeOne.length === 0 &&
+            setInvestmentTypeTwo.length === 0
               ? makeArray[0].type
-              : setInvestmentTypeTwo.length == 0 &&
-                setInvestmentTypeThree.length == 0
+              : setInvestmentTypeTwo.length === 0 &&
+                setInvestmentTypeThree.length === 0
               ? makeArray[0].productLabel
               : makeArray[0].companyName}
           </p>
         </div>
 
         {/* item */}
-        {/* {setInvestmentTypeTwo.length == 0 &&
-        setInvestmentTypeThree.length == 0 ? null : (
+        {/* {setInvestmentTypeTwo.length === 0 &&
+        setInvestmentTypeThree.length === 0 ? null : (
           <div className="flex flex-row mt-8 content-center justify-between items-center">
             <p className="font-bold text-black text-base sm:text-sm">Symbol</p>
             <p className="font-hairline text-right text-black text-base sm:text-sm">
-              {setInvestmentTypeOne.length == 0 &&
-              setInvestmentTypeTwo.length == 0
+              {setInvestmentTypeOne.length === 0 &&
+              setInvestmentTypeTwo.length === 0
                 ? makeArray[0].label.substring(0, 15)
                 : makeArray[0].symbol}
             </p>
@@ -90,11 +90,11 @@ const ViewDetails = (props) => {
           <p className="font-hairline text-right text-black text-base sm:text-sm">
             ₦{" "}
             {formatCurrency(
-              setInvestmentTypeOne.length == 0 &&
-                setInvestmentTypeTwo.length == 0
+              setInvestmentTypeOne.length === 0 &&
+                setInvestmentTypeTwo.length === 0
                 ? makeArray[0].reportFaceValue.amount
-                : setInvestmentTypeTwo.length == 0 &&
-                  setInvestmentTypeThree.length == 0
+                : setInvestmentTypeTwo.length === 0 &&
+                  setInvestmentTypeThree.length === 0
                 ? makeArray[0].principalBalance.amount
                 : makeArray[0].totalPurchaseCost
             )}
@@ -103,8 +103,8 @@ const ViewDetails = (props) => {
         {/* item */}
 
         {/* item */}
-        {setInvestmentTypeOne.length == 0 &&
-        setInvestmentTypeThree.length == 0 ? (
+        {setInvestmentTypeOne.length === 0 &&
+        setInvestmentTypeThree.length === 0 ? (
           <div className="flex flex-row mt-8 content-center justify-between items-center">
             <p className="font-bold text-black text-base sm:text-sm">
               Total Units
@@ -123,11 +123,11 @@ const ViewDetails = (props) => {
           </p>
           <p className="font-hairline text-right text-black text-base sm:text-sm">
             ₦{" "}
-            {setInvestmentTypeOne.length == 0 &&
-            setInvestmentTypeTwo.length == 0
+            {setInvestmentTypeOne.length === 0 &&
+            setInvestmentTypeTwo.length === 0
               ? makeArray[0].dailyIncome.amount.toFixed(1)
-              : setInvestmentTypeTwo.length == 0 &&
-                setInvestmentTypeThree.length == 0
+              : setInvestmentTypeTwo.length === 0 &&
+                setInvestmentTypeThree.length === 0
               ? makeArray[0].dailyIncome.amount.toFixed(1)
               : makeArray[0].dailyIncome.toFixed(1)}
           </p>
@@ -141,14 +141,14 @@ const ViewDetails = (props) => {
           </p>
           <p className="font-hairline text-right text-black text-base sm:text-sm">
             {`₦${formatCurrency(
-              setInvestmentTypeOne.length == 0 &&
-                setInvestmentTypeTwo.length == 0
+              setInvestmentTypeOne.length === 0 &&
+                setInvestmentTypeTwo.length === 0
                 ? (
                     makeArray[0].reportCurrentValue.amount +
                     makeArray[0].interestAccrued.amount
                   ).toFixed(2)
-                : setInvestmentTypeTwo.length == 0 &&
-                  setInvestmentTypeThree.length == 0
+                : setInvestmentTypeTwo.length === 0 &&
+                  setInvestmentTypeThree.length === 0
                 ? (
                     makeArray[0].interestLessTaxes.amount +
                     makeArray[0].netInstrumentValue.amount
@@ -186,11 +186,11 @@ const ViewDetails = (props) => {
             Maturity Date
           </p>
           <p className="font-hairline text-right text-black text-base sm:text-sm">
-            {setInvestmentTypeOne.length == 0 &&
-            setInvestmentTypeTwo.length == 0
+            {setInvestmentTypeOne.length === 0 &&
+            setInvestmentTypeTwo.length === 0
               ? moment(makeArray[0].valueDate).format("DD MM YYYY")
-              : setInvestmentTypeTwo.length == 0 &&
-                setInvestmentTypeThree.length == 0
+              : setInvestmentTypeTwo.length === 0 &&
+                setInvestmentTypeThree.length === 0
               ? moment(makeArray[0].valuationDate).format("DD MM YYYY")
               : " N/A"}
           </p>
@@ -200,11 +200,11 @@ const ViewDetails = (props) => {
         <div className="flex flex-row mt-8 content-center justify-between items-center">
           <p className="font-bold text-black text-base sm:text-sm">Tenure</p>
           <p className="font-hairline text-right text-black text-base sm:text-sm">
-            {setInvestmentTypeOne.length == 0 &&
-            setInvestmentTypeTwo.length == 0
+            {setInvestmentTypeOne.length === 0 &&
+            setInvestmentTypeTwo.length === 0
               ? makeArray[0].basis + "days"
-              : setInvestmentTypeTwo.length == 0 &&
-                setInvestmentTypeThree.length == 0
+              : setInvestmentTypeTwo.length === 0 &&
+                setInvestmentTypeThree.length === 0
               ? makeArray[0].tenor + "days"
               : "Open"}{" "}
           </p>
@@ -223,8 +223,8 @@ const ViewDetails = (props) => {
         {/* item */}
 
         {/* item */}
-        {setInvestmentTypeOne.length == 0 &&
-        setInvestmentTypeTwo.length == 0 ? (
+        {setInvestmentTypeOne.length === 0 &&
+        setInvestmentTypeTwo.length === 0 ? (
           <div className="flex flex-row mt-8 content-center justify-between items-center">
             <p className="font-bold text-black text-base sm:text-sm">
               Days Spent
@@ -237,8 +237,8 @@ const ViewDetails = (props) => {
         {/* item */}
 
         {/* item */}
-        {setInvestmentTypeOne.length == 0 &&
-        setInvestmentTypeTwo.length == 0 ? (
+        {setInvestmentTypeOne.length === 0 &&
+        setInvestmentTypeTwo.length === 0 ? (
           <div className="flex flex-row mt-8 content-center justify-between items-center">
             <p className="font-bold text-black text-base sm:text-sm">
               Days Left
@@ -251,8 +251,8 @@ const ViewDetails = (props) => {
         {/* item */}
 
         {/* item */}
-        {setInvestmentTypeOne.length == 0 &&
-        setInvestmentTypeTwo.length == 0 ? (
+        {setInvestmentTypeOne.length === 0 &&
+        setInvestmentTypeTwo.length === 0 ? (
           <div className="flex flex-row mt-8 content-center justify-between items-center">
             <p className="font-bold text-black text-base sm:text-sm">Rate</p>
             <p className="font-hairline text-right text-black text-base sm:text-sm">

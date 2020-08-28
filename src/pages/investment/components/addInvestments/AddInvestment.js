@@ -12,6 +12,7 @@ import { getAllInvestments } from "../../../../state/slices/investments";
 import { connect, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Loading from "shared-components/Loading";
+import { formatCurrency } from "utils";
 
 const AddInvestment = ({
   getAllInvestmentsData,
@@ -125,9 +126,9 @@ const AddInvestment = ({
     1: "Funds",
     3: "Treasury Bills",
     3: "Treasury Bills",
-    2: "Fixed Tip",
-    2: "Fixed Tip",
-    2: "Fixed Tip",
+    2: "Fixed Deposit",
+    2: "Fixed Deposit",
+    2: "Fixed Deposit",
   };
 
   const availInvest = getAllInvestmentsData.filter(
@@ -204,9 +205,11 @@ const AddInvestment = ({
                           {items.label}
                         </p>
                         <p className="font-bold text-black mt-5 text-base">
-                          N{items.minimumAmount}
+                          {/* N{items.minimumAmount} */}
+                          { formatCurrency(items.minimumAmount)}
                         </p>
-                        <p className="text-xs ">Minimum Capital</p>
+                        <p className="text-xs ">
+                          Minimum Capital</p>
                       </div>
                       <div className="flex justify-between flex-col">
                         <div

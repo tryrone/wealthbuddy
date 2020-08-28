@@ -7,6 +7,7 @@ import { getAllInvestments } from "../../../../state/slices/investments";
 // import { Redirect } from "react-router-dom";
 import Chart from "../Chart";
 import { Link, Redirect, useHistory } from "react-router-dom";
+import { formatCurrency } from "utils";
 
 const InvestmentInfo = (props) => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const InvestmentInfo = (props) => {
   }, []);
 
   const investmentDetail = {
-    1: {
+    51129656: {
       name: "MERISTEM EQUITY MARKET FUND",
       summary:
         "This offers a low-cost method of investing in bonds, stocks, treasury bills and other fixed income instruments while offering you a professional, full-time fund manager. Our mutual funds allow you begin your investment journey with as low as NGN10,000 for the first month and fund your account with any amount subsequently. Our mutual fund account never expires and allows you gain interests as early as after 30days.",
@@ -31,7 +32,7 @@ const InvestmentInfo = (props) => {
         "The money market fund is a low risk fund, that invests in a combination of fixed income instruments like treasury bills, commercial papers, fixed deposit and call placement.",
       auction: false,
     },
-    1: {
+    51129542: {
       name: "MERISTEM MONEY MARKET FUND",
       summary:
         "This offers a low-cost method of investing in bonds, stocks, treasury bills and other fixed income instruments while offering you a professional, full-time fund manager. Our mutual funds allow you begin your investment journey with as low as NGN10,000 for the first month and fund your account with any amount subsequently. Our mutual fund account never expires and allows you gain interests as early as after 30days.",
@@ -39,44 +40,52 @@ const InvestmentInfo = (props) => {
         "The money market fund is a low risk fund, that invests in a combination of fixed income instruments like treasury bills, commercial papers, fixed deposit and call placement.",
       auction: false,
     },
-    2: {
+    45149062: {
       name: "MERISTEM FIXTIP",
+      summary:
+        "The Fixed term investment account serves as a better alternative to a savings account, especially for people looking to achieve set short-term projects. It affords individuals the opportunity to set aside money and get higher interest than a typical savings account in 30days. Are you looking to get a new phone? House? Or just a better way to save? FIXTIP makes all that easy.",
+      earnings:
+        "Fixed income broadly refers to those types of investment security that pay investors fixed interest or dividend payments until its maturity date.",
+      auction: false,
+    },
+    51118581: {
+      name: "MERISTEM MTLIP",
+      summary:
+        'Treasury Bills, also known as "T-bills," are investment options issued by the Nigerian government. Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice. This investment also offers you the opportunity to get your interest upfront or re-invest your capital plus interest after your investment tenure is over. T-bills is a great way to save for rent, school fees and other capital-intensive cost you may have.',
+      earnings:
+        "Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice.",
+      auction: true,
+    },
+    51119099: {
+      name: "TREASURY BILLS(ASSET)",
+      summary:
+        'Treasury Bills, also known as "T-bills," are investment options issued by the Nigerian government. Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice. This investment also offers you the opportunity to get your interest upfront or re-invest your capital plus interest after your investment tenure is over. T-bills is a great way to save for rent, school fees and other capital-intensive cost you may have.',
+      earnings:
+        "Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice.",
+      auction: true,
+    },
+    45149064: {
+      name: "MERISTEM DOLLAR INVESTMENT PORTFOLIO (MDIP)",
+      summary:
+        " This Meristem Dollar investment offers you a shield from currency risk. It is a great way to spread your investment and reduce your risk exposure. The Meristem Dollar investment creates a platform for you to earn interest in foreign currency and invest in dollar denominated instruments.",
+      earnings:
+        "The Meristem Dollar investment creates a platform for you to earn interest in foreign currency and invest in dollar denominated instruments.",
+      auction: true,
+    },
+    45149066: {
+      name: "MERISTEM ETHICAL EQUITY PORTFOLIO (MEEP)",
       summary:
         "The fixed term investment account serves as a better alternative to a savings account, especially for people looking to achieve set short-term projects. It affords individuals the opportunity to set aside money and get higher interest than a typical savings account in 30days. Are you looking to get a new phone? House? Or just a better way to save? FIXTIP makes all that easy.",
       earnings:
         "Fixed income broadly refers to those types of investment security that pay investors fixed interest or dividend payments until its maturity date.",
       auction: false,
     },
-    3: {
-      name: "MERISTEM MTLIP",
+    45149135: {
+      name: "REAP-ARENA (REAP)",
       summary:
-        'Treasury bills, also known as "T-bills," are investment options issued by the Nigerian government. Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice. This investment also offers you the opportunity to get your interest upfront or re-invest your capital plus interest after your investment tenure is over. T-bills is a great way to save for rent, school fees and other capital-intensive cost you may have.',
+        "This is a British pound denominated investment, designed to offer investors the actual advantage of currency appreciation and rental income. Through this product, investors have the opportunity to co-own real estate and generate income via short let rental and full-term tenancy arrangement.",
       earnings:
-        "Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice.",
-      auction: true,
-    },
-    3: {
-      name: "TREASURY BILLS(ASSET)",
-      summary:
-        'Treasury bills, also known as "T-bills," are investment options issued by the Nigerian government. Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice. This investment also offers you the opportunity to get your interest upfront or re-invest your capital plus interest after your investment tenure is over. T-bills is a great way to save for rent, school fees and other capital-intensive cost you may have.',
-      earnings:
-        "Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice.",
-      auction: true,
-    },
-    2: {
-      name: "MERISTEM DOLLAR INVESTMENT PORTFOLIO (MDIP)",
-      summary:
-        " This investment offers you a shield from currency risk. It is a great way to spread your investment and reduce your risk exposure. The Meristem Dollar investment creates a platform for you to earn interest in foreign currency and invest in dollar denominated instruments.",
-      earnings:
-        "Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice.",
-      auction: true,
-    },
-    2: {
-      name: "MERISTEM ETHICAL EQUITY PORTFOLIO (MEEP)",
-      summary:
-        "The fixed term investment account serves as a better alternative to a savings account, especially for people looking to achieve set short-term projects. It affords individuals the opportunity to set aside money and get higher interest than a typical savings account in 30days. Are you looking to get a new phone? House? Or just a better way to save? FIXTIP makes all that easy.",
-      earnings:
-        "Fixed income broadly refers to those types of investment security that pay investors fixed interest or dividend payments until its maturity date.",
+        "Through this product, investors have the opportunity to co-own real estate and generate income via short let rental and full-term tenancy arrangement.",
       auction: false,
     },
   };
@@ -163,7 +172,7 @@ const InvestmentInfo = (props) => {
             </p>
 
             <p className="text-lg text-black sm:text-base text-hairline  leading-loose mt-3">
-              {investmentDetail[InvestmentName[0].investmentType].summary}
+              {investmentDetail[InvestmentName[0].investmentID].summary}
             </p>
           </div>
           {/* box one end */}
@@ -183,43 +192,56 @@ const InvestmentInfo = (props) => {
             </p>
 
             <p className="text-lg text-black sm:text-base text-hairline leading-loose  mt-3">
-              {investmentDetail[InvestmentName[0].investmentType].earnings}
+              {investmentDetail[InvestmentName[0].investmentID].earnings}
             </p>
           </div>
           {/* box two end */}
 
           {/* box three start */}
-          
-          <div
-            style={{
-              border: "1px solid #F1F1F1",
-            }}
-            className="card py-4  rounded mt-10"
-          >
-            <p
-              style={{ color: "#999999" }}
-              className="text-lg font-bold pl-4 sm:text-base"
+          {InvestmentName[0].investmentType === 1 ? (
+            <div
+              style={{
+                border: "1px solid #F1F1F1",
+              }}
+              className="card py-4  rounded mt-10"
             >
-              {
-                InvestmentName[0].investmentType === 1 ? "Price History":
-                InvestmentName[0].investmentType === 3 ?"Auction" : 
-                InvestmentName[0].investmentType === 2 ? null : ""    
-              }
-              
-            </p>
+              <p
+                style={{ color: "#999999" }}
+                className="text-lg font-bold pl-4 sm:text-base"
+              >
+                Price History
+              </p>
 
-            <div>
-             {
-                InvestmentName[0].investmentType === 1 ? <Chart />:
-                InvestmentName[0].investmentType === 3 ?"" : 
-                InvestmentName[0].investmentType === 2 ? null : ""    
-              }
-              
+              <div>
+               <Chart />
+              </div>
             </div>
-          </div>
+          ) : InvestmentName[0].investmentType === 3 ? (
+            <div
+              style={{
+                border: "1px solid #F1F1F1",
+              }}
+              className="card py-4  rounded mt-10"
+            >
+              <p
+                style={{ color: "#999999" }}
+                className="text-lg font-bold pl-4 sm:text-base"
+              >
+                Auction
+              </p>
+
+              <div>
+                {/* {
+                    InvestmentName[0].investmentType === 1 ? <Chart /> :
+                      InvestmentName[0].investmentType === 3 ? "" :
+                        null
+                  } */}
+              </div>
+            </div>
+          ) : null}
           {/* box three end */}
         </div>
-        {/* edn of column one */}
+        {/* end of column one */}
 
         {/* second coulumn */}
         <div
@@ -308,18 +330,16 @@ const InvestmentInfo = (props) => {
           )} */}
 
           {/* item */}
-          {
-            InvestmentName[0].investmentType === 1 ?
+          {InvestmentName[0].investmentType === 1 ? (
             <div className="flex flex-row mt-8 content-center justify-between items-center">
-          <p className="font-bold text-black text-base sm:text-sm">
-            Date issued
-          </p>            
-          <p className="font-hairline text-right text-black text-base sm:text-sm">
-            {moment(InvestmentName[0].dateIssued).format("L")}
-          </p>
-        </div> : null
-          }
-        
+              <p className="font-bold text-black text-base sm:text-sm">
+                Date issued
+              </p>
+              <p className="font-hairline text-right text-black text-base sm:text-sm">
+                {moment(InvestmentName[0].dateIssued).format("L")}
+              </p>
+            </div>
+          ) : null}
 
           {/* item */}
           {/* {!InvestmentName[0].maturityDate ? null : (
@@ -357,8 +377,7 @@ const InvestmentInfo = (props) => {
               Minimun Deposit
             </p>
             <p className="font-hairline text-right text-black text-base sm:text-sm">
-              {` ₦ ${InvestmentName[0].minimumAmount}` }
-              
+              {` ${formatCurrency(InvestmentName[0].minimumAmount)}`}
             </p>
           </div>
 
@@ -370,7 +389,32 @@ const InvestmentInfo = (props) => {
               </button>
             </Link>
 
-            <Link
+            {InvestmentName[0].currency === "USD" ? (
+              <Link
+                to={{
+                  pathname: "/dashboard/investment/dollar-investment",
+                  investmentId: `${InvestmentName[0].investmentID}`,
+                }}
+              >
+                <button className="mt-12 w-40  border-b text-center bg-wb-primary leading-loose border-wb-primary text-white mr-3 border wealth-buddy--cta text-white rounded-sm">
+                  Invest
+                </button>
+              </Link>
+            ) : null}
+            {InvestmentName[0].currency !== "USD" ? (
+              <Link
+                to={{
+                  pathname: "/dashboard/investment/add-investment-form",
+                  investmentId: `${InvestmentName[0].investmentID}`,
+                }}
+              >
+                <button className="mt-12 w-40  border-b text-center bg-wb-primary leading-loose border-wb-primary text-white mr-3 border wealth-buddy--cta text-white rounded-sm">
+                  Invest
+                </button>
+              </Link>
+            ) : null}
+
+            {/* <Link
               to={{
                 pathname: "/dashboard/investment/add-investment-form",
                 investmentId: `${InvestmentName[0].investmentID}`,
@@ -379,7 +423,7 @@ const InvestmentInfo = (props) => {
               <button className="mt-12 w-40  border-b text-center bg-wb-primary leading-loose border-wb-primary text-white mr-3 border wealth-buddy--cta text-white rounded-sm">
                 Invest
               </button>
-            </Link>
+            </Link> */}
           </div>
         </div>
         {/* second coulumn end */}

@@ -14,28 +14,15 @@ import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 const InvestModal = (props) => {
   const [payment, setPayment] = useState(false);
   const [card, setCard] = useState(false);
-  // const [flick, setFlick] = useState(false);
   const [inHide, setInHide] = useState(true);
   const [myCard, setMyCard] = useState("");
   const [activeOne, setActiveOne] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
 
   const setInvestDetails = props.MycreateInvestmentData;
-  // const myInvestType = props.investType;
-  // let errorObj = props.createInvestmentError;
 
-  const refresh = () => {
-    return document.location.reload(true);
-    // return <Redirect to="/investment/add-investment" />;
-  };
-
-  // if (!activeOne) {
-  //   dispatch(createInvestment(setInvestDetails));
-  // } else
   if (activeOne) {
     setInvestDetails.cardId = `${myCard}`;
-    // dispatch(createInvestment(setInvestDetails));
-    // console.log(setInvestDetails);
   }
 
   // if (props.createInvestmentError && !props.createInvestmentLoading) {

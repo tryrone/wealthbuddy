@@ -5,13 +5,11 @@ import { connect, useDispatch } from "react-redux";
 import {
   getInvestmentTransactionsForFund,
   getAllInvestments,
-  investmentValuationData,
   getAllFixedTransactions,
   getAllTbillsTransactions,
 } from "../../state/slices/investments";
 import MyInvestment from "./components/myInvestment/MyInvestment";
 import Loading from "shared-components/Loading";
-import { Redirect } from "react-router-dom";
 import "./style.css";
 
 const InvestHome = ({
