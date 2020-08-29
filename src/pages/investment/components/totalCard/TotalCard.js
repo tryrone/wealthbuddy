@@ -93,7 +93,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
             <p className="text-base text-white text-opacity-25 ">
               Investment Capital
             </p>
-            <p className="text-gray-100 text-2xl font-bold text-right">
+            <p className="text-gray-100 text-2xl font-bold text-left">
               {investmentValuationLoading ? (
                 <div className="mx-auto flex flex-col content-center items-center">
                   <Loading text="" />
