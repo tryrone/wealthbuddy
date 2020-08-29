@@ -173,7 +173,7 @@ const DollarInvestment = (props) => {
           {/* input content one end */}
 
           {/* input content two */}
-          <fieldset className="mb-4 w-full px-6 mx-auto">
+          {/* <fieldset className="mb-4 w-full px-6 mx-auto">
             <label className="block text-xs font-medium">
               add a description
             </label>
@@ -183,7 +183,7 @@ const DollarInvestment = (props) => {
                 callSetDetail(e.target.value);
               }}
             />
-          </fieldset>
+          </fieldset> */}
           {/* input content two */}
 
           {/* input content three */}
