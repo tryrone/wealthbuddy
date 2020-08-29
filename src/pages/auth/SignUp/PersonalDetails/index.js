@@ -72,7 +72,7 @@ const SignUpPersonalDetails = ({
                     <fieldset className="mb-5">
                       <label className="block text-xs mb-2">First name</label>
                       <Field
-                        placeholder="ex. Adebanjo"
+                        placeholder="ex. Olorunyomi"
                         type="text"
                         id="firstName"
                         name="firstName"
@@ -83,7 +83,7 @@ const SignUpPersonalDetails = ({
                     <fieldset className="mb-5">
                       <label className="block text-xs mb-2">Last name</label>
                       <Field
-                        placeholder="ex. Adebowale"
+                        placeholder="ex. Oladotun"
                         type="text"
                         id="lastName"
                         name="lastName"
