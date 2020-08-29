@@ -148,7 +148,7 @@ function AddInvestmentForm(props) {
     fundName: `${InvestmentName[0].name}`,
     frequency: `${state.frequency}`,
     investmentImage: `${files.file.name}`,
-    description: `testing with ${state.amount}`,
+    description: `${InvestmentName[0].name}`,
     // investmentStartDate: `${date}`,
     investmentType: InvestmentName[0].investmentType,
   };
