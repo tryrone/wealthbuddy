@@ -9,6 +9,7 @@ import { info } from "../../imageLinks";
 import moment, { duration } from "moment";
 import { Redirect } from "react-router-dom";
 import UploadIcon from "assets/img/uploadIcon.svg";
+import fundImg from "assets/img/funds_img.jpg";
 import { Link, useHistory } from "react-router-dom";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import InvestModal from "../investModal/InvestModal";
@@ -445,8 +446,9 @@ function AddInvestmentForm(props) {
           <div className="w-72 shadow-lg p-2">
             {/* image preview content start */}
 
-            <div className="personalize--card">
-              <div className="previewComponent">
+            {/* <div className="personalize--card"> */}
+            <img src={fundImg} className="h-full w-full" />
+            {/* <div className="previewComponent">
                 <input
                   className="fileInput"
                   type="file"
@@ -466,8 +468,8 @@ function AddInvestmentForm(props) {
                     </div>
                   )}
                 </div>
-              </div>
-              {files.imagePreviewUrl ? (
+              </div> */}
+            {/* {files.imagePreviewUrl ? (
                 <h3 className="color-secondary personalize-text text-center">
                   + Change Photo
                 </h3>
@@ -475,8 +477,8 @@ function AddInvestmentForm(props) {
                 <h3 className="color-secondary change-text personalize-text text-center">
                   Personalise your goal by <br /> <span>+ Adding a photo.</span>
                 </h3>
-              )}
-            </div>
+              )} */}
+            {/* </div> */}
 
             {/* image preview content end */}
           </div>

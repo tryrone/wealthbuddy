@@ -29,13 +29,16 @@ const TerminateInvestment = (props) => {
   }
 
   const setInvestmentTypeOne = props.investmentValuationData.fixedDeposits.filter(
-    (item) => item.instrumentId === props.location.investmentId
+    (item) =>
+      parseInt(item.instrumentId) === parseInt(props.location.investmentId)
   );
+
   const setInvestmentTypeTwo = props.investmentValuationData.portfolioHoldings.filter(
-    (item) => item.securityId === props.location.investmentId
+    (item) =>
+      parseInt(item.securityId) === parseInt(props.location.investmentId)
   );
   const setInvestmentTypeThree = props.investmentValuationData.treasuryBills.filter(
-    (item) => item.id === props.location.investmentId
+    (item) => parseInt(item.id) === parseInt(props.location.investmentId)
   );
 
   let makeArray = [];
@@ -474,13 +477,13 @@ const TerminateInvestment = (props) => {
             <img src={information} alt="" className="mr-2" />
             <p className="text-sm">
               {selectOne
-                ? `Part of your investment would be 
-                                    terminated and would be sent 
+                ? `Part of your investment would be
+                                    terminated and would be sent
                                     to you wallet along with your interest.`
-                : `This investment would be fuly 
-                                    terminated and your 
-                                    funds would be transfered 
-                                    to your wallet along with your 
+                : `This investment would be fuly
+                                    terminated and your
+                                    funds would be transfered
+                                    to your wallet along with your
                                     interest.`}
             </p>
           </div>
