@@ -1,20 +1,34 @@
 import React, { useEffect, Fragment } from "react";
-import { createInvestment } from "../../../../state/slices/investments";
+import {
+  createInvestment,
+  getAllFixedTransactions,
+  getInvestmentTransactionsForFund,
+  getAllTbillsTransactions,
+  getInvestmentValuation,
+} from "../../../../state/slices/investments";
 import successDoc from "../../../../assets/img/success.svg";
 import Loading from "shared-components/Loading";
 import failedDoc from "../../../../assets/img/failedDoc.svg";
 import { connect, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const InvestModalSuccess = (props) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   let errorObj = props.createInvestmentError;
   //   const mySuccess = props.createInvestmentData;
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(createInvestment(props.investData));
   }, []);
 
   const refresh = () => {
-    return document.location.reload(true);
+    dispatch(getAllTbillsTransactions());
+    dispatch(getInvestmentTransactionsForFund());
+    dispatch(getAllFixedTransactions());
+    dispatch(getInvestmentValuation());
+    history.push("/dashboard/investment");
+    // return document.location.reload(true);
   };
   return (
     <div>

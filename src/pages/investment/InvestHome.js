@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import TotalCard from "./components/totalCard/TotalCard";
+import { logo } from "assets/exports";
 import TransactHistory from "./components/transactHistory/TransactHistory";
 import { connect, useDispatch } from "react-redux";
 import {
@@ -25,7 +26,7 @@ const InvestHome = ({
 }) => {
   const dispatch = useDispatch();
   const tegaSum = Object.keys(investmentValuationData).length;
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (tegaSum === 0) {
       dispatch(getInvestmentTransactionsForFund());
       dispatch(getAllInvestments());
@@ -36,8 +37,11 @@ const InvestHome = ({
   }, []);
 
   return investmentValuationLoading ? (
-    <div className="px-12 flex justify-center content-center items-center">
-      <Loading text="Loading" />
+    <div className="flex flex-col justify-center min-screen items-center">
+      <div className="flex flex-col justify-center items-center">
+        <i className="w-10 mb-4" dangerouslySetInnerHTML={{ __html: logo }} />
+        <Loading text="" />
+      </div>
     </div>
   ) : (
     <div className="px-12">

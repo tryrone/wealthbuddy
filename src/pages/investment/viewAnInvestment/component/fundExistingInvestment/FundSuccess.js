@@ -3,7 +3,13 @@ import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
 import successDoc from "../../../../../assets/img/success.svg";
 import { connect, useDispatch } from "react-redux";
 import { Redirect, Link } from "react-router-dom";
-import { fundInvestment } from "../../../../../state/slices/investments";
+import {
+  fundInvestment,
+  getInvestmentTransactionsForFund,
+  getAllFixedTransactions,
+  getAllTbillsTransactions,
+  getInvestmentValuation,
+} from "../../../../../state/slices/investments";
 import FailedDoc from "../../../../../assets/img/failedDoc.svg";
 import Loading from "shared-components/Loading";
 
@@ -16,9 +22,10 @@ const FundSuccess = (props) => {
   }, []);
 
   const refresh = () => {
-    document.location.reload(true);
-    return <Redirect to="/investment/add-investment" />;
-    //   return document.location.reload(true);
+    dispatch(getAllTbillsTransactions());
+    dispatch(getInvestmentValuation());
+    dispatch(getInvestmentTransactionsForFund());
+    dispatch(getAllFixedTransactions());
   };
 
   return (
@@ -68,9 +75,9 @@ const FundSuccess = (props) => {
 
               <Link
                 to="/dashboard/investment"
-                // onClick={() => {
-                //   refresh();
-                // }}
+                onClick={() => {
+                  refresh();
+                }}
                 className={`mt-6 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm`}
               >
                 Done

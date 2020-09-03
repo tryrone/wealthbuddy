@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { logo } from "assets/exports";
 import {
   handCoin,
   handHouse,
@@ -139,8 +140,11 @@ const AddInvestment = ({
   );
 
   return getAllInvestmentsLoading ? (
-    <div className="flex my-auto content-center justify-center items-center  mx-auto">
-      <Loading text="Fetching available invetsments" />
+    <div className="flex flex-col justify-center min-screen items-center">
+      <div className="flex flex-col justify-center items-center">
+        <i className="w-10 mb-4" dangerouslySetInnerHTML={{ __html: logo }} />
+        <Loading text="" />
+      </div>
     </div>
   ) : (
     <div className="px-12 flex flex-col fadeIn">

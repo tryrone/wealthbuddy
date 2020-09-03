@@ -1,12 +1,20 @@
 import React, { Fragment, useEffect } from "react";
 import successDoc from "../../../../assets/img/success.svg";
 import { connect, useDispatch } from "react-redux";
-import { withdrawFunds } from "../../../../state/slices/investments";
+import {
+  withdrawFunds,
+  getAllTbillsTransactions,
+  getInvestmentTransactionsForFund,
+  getAllFixedTransactions,
+  getInvestmentValuation,
+} from "../../../../state/slices/investments";
 import FailedDoc from "../../../../assets/img/failedDoc.svg";
 import Loading from "shared-components/Loading";
 import CloseModalIcon from "shared-components/svgs/CloseModalIcon";
+import { useHistory } from "react-router-dom";
 
 function SuccessModal(props) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const withData = props.data;
   useEffect(() => {
@@ -18,7 +26,15 @@ function SuccessModal(props) {
   };
 
   const refresh = () => {
-    return document.location.reload(true);
+    // const refresh = () => {
+    dispatch(getAllTbillsTransactions());
+    dispatch(getInvestmentTransactionsForFund());
+    dispatch(getAllFixedTransactions());
+    dispatch(getInvestmentValuation());
+    history.push("/dashboard/investment");
+    // return document.location.reload(true);
+    // };
+    // return document.location.reload(true);
     // return <Redirect to="/investment/add-investment" />;
   };
   return (

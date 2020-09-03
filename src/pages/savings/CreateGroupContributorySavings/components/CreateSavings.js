@@ -119,12 +119,12 @@ const CreateSavings = ({
     frequency: yup.string().label("Schedule").required(),
     participants: yup
       .array()
-      // .of(
-      //   yup.object().shape({
-      //     email: yup.string().email().required("Required"),
-      //     isModifiable: yup.boolean(),
-      //   })
-      // )
+      .of(
+        yup.object().shape({
+          email: yup.string().email().required("Required"),
+          isModifiable: yup.boolean(),
+        })
+      )
       .unique("Duplicate member email", (a) => a.email)
       .min(2, "You must have at least 2 participants")
       .required("No members added to savings invite"),

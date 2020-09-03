@@ -6,10 +6,12 @@ import { info } from "../imageLinks";
 import moment from "moment";
 import { Redirect } from "react-router-dom";
 import UploadIcon from "../../../assets/img/uploadIcon.svg";
+import fundImg from "../../../assets/img/funds_img.jpg";
 import { Link, useHistory } from "react-router-dom";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { connect, useDispatch } from "react-redux";
-import DollarModal from "./DollarModal";
+import DollarSuccess from "./DollarSuccess";
+import "./input.css";
 
 const DollarInvestment = (props) => {
   const [modal, changeModal] = useState(false);
@@ -184,6 +186,27 @@ const DollarInvestment = (props) => {
               }}
             />
           </fieldset> */}
+
+          <fieldset className="mb-4 w-full px-6 mx-auto mt-4">
+            <label className="block text-xs font-medium">
+              Upload proof of payment
+            </label>
+            <div
+              style={{ border: "1px solid #a0aec0" }}
+              className="myInput block w-full relative text-xs mt-2 p-3 border border-gray-400 rounded"
+            >
+              <p className="absolute left-0 pl-3 ">Choose File</p>
+
+              {/* <input type="file" id="files" name="myfile" /> */}
+              <input
+                className="fileInput w-full h-full"
+                type="file"
+                // onChange={(e) => handleImageChange(e)}
+                accept="image/*"
+              />
+            </div>
+          </fieldset>
+
           {/* input content two */}
 
           {/* input content three */}
@@ -256,7 +279,8 @@ const DollarInvestment = (props) => {
           <div className="w-72 shadow-lg p-2">
             {/* image preview content start */}
 
-            <div className="personalize--card">
+            <img src={fundImg} className="h-full w-full" />
+            {/* <div className="personalize--card">
               <div className="previewComponent">
                 <input
                   className="fileInput"
@@ -287,7 +311,7 @@ const DollarInvestment = (props) => {
                   Personalise your goal by <br /> <span>+ Adding a photo.</span>
                 </h3>
               )}
-            </div>
+            </div> */}
 
             {/* image preview content end */}
           </div>
@@ -351,13 +375,23 @@ const DollarInvestment = (props) => {
       </div>
 
       {modal ? (
-        <DollarModal
-          myclose={onclose}
+        <DollarSuccess
+          // investData={setInvestDetails}
+          close={onclose}
           //   MycreateInvestmentData={myFormData}
           //   // MycreateInvestmentData={investmentTbills}
           //   investType={InvestmentName[0].investmentType}
         />
       ) : null}
+      {/* {onLoadModal ? (
+        <DollarSuccess
+          investData={setInvestDetails}
+          close={onclose}
+          //   MycreateInvestmentData={myFormData}
+          //   // MycreateInvestmentData={investmentTbills}
+          //   investType={InvestmentName[0].investmentType}
+        />
+      ) : null} */}
     </div>
   );
 };

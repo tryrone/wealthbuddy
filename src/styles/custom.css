@@ -25,8 +25,8 @@ a {
   color: inherit;
 }
 
-.cheching{
-  border:1px solid #8CB13D;
+.cheching {
+  border: 1px solid #8cb13d;
   background-color: #8cb13d31;
 }
 
@@ -676,8 +676,8 @@ iframe {
 }
 
 .fadeIn {
-  animation: fadeIn 0.45s ease-in both;
-  -webkit-animation: fadeIn 0.45s ease-in both;
+  animation: fadeIn 0.45s ease-in;
+  -webkit-animation: fadeIn 0.45s ease-in;
 }
 
 @keyframes fadeIn {
@@ -3536,4 +3536,3 @@ nav .user-no--picture {
 .account-content {
   flex-wrap: wrap;
 }
-

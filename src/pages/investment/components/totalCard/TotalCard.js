@@ -70,22 +70,18 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
 
         <p className="text-gray-100 text-4xl font-bold pl-6">
           {" "}
-          {investmentValuationLoading ? (
-            <div className="mx-auto flex flex-col content-center items-center">
-              <Loading text="" />
-            </div>
-          ) : (
-            `₦${formatCurrency(
-              !investmentValuationData
-                ? null
-                : (
-                    fundReturns +
-                    investmentValuationData.totalFixedDepositIncome +
-                    investmentValuationData.totalTBillInterestValue +
-                    myTotalCost
-                  ).toFixed(2)
-            )}`
-          )}
+          {investmentValuationLoading
+            ? "₦0"
+            : `₦${formatCurrency(
+                !investmentValuationData
+                  ? null
+                  : (
+                      fundReturns +
+                      investmentValuationData.totalFixedDepositIncome +
+                      investmentValuationData.totalTBillInterestValue +
+                      myTotalCost
+                    ).toFixed(2)
+              )}`}
         </p>
 
         <div className="flex flex-summary card-margin--x flex-wrap justify-between items-center content-center pt-6">
@@ -93,20 +89,16 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
             <p className="text-base text-white text-opacity-25 ">
               Investment Capital
             </p>
-            <p className="text-gray-100 text-2xl font-bold text-left">
-              {investmentValuationLoading ? (
-                <div className="mx-auto flex flex-col content-center items-center">
-                  <Loading text="" />
-                </div>
-              ) : (
-                `₦${formatCurrency(
-                  !investmentValuationData.totalPortfolioValue
-                    ? null
-                    : myTotalCost.toFixed(2)
-                )} `
-              )}
+            <p className="text-gray-100 text-2xl font-bold text-right">
+              {investmentValuationLoading
+                ? "₦0"
+                : `₦${formatCurrency(
+                    !investmentValuationData.totalPortfolioValue
+                      ? null
+                      : myTotalCost.toFixed(2)
+                  )} `}
             </p>
-             </div>
+          </div>
           <div
             style={{ width: "2px", height: "50px", backgroundColor: "#222222" }}
           />
@@ -115,21 +107,16 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
               Total Interests
             </p>
             <p className="ext-gray-100 text-2xl font-bold">
-              {investmentValuationLoading ? (
-                <div className="mx-auto flex flex-col content-center items-center">
-                  <Loading text="" />
-                </div>
-              ) : (
-                `+ ₦${formatCurrency(
-                  !investmentValuationData
-                    ? null
-                    : fundReturns +
-                        investmentValuationData.totalFixedDepositIncome +
-                        investmentValuationData.totalTBillInterestValue
-                )}`
-              )}
+              {investmentValuationLoading
+                ? "₦0"
+                : `+ ₦${formatCurrency(
+                    !investmentValuationData
+                      ? null
+                      : fundReturns +
+                          investmentValuationData.totalFixedDepositIncome +
+                          investmentValuationData.totalTBillInterestValue
+                  )}`}
             </p>
-                  
           </div>
         </div>
 

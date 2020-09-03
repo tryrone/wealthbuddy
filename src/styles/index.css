@@ -19879,8 +19879,8 @@ iframe{
 }
 
 .fadeIn{
-  animation:fadeIn .45s ease-in both;
-  -webkit-animation:fadeIn .45s ease-in both
+  animation:fadeIn .45s ease-in;
+  -webkit-animation:fadeIn .45s ease-in
 }
 
 @keyframes fadeIn{

@@ -232,7 +232,10 @@ const TransactHistory = (props) => {
                       <p className="text-black text-base font-light">
                         {num.instrumentTypeLabel}
                       </p>
-                      <p style={{ color: "#999999" }} className="text-sm mt-2">
+                      <div
+                        style={{ color: "#999999" }}
+                        className="text-sm mt-2"
+                      >
                         <LinesEllipsis
                           text={`${num.label}`}
                           maxLine="2"
@@ -240,7 +243,7 @@ const TransactHistory = (props) => {
                           trimRight
                         />
                         {/* {num.label} */}
-                      </p>
+                      </div>
                     </div>
                   </div>
 
