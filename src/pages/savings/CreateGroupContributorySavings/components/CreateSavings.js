@@ -97,14 +97,6 @@ const CreateSavings = ({
   const minimumAmount = savingsConfiguration.minimumAmount;
   const maximumAmount = savingsConfiguration.maximumAmount;
 
-  // const minimumDurationInDays = savingsConfiguration.minimumDurationInDays;
-  // const minimumDurationInWeeks = Math.floor(minimumDurationInDays / 7);
-  // const minimumDurationInMonths = Math.floor(minimumDurationInDays / 30);
-  //
-  // const maximumDurationInDays = savingsConfiguration.maximumDurationInDays;
-  // const maximumDurationInWeeks = Math.floor(maximumDurationInDays / 7);
-  // const maximumDurationInMonths = Math.floor(maximumDurationInDays / 30);
-
   const initialValues = {
     ...initialFormValues,
     participants: [{ email: customerDetails.email, isModifiable: false }],
@@ -125,44 +117,14 @@ const CreateSavings = ({
       .label("Amount")
       .required(),
     frequency: yup.string().label("Schedule").required(),
-    // duration: yup
-    //   .number()
-    //   .label("Duration")
-    //   .required()
-    //   .when("frequency", {
-    //     is: SavingsFrequency.Weekly.toString(),
-    //     then: yup
-    //       .number()
-    //       .min(
-    //         minimumDurationInWeeks,
-    //         `You can only save for a minimum of ${minimumDurationInWeeks} weeks`
-    //       )
-    //       .max(
-    //         maximumDurationInWeeks,
-    //         `You can only save for a maximum of ${maximumDurationInWeeks} weeks`
-    //       ),
-    //   })
-    //   .when("frequency", {
-    //     is: SavingsFrequency.Monthly.toString(),
-    //     then: yup
-    //       .number()
-    //       .min(
-    //         minimumDurationInMonths,
-    //         `You can only save for a minimum of ${minimumDurationInMonths} month`
-    //       )
-    //       .max(
-    //         maximumDurationInMonths,
-    //         `You can only save for a maximum of ${maximumDurationInMonths} month`
-    //       ),
-    //   }),
     participants: yup
       .array()
-      .of(
-        yup.object().shape({
-          email: yup.string().email().required("Required"),
-          isModifiable: yup.boolean(),
-        })
-      )
+      // .of(
+      //   yup.object().shape({
+      //     email: yup.string().email().required("Required"),
+      //     isModifiable: yup.boolean(),
+      //   })
+      // )
       .unique("Duplicate member email", (a) => a.email)
       .min(2, "You must have at least 2 participants")
       .required("No members added to savings invite"),
@@ -272,55 +234,6 @@ const CreateSavings = ({
                             )}
                           </select>
                         </fieldset>
-
-                        {/*<fieldset className="mb-6">*/}
-                        {/*  <label className="block text-xs mb-3">*/}
-                        {/*    How long is this contribution ?*/}
-                        {/*  </label>*/}
-                        {/*  <div className="amount-wrap">*/}
-                        {/*    <NumberFormat*/}
-                        {/*      placeholder={*/}
-                        {/*        "E.g 4 " +*/}
-                        {/*          savingsFrequenciesPluralized[*/}
-                        {/*            values.frequency*/}
-                        {/*          ] ||*/}
-                        {/*        savingsFrequenciesPluralized[*/}
-                        {/*          SavingsFrequency.Weekly*/}
-                        {/*        ]*/}
-                        {/*      }*/}
-                        {/*      type="text"*/}
-                        {/*      autoComplete="off"*/}
-                        {/*      name="duration"*/}
-                        {/*      className="block w-full text-xs p-3 border border-gray-400 rounded"*/}
-                        {/*      value={values.duration}*/}
-                        {/*      onBlur={handleBlur}*/}
-                        {/*      onValueChange={({ value }) =>*/}
-                        {/*        setFieldValue("duration", value)*/}
-                        {/*      }*/}
-                        {/*    />*/}
-
-                        {/*    <span className="frequency-title">*/}
-                        {/*      {values.duration > 1*/}
-                        {/*        ? savingsFrequenciesPluralized[*/}
-                        {/*            values.frequency*/}
-                        {/*          ] ||*/}
-                        {/*          savingsFrequenciesPluralized[*/}
-                        {/*            SavingsFrequency.Weekly*/}
-                        {/*          ]*/}
-                        {/*        : savingsFrequencies[values.frequency] ||*/}
-                        {/*          savingsFrequencies[SavingsFrequency.Weekly]}*/}
-                        {/*    </span>*/}
-                        {/*  </div>*/}
-
-                        {/*  <ErrorMessage*/}
-                        {/*    name="duration"*/}
-                        {/*    render={(errorMessage) => (*/}
-                        {/*      <p className="label-error--text mt-3 text-xs color-red font-medium text-center bg-red-200">*/}
-                        {/*        {errorMessage}*/}
-                        {/*      </p>*/}
-                        {/*    )}*/}
-                        {/*  />*/}
-                        {/*</fieldset>*/}
                       </div>
 
                       <div className="saving-summary  flex justify-center flex-col items-center pt-10 pb-10 has-summary--bg">
@@ -328,12 +241,6 @@ const CreateSavings = ({
                          Each Member's Contribution
                         </p>
                         <h1 className="font-medium text-2xl">
-                        {/* {`₦${formatCurrency(
-                            values.amount / (values.duration || 1)
-                          )}/${
-                            savingsFrequencies[values.frequency] ||
-                            savingsFrequencies[SavingsFrequency.Daily]
-                          }`} */}
                           {`₦${formatCurrency(
                             values.amount
                           )}/${
