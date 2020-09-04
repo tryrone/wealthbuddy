@@ -17,12 +17,30 @@ const FundSavingsModal = ({
     isVisible && closeModalOnOutsideClick(close);
   }, [isVisible]);
 
+  const FundingMethods = {
+    Wallet: "wallet",
+    Card: "card",
+  };
+
+  const fundingMethods = [
+    {
+      label: "Use wallet",
+      value: FundingMethods.Wallet,
+    },
+    {
+      label: "Use debit card",
+      value: FundingMethods.Card,
+    },
+  ];
+
   const initialValues = {
     cardId: formValues.cardId,
+    fundingMethod: formValues.fundingMethod,
   };
 
   const validationSchema = yup.object().shape({
     cardId: yup.string().label("Card").required(),
+    fundingMethod: yup.string().label("Funding method").required(),
   });
 
   return (
@@ -58,26 +76,63 @@ const FundSavingsModal = ({
                     onSubmit={handleSubmit}
                   >
                     <div className="mt-6 w-full">
-                      <label className="block text-xs mb-2">Select Card</label>
-                      <div className="fieldset">
-                        <PaymentCardDropdown
-                          selectedItemId={values.cardId}
-                          onSelectItem={(item) =>
-                            setFieldValue("cardId", item.value)
+                      {fundingMethods.map((method, index) => (
+                        <div
+                          key={index}
+                          onClick={() =>
+                            setFieldValue("fundingMethod", method.value)
                           }
-                        />
-                      </div>
-                    </div>
+                          className={`rounded-md w-full border mt-5 flex flex-row items-center content-center py-4 px-4 cursor-pointer ${
+                            values.fundingMethod === method.value
+                              ? "selected--item"
+                              : "default-state--item"
+                          }`}
+                        >
+                          {values.fundingMethod === method.value ? (
+                            <div className="selected-indicator--dot-container">
+                              <div className="selected-indicator--dot-inner" />
+                            </div>
+                          ) : (
+                            <div className="default-state-indicator--circle" />
+                          )}
 
-                    <div
-                      className="add-new--card flex items-center justify-center"
-                      onClick={() => null}
-                    >
-                      <span
-                        className="add-new--icon"
-                        dangerouslySetInnerHTML={{ __html: AddNewCard }}
-                      />
-                      Add a New Card
+                          <label
+                            className="ml-4 font-medium text-base cursor-pointer"
+                            htmlFor="payment_method"
+                          >
+                            {method.label}
+                          </label>
+                        </div>
+                      ))}
+
+                      {values.fundingMethod === FundingMethods.Card && (
+                        <Fragment>
+                          <fieldset className="mt-5">
+                            <label className="block text-xs mb-2">
+                              Select Card
+                            </label>
+                            <div className="fieldset">
+                              <PaymentCardDropdown
+                                selectedItemId={values.cardId}
+                                onSelectItem={(item) =>
+                                  setFieldValue("cardId", item.value)
+                                }
+                              />
+                            </div>
+                          </fieldset>
+
+                          <div
+                            className="add-new--card flex items-center justify-center"
+                            onClick={() => null}
+                          >
+                            <span
+                              className="add-new--icon"
+                              dangerouslySetInnerHTML={{ __html: AddNewCard }}
+                            />
+                            Add a New Card
+                          </div>
+                        </Fragment>
+                      )}
                     </div>
 
                     <div className="nav-buttons flex justify-center">

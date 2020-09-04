@@ -136,13 +136,11 @@ const SavingsListItem = ({ savings }) => {
               </h2>
             ) : (
               <h2 className="summary-balance font-medium">
-                <h2 className="summary-balance font-medium">
-                  {savings.status !== GroupSavingsStatus.Pending
-                    ? moment(savings.estimatedTerminationDate).format(
-                        "MMM Do YYYY"
-                      )
-                    : "N/A"}
-                </h2>
+                {savings.status !== GroupSavingsStatus.Pending
+                  ? moment(savings.estimatedTerminationDate).format(
+                      "MMM Do YYYY"
+                    )
+                  : "N/A"}
               </h2>
             )}
           </div>

@@ -6,11 +6,12 @@ import { useLocation } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import FundSavingsModal from "./FundSavingsModal";
-import produce from "immer";
 import DisclaimerModal from "./DisclaimerModal";
 import { createPersonalTargetSavings } from "state/slices/savings";
-import moment from "moment";
 import CreateSavingsSuccessModal from "./CreateSavingsSuccessModal";
+import moment from "moment";
+import produce from "immer";
+import "./styles.css";
 
 const PersonalSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const PersonalSavings = ({ savingsConfiguration }) => {
       applyInterest: true,
       file: "",
       imagePreviewUrl: null,
+      fundingMethod: null,
       cardId: "",
     },
   });
@@ -81,11 +83,12 @@ const PersonalSavings = ({ savingsConfiguration }) => {
     );
   };
 
-  const handleSubmitFundSavingsForm = ({ cardId }) => {
+  const handleSubmitFundSavingsForm = ({ cardId, fundingMethod }) => {
     setState(
       produce((draft) => {
         draft.showFundSavingsModal = false;
         draft.showDisclaimerModal = true;
+        draft.formValues.fundingMethod = fundingMethod;
         draft.formValues.cardId = cardId;
       })
     );
