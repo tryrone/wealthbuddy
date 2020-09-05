@@ -1,35 +1,34 @@
-import React, { useState, useEffect } from "react";
-import produce from "immer";
-import NumberFormat from "react-number-format";
-import { formatCurrency } from "utils";
-import { info } from "../imageLinks";
-import moment from "moment";
-import { Redirect } from "react-router-dom";
-import UploadIcon from "../../../assets/img/uploadIcon.svg";
-import fundImg from "../../../assets/img/funds_img.jpg";
-import { Link, useHistory } from "react-router-dom";
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import { connect, useDispatch } from "react-redux";
-import DollarSuccess from "./DollarSuccess";
-import "./input.css";
+import React, { useState } from 'react';
+import produce from 'immer';
+import NumberFormat from 'react-number-format';
+import { formatCurrency } from 'utils';
+import moment from 'moment';
+import { Redirect } from 'react-router-dom';
+import fundImg from '../../../assets/img/funds_img.jpg';
+import { Link, useHistory } from 'react-router-dom';
+import 'react-modern-calendar-datepicker/lib/DatePicker.css';
+import { connect } from 'react-redux';
+import DollarSuccess from './DollarSuccess';
+import './input.css';
 
 const DollarInvestment = (props) => {
   const [modal, changeModal] = useState(false);
+  const [text, setText] = useState(false);
   const history = useHistory();
   const [files, setFiles] = useState({
-    file: "",
-    imagePreviewUrl: "",
+    file: {},
+    imagePreviewUrl: '',
     isFixed: false,
   });
   const InvestmentName = props.getAllInvestmentsData.filter(
     (item) => item.investmentID == props.location.investmentId
   );
-  // const [duration, setDuration] = useState("");
+
   const [state, setState] = useState({
     amount: null,
     date: null,
-    detail: "",
-    value: "45f8cdjn",
+    detail: '',
+    value: '45f8cdjn',
     showValue: false,
   });
 
@@ -68,7 +67,7 @@ const DollarInvestment = (props) => {
     }
   };
 
-  // SET DROPDOWN VALUE
+  // SET redirect condition
   if (InvestmentName.length < 1) {
     return <Redirect to="/dashboard/investment/add-investment" />;
   }
@@ -82,7 +81,7 @@ const DollarInvestment = (props) => {
     if (state.amount === null) {
       setState({
         ...state,
-        amountError: "field is required",
+        amountError: 'field is required',
       });
     } else if (state.amount < InvestmentName[0].minimumAmount) {
       setState({
@@ -91,41 +90,46 @@ const DollarInvestment = (props) => {
       });
     } else {
       changeModal(true);
-      // props.myFundData(myFormData);
-      // props.myModal(true);
-      // props.myInvestType(InvestmentName[0].investmentType);
     }
   };
 
-  const formCurrency = InvestmentName[0].currency == "USD" ? "$" : "₦";
+  const formData = new FormData();
+  formData.append('file', files.file);
+  formData.append('ContentType', files.file.type);
+  formData.append('Length', files.file.size);
+  formData.append('Name', files.file.name);
+  formData.append('FileName', files.file.name);
+  // const formData = files.file;
+
+  const formCurrency = InvestmentName[0].currency == 'USD' ? '$' : '₦';
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
       <div className="flex flex-row sm:w-8/12 items-center  mb-10 ">
         <p
           onClick={() => {
-            return history.push("/dashboard/investment");
+            return history.push('/dashboard/investment');
           }}
-          style={{ color: "#999999" }}
+          style={{ color: '#999999' }}
           className="text-xs cursor-pointer"
         >
           Investment
         </p>
-        <p style={{ color: "#999999" }} className="text-xs mx-4">
-          {" "}
-          {">>"}{" "}
+        <p style={{ color: '#999999' }} className="text-xs mx-4">
+          {' '}
+          {'>>'}{' '}
         </p>
         <p
           onClick={() => {
-            return history.push("/dashboard/investment/add-investment");
+            return history.push('/dashboard/investment/add-investment');
           }}
-          style={{ color: "#999999" }}
+          style={{ color: '#999999' }}
           className="text-xs ml-4 sm:ml-1 cursor-pointer"
         >
           Add new Investment
         </p>
-        <p style={{ color: "#999999" }} className="text-xs mx-4">
-          {" "}
-          {">>"}{" "}
+        <p style={{ color: '#999999' }} className="text-xs mx-4">
+          {' '}
+          {'>>'}{' '}
         </p>
         <p className="text-sm text-black"> {InvestmentName[0].label} </p>
       </div>
@@ -138,7 +142,7 @@ const DollarInvestment = (props) => {
       <div className="flex flex-col sm:flex-row">
         {/* column one */}
         <div
-          style={{ border: "1px solid #F1F1F1" }}
+          style={{ border: '1px solid #F1F1F1' }}
           className="card sm:w-1/2 pt-24 pb-56 w-auto mb-20 flex flex-col justify-center content-center mt-6 sm:mr-4"
         >
           {/* input content one */}
@@ -192,16 +196,20 @@ const DollarInvestment = (props) => {
               Upload proof of payment
             </label>
             <div
-              style={{ border: "1px solid #a0aec0" }}
+              style={{ border: '1px solid #a0aec0' }}
               className="myInput block w-full relative text-xs mt-2 p-3 border border-gray-400 rounded"
             >
-              <p className="absolute left-0 pl-3 ">Choose File</p>
+              <p className="absolute left-0 pl-3" style={{ marginTop: '3px' }}>
+                {text ? `${files.file.name}` : 'Choose File'}
+              </p>
 
-              {/* <input type="file" id="files" name="myfile" /> */}
               <input
                 className="fileInput w-full h-full"
                 type="file"
-                // onChange={(e) => handleImageChange(e)}
+                onChange={(e) => {
+                  handleImageChange(e);
+                  setText(true);
+                }}
                 accept="image/*"
               />
             </div>
@@ -217,7 +225,8 @@ const DollarInvestment = (props) => {
             <div className="flex justify-between items-center">
               <input
                 className="block w-full text-xs mt-2 p-3 mr-2 border border-gray-400 rounded"
-                value={state.showValue ? state.value : ""}
+                value={state.showValue ? state.value : ''}
+                readOnly={true}
               />
               <button
                 onClick={() => {
@@ -227,8 +236,8 @@ const DollarInvestment = (props) => {
                   });
                 }}
                 style={{
-                  position: "relative",
-                  top: "4px",
+                  position: 'relative',
+                  top: '4px',
                 }}
                 className="w-full text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm "
               >
@@ -240,11 +249,11 @@ const DollarInvestment = (props) => {
 
           {/* INPUT CONTENT FOUR */}
           <div
-            style={{ border: "1px solid #8CB13D", background: "#F9FFEB" }}
+            style={{ border: '1px solid #8CB13D', background: '#F9FFEB' }}
             className="flex flex-col self-center sm:w-8/12 mt-4 p-2 pb-4"
           >
             <div className="flex flex-row items-center">
-              <p style={{ color: "#8CB13D" }} className="text-sm font-bold">
+              <p style={{ color: '#8CB13D' }} className="text-sm font-bold">
                 Payment information
               </p>
             </div>
@@ -255,7 +264,7 @@ const DollarInvestment = (props) => {
               </p>
               <p className="text-sm font-bold mt-2">01234567890</p>
               <p
-                style={{ color: "#8CB13D" }}
+                style={{ color: '#8CB13D' }}
                 className="text-sm mt-4 font-bold"
               >
                 Providus Bank
@@ -272,7 +281,7 @@ const DollarInvestment = (props) => {
 
         {/* column two */}
         <div
-          style={{ border: "1px solid #F1F1F1" }}
+          style={{ border: '1px solid #F1F1F1' }}
           className="sm:w-1/2 w-auto card sm:w-1/2 pt-24  pb-20  flex flex-col justify-center mt-6 items-center"
         >
           {/* image setting */}
@@ -332,7 +341,7 @@ const DollarInvestment = (props) => {
               Interest rate per year
             </p>
             <p className="text-right text-black text-base">
-              {" "}
+              {' '}
               {InvestmentName[0].interestRate.toFixed(2)}%
             </p>
           </div>
@@ -344,7 +353,7 @@ const DollarInvestment = (props) => {
 
             <p className="text-right text-black text-base">
               {moment(state.date === null ? Date.now() : state.date).format(
-                "L"
+                'L'
               )}
             </p>
           </div>
@@ -374,24 +383,7 @@ const DollarInvestment = (props) => {
         {/* column two end */}
       </div>
 
-      {modal ? (
-        <DollarSuccess
-          // investData={setInvestDetails}
-          close={onclose}
-          //   MycreateInvestmentData={myFormData}
-          //   // MycreateInvestmentData={investmentTbills}
-          //   investType={InvestmentName[0].investmentType}
-        />
-      ) : null}
-      {/* {onLoadModal ? (
-        <DollarSuccess
-          investData={setInvestDetails}
-          close={onclose}
-          //   MycreateInvestmentData={myFormData}
-          //   // MycreateInvestmentData={investmentTbills}
-          //   investType={InvestmentName[0].investmentType}
-        />
-      ) : null} */}
+      {modal ? <DollarSuccess dollaData={formData} close={onclose} /> : null}
     </div>
   );
 };

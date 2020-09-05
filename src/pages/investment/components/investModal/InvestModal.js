@@ -90,7 +90,7 @@ const InvestModal = (props) => {
                 </div>
                 <label
                   className="ml-4 font-medium text-base"
-                  for="payment_method"
+                  htmlFor="payment_method"
                 >
                   Use debit card{" "}
                 </label>
@@ -119,7 +119,7 @@ const InvestModal = (props) => {
                 </div>
                 <label
                   className="ml-4 font-medium text-base"
-                  for="payment_method"
+                  htmlFor="payment_method"
                 >
                   Use wallet{" "}
                 </label>
@@ -165,7 +165,7 @@ const InvestModal = (props) => {
             {/* wallet display text */}
             {activeTwo ? (
               <Fragment>
-                <p
+                <div
                   style={{ color: "#999999" }}
                   className="text-xs text-center flex flex-row mt-4 "
                 >
@@ -174,7 +174,7 @@ const InvestModal = (props) => {
                     ₦{formatCurrency(props.dashboard.walletBalance)}
                   </p>
                   in your wallet
-                </p>
+                </div>
                 <button
                   onClick={() => {
                     // showMyDetails();

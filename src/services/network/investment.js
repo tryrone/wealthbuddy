@@ -1,5 +1,5 @@
-import axios from "services/api";
-import urls from "../../constants/urls";
+import axios from 'services/api';
+import urls from '../../constants/urls';
 
 export const getInvestmentConfigs = () => {
   return axios.get(urls.investmentConfiguration);
@@ -57,4 +57,7 @@ export const getAllTbillsTransactions = () => {
 };
 export const getAllFixedTransactions = () => {
   return axios.get(urls.fixedTransactionsList);
+};
+export const uploadDollarPayment = (data) => {
+  return axios.post(urls.dollarInvestmentUpload, data);
 };
