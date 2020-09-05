@@ -11,6 +11,7 @@ import CreateSavingsSuccessModal from "./CreateSavingsSuccessModal";
 import moment from "moment";
 import produce from "immer";
 import "./styles.css";
+import { convertYmdJsonToIsoDate } from "utils";
 
 const CreatePersonalTargetSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
@@ -92,7 +93,7 @@ const CreatePersonalTargetSavings = ({ savingsConfiguration }) => {
       amount: state.formValues.amount,
       duration: state.formValues.duration,
       schedule: state.formValues.frequency,
-      startDate: moment(state.formValues.startDate).toISOString(),
+      startDate: moment(convertYmdJsonToIsoDate(state.formValues.startDate)).toISOString(),
       allowCardDebit: state.formValues.allowCardDebit,
       cardId: state.formValues.cardId,
       savingsType: SavingsType.PersonalTargetSavings,

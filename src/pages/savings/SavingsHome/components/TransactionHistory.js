@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { formatCurrency } from "utils";
 import moment from "moment";
 import PersonalSavingsIcon from "assets/img/personalIcon.png";
+import { walletIcon, outflowIcon, inflowIcon } from "assets/exports";
 
 const TransactionHistory = ({ savingsTransactions }) => {
   const transactionGroups = savingsTransactions.reduce(
@@ -54,7 +55,21 @@ const TransactionHistory = ({ savingsTransactions }) => {
                     >
                       <div className="left-tran--summary flex align-items-center">
                         <div className="trans-image">
-                          <img src={PersonalSavingsIcon} alt="" />
+                        {
+                                items.action === 2 
+                                ? <div className="text-white flex">
+                                    <span
+                                      className="mr-2"
+                                      dangerouslySetInnerHTML={{ __html: inflowIcon }}
+                                    />
+                                  </div>
+                                :  <div className="text-white flex">
+                                    <span
+                                      className="mr-2"
+                                      dangerouslySetInnerHTML={{ __html: outflowIcon }}
+                                    />
+                                   </div>
+                          }
                         </div>
                         <div className="flex flex-col justify-center">
                           <p className="tran-single--title mb-1 font-medium">

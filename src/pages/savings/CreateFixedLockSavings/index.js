@@ -10,6 +10,9 @@ import { createFixedLockSavings } from "state/slices/savings";
 import moment from "moment";
 import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
 import FundSavingsModal from "./components/FundSavingsModal";
+import {convertYmdJsonToIsoDate} from "utils";
+
+import { utils } from "react-modern-calendar-datepicker";
 
 const CreateFixedLockSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
@@ -109,7 +112,7 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
     const formValues = {
       name: state.formValues.name,
       amountToSave: state.formValues.amount,
-      MaturityDate: moment(state.formValues.maturityDate).toISOString(),
+      MaturityDate: moment(convertYmdJsonToIsoDate(state.formValues.maturityDate)).toISOString(),
       ApplyInterest: state.formValues.applyInterest,
       allowCardDebit: state.formValues.allowCardDebit,
       cardId: state.formValues.cardId,

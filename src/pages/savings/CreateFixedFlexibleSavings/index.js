@@ -10,6 +10,7 @@ import { createFixedFlexibleSavings } from "state/slices/savings";
 import moment from "moment";
 import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
 import FundSavingsModal from "../CreateFixedLockSavings/components/FundSavingsModal";
+import { convertYmdJsonToIsoDate } from "utils";
 
 const CreateFixedFlexibleSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
@@ -109,7 +110,7 @@ const CreateFixedFlexibleSavings = ({ savingsConfiguration }) => {
     const formValues = {
       name: state.formValues.name,
       amountToSave: state.formValues.amount,
-      MaturityDate: moment(state.formValues.maturityDate).toISOString(),
+      MaturityDate: moment(convertYmdJsonToIsoDate(state.formValues.maturityDate)).toISOString(),
       ApplyInterest: state.formValues.applyInterest,
       allowCardDebit: state.formValues.allowCardDebit,
       cardId: state.formValues.cardId,
