@@ -21,7 +21,7 @@ const savingsFrequenciesPluralized = {
   [SavingsFrequency.Monthly.toString()]: "Months",
 };
 
-const CreatePersonalSavings = ({
+const CreateSavings = ({
   savingsConfiguration,
   initialFormValues,
   isVisible,
@@ -381,4 +381,4 @@ const CreatePersonalSavings = ({
   );
 };
 
-export default CreatePersonalSavings;
+export default CreateSavings;

@@ -1,11 +1,10 @@
 import React, { Fragment, useState } from "react";
-import CreatePersonalSavings from "./CreatePersonalSavings";
-import ConfirmPersonalSavings from "./ConfirmPersonalSavings";
+import CreateSavings from "./CreateSavings";
+import ConfirmSavings from "./ConfirmSavings";
 import { SavingsFrequency, SavingsType } from "constants/enums";
 import { useLocation } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import FundSavingsModal from "./FundSavingsModal";
 import DisclaimerModal from "./DisclaimerModal";
 import { createPersonalTargetSavings } from "state/slices/savings";
 import CreateSavingsSuccessModal from "./CreateSavingsSuccessModal";
@@ -13,7 +12,7 @@ import moment from "moment";
 import produce from "immer";
 import "./styles.css";
 
-const PersonalSavings = ({ savingsConfiguration }) => {
+const CreatePersonalTargetSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { state: locationState } = useLocation();
@@ -26,7 +25,6 @@ const PersonalSavings = ({ savingsConfiguration }) => {
   const [state, setState] = useState({
     showCreationPage: true,
     showConfirmationPage: false,
-    showFundSavingsModal: false,
     showDisclaimerModal: false,
     showCreateSavingsSuccessModal: false,
     isCreateLoading: false,
@@ -40,8 +38,6 @@ const PersonalSavings = ({ savingsConfiguration }) => {
       applyInterest: true,
       file: "",
       imagePreviewUrl: null,
-      fundingMethod: null,
-      cardId: "",
     },
   });
 
@@ -69,27 +65,7 @@ const PersonalSavings = ({ savingsConfiguration }) => {
     e.preventDefault();
     setState(
       produce((draft) => {
-        draft.formValues.cardId = "";
-        draft.showFundSavingsModal = true;
-      })
-    );
-  };
-
-  const handleCloseFundSavingsModal = () => {
-    setState(
-      produce((draft) => {
-        draft.showFundSavingsModal = false;
-      })
-    );
-  };
-
-  const handleSubmitFundSavingsForm = ({ cardId, fundingMethod }) => {
-    setState(
-      produce((draft) => {
-        draft.showFundSavingsModal = false;
         draft.showDisclaimerModal = true;
-        draft.formValues.fundingMethod = fundingMethod;
-        draft.formValues.cardId = cardId;
       })
     );
   };
@@ -106,7 +82,6 @@ const PersonalSavings = ({ savingsConfiguration }) => {
     setState(
       produce((draft) => {
         draft.showDisclaimerModal = false;
-        draft.showFundSavingsModal = true;
       })
     );
   };
@@ -164,26 +139,19 @@ const PersonalSavings = ({ savingsConfiguration }) => {
   return (
     <Fragment>
       <div className="px-12 ">
-        <CreatePersonalSavings
+        <CreateSavings
           savingsConfiguration={selectedSavingsConfiguration}
           initialFormValues={state.formValues}
           isVisible={state.showCreationPage}
           onSubmit={onSubmitCreatePersonalSavings}
         />
 
-        <ConfirmPersonalSavings
+        <ConfirmSavings
           savingsConfiguration={selectedSavingsConfiguration}
           formValues={state.formValues}
           isVisible={state.showConfirmationPage}
           onBack={handleClickBackOnConfirmationPage}
           onLaunch={handleClickLaunchOnConfirmationPage}
-        />
-
-        <FundSavingsModal
-          formValues={state.formValues}
-          isVisible={state.showFundSavingsModal}
-          onSubmit={handleSubmitFundSavingsForm}
-          close={handleCloseFundSavingsModal}
         />
 
         <DisclaimerModal
@@ -208,4 +176,4 @@ const mapStateToProps = (state) => ({
   savingsConfiguration: state.savingsConfiguration.data,
 });
 
-export default connect(mapStateToProps)(PersonalSavings);
+export default connect(mapStateToProps)(CreatePersonalTargetSavings);
