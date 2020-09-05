@@ -1,15 +1,28 @@
-import React, { Fragment, useEffect } from "react";
-import { connect, useDispatch } from "react-redux";
-import { terminateFunds } from "../../../../state/slices/investments";
-import successDoc from "../../../../assets/img/success.svg";
-import failedDoc from "../../../../assets/img/failedDoc.svg";
-import Loading from "shared-components/Loading";
+import React, { Fragment, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import {
+  terminateFunds,
+  getAllTbillsTransactions,
+  getInvestmentTransactionsForFund,
+  getAllFixedTransactions,
+  getInvestmentValuation,
+} from '../../../../state/slices/investments';
+import successDoc from '../../../../assets/img/success.svg';
+import failedDoc from '../../../../assets/img/failedDoc.svg';
+import Loading from 'shared-components/Loading';
+import { useHistory } from 'react-router-dom';
 
 const TermSuccessModal = (props) => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const terminate = () => {
-    return document.location.reload(true);
+    // return document.location.reload(true);
+    dispatch(getAllTbillsTransactions());
+    dispatch(getInvestmentTransactionsForFund());
+    dispatch(getAllFixedTransactions());
+    dispatch(getInvestmentValuation());
+    history.push('/dashboard/investment');
   };
 
   useEffect(() => {

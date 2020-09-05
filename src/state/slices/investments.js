@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Investment } from "services/network";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Investment } from 'services/network';
 
 const initialState = {
   // INVESTMENT CONFIG
@@ -51,10 +51,14 @@ const initialState = {
   terminateFundsLoading: false,
   terminateFundsError: null,
   terminateFundsData: {},
+  //UPLOAD DOLLAR PROFF OF PAYMENT
+  dollarUploadLoading: false,
+  dollarUploadError: null,
+  dollarUploadData: {},
 };
 
 export const getInvestmentConfigurations = createAsyncThunk(
-  "investment/getConfigurations",
+  'investment/getConfigurations',
   async () => {
     const response = await Investment.getInvestmentConfigs();
     return response.data.data;
@@ -62,7 +66,7 @@ export const getInvestmentConfigurations = createAsyncThunk(
 );
 
 export const createInvestment = createAsyncThunk(
-  "investment/createInvestment",
+  'investment/createInvestment',
   async (props) => {
     let requestCreate;
     if (props.investmentType === 1) {
@@ -81,15 +85,22 @@ export const createInvestment = createAsyncThunk(
 );
 
 export const withdrawFunds = createAsyncThunk(
-  "investment/withdrawFunds",
+  'investment/withdrawFunds',
   async (props) => {
     const response = await Investment.withdrawFunds(props);
     return response.data;
   }
 );
+export const uploadDollarPayment = createAsyncThunk(
+  'investment/uploadDollarPayment',
+  async (props) => {
+    const response = await Investment.uploadDollarPayment(props);
+    return response.data;
+  }
+);
 
 export const terminateFunds = createAsyncThunk(
-  "investment/terminateFunds",
+  'investment/terminateFunds',
   async (props) => {
     let requestTerminate;
     if (props.typeId === 2) {
@@ -108,7 +119,7 @@ export const terminateFunds = createAsyncThunk(
 );
 
 export const getAllInvestments = createAsyncThunk(
-  "investment/getAllInvestments",
+  'investment/getAllInvestments',
   async () => {
     const response = await Investment.getAllInvestments();
     return response.data.data;
@@ -116,14 +127,14 @@ export const getAllInvestments = createAsyncThunk(
 );
 
 export const getAllTbillsTransactions = createAsyncThunk(
-  "investment/allTbillsTransactions",
+  'investment/allTbillsTransactions',
   async () => {
     const response = await Investment.getAllTbillsTransactions();
     return response.data.data;
   }
 );
 export const getAllFixedTransactions = createAsyncThunk(
-  "investment/allFixedTransactions",
+  'investment/allFixedTransactions',
   async () => {
     const response = await Investment.getAllFixedTransactions();
     return response.data.data;
@@ -131,7 +142,7 @@ export const getAllFixedTransactions = createAsyncThunk(
 );
 
 export const allPersonalInvestments = createAsyncThunk(
-  "investment/allPersonalInvestments",
+  'investment/allPersonalInvestments',
   async () => {
     const response = await Investment.getAllPersonalInvestments();
     return response.data;
@@ -139,7 +150,7 @@ export const allPersonalInvestments = createAsyncThunk(
 );
 
 export const getInvestmentTransactionsForFund = createAsyncThunk(
-  "investment/investmentTransactionsForFund",
+  'investment/investmentTransactionsForFund',
   async () => {
     const response = await Investment.getInvestmentTransactionsForFunds();
     return response.data.data;
@@ -147,7 +158,7 @@ export const getInvestmentTransactionsForFund = createAsyncThunk(
 );
 
 export const fundInvestment = createAsyncThunk(
-  "investment/fundInvestment",
+  'investment/fundInvestment',
   async (props) => {
     let requestFund;
     if (props.investmentType === 1) {
@@ -168,7 +179,7 @@ export const fundInvestment = createAsyncThunk(
 );
 
 export const getInvestmentValuation = createAsyncThunk(
-  "investment/investmentValuation",
+  'investment/investmentValuation',
   async () => {
     const response = await Investment.getInvestmentValuation();
     return response.data;
@@ -176,7 +187,7 @@ export const getInvestmentValuation = createAsyncThunk(
 );
 
 const investmentsSlice = createSlice({
-  name: "investments",
+  name: 'investments',
   initialState,
   extraReducers: {
     //   GET INVESTMENT CONFIGURATION
@@ -208,6 +219,21 @@ const investmentsSlice = createSlice({
       state.withdrawFundsData = null;
       state.withdrawFundsLoading = false;
       state.withdrawFundsError = action.error;
+    },
+    //   UPLOAD DOLLAR PROOF
+    [uploadDollarPayment.pending]: (state) => {
+      state.dollarUploadLoading = true;
+      state.dollarUploadError = null;
+    },
+    [uploadDollarPayment.fulfilled]: (state, action) => {
+      state.dollarUploadData = action.payload;
+      state.dollarUploadLoading = false;
+      state.dollarUploadError = null;
+    },
+    [uploadDollarPayment.rejected]: (state, action) => {
+      state.dollarUploadData = null;
+      state.dollarUploadLoading = false;
+      state.dollarUploadError = action.error;
     },
     //   TERMINATE FUNDS
     [terminateFunds.pending]: (state) => {

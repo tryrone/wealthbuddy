@@ -1,14 +1,14 @@
-import React, { Fragment, useState } from "react";
-import CreateSavings from "./components/CreateSavings";
-import ConfirmSavings from "./components/ConfirmSavings";
-import { SavingsType } from "constants/enums";
-import { connect, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import produce from "immer";
-import DisclaimerModal from "./components/DisclaimerModal";
-import { createFixedLockSavings } from "state/slices/savings";
-import moment from "moment";
-import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
+import React, { Fragment, useState } from 'react';
+import CreateSavings from './components/CreateSavings';
+import ConfirmSavings from './components/ConfirmSavings';
+import { SavingsType } from 'constants/enums';
+import { connect, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import produce from 'immer';
+import DisclaimerModal from './components/DisclaimerModal';
+import { createFixedLockSavings } from 'state/slices/savings';
+import moment from 'moment';
+import CreateSavingsSuccessModal from './components/CreateSavingsSuccessModal';
 
 const CreateFixedLockSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
@@ -26,11 +26,11 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
     isCreateLoading: false,
     createError: null,
     formValues: {
-      name: "",
-      amount: "",
-      maturityDate: "",
+      name: '',
+      amount: '',
+      maturityDate: '',
       applyInterest: true,
-      file: "",
+      file: '',
       imagePreviewUrl: null,
     },
   });
@@ -89,8 +89,8 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
     };
 
     const formData = new FormData();
-    formData.append("data", JSON.stringify(formValues));
-    formData.append("file", state.formValues.file);
+    formData.append('data', JSON.stringify(formValues));
+    formData.append('file', state.formValues.file);
 
     setState(
       produce((draft) => {
@@ -122,7 +122,7 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
         draft.showCreateSavingsSuccessModal = false;
       })
     );
-    history.push("/dashboard/savings");
+    history.push('/dashboard/savings');
   };
 
   return (
