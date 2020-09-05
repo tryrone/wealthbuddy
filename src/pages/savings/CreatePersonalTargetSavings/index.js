@@ -12,6 +12,7 @@ import moment from "moment";
 import produce from "immer";
 import "./styles.css";
 import { convertYmdJsonToIsoDate } from "utils";
+import FundSavingsModal from "./FundSavingsModal";
 
 const CreatePersonalTargetSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const CreatePersonalTargetSavings = ({ savingsConfiguration }) => {
   const [state, setState] = useState({
     showCreationPage: true,
     showConfirmationPage: false,
+    showFundSavingsModal: false,
     showDisclaimerModal: false,
     showCreateSavingsSuccessModal: false,
     isCreateLoading: false,
@@ -39,6 +41,7 @@ const CreatePersonalTargetSavings = ({ savingsConfiguration }) => {
       applyInterest: true,
       file: "",
       imagePreviewUrl: null,
+      cardId: "",
     },
   });
 
@@ -66,7 +69,26 @@ const CreatePersonalTargetSavings = ({ savingsConfiguration }) => {
     e.preventDefault();
     setState(
       produce((draft) => {
+        draft.formValues.cardId = "";
+        draft.showFundSavingsModal = true;
+      })
+    );
+  };
+
+  const handleCloseFundSavingsModal = () => {
+    setState(
+      produce((draft) => {
+        draft.showFundSavingsModal = false;
+      })
+    );
+  };
+
+  const handleSubmitFundSavingsForm = ({ cardId }) => {
+    setState(
+      produce((draft) => {
+        draft.showFundSavingsModal = false;
         draft.showDisclaimerModal = true;
+        draft.formValues.cardId = cardId;
       })
     );
   };
@@ -93,7 +115,9 @@ const CreatePersonalTargetSavings = ({ savingsConfiguration }) => {
       amount: state.formValues.amount,
       duration: state.formValues.duration,
       schedule: state.formValues.frequency,
-      startDate: moment(convertYmdJsonToIsoDate(state.formValues.startDate)).toISOString(),
+      startDate: moment(
+        convertYmdJsonToIsoDate(state.formValues.startDate)
+      ).toISOString(),
       allowCardDebit: state.formValues.allowCardDebit,
       cardId: state.formValues.cardId,
       savingsType: SavingsType.PersonalTargetSavings,
@@ -153,6 +177,13 @@ const CreatePersonalTargetSavings = ({ savingsConfiguration }) => {
           isVisible={state.showConfirmationPage}
           onBack={handleClickBackOnConfirmationPage}
           onLaunch={handleClickLaunchOnConfirmationPage}
+        />
+
+        <FundSavingsModal
+          formValues={state.formValues}
+          isVisible={state.showFundSavingsModal}
+          onSubmit={handleSubmitFundSavingsForm}
+          close={handleCloseFundSavingsModal}
         />
 
         <DisclaimerModal
