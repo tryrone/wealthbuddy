@@ -9,6 +9,7 @@ import DisclaimerModal from "./components/DisclaimerModal";
 import { createFixedFlexibleSavings } from "state/slices/savings";
 import moment from "moment";
 import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
+import { convertYmdJsonToIsoDate } from "utils";
 
 const CreateFixedFlexibleSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
@@ -84,7 +85,7 @@ const CreateFixedFlexibleSavings = ({ savingsConfiguration }) => {
     const formValues = {
       name: state.formValues.name,
       amountToSave: state.formValues.amount,
-      MaturityDate: moment(state.formValues.maturityDate).toISOString(),
+      MaturityDate: moment(convertYmdJsonToIsoDate(state.formValues.maturityDate)).toISOString(),
       ApplyInterest: state.formValues.applyInterest,
     };
 

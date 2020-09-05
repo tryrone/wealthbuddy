@@ -227,8 +227,8 @@ const CreateSavings = ({
                             <p className="text-black">
                               {`${
                                 values.applyInterest
-                                  ? "Uncheck if you would not lke to get interests?"
-                                  : "Will you like to get interests?"
+                                  ? "Uncheck if you an Ethical Investor?"
+                                  : "Are you an Ethical Investor?"
                               }`}
                             </p>
                           </div>
