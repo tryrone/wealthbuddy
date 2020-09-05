@@ -71,7 +71,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
         <p className="text-gray-100 text-4xl font-bold pl-6">
           {" "}
           {investmentValuationLoading
-            ? "₦0"
+            ? "₦0.00"
             : `₦${formatCurrency(
                 !investmentValuationData
                   ? null
@@ -89,9 +89,9 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
             <p className="text-base text-white text-opacity-25 ">
               Investment Capital
             </p>
-            <p className="text-gray-100 text-2xl font-bold text-right">
+            <p className="text-gray-100 text-2xl font-bold text-left">
               {investmentValuationLoading
-                ? "₦0"
+                ? "₦0.00"
                 : `₦${formatCurrency(
                     !investmentValuationData.totalPortfolioValue
                       ? null
@@ -108,7 +108,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
             </p>
             <p className="ext-gray-100 text-2xl font-bold">
               {investmentValuationLoading
-                ? "₦0"
+                ? "₦0.00"
                 : `+ ₦${formatCurrency(
                     !investmentValuationData
                       ? null
