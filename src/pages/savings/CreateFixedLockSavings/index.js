@@ -9,6 +9,7 @@ import DisclaimerModal from "./components/DisclaimerModal";
 import { createFixedLockSavings } from "state/slices/savings";
 import moment from "moment";
 import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
+import FundSavingsModal from "./components/FundSavingsModal";
 
 const CreateFixedLockSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
   const [state, setState] = useState({
     showCreationPage: true,
     showConfirmationPage: false,
+    showFundSavingsModal: false,
     showDisclaimerModal: false,
     showCreateSavingsSuccessModal: false,
     isCreateLoading: false,
@@ -32,6 +34,8 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
       applyInterest: true,
       file: "",
       imagePreviewUrl: null,
+      allowCardDebit: null,
+      cardId: "",
     },
   });
 
@@ -59,7 +63,28 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
     e.preventDefault();
     setState(
       produce((draft) => {
+        draft.formValues.allowCardDebit = null;
+        draft.formValues.cardId = "";
+        draft.showFundSavingsModal = true;
+      })
+    );
+  };
+
+  const handleCloseFundSavingsModal = () => {
+    setState(
+      produce((draft) => {
+        draft.showFundSavingsModal = false;
+      })
+    );
+  };
+
+  const handleSubmitFundSavingsForm = ({ cardId, allowCardDebit }) => {
+    setState(
+      produce((draft) => {
+        draft.showFundSavingsModal = false;
         draft.showDisclaimerModal = true;
+        draft.formValues.allowCardDebit = allowCardDebit;
+        draft.formValues.cardId = cardId;
       })
     );
   };
@@ -86,6 +111,8 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
       amountToSave: state.formValues.amount,
       MaturityDate: moment(state.formValues.maturityDate).toISOString(),
       ApplyInterest: state.formValues.applyInterest,
+      allowCardDebit: state.formValues.allowCardDebit,
+      cardId: state.formValues.cardId,
     };
 
     const formData = new FormData();
@@ -141,6 +168,13 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
           isVisible={state.showConfirmationPage}
           onBack={handleClickBackOnConfirmationPage}
           onLaunch={handleClickLaunchOnConfirmationPage}
+        />
+
+        <FundSavingsModal
+          formValues={state.formValues}
+          isVisible={state.showFundSavingsModal}
+          onSubmit={handleSubmitFundSavingsForm}
+          close={handleCloseFundSavingsModal}
         />
 
         <DisclaimerModal
