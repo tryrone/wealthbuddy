@@ -1,0 +1,11 @@
+export const SEND_TOKEN_START = "SEND_TOKEN_START";
+export const SEND_TOKEN_SUCCESS = "SEND_TOKEN_SUCCESS";
+export const SEND_TOKEN_FAIL = "SEND_TOKEN_FAIL";
+export const SEND_TOKEN = "SEND_TOKEN";
+
+export default {
+  SEND_TOKEN_START,
+  SEND_TOKEN_SUCCESS,
+  SEND_TOKEN_FAIL,
+  SEND_TOKEN,
+};

@@ -1,0 +1,23 @@
+.auth-modal {
+  width: 100%;
+  max-width: 629px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 40px 51px 70px;
+  border-radius: 14px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+/*.onboarding-wrap {*/
+/*  min-height: 560px;*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*}*/
+
+.leafy-bg {
+  background-image: url("../../assets/img/left_leaf.svg"),
+    url("../../assets/img/right_leaf_merged.svg");
+  background-position: left center, right center;
+  background-repeat: no-repeat, no-repeat;
+}

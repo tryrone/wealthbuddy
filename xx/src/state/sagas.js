@@ -1,0 +1,46 @@
+import { fork } from "redux-saga/effects";
+import { apiSagas } from "./ducks/api";
+import { createUserSagas } from "./ducks/createUser";
+import { dashboardSagas } from "./ducks/dashboard";
+import { customerSavingsSagas } from "./ducks/customerSavings";
+import { recentSavingTransactionsSagas } from "./ducks/recentSavingTransactions";
+import { savingsConfigurationSagas } from "./ducks/savingsConfiguration";
+import { bankListSagas } from "./ducks/bankList";
+import { cardsSagas } from "./ducks/cards";
+import { bankAccountsSagas } from "./ducks/bankAccounts";
+import { fundWalletWithExistingCardSagas } from "./ducks/fundWalletWithExistingCard";
+import { addBankAccountSagas } from "./ducks/addBankAccount";
+import { startVerifyEmailSagas } from "./ducks/startVerifyEmail";
+import { completeVerifyEmailSagas } from "./ducks/completeVerifyEmail";
+import { saveProfileSagas } from "./ducks/saveProfile";
+import { startFundWalletWithNewCardSagas } from "./ducks/startFundWalletWithNewCard";
+import { verifyFundWalletWithNewCardSagas } from "./ducks/verifyFundWalletWithNewCard";
+import { applicationBootstrapSagas } from "./ducks/applicationBootstrap";
+import { sendTokenSagas } from "./ducks/sendToken";
+import { verifyAddBankAccountSagas } from "./ducks/verifyAddBankAccount";
+import { getAllSavingsSagas } from "./ducks/getAllSavings";
+import { configureInvestmentSagas } from "./ducks/configureInvestment";
+
+export default function* rootSaga() {
+  yield fork(apiSagas);
+  yield fork(createUserSagas);
+  yield fork(dashboardSagas);
+  yield fork(customerSavingsSagas);
+  yield fork(recentSavingTransactionsSagas);
+  yield fork(savingsConfigurationSagas);
+  yield fork(bankListSagas);
+  yield fork(cardsSagas);
+  yield fork(bankAccountsSagas);
+  yield fork(fundWalletWithExistingCardSagas);
+  yield fork(addBankAccountSagas);
+  yield fork(startVerifyEmailSagas);
+  yield fork(completeVerifyEmailSagas);
+  yield fork(saveProfileSagas);
+  yield fork(startFundWalletWithNewCardSagas);
+  yield fork(verifyFundWalletWithNewCardSagas);
+  yield fork(applicationBootstrapSagas);
+  yield fork(sendTokenSagas);
+  yield fork(verifyAddBankAccountSagas);
+  yield fork(getAllSavingsSagas);
+  yield fork(configureInvestmentSagas);
+}

@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-import React, { Fragment, useState } from 'react';
-import CreateSavings from './components/CreateSavings';
-import ConfirmSavings from './components/ConfirmSavings';
-import { SavingsType } from 'constants/enums';
-import { connect, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import produce from 'immer';
-import DisclaimerModal from './components/DisclaimerModal';
-import { createFixedLockSavings } from 'state/slices/savings';
-import moment from 'moment';
-import CreateSavingsSuccessModal from './components/CreateSavingsSuccessModal';
-import { convertYmdJsonToIsoDate } from "utils";
-=======
 import React, { Fragment, useState } from "react";
 import CreateSavings from "./components/CreateSavings";
 import ConfirmSavings from "./components/ConfirmSavings";
@@ -24,7 +10,6 @@ import { createFixedLockSavings } from "state/slices/savings";
 import moment from "moment";
 import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
 import FundSavingsModal from "./components/FundSavingsModal";
->>>>>>> 3bf6d984101a097e0b9021dc8edeb8e1648fd62e
 
 const CreateFixedLockSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
@@ -124,7 +109,7 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
     const formValues = {
       name: state.formValues.name,
       amountToSave: state.formValues.amount,
-      MaturityDate: moment(convertYmdJsonToIsoDate(state.formValues.maturityDate)).toISOString(),
+      MaturityDate: moment(state.formValues.maturityDate).toISOString(),
       ApplyInterest: state.formValues.applyInterest,
       allowCardDebit: state.formValues.allowCardDebit,
       cardId: state.formValues.cardId,

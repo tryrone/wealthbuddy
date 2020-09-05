@@ -5,7 +5,7 @@ import UploadIcon from "assets/img/uploadIcon.svg";
 import DatePicker, { utils } from "react-modern-calendar-datepicker";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { formatCurrency, convertYmdJsonToIsoDate } from "utils";
+import { formatCurrency } from "utils";
 import moment from "moment";
 import "../styles.css";
 
@@ -224,11 +224,11 @@ const CreateSavings = ({
                         </div>
                         <div className="flex items-center justify-between pt-6">
                           <div className="confirm-automation flex items-center">
-                            <p className="text-black">
+                          <p className="text-black">
                               {`${
                                 values.applyInterest
-                                  ? "Uncheck if you would not lke to get interests?"
-                                  : "Will you like to get interests?"
+                                  ? "Uncheck if you an Ethical Investor"
+                                  : "Are you an Ethical Investor?"
                               }`}
                             </p>
                           </div>
