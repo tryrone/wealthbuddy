@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
 import personalSavings from "assets/img/personalIcon.png";
 import fixedSavings from "assets/img/fixedIcon.png";
 import groupSavings from "assets/img/groupIcon.png";
@@ -10,6 +9,7 @@ import CreatePersonalSavingsModal from "./components/CreatePersonalSavingsModal"
 import { FaQuestionCircle } from "react-icons/fa";
 import SavingsInfoModal from "./components/SavingsInfoModal";
 import produce from "immer";
+import ReactTooltip from "react-tooltip";
 
 const CreateSavingsHome = ({ history }) => {
   const [
@@ -130,6 +130,7 @@ const CreateSavingsHome = ({ history }) => {
                           {item.heading}
                         </h1>
                         <span
+                          data-tip="Read more..."
                           onClick={(e) => showSavingsInfoModal(e, item)}
                           className="text-gray-200 hover:text-green-300 hover:text-xl animate-fade--hover p-1 text-center ml-2 cursor-pointer"
                         >
@@ -156,6 +157,7 @@ const CreateSavingsHome = ({ history }) => {
                           {item.heading}
                         </h1>
                         <span
+                          data-tip="Read more..."
                           onClick={(e) => showSavingsInfoModal(e, item)}
                           className="text-gray-200 hover:text-green-300 hover:text-xl animate-fade--hover p-1 text-center ml-2 cursor-pointer"
                         >
@@ -184,6 +186,8 @@ const CreateSavingsHome = ({ history }) => {
         savings={state.savingsInfoModalSavingsItem}
         onClose={closeSavingsInfoModal}
       />
+
+      <ReactTooltip effect="solid" />
     </Fragment>
   );
 };

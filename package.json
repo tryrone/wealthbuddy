@@ -48,6 +48,7 @@
     "react-spring": "^8.0.27",
     "react-sticky-box": "^0.9.3",
     "react-switch": "^5.0.1",
+    "react-tooltip": "^4.2.9",
     "rechart": "0.0.1",
     "recharts": "^1.8.5",
     "redux": "^4.0.5",

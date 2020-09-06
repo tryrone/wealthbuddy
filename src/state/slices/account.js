@@ -115,6 +115,7 @@ export const uploadIdentification = createAsyncThunk(
   "account/uploadIdentification",
   async (payload) => {
     const response = await Customer.uploadIdentification(payload);
+    // console.log(response.data.data);
     return response.data.data;
   }
 );
