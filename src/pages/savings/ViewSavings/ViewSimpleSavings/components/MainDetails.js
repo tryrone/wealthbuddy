@@ -22,7 +22,7 @@ const MainDetails = ({
   const dateStatus = new Date(savings.estimatedTerminationDate) > new Date();
 
   const savingsIcon = () => {
-    switch (savings) {
+    switch (savings.savingsType) {
       case 1:
         return personalSavings;
       case 2:
@@ -154,31 +154,33 @@ const MainDetails = ({
             }`}</h1>
           </div>
           <div className="savings-inner--item">
-            <h5 className="savings-inner--subtitle text-gray-300 text-xs">
-              Interest Rate
-            </h5>
-            <h1 className="mt-3 font-medium">{`${
-              savings.interestRate === 0 ? "N/A" : savings.interestRate + "%"
-            }`}</h1>
-          </div>
-          <div className="savings-inner--item">
-            <h5 className="savings-inner--subtitle text-gray-300 text-xs">
+          <h5 className="savings-inner--subtitle text-gray-300 text-xs">
               Start Date
             </h5>
             <h1 className=" mt-3 font-medium">
               {getHumanDate(savings.startDate)}
             </h1>
+           
           </div>
-        </div>
-
-        <div className="view-summary--items card-margin--x px-0 flex-wrap no-border--bottom">
           <div className="savings-inner--item">
-            <h5 className="savings-inner--subtitle text-gray-300 text-xs">
+          <h5 className="savings-inner--subtitle text-gray-300 text-xs">
               Maturity Date
             </h5>
             <h1 className="mt-3 font-medium">{`${getHumanDate(
               savings.estimatedTerminationDate
             )}`}</h1>
+          </div>
+        </div>
+
+        <div className="view-summary--items card-margin--x px-0 flex-wrap no-border--bottom">
+          <div className="savings-inner--item">
+          <h5 className="savings-inner--subtitle text-gray-300 text-xs">
+              Interest Rate
+            </h5>
+            <h1 className="mt-3 font-medium">{`${
+              savings.interestRate === 0 ? "N/A" : savings.interestRate + "%"
+            }`}</h1>
+           
           </div>
           {savings.interestRate !== 0 && (
             <div className="savings-inner--item">
