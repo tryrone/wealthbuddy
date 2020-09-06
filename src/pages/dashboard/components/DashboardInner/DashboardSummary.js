@@ -51,13 +51,14 @@ const DashboardSummary = ({ dashboard }) => {
         </div>
         <div className="text-white flex">
           <span className="mr-2 text-faded">
-            <InvestmentIcon />
+            <GainIcon />
           </span>
           <div>
-            <h5 className="text-xs mb-2 font-medium text-faded">Investment</h5>
+            <h5 className="text-xs font-medium mb-2 text-faded">Today's Return</h5>
             <h2 className="summary-balance font-medium">
-              {`₦${formatCurrency(dashboard.totalInvestment)}`}
+              {`₦${formatCurrency(dashboard.dailyGain)}`}
             </h2>
+           
           </div>
         </div>
       </div>
@@ -75,12 +76,12 @@ const DashboardSummary = ({ dashboard }) => {
         </div>
         <div className="text-white flex">
           <span className="mr-2 text-faded">
-            <GainIcon />
+            <InvestmentIcon/>
           </span>
           <div>
-            <h5 className="text-xs font-medium mb-2 text-faded">Daily gain</h5>
+          <h5 className="text-xs mb-2 font-medium text-faded">Investment</h5>
             <h2 className="summary-balance font-medium">
-              {`₦${formatCurrency(dashboard.dailyGain)}`}
+              {`₦${formatCurrency(dashboard.totalInvestment)}`}
             </h2>
           </div>
         </div>
