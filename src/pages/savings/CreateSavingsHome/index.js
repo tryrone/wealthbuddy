@@ -130,7 +130,7 @@ const CreateSavingsHome = ({ history }) => {
                           {item.heading}
                         </h1>
                         <span
-                          data-tip="Read more..."
+                          data-tip="Click to know more about this Savings."
                           onClick={(e) => showSavingsInfoModal(e, item)}
                           className="text-gray-200 hover:text-green-300 hover:text-xl animate-fade--hover p-1 text-center ml-2 cursor-pointer"
                         >
@@ -157,7 +157,7 @@ const CreateSavingsHome = ({ history }) => {
                           {item.heading}
                         </h1>
                         <span
-                          data-tip="Read more..."
+                          data-tip="Click to know more about this Savings."
                           onClick={(e) => showSavingsInfoModal(e, item)}
                           className="text-gray-200 hover:text-green-300 hover:text-xl animate-fade--hover p-1 text-center ml-2 cursor-pointer"
                         >

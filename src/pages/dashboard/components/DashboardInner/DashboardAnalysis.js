@@ -11,7 +11,7 @@ const DashboardAnalysis = () => {
       datasets: [
         {
           label: 'Savings',
-        //  data: [40000, 644500, 30000, 50000, 35000, 15000, 50000],
+        //  data: [40000, 644500, 30000, 50000, 35000, 15000, 50000, 450000, 32000, 45000, 520000, 1000000],
           data: [],
           backgroundColor: "#fa90a2",
           borderColor: '#fa90a2',
@@ -19,8 +19,8 @@ const DashboardAnalysis = () => {
         },
         {
           label: 'Investment',
-         // data: [25000, 30000, 450000, 32000, 45000, 520000, 1000000],
-          data: [],
+        //  data: [25000, 30000, 450000, 32000, 45000, 520000, 1000000, 450000, 32000, 45000, 520000, 1000000],
+           data: [],
           backgroundColor: '#cf67f4',
           borderColor: '#cf67f4',
           fill: false
