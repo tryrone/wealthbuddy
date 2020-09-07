@@ -130,13 +130,15 @@ const AddInvestment = ({
     2: "Fixed Deposit",
     2: "Fixed Deposit",
     2: "Fixed Deposit",
+    4: "Dollar Investment"
   };
 
   const availInvest = getAllInvestmentsData.filter(
     (item) =>
       item.investmentType === 1 ||
       item.investmentType === 2 ||
-      item.investmentType === 3
+      item.investmentType === 3 ||
+      item.investmentType === 4
   );
 
   return getAllInvestmentsLoading ? (
