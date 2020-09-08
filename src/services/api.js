@@ -1,6 +1,6 @@
-import axios from "axios";
-import store from "state/store";
-import { logout } from "../state/slices/account";
+import axios from 'axios';
+import store from 'state/store';
+import { logout } from '../state/slices/account';
 
 const transformResponse = (data) => {
   let response = data;
@@ -9,7 +9,7 @@ const transformResponse = (data) => {
     response = JSON.parse(data);
   } catch (e) {}
 
-  if (typeof response === "object" && response.status === false) {
+  if (typeof response === 'object' && response.status === false) {
     throw Error(response.message);
   }
 
@@ -19,12 +19,12 @@ const transformResponse = (data) => {
 const Axios = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
   timeout: 120 * 1000,
-  credentials: "same-origin",
+  credentials: 'same-origin',
   headers: {
-    "Content-Type": "application/json",
-    "X-Requested-With": "XMLHttpRequest",
-    "Access-Control-Allow-Origin": "*",
-    crossorigin: "true",
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest',
+    'Access-Control-Allow-Origin': '*',
+    crossorigin: 'true',
   },
   transformResponse: [transformResponse],
 });
@@ -56,9 +56,9 @@ Axios.interceptors.response.use(
   },
 
   async (error) => {
-    if (error.message.includes("401")) {
+    if (error.message.includes('401')) {
       store.dispatch(logout());
-      sessionStorage.removeItem("persist:root");
+      sessionStorage.removeItem('persist:root');
     }
 
     return Promise.reject(error);

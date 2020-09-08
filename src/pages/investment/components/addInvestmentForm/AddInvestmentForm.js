@@ -1,39 +1,39 @@
-import React, { useState, useEffect } from "react";
-import DatePicker, { utils } from "react-modern-calendar-datepicker";
-import produce from "immer";
-import NumberFormat from "react-number-format";
-import { formatCurrency } from "utils";
+import React, { useState, useEffect } from 'react';
+import DatePicker, { utils } from 'react-modern-calendar-datepicker';
+import produce from 'immer';
+import NumberFormat from 'react-number-format';
+import { formatCurrency } from 'utils';
 // import * as Yup from "yup";
 // import { ErrorMessage, Field, Form, Formik } from "formik";
-import { info } from "../../imageLinks";
-import moment, { duration } from "moment";
-import { Redirect } from "react-router-dom";
-import UploadIcon from "assets/img/uploadIcon.svg";
-import fundImg from "assets/img/funds_img.jpg";
-import { Link, useHistory } from "react-router-dom";
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import InvestModal from "../investModal/InvestModal";
-import StartDropdown from "./StartDropdown";
-import { connect, useDispatch } from "react-redux";
-import "./check.scss";
-import DropdownFixed from "./DropdownFixed";
-import RollOver from "./RollOver";
+import { info } from '../../imageLinks';
+import moment, { duration } from 'moment';
+import { Redirect } from 'react-router-dom';
+import UploadIcon from 'assets/img/uploadIcon.svg';
+import fundImg from 'assets/img/funds_img.jpg';
+import { Link, useHistory } from 'react-router-dom';
+import 'react-modern-calendar-datepicker/lib/DatePicker.css';
+import InvestModal from '../investModal/InvestModal';
+import StartDropdown from './StartDropdown';
+import { connect, useDispatch } from 'react-redux';
+import './check.scss';
+import DropdownFixed from './DropdownFixed';
+import RollOver from './RollOver';
 
 function AddInvestmentForm(props) {
   const [modal, changeModal] = useState(false);
   const history = useHistory();
   const [files, setFiles] = useState({
-    file: "",
-    imagePreviewUrl: "",
+    file: '',
+    imagePreviewUrl: '',
     isFixed: false,
   });
   // const [duration, setDuration] = useState("");
   const [state, setState] = useState({
-    duration: "",
-    rollOver: "PRINCIPAL_INTEREST",
+    duration: '',
+    rollOver: 'PRINCIPAL_INTEREST',
     amount: null,
     date: null,
-    amountError: "",
+    amountError: '',
     frequency: false,
   });
 
@@ -50,13 +50,6 @@ function AddInvestmentForm(props) {
     });
   };
 
-  // const dispatch = useDispatch();
-
-  // // ON COMPONENT MOUNT
-  // useEffect(() => {
-  //   console.log(props, "future");
-  // }, []);
-
   const InvestmentName = props.getAllInvestmentsData.filter(
     (item) => item.investmentID == props.location.investmentId
   );
@@ -67,22 +60,6 @@ function AddInvestmentForm(props) {
       amount: val,
     });
   };
-
-  // VALIDATION SCHEMA
-  // const validationSchema = Yup.object().shape({
-  //   amount: Yup.number()
-  //     .min(
-  //       InvestmentName[0].minimumAmount,
-  //       `You can only save a minimum of ₦${formatCurrency(
-  //         InvestmentName[0].minimumAmount
-  //       )}`
-  //     )
-  //     .label("Amount")
-  //     .required(),
-  //   frequency: Yup.boolean().label("recurring").required(),
-  //   startDate: Yup.string().label("Start Date").required(),
-  //   duration: Yup.number().required(),
-  // });
 
   // HANDLING CLOSE OF MODAL
 
@@ -122,7 +99,7 @@ function AddInvestmentForm(props) {
     if (state.amount === null) {
       setState({
         ...state,
-        amountError: "field is required",
+        amountError: 'field is required',
       });
     } else if (state.amount < InvestmentName[0].minimumAmount) {
       setState({
@@ -141,16 +118,17 @@ function AddInvestmentForm(props) {
   const todaysDate = moment(myDate).toISOString();
 
   const investmentFundsData = {
-    investmentID: `${InvestmentName[0].investmentID}`,
+    investmentId: `${InvestmentName[0].investmentID}`,
     transAmount: parseInt(state.amount),
     currency: `${InvestmentName[0].currency}`,
     duration:
-      InvestmentName[0].duration === 0 ? 30 : InvestmentName[0].duration,
+      InvestmentName[0].minimumDurationInDays === 0
+        ? 30
+        : InvestmentName[0].minimumDurationInDays,
     fundName: `${InvestmentName[0].name}`,
     frequency: `${state.frequency}`,
-    investmentImage: `${files.file.name}`,
-    description: `testing with ${state.amount}`,
-    // investmentStartDate: `${date}`,
+    investmentImage: `investment.jpg`,
+    description: `creating investment with ${state.amount}`,
     investmentType: InvestmentName[0].investmentType,
   };
 
@@ -161,19 +139,17 @@ function AddInvestmentForm(props) {
     faceValue: parseInt(state.amount),
     discountRate: 9,
     startDate: `${todaysDate}`, //date . now todaysDate no more date display only for mutual funds
-    status: "PENDING",
-    // tenor: `${InvestmentName[0].minimumDurationInDays}`, //drop down duration 31 days ,72 days,180 days,270days
+    status: 'PENDING',
     tenor: `${state.duration}`, //drop down duration 31 days ,72 days,180 days,270days
-    investmentImage: `${files.file.name}`,
+    investmentImage: `investment.jpg`,
   };
   const investFixedData = {
     investmentId: `${InvestmentName[0].investmentID}`,
     currency: `${InvestmentName[0].currency}`,
-    investmentImage: `${files.file.name}`,
+    investmentImage: `investment.jpg`,
     autoRollover: state.frequency,
     currentRate: InvestmentName[0].interestRate,
     instrumentTypeName: `${InvestmentName[0].name}`,
-    // rollOverrule: `PRINCIPAL_INTREST`, //dropdown rule for roll over rule should apply
     rollOverrule: `${state.rollOver}`, //dropdown rule for roll over rule should apply
     startDate: `${todaysDate}`, //no more date only dropdown
     faceValue: parseInt(state.amount),
@@ -191,38 +167,38 @@ function AddInvestmentForm(props) {
       ? investmentTbills
       : {};
 
-  const formCurrency = InvestmentName[0].currency == "USD" ? "$" : "₦";
+  const formCurrency = InvestmentName[0].currency == 'USD' ? '$' : '₦';
 
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
-      <div className="flex flex-row sm:w-8/12 items-center  mb-10 ">
+      <div className="flex flex-row flex-wrap w-full sm:w-8/12 items-center  mb-10 ">
         <p
           onClick={() => {
-            return history.push("/dashboard/investment");
+            return history.push('/dashboard/investment');
           }}
-          style={{ color: "#999999" }}
+          style={{ color: '#999999' }}
           className="text-xs cursor-pointer"
         >
           Investment
         </p>
-        <p style={{ color: "#999999" }} className="text-xs mx-4">
-          {" "}
-          {">>"}{" "}
+        <p style={{ color: '#999999' }} className="text-xs sm:mx-4">
+          {' '}
+          {'>>'}{' '}
         </p>
         <p
           onClick={() => {
-            return history.push("/dashboard/investment/add-investment");
+            return history.push('/dashboard/investment/add-investment');
           }}
-          style={{ color: "#999999" }}
-          className="text-xs ml-4 sm:ml-1 cursor-pointer"
+          style={{ color: '#999999' }}
+          className="text-xs sm:ml-4 ml-2 mr-2 sm:ml-1 cursor-pointer"
         >
           Add new Investment
         </p>
-        <p style={{ color: "#999999" }} className="text-xs mx-4">
-          {" "}
-          {">>"}{" "}
+        <p style={{ color: '#999999' }} className="text-xs sm:mx-4 ">
+          {' '}
+          {'>>'}{' '}
         </p>
-        <p className="text-sm text-black"> {InvestmentName[0].label} </p>
+        <p className="text-sm text-black ml-2"> {InvestmentName[0].label} </p>
       </div>
       {/* heading */}
       <p className="text-black font-bold text-2xl text-left">
@@ -233,7 +209,7 @@ function AddInvestmentForm(props) {
       <div className="flex flex-col sm:flex-row">
         {/* column one */}
         <div
-          style={{ border: "1px solid #F1F1F1" }}
+          style={{ border: '1px solid #F1F1F1' }}
           className="card sm:w-1/2 pt-24 pb-56 w-auto mb-20 flex flex-col justify-center content-center mt-6 sm:mr-4"
         >
           {/* input content one */}
@@ -353,7 +329,7 @@ function AddInvestmentForm(props) {
                 value="todo"
               />
               <label
-                style={{ position: "relative", top: "-7px" }}
+                style={{ position: 'relative', top: '-7px' }}
                 htmlFor="todo"
                 className="text-xs font-bold sm:pl-2 pr-4 text-center"
               >
@@ -366,25 +342,25 @@ function AddInvestmentForm(props) {
           {/* showing the tenors available for MT_LIP */}
           {InvestmentName[0].investmentType == 3 ? (
             <div
-              style={{ border: "1px solid #8CB13D", background: "#F9FFEB" }}
-              className="rounded flex flex-col self-center sm:w-8/12 mt-4 p-2 pb-4"
+              style={{ border: '1px solid #8CB13D', background: '#F9FFEB' }}
+              className="rounded flex flex-col self-center sm:w-8/12 w-9/12 mt-4 p-2 pb-4"
             >
               <div className="flex flex-row items-center">
                 <img src={info} className="h-5 mr-2 w-5" />
-                <p style={{ color: "#8CB13D" }} className="text-sm font-bold">
+                <p style={{ color: '#8CB13D' }} className="text-sm font-bold">
                   Available Tenors
                 </p>
               </div>
 
               <div
-                style={{ borderLeft: "0.5px dashed #C3D894" }}
+                style={{ borderLeft: '0.5px dashed #C3D894' }}
                 className="ml-2 pl-2"
               >
                 <div className="flex flex-row items-center mt-4">
                   <div
                     style={{
-                      backgroundColor: "#8CB13D",
-                      borderRadius: "50%",
+                      backgroundColor: '#8CB13D',
+                      borderRadius: '50%',
                     }}
                     className="h-2 w-2"
                   />
@@ -393,8 +369,8 @@ function AddInvestmentForm(props) {
                 <div className="flex flex-row items-center mt-4">
                   <div
                     style={{
-                      backgroundColor: "#8CB13D",
-                      borderRadius: "50%",
+                      backgroundColor: '#8CB13D',
+                      borderRadius: '50%',
                     }}
                     className="h-2 w-2"
                   />
@@ -403,8 +379,8 @@ function AddInvestmentForm(props) {
                 <div className="flex flex-row items-center mt-4">
                   <div
                     style={{
-                      backgroundColor: "#8CB13D",
-                      borderRadius: "50%",
+                      backgroundColor: '#8CB13D',
+                      borderRadius: '50%',
                     }}
                     className="h-2 w-2"
                   />
@@ -413,8 +389,8 @@ function AddInvestmentForm(props) {
                 <div className="flex flex-row items-center mt-4">
                   <div
                     style={{
-                      backgroundColor: "#8CB13D",
-                      borderRadius: "50%",
+                      backgroundColor: '#8CB13D',
+                      borderRadius: '50%',
                     }}
                     className="h-2 w-2"
                   />
@@ -423,8 +399,8 @@ function AddInvestmentForm(props) {
                 <div className="flex flex-row items-center mt-4">
                   <div
                     style={{
-                      backgroundColor: "#8CB13D",
-                      borderRadius: "50%",
+                      backgroundColor: '#8CB13D',
+                      borderRadius: '50%',
                     }}
                     className="h-2 w-2"
                   />
@@ -439,7 +415,7 @@ function AddInvestmentForm(props) {
 
         {/* column two */}
         <div
-          style={{ border: "1px solid #F1F1F1" }}
+          style={{ border: '1px solid #F1F1F1' }}
           className="sm:w-1/2 w-auto card sm:w-1/2 pt-24  pb-20  flex flex-col justify-center mt-6 items-center"
         >
           {/* image setting */}
@@ -448,38 +424,6 @@ function AddInvestmentForm(props) {
 
             {/* <div className="personalize--card"> */}
             <img src={fundImg} className="h-full w-full" />
-            {/* <div className="previewComponent">
-                <input
-                  className="fileInput"
-                  type="file"
-                  onChange={(e) => handleImageChange(e)}
-                  accept="image/*"
-                />
-                <div
-                  className={`${
-                    files.imagePreviewUrl === "" && "drop"
-                  } imgPreview`}
-                >
-                  {files.imagePreviewUrl ? (
-                    <img src={files.imagePreviewUrl} alt="" />
-                  ) : (
-                    <div className="buddy-image--drop">
-                      <img src={UploadIcon} alt="" />
-                    </div>
-                  )}
-                </div>
-              </div> */}
-            {/* {files.imagePreviewUrl ? (
-                <h3 className="color-secondary personalize-text text-center">
-                  + Change Photo
-                </h3>
-              ) : (
-                <h3 className="color-secondary change-text personalize-text text-center">
-                  Personalise your goal by <br /> <span>+ Adding a photo.</span>
-                </h3>
-              )} */}
-            {/* </div> */}
-
             {/* image preview content end */}
           </div>
           {/* image setting end */}
@@ -499,7 +443,7 @@ function AddInvestmentForm(props) {
               Interest rate per year
             </p>
             <p className="text-right text-black text-base">
-              {" "}
+              {' '}
               {InvestmentName[0].interestRate.toFixed(2)}%
             </p>
           </div>
@@ -512,7 +456,7 @@ function AddInvestmentForm(props) {
               <p className="text-right text-black text-base">
                 {moment(state.date === null ? Date.now() : state.date)
                   // .subtract(1, "months")
-                  .format("L")}
+                  .format('L')}
               </p>
             </div>
           ) : null}
@@ -523,7 +467,7 @@ function AddInvestmentForm(props) {
           <div className="nav-buttons flex justify-center">
             <Link
               to="/dashboard/investment/add-investment"
-              className="mt-12 w-20 sm:w-40  border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
+              className="mt-12 sm:w-40 w-40 border-b text-center bg-white leading-loose border-wb-primary text-wb-primary mr-3 border wealth-buddy--cta text-white rounded-sm"
             >
               Back
             </Link>
@@ -535,7 +479,7 @@ function AddInvestmentForm(props) {
                   handleOnSubmit(e);
                 }}
                 disabled={state.duration.length === 0 ? true : false}
-                className={`mt-12 w-20 sm:w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm `}
+                className={`mt-12  sm:w-40 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm `}
               >
                 Next
               </button>
@@ -547,21 +491,11 @@ function AddInvestmentForm(props) {
                   handleOnSubmit(e);
                 }}
                 disabled={state.amount === null ? true : false}
-                className={`mt-12 w-20 sm:w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm `}
+                className={`mt-12 sm:w-40 w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm `}
               >
                 Next
               </button>
             ) : null}
-
-            {/* <button
-              onClick={(e) => {
-                handleOnSubmit(e);
-              }}
-              disabled={state.date === null ? true : false}
-              className={`mt-12 w-20 sm:w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta text-white rounded-sm `}
-            >
-              Next
-            </button> */}
           </div>
           {/* nav buttons end */}
         </div>
