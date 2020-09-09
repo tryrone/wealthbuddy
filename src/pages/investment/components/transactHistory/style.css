@@ -1,7 +1,7 @@
 .active_me {
   background: #dae1bf;
   border-radius: 4px;
-  padding: 8px;
+  padding: 8px 20px;
 }
 .hide-scroll::-webkit-scrollbar {
   display: none;

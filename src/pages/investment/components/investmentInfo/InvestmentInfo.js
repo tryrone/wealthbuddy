@@ -86,7 +86,7 @@ const InvestmentInfo = (props) => {
   }
   return (
     <div className="px-4 sm:px-12  flex flex-col fadeIn">
-      <div className="flex flex-row content-center w-full sm:w-8/12 items-center  mb-20 ">
+      <div className="flex flex-wrap flex-row content-center w-full sm:w-8/12 items-center  mb-20 ">
         <p
           onClick={() => {
             return history.push('/dashboard/investment');

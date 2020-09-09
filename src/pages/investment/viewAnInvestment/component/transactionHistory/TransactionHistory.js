@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import Chart from "../../../components/Chart";
-import { connect, useDispatch } from "react-redux";
-import { investBars } from "../../../imageLinks";
-import moment from "moment";
-import Loading from "shared-components/Loading";
-import "./style.css";
-import { formatCurrency } from "utils";
+import React, { useEffect, useState } from 'react';
+import Chart from '../../../components/Chart';
+import { connect, useDispatch } from 'react-redux';
+import { investBars } from '../../../imageLinks';
+import moment from 'moment';
+import Loading from 'shared-components/Loading';
+import './style.css';
+import { formatCurrency } from 'utils';
 
 const TransactionHistory = (props) => {
   const [activeOne, setactiveOne] = useState(true);
   const [activeTwo, setactiveTwo] = useState(false);
   const [activeThree, setactiveThree] = useState(false);
 
-  const naira = "₦";
-  const dollar = "$";
+  const naira = '₦';
+  const dollar = '$';
 
   const properTransactions = props.investmentTransactionsForFundsData;
   const fixedTransactions = props.allFixedTrasactionsData;
@@ -22,8 +22,8 @@ const TransactionHistory = (props) => {
   return (
     <div
       style={{
-        border: "1px solid #F1F1F1",
-        borderRadius: "14px",
+        border: '1px solid #F1F1F1',
+        borderRadius: '14px',
       }}
       className="shadow-2xl mt-6 w-full bg-white border px-8 py-5"
     >
@@ -45,8 +45,8 @@ const TransactionHistory = (props) => {
               setactiveTwo(false);
               setactiveThree(false);
             }}
-            className={`text-black text-base font-light sm:w-4/12 text-center cursor-pointer ${
-              activeOne ? "active_me" : null
+            className={`text-black text-base pl-4 font-light sm:w-4/12 text-center cursor-pointer ${
+              activeOne ? 'active_me' : null
             }`}
           >
             Fixed Deposits
@@ -59,8 +59,8 @@ const TransactionHistory = (props) => {
               setactiveOne(false);
               setactiveThree(false);
             }}
-            className={`text-black text-base font-light sm:w-4/12 text-center two_borders cursor-pointer ${
-              activeTwo ? "active_me" : null
+            className={`text-black px-4 text-base font-light sm:w-4/12 text-center two_borders cursor-pointer ${
+              activeTwo ? 'active_me' : null
             }`}
           >
             Mutual Funds
@@ -73,8 +73,8 @@ const TransactionHistory = (props) => {
               setactiveTwo(false);
               setactiveOne(false);
             }}
-            className={`text-black text-base font-light sm:w-4/12 text-center cursor-pointer ${
-              activeThree ? "active_me" : null
+            className={`text-black text-base px-4 font-light sm:w-4/12 text-center cursor-pointer ${
+              activeThree ? 'active_me' : null
             }`}
           >
             Treasury Bills
@@ -84,7 +84,7 @@ const TransactionHistory = (props) => {
       <div className="hide-scroll no_showing overflow-y-scroll h-screen">
         {/* invest content */}
 
-        <div style={{ display: activeTwo ? "block" : "none" }}>
+        <div style={{ display: activeTwo ? 'block' : 'none' }}>
           {/* invest content */}
           {props.investmentTransactionsForFundsLoading ? (
             <Loading text="" />
@@ -102,7 +102,7 @@ const TransactionHistory = (props) => {
                       <p className="text-black text-xs font-light">
                         {num.description}
                       </p>
-                      <p style={{ color: "#999999" }} className="text-xs mt-2">
+                      <p style={{ color: '#999999' }} className="text-xs mt-2">
                         {num.transType}
                       </p>
                     </div>
@@ -110,14 +110,14 @@ const TransactionHistory = (props) => {
 
                   <div className="mt-10 sm:mt-0">
                     <p className="text-black font-bold text-right font-light">
-                      {num.currency === "NGN" ? naira : dollar}
+                      {num.currency === 'NGN' ? naira : dollar}
                       {formatCurrency(num.transAmount)}
                     </p>
                     <p
-                      style={{ color: "#999999" }}
+                      style={{ color: '#999999' }}
                       className="text-sm text-right w-full mt-2"
                     >
-                      {moment(parseInt(num.orderDate)).format("L")}
+                      {moment(parseInt(num.orderDate)).format('L')}
                     </p>
                   </div>
                 </div>
@@ -126,7 +126,7 @@ const TransactionHistory = (props) => {
           )}
         </div>
 
-        <div style={{ display: activeOne ? "block" : "none" }}>
+        <div style={{ display: activeOne ? 'block' : 'none' }}>
           {/* invest content */}
           {props.allFixedTrasactionsLoading ? (
             <Loading text="" />
@@ -144,7 +144,7 @@ const TransactionHistory = (props) => {
                       <p className="text-black text-base font-light">
                         {num.portfolioLabel}
                       </p>
-                      <p style={{ color: "#999999" }} className="text-sm mt-2">
+                      <p style={{ color: '#999999' }} className="text-sm mt-2">
                         {num.label.substring(0, 15)}
                       </p>
                     </div>
@@ -152,14 +152,14 @@ const TransactionHistory = (props) => {
 
                   <div className="mt-10 sm:mt-0">
                     <p className="text-black font-bold text-right font-light">
-                      {num.currency === "NGN" ? naira : dollar}
+                      {num.currency === 'NGN' ? naira : dollar}
                       {formatCurrency(num.faceValue)}
                     </p>
                     <p
-                      style={{ color: "#999999" }}
+                      style={{ color: '#999999' }}
                       className="text-sm text-right w-full mt-2"
                     >
-                      {moment(num.startDate).format("L")}
+                      {moment(num.startDate).format('L')}
                     </p>
                   </div>
                 </div>
@@ -170,7 +170,7 @@ const TransactionHistory = (props) => {
 
         <div
           style={{
-            display: activeThree ? "block" : "none",
+            display: activeThree ? 'block' : 'none',
           }}
         >
           {/* invest content */}
@@ -190,7 +190,7 @@ const TransactionHistory = (props) => {
                       <p className="text-black text-base font-light">
                         {num.instrumentTypeLabel}
                       </p>
-                      <p style={{ color: "#999999" }} className="text-sm mt-2">
+                      <p style={{ color: '#999999' }} className="text-sm mt-2">
                         {num.label}
                       </p>
                     </div>
@@ -198,14 +198,14 @@ const TransactionHistory = (props) => {
 
                   <div className="mt-10 sm:mt-0">
                     <p className="text-black font-bold text-right font-light">
-                      {num.currency === "NGN" ? naira : dollar}
+                      {num.currency === 'NGN' ? naira : dollar}
                       {formatCurrency(num.faceValue)}
                     </p>
                     <p
-                      style={{ color: "#999999" }}
+                      style={{ color: '#999999' }}
                       className="text-sm text-right w-full mt-2"
                     >
-                      {moment(num.orderDate).format("L")}
+                      {moment(num.orderDate).format('L')}
                     </p>
                   </div>
                 </div>

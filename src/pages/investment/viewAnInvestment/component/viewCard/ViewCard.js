@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import {
   smallDollar,
   withblack,
@@ -6,10 +6,10 @@ import {
   terminate,
   fundInvestment,
   investBars,
-} from "../../../imageLinks";
-import { formatCurrency } from "utils";
-import { connect, useDispatch } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+} from '../../../imageLinks';
+import { formatCurrency } from 'utils';
+import { connect, useDispatch } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 
 const ViewCard = (props) => {
   // const specificData = props.allPersonalInvestmentsData.filter(
@@ -64,10 +64,10 @@ const ViewCard = (props) => {
           src={investBars}
           alt="wealth-buddy"
           style={{
-            height: "45px",
-            width: "45px",
-            position: "relative",
-            top: "10px",
+            height: '45px',
+            width: '45px',
+            position: 'relative',
+            top: '10px',
           }}
         />
       </div>
@@ -101,36 +101,38 @@ const ViewCard = (props) => {
           </p>
         </div>
         <div
-          style={{ width: "2px", height: "50px", backgroundColor: "#222222" }}
+          style={{ width: '2px', height: '50px', backgroundColor: '#222222' }}
         />
         <div className="text-left card-margin--y ml-6 sm:ml-0 pr-6">
-          <p className="text-base text-white text-opacity-25">
-            Total Returns
-          </p>
+          <p className="text-base text-white text-opacity-25">Total Returns</p>
           <p className="text-gray-100 text-2xl font-bold text-right">
             {`₦${formatCurrency(
               setInvestmentTypeOne.length == 0 &&
                 setInvestmentTypeTwo.length == 0
-                ? (makeArray[0].reportCurrentValue.amount + 
-                  makeArray[0].interestAccrued.amount).toFixed(2)
+                ? (
+                    makeArray[0].reportCurrentValue.amount +
+                    makeArray[0].interestAccrued.amount
+                  ).toFixed(2)
                 : setInvestmentTypeTwo.length == 0 &&
                   setInvestmentTypeThree.length == 0
-                ? (makeArray[0].interestLessTaxes.amount + 
-                  makeArray[0].netInstrumentValue.amount).toFixed(2)
-                : (makeArray[0].totalGainLoss
-                  +makeArray[0].totalPurchaseCost).toFixed(2)
-            )}`
-            }
+                ? (
+                    makeArray[0].interestLessTaxes.amount +
+                    makeArray[0].netInstrumentValue.amount
+                  ).toFixed(2)
+                : (
+                    makeArray[0].totalGainLoss + makeArray[0].totalPurchaseCost
+                  ).toFixed(2)
+            )}`}
           </p>
         </div>
       </div>
 
-      <div className="flex flex-summary flex-col sm:flex-row justify-between items-center content-center pt-6">
+      <div className="flex flex-summary flex-row sm:flex-row justify-between items-center content-center pt-6">
         {setInvestmentTypeOne.length == 0 &&
         setInvestmentTypeThree.length == 0 ? (
           <Link
             to={{
-              pathname: "fund-investment/existing",
+              pathname: 'fund-investment/existing',
               // investmentId: `${specificData[0].securityId}`,
               investmentId: `${
                 setInvestmentTypeOne.length == 0 &&
@@ -153,7 +155,7 @@ const ViewCard = (props) => {
         setInvestmentTypeThree.length == 0 ? (
           <Link
             to={{
-              pathname: "/dashboard/investment/view-investment/withdraw",
+              pathname: '/dashboard/investment/view-investment/withdraw',
               // investmentId: `${specificData[0].securityId}`,
               investmentId: `${
                 setInvestmentTypeOne.length == 0 &&
@@ -165,7 +167,7 @@ const ViewCard = (props) => {
                   : makeArray[0].securityId
               }`,
             }}
-            className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
+            className="pl-6 flex flex-wrap  sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
           >
             <img src={withblack} alt="wealth-buddy" className="pr-3" />
             <p className="text-white text-base self-center">Withdraw</p>
@@ -176,7 +178,7 @@ const ViewCard = (props) => {
         setInvestmentTypeThree.length == 0 ? null : (
           <Link
             to={{
-              pathname: "/dashboard/investment/view-investment/terminate",
+              pathname: '/dashboard/investment/view-investment/terminate',
               // investmentId: `${specificData[0].securityId}`,
               investmentId: `${
                 setInvestmentTypeOne.length == 0 &&

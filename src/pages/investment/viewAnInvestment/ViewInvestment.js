@@ -1,10 +1,10 @@
-import React from "react";
-import ViewCard from "./component/viewCard/ViewCard";
-import { bulb } from "../imageLinks";
-import TransactionHistory from "./component/transactionHistory/TransactionHistory";
-import { connect, useDispatch } from "react-redux";
-import ViewDetails from "./component/viewInvestDetails/ViewDetails";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import React from 'react';
+import ViewCard from './component/viewCard/ViewCard';
+import { bulb } from '../imageLinks';
+import TransactionHistory from './component/transactionHistory/TransactionHistory';
+import { connect, useDispatch } from 'react-redux';
+import ViewDetails from './component/viewInvestDetails/ViewDetails';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 
 const ViewInvestment = (props) => {
   //RELOAD HANDLER
@@ -45,16 +45,16 @@ const ViewInvestment = (props) => {
       <div className="flex flex-row content-center sm:w-6/12 items-center  mb-10 ">
         <p
           onClick={() => {
-            return history.push("/dashboard/investment");
+            return history.push('/dashboard/investment');
           }}
-          style={{ color: "#999999" }}
+          style={{ color: '#999999' }}
           className="text-xs cursor-pointer"
         >
           Investment
         </p>
-        <p style={{ color: "#999999" }} className="text-xs mx-4 ">
-          {" "}
-          {">>"}{" "}
+        <p style={{ color: '#999999' }} className="text-xs mx-4 ">
+          {' '}
+          {'>>'}{' '}
         </p>
         <p className="text-sm text-black">
           {makeArray[0].companyName

@@ -147,7 +147,7 @@ const AddInvestment = ({
     </div>
   ) : (
     <div className="px-12 flex flex-col fadeIn">
-      <div className="flex flex-row  sm:w-8/12 items-center  mb-10 ">
+      <div className="flex flex-row flex-wrap  sm:w-8/12 items-center  mb-10 ">
         <p
           onClick={() => {
             return history.push('/dashboard/investment');
