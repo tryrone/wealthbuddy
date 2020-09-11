@@ -439,14 +439,6 @@ select {
   max-width: 350px;
 }
 
-.header-wrap .header-search {
-  height: 48px;
-  background: #ffffff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-  border-radius: 3px;
-  width: 100%;
-}
-
 .search-field {
   width: 100%;
   margin-right: 40px;
@@ -462,27 +454,6 @@ select {
   padding-bottom: 19px !important;
   right: 0;
   border-bottom: 1px solid rgba(203, 213, 224, 0.25);
-}
-
-.search-field {
-  position: relative;
-}
-
-.search-field svg {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 12px;
-}
-
-.search-field input {
-  padding-left: 50px;
-  font-size: 16px !important;
-}
-
-.search-field input::placeholder {
-  font-size: 15px;
-  color: #979797;
 }
 
 main > .flex > section {
@@ -1788,8 +1759,7 @@ form.create-card {
 }
 
 .notification-icon {
-  margin-left: 35px;
-  width: calc(50% - 105px);
+  width: calc(50% - 140px);
 }
 
 .personal-inner--icon {
@@ -1939,9 +1909,6 @@ form.create-card {
   }
   .existing-entry {
     margin-top: 100px;
-  }
-  .header-wrap .header-search {
-    height: 46px;
   }
   .create-savings > * {
     min-height: 100px;
@@ -3423,7 +3390,6 @@ nav .user-no--picture {
 
 .status-progress {
   width: 100%;
-  padding-right: 50px;
   max-width: 400px;
 }
 

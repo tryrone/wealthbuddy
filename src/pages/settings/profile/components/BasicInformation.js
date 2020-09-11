@@ -58,7 +58,7 @@ const BasicInformation = ({ account }) => {
   return (
     <Fragment>
       <figure className="basic-profile mb-5 flex items-center">
-        {values.picture !== null ? (
+        {values.picture !== null && values.picture !== undefined ? (
           <img src={values.picture} alt="" className="mb-4" />
         ) : (
           <div className="user-no--picture mb-4 text-white">
