@@ -198,7 +198,12 @@ const MainDetails = ({
                       <InvitedMember key={index} member={member} />
                     ))
                   : groupMembers.map((member, index) => (
-                      <Member key={index} member={member} />
+                      <Member
+                        key={index}
+                        member={member}
+                        membersCount={groupMembers.length}
+                        savingsType={savings.type}
+                      />
                     ))}
               </div>
             </div>
