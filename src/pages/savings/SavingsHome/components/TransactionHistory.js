@@ -8,9 +8,6 @@ import PersonalSavingsIcon from "assets/img/personalIcon.png";
 import FixedLockSavingsIcon from "assets/img/fixedIcon.png";
 import FixedFlexibleSavingsIcon from "assets/img/fixedFlex.png";
 import GroupSavingsIcon from "assets/img/groupIcon.png";
-import { walletIcon, outflowIcon, inflowIcon } from "assets/exports";
-
-
 
 const TransactionHistory = ({ savingsTransactions }) => {
   const transactionGroups = savingsTransactions.reduce(
@@ -44,8 +41,6 @@ const TransactionHistory = ({ savingsTransactions }) => {
         return GroupSavingsIcon;
     }
   };
-  
-console.log(`savings transac: ${savingsIcon()}`);
 
   return (
     <div className="card card-padding w-full has-scrollBar">

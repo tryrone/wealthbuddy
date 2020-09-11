@@ -4,6 +4,7 @@ import { closeModalOnOutsideClick } from "utils";
 const SavingsInfoModal = ({ isVisible, savings, onClose: handleClose }) => {
   useEffect(() => {
     isVisible && closeModalOnOutsideClick(handleClose);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible]);
 
   return (

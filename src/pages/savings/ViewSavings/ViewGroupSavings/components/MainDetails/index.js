@@ -15,7 +15,8 @@ import {
 } from "constants/enums";
 import InvitedMember from "./components/InvitedMember";
 import Member from "./components/Member";
-import "./styles.css";
+import { FaExclamationCircle, FaCheckCircle } from "react-icons/fa";
+import "./styles.scss";
 
 const MainDetails = ({
   savings,
@@ -45,6 +46,9 @@ const MainDetails = ({
   if (savings.type === SavingsType.GroupContributorySavings) {
     installmentalContribution = savings.amountToSave;
   }
+
+  const maturityDateReached =
+    new Date() > new Date(savings.estimatedTerminationDate);
 
   const canBeCancelled =
     savings.isAdmin === true &&
@@ -80,36 +84,46 @@ const MainDetails = ({
         </div>
         <div className="flex flex-col justify-center items-center card-margin--x">
           <div className="flex flex-row justify-center items-center items-center w-full">
-            <div className="w-full flex align-items-center mr-5">
-              <div className="w-full flex flex-col justify-center align-items-center">
-                <div className="flex justify-start align-items-start">
-                  <div className="flex flex-col justify-center">
-                    <p className="savings-inner--title font-medium text-gray-300">
-                      {`${savings.name}`}
-                    </p>
-                    <h1 className="mt-3 mb-4 text-4xl font-medium">
-                      {`₦${formatCurrency(savings.amountToSave)}`}
-                    </h1>
-                    <p className="font-medium color-black mb-4">
-                      {savingsTypeNames[savings.type] || "Savings"}
-                    </p>
-                  </div>
+            <div className="w-full flex flex-col justify-center align-items-center mr-5">
+              <div className="flex flex-col justify-start align-items-start">
+                <p className="savings-inner--title font-medium text-gray-300">
+                  {`${savings.name}`}
+                </p>
+                <h1 className="mt-3 mb-4 text-4xl font-medium">
+                  {`₦${formatCurrency(savings.amountToSave)}`}
+                </h1>
+                <div className="flex flex-row justify-between items-center">
+                  <p className="font-medium color-black">
+                    {savingsTypeNames[savings.type] || "Savings"}
+                  </p>
+                  {maturityDateReached && (
+                    <span className="font-medium color-green">
+                      {savings.status === GroupSavingsStatus.Finished ? (
+                        <FaCheckCircle />
+                      ) : (
+                        <FaExclamationCircle />
+                      )}
+                    </span>
+                  )}
                 </div>
-                <div className="w-full">
-                  <div className="progress">
-                    <div
-                      className="progress-meter"
-                      style={{ width: `${progressPercentage}%` }}
-                    />
-                  </div>
-                  <div className="flex justify-between mt-3">
-                    <p className="text-gray-300">
-                      {`${formatCurrency(progressPercentage)}% achieved`}
-                    </p>
-                    <p className="color-black">
-                      {`₦${formatCurrency(savings.amountSaved)}`}
-                    </p>
-                  </div>
+              </div>
+              <div className="w-full">
+                <div className="progress">
+                  <div
+                    className={classNames({
+                      "progress-meter": true,
+                      "progress-meter-green": savings.status === GroupSavingsStatus.Finished
+                    })}
+                    style={{ width: `${progressPercentage}%` }}
+                  />
+                </div>
+                <div className="flex justify-between mt-3">
+                  <p className="text-gray-300">
+                    {`${formatCurrency(progressPercentage)}% achieved`}
+                  </p>
+                  <p className="color-black">
+                    {`₦${formatCurrency(savings.amountSaved)}`}
+                  </p>
                 </div>
               </div>
             </div>

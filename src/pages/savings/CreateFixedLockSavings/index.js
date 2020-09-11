@@ -12,8 +12,6 @@ import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
 import FundSavingsModal from "./components/FundSavingsModal";
 import {convertYmdJsonToIsoDate} from "utils";
 
-import { utils } from "react-modern-calendar-datepicker";
-
 const CreateFixedLockSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
   const history = useHistory();
