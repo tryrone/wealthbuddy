@@ -10,7 +10,7 @@ import classNames from "classnames";
 import moment from "moment";
 import {
   SavingsFrequency,
-  GroupSavingsStatus,
+  SavingsStatus,
   SavingsType,
 } from "constants/enums";
 import InvitedMember from "./components/InvitedMember";
@@ -52,10 +52,10 @@ const MainDetails = ({
 
   const canBeCancelled =
     savings.isAdmin === true &&
-    (savings.status === GroupSavingsStatus.Pending ||
+    (savings.status === SavingsStatus.Pending ||
       (savings.type !== SavingsType.GroupChallengeSavings &&
         savings.type !== SavingsType.GroupContributorySavings &&
-        savings.status === GroupSavingsStatus.InProgress));
+        savings.status === SavingsStatus.InProgress));
 
   const canBeWithdrawn =
     (savings.type !== SavingsType.GroupContributorySavings &&
@@ -98,7 +98,7 @@ const MainDetails = ({
                   </p>
                   {maturityDateReached && (
                     <span className="font-medium color-green">
-                      {savings.status === GroupSavingsStatus.Finished ? (
+                      {savings.status === SavingsStatus.Finished ? (
                         <FaCheckCircle />
                       ) : (
                         <FaExclamationCircle />
@@ -112,7 +112,7 @@ const MainDetails = ({
                   <div
                     className={classNames({
                       "progress-meter": true,
-                      "progress-meter-green": savings.status === GroupSavingsStatus.Finished
+                      "progress-meter-green": progressPercentage >= 100,
                     })}
                     style={{ width: `${progressPercentage}%` }}
                   />
@@ -179,7 +179,7 @@ const MainDetails = ({
                   Start Date
                 </h5>
                 <h1 className=" mt-3 font-medium">
-                  {savings.status !== GroupSavingsStatus.Pending
+                  {savings.status !== SavingsStatus.Pending
                     ? moment(savings.startDate).format("MMM Do YYYY")
                     : "N/A"}
                 </h1>
@@ -189,7 +189,7 @@ const MainDetails = ({
                   Maturity Date
                 </h5>
                 <h1 className="mt-3 font-medium">
-                  {savings.status !== GroupSavingsStatus.Pending
+                  {savings.status !== SavingsStatus.Pending
                     ? moment(savings.estimatedTerminationDate).format(
                         "MMM Do YYYY"
                       )
@@ -207,7 +207,7 @@ const MainDetails = ({
                 Group members
               </h5>
               <div className="flex flex-row flex-wrap mt-3">
-                {savings.status === GroupSavingsStatus.Pending
+                {savings.status === SavingsStatus.Pending
                   ? invitations.map((member, index) => (
                       <InvitedMember key={index} member={member} />
                     ))
@@ -235,7 +235,7 @@ const MainDetails = ({
             Cancel <span className="loader" />
           </div>
 
-          {savings.status === GroupSavingsStatus.Pending ? (
+          {savings.status === SavingsStatus.Pending ? (
             <button
               className={classNames({
                 "w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta cta-green text-white rounded-sm": true,

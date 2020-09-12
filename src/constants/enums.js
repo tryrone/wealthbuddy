@@ -29,7 +29,7 @@ export const InvestmentType = {
   Bonds: 7,
 };
 
-export const GroupSavingsStatus = {
+export const SavingsStatus = {
   Pending: 1,
   InProgress: 2,
   Completed: 3, // target reached
