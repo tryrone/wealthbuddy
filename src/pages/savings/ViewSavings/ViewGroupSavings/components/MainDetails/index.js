@@ -10,12 +10,13 @@ import classNames from "classnames";
 import moment from "moment";
 import {
   SavingsFrequency,
-  GroupSavingsStatus,
+  SavingsStatus,
   SavingsType,
 } from "constants/enums";
 import InvitedMember from "./components/InvitedMember";
 import Member from "./components/Member";
-import "./styles.css";
+import { FaExclamationCircle, FaCheckCircle } from "react-icons/fa";
+import "./styles.scss";
 
 const MainDetails = ({
   savings,
@@ -46,12 +47,15 @@ const MainDetails = ({
     installmentalContribution = savings.amountToSave;
   }
 
+  const maturityDateReached =
+    new Date() > new Date(savings.estimatedTerminationDate);
+
   const canBeCancelled =
     savings.isAdmin === true &&
-    (savings.status === GroupSavingsStatus.Pending ||
+    (savings.status === SavingsStatus.Pending ||
       (savings.type !== SavingsType.GroupChallengeSavings &&
         savings.type !== SavingsType.GroupContributorySavings &&
-        savings.status === GroupSavingsStatus.InProgress));
+        savings.status === SavingsStatus.InProgress));
 
   const canBeWithdrawn =
     (savings.type !== SavingsType.GroupContributorySavings &&
@@ -80,36 +84,46 @@ const MainDetails = ({
         </div>
         <div className="flex flex-col justify-center items-center card-margin--x">
           <div className="flex flex-row justify-center items-center items-center w-full">
-            <div className="w-full flex align-items-center mr-5">
-              <div className="w-full flex flex-col justify-center align-items-center">
-                <div className="flex justify-start align-items-start">
-                  <div className="flex flex-col justify-center">
-                    <p className="savings-inner--title font-medium text-gray-300">
-                      {`${savings.name}`}
-                    </p>
-                    <h1 className="mt-3 mb-4 text-4xl font-medium">
-                      {`₦${formatCurrency(savings.amountToSave)}`}
-                    </h1>
-                    <p className="font-medium color-black mb-4">
-                      {savingsTypeNames[savings.type] || "Savings"}
-                    </p>
-                  </div>
+            <div className="w-full flex flex-col justify-center align-items-center mr-5">
+              <div className="flex flex-col justify-start align-items-start">
+                <p className="savings-inner--title font-medium text-gray-300">
+                  {`${savings.name}`}
+                </p>
+                <h1 className="mt-3 mb-4 text-4xl font-medium">
+                  {`₦${formatCurrency(savings.amountToSave)}`}
+                </h1>
+                <div className="flex flex-row justify-between items-center">
+                  <p className="font-medium color-black">
+                    {savingsTypeNames[savings.type] || "Savings"}
+                  </p>
+                  {maturityDateReached && (
+                    <span className="font-medium color-green">
+                      {savings.status === SavingsStatus.Finished ? (
+                        <FaCheckCircle />
+                      ) : (
+                        <FaExclamationCircle />
+                      )}
+                    </span>
+                  )}
                 </div>
-                <div className="w-full">
-                  <div className="progress">
-                    <div
-                      className="progress-meter"
-                      style={{ width: `${progressPercentage}%` }}
-                    />
-                  </div>
-                  <div className="flex justify-between mt-3">
-                    <p className="text-gray-300">
-                      {`${formatCurrency(progressPercentage)}% achieved`}
-                    </p>
-                    <p className="color-black">
-                      {`₦${formatCurrency(savings.amountSaved)}`}
-                    </p>
-                  </div>
+              </div>
+              <div className="w-full">
+                <div className="progress">
+                  <div
+                    className={classNames({
+                      "progress-meter": true,
+                      "progress-meter-green": progressPercentage >= 100,
+                    })}
+                    style={{ width: `${progressPercentage}%` }}
+                  />
+                </div>
+                <div className="flex justify-between mt-3">
+                  <p className="text-gray-300">
+                    {`${formatCurrency(progressPercentage)}% achieved`}
+                  </p>
+                  <p className="color-black">
+                    {`₦${formatCurrency(savings.amountSaved)}`}
+                  </p>
                 </div>
               </div>
             </div>
@@ -165,7 +179,7 @@ const MainDetails = ({
                   Start Date
                 </h5>
                 <h1 className=" mt-3 font-medium">
-                  {savings.status !== GroupSavingsStatus.Pending
+                  {savings.status !== SavingsStatus.Pending
                     ? moment(savings.startDate).format("MMM Do YYYY")
                     : "N/A"}
                 </h1>
@@ -175,7 +189,7 @@ const MainDetails = ({
                   Maturity Date
                 </h5>
                 <h1 className="mt-3 font-medium">
-                  {savings.status !== GroupSavingsStatus.Pending
+                  {savings.status !== SavingsStatus.Pending
                     ? moment(savings.estimatedTerminationDate).format(
                         "MMM Do YYYY"
                       )
@@ -193,12 +207,17 @@ const MainDetails = ({
                 Group members
               </h5>
               <div className="flex flex-row flex-wrap mt-3">
-                {savings.status === GroupSavingsStatus.Pending
+                {savings.status === SavingsStatus.Pending
                   ? invitations.map((member, index) => (
                       <InvitedMember key={index} member={member} />
                     ))
                   : groupMembers.map((member, index) => (
-                      <Member key={index} member={member} />
+                      <Member
+                        key={index}
+                        member={member}
+                        membersCount={groupMembers.length}
+                        savingsType={savings.type}
+                      />
                     ))}
               </div>
             </div>
@@ -216,7 +235,7 @@ const MainDetails = ({
             Cancel <span className="loader" />
           </div>
 
-          {savings.status === GroupSavingsStatus.Pending ? (
+          {savings.status === SavingsStatus.Pending ? (
             <button
               className={classNames({
                 "w-40 text-center leading-loose bg-wb-primary wealth-buddy--cta cta-green text-white rounded-sm": true,

@@ -8,7 +8,7 @@ const DashboardSavings = () => {
   const [ chartOptions, setChartOptions ] = useState({
     type: 'pie',
     data: {
-      datasets: [{ data: [23500, 54000], backgroundColor: [ "#90e5f6", "#c389fa"] }],
+      datasets: [{ data: [100,0], backgroundColor: [ "#90e5f6", "#c389fa"] }],
       labels: ['Inflow', 'Outflow']
     },
     options: {

@@ -1,10 +1,16 @@
 import React from "react";
 import { formatCurrency } from "utils";
+import {SavingsType} from "../../../../../../../constants/enums";
 
-const Member = ({ member }) => {
-  const percentageSaved = formatCurrency(
+const Member = ({ member, membersCount, savingsType }) => {
+  let percentageSaved = formatCurrency(
     (member.amountSaved / member.targetAmount) * 100
   );
+
+  if (savingsType === SavingsType.GroupTargetSavings) {
+    percentageSaved *= membersCount;
+  }
+
   const nameWords = member.name.toString().split(" ");
   const abbreviation = `${nameWords[0].charAt(0)}${nameWords[1].charAt(
     0

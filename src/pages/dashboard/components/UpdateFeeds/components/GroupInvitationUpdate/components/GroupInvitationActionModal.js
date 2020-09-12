@@ -62,7 +62,7 @@ const GroupInvitationActionModal = ({
                 <p className="w-full text-sm">
                   Hi {customerDetails.otherNames}, I added you to a{" "}
                   <span className="text-wb-primary">
-                    {savingsTypeNames[invitation.groupSavingsType]} challenge
+                    {savingsTypeNames[invitation.groupSavingsType]}
                   </span>
                   . You'll be sent a confirmation mail when you accept.
                 </p>

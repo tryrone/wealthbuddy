@@ -11,6 +11,9 @@ import "toasted-notes/src/styles.css";
 import { connect } from "react-redux";
 import { formatCurrency } from "utils";
 import classNames from "classnames";
+import "./styles.scss";
+import { SavingsStatus } from "constants/enums";
+import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 
 const MainDetails = ({
   savings,
@@ -21,8 +24,11 @@ const MainDetails = ({
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
   const dateStatus = new Date(savings.estimatedTerminationDate) > new Date();
 
+  const maturityDateReached =
+    new Date() > new Date(savings.estimatedTerminationDate);
+
   const savingsIcon = () => {
-    switch (savings) {
+    switch (savings.savingsType) {
       case 1:
         return personalSavings;
       case 2:
@@ -68,21 +74,35 @@ const MainDetails = ({
                     <h1 className="mt-3 mb-4 text-4xl font-medium">
                       {`₦${formatCurrency(savings.amountToSave)}`}
                     </h1>
-                    <p className="savings-inner--title font-medium color-black mb-4">{`${
-                      savings.savingsType === 1
-                        ? "Personal Target Savings"
-                        : savings.savingsType === 2
-                        ? "Fixed Lock Savings"
-                        : savings.savingsType === 3
-                        ? "Fixed Flexible Savings"
-                        : "Group Savings"
-                    }`}</p>
+                    <div className="flex flex-row justify-center items-center mb-4">
+                      <p className="savings-inner--title font-medium color-black">{`${
+                        savings.savingsType === 1
+                          ? "Personal Target Savings"
+                          : savings.savingsType === 2
+                          ? "Fixed Lock Savings"
+                          : savings.savingsType === 3
+                          ? "Fixed Flexible Savings"
+                          : "Group Savings"
+                      }`}</p>
+                      {maturityDateReached && (
+                        <span className="font-medium color-green ml-2">
+                          {savings.status === SavingsStatus.Finished ? (
+                            <FaCheckCircle />
+                          ) : (
+                            <FaExclamationCircle />
+                          )}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="summary-progress w-full">
                   <div className="progress">
                     <div
-                      className="progress-meter"
+                      className={classNames({
+                        "progress-meter": true,
+                        "progress-meter-green": progressPercentage >= 100,
+                      })}
                       style={{ width: `${progressPercentage}%` }}
                     />
                   </div>
@@ -155,23 +175,12 @@ const MainDetails = ({
           </div>
           <div className="savings-inner--item">
             <h5 className="savings-inner--subtitle text-gray-300 text-xs">
-              Interest Rate
-            </h5>
-            <h1 className="mt-3 font-medium">{`${
-              savings.interestRate === 0 ? "N/A" : savings.interestRate + "%"
-            }`}</h1>
-          </div>
-          <div className="savings-inner--item">
-            <h5 className="savings-inner--subtitle text-gray-300 text-xs">
               Start Date
             </h5>
             <h1 className=" mt-3 font-medium">
               {getHumanDate(savings.startDate)}
             </h1>
           </div>
-        </div>
-
-        <div className="view-summary--items card-margin--x px-0 flex-wrap no-border--bottom">
           <div className="savings-inner--item">
             <h5 className="savings-inner--subtitle text-gray-300 text-xs">
               Maturity Date
@@ -179,6 +188,17 @@ const MainDetails = ({
             <h1 className="mt-3 font-medium">{`${getHumanDate(
               savings.estimatedTerminationDate
             )}`}</h1>
+          </div>
+        </div>
+
+        <div className="view-summary--items card-margin--x px-0 flex-wrap no-border--bottom">
+          <div className="savings-inner--item">
+            <h5 className="savings-inner--subtitle text-gray-300 text-xs">
+              Interest Rate
+            </h5>
+            <h1 className="mt-3 font-medium">{`${
+              savings.interestRate === 0 ? "N/A" : savings.interestRate + "%"
+            }`}</h1>
           </div>
           {savings.interestRate !== 0 && (
             <div className="savings-inner--item">

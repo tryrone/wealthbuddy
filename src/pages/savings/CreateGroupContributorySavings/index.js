@@ -10,6 +10,7 @@ import DisclaimerModal from "./components/DisclaimerModal";
 import { createGroupContributorySavings } from "state/slices/savings";
 import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
 import "./styles.css";
+import FundSavingsModal from "./components/FundSavingsModal";
 
 const GroupContributorySavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const GroupContributorySavings = ({ savingsConfiguration }) => {
     showCreationPage: true,
     showConfirmationPage: false,
     showAddDescriptionModal: false,
+    showFundSavingsModal: false,
     showDisclaimerModal: false,
     showCreateSavingsSuccessModal: false,
     isCreateLoading: false,
@@ -37,6 +39,8 @@ const GroupContributorySavings = ({ savingsConfiguration }) => {
       participants: [],
       file: "",
       imagePreviewUrl: null,
+      allowCardDebit: null,
+      cardId: "",
     },
   });
 
@@ -75,7 +79,7 @@ const GroupContributorySavings = ({ savingsConfiguration }) => {
     );
   };
 
-  const handleCloseFundSavingsModal = () => {
+  const handleCloseDescriptionModal = () => {
     setState(
       produce((draft) => {
         draft.showAddDescriptionModal = false;
@@ -87,8 +91,27 @@ const GroupContributorySavings = ({ savingsConfiguration }) => {
     setState(
       produce((draft) => {
         draft.showAddDescriptionModal = false;
-        draft.showDisclaimerModal = true;
+        draft.showFundSavingsModal = true;
         draft.formValues.description = description;
+      })
+    );
+  };
+
+  const handleCloseFundSavingsModal = () => {
+    setState(
+      produce((draft) => {
+        draft.showFundSavingsModal = false;
+      })
+    );
+  };
+
+  const handleSubmitFundSavingsForm = ({ cardId, allowCardDebit }) => {
+    setState(
+      produce((draft) => {
+        draft.showFundSavingsModal = false;
+        draft.showDisclaimerModal = true;
+        draft.formValues.allowCardDebit = allowCardDebit;
+        draft.formValues.cardId = cardId;
       })
     );
   };
@@ -184,7 +207,14 @@ const GroupContributorySavings = ({ savingsConfiguration }) => {
           formValues={state.formValues}
           isVisible={state.showAddDescriptionModal}
           onSubmit={handleSubmitDescription}
-          close={handleCloseFundSavingsModal}
+          close={handleCloseDescriptionModal}
+        />
+
+        <FundSavingsModal
+            formValues={state.formValues}
+            isVisible={state.showFundSavingsModal}
+            onSubmit={handleSubmitFundSavingsForm}
+            close={handleCloseFundSavingsModal}
         />
 
         <DisclaimerModal

@@ -1,14 +1,16 @@
-import React, { Fragment, useState } from 'react';
-import CreateSavings from './components/CreateSavings';
-import ConfirmSavings from './components/ConfirmSavings';
-import { SavingsType } from 'constants/enums';
-import { connect, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import produce from 'immer';
-import DisclaimerModal from './components/DisclaimerModal';
-import { createFixedLockSavings } from 'state/slices/savings';
-import moment from 'moment';
-import CreateSavingsSuccessModal from './components/CreateSavingsSuccessModal';
+import React, { Fragment, useState } from "react";
+import CreateSavings from "./components/CreateSavings";
+import ConfirmSavings from "./components/ConfirmSavings";
+import { SavingsType } from "constants/enums";
+import { connect, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import produce from "immer";
+import DisclaimerModal from "./components/DisclaimerModal";
+import { createFixedLockSavings } from "state/slices/savings";
+import moment from "moment";
+import CreateSavingsSuccessModal from "./components/CreateSavingsSuccessModal";
+import FundSavingsModal from "./components/FundSavingsModal";
+import {convertYmdJsonToIsoDate} from "utils";
 
 const CreateFixedLockSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
@@ -21,17 +23,20 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
   const [state, setState] = useState({
     showCreationPage: true,
     showConfirmationPage: false,
+    showFundSavingsModal: false,
     showDisclaimerModal: false,
     showCreateSavingsSuccessModal: false,
     isCreateLoading: false,
     createError: null,
     formValues: {
-      name: '',
-      amount: '',
-      maturityDate: '',
+      name: "",
+      amount: "",
+      maturityDate: "",
       applyInterest: true,
-      file: '',
+      file: "",
       imagePreviewUrl: null,
+      allowCardDebit: null,
+      cardId: "",
     },
   });
 
@@ -59,7 +64,28 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
     e.preventDefault();
     setState(
       produce((draft) => {
+        draft.formValues.allowCardDebit = null;
+        draft.formValues.cardId = "";
+        draft.showFundSavingsModal = true;
+      })
+    );
+  };
+
+  const handleCloseFundSavingsModal = () => {
+    setState(
+      produce((draft) => {
+        draft.showFundSavingsModal = false;
+      })
+    );
+  };
+
+  const handleSubmitFundSavingsForm = ({ cardId, allowCardDebit }) => {
+    setState(
+      produce((draft) => {
+        draft.showFundSavingsModal = false;
         draft.showDisclaimerModal = true;
+        draft.formValues.allowCardDebit = allowCardDebit;
+        draft.formValues.cardId = cardId;
       })
     );
   };
@@ -84,13 +110,15 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
     const formValues = {
       name: state.formValues.name,
       amountToSave: state.formValues.amount,
-      MaturityDate: moment(state.formValues.maturityDate).toISOString(),
+      MaturityDate: moment(convertYmdJsonToIsoDate(state.formValues.maturityDate)).toISOString(),
       ApplyInterest: state.formValues.applyInterest,
+      allowCardDebit: state.formValues.allowCardDebit,
+      cardId: state.formValues.cardId,
     };
 
     const formData = new FormData();
-    formData.append('data', JSON.stringify(formValues));
-    formData.append('file', state.formValues.file);
+    formData.append("data", JSON.stringify(formValues));
+    formData.append("file", state.formValues.file);
 
     setState(
       produce((draft) => {
@@ -122,7 +150,7 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
         draft.showCreateSavingsSuccessModal = false;
       })
     );
-    history.push('/dashboard/savings');
+    history.push("/dashboard/savings");
   };
 
   return (
@@ -141,6 +169,13 @@ const CreateFixedLockSavings = ({ savingsConfiguration }) => {
           isVisible={state.showConfirmationPage}
           onBack={handleClickBackOnConfirmationPage}
           onLaunch={handleClickLaunchOnConfirmationPage}
+        />
+
+        <FundSavingsModal
+          formValues={state.formValues}
+          isVisible={state.showFundSavingsModal}
+          onSubmit={handleSubmitFundSavingsForm}
+          close={handleCloseFundSavingsModal}
         />
 
         <DisclaimerModal

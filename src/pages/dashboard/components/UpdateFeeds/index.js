@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { FaUsers, FaFileAlt } from "react-icons/fa";
+import { FaBell, FaUsers } from "react-icons/fa";
 import classNames from "classnames";
 import GeneralUpdate from "./components/GeneralUpdate";
 import GroupInvitationUpdate from "./components/GroupInvitationUpdate";
@@ -43,7 +43,7 @@ const UpdateFeeds = ({ invitations }) => {
                 active: activePage === Page.GeneralUpdates,
               })}
             >
-              <FaFileAlt />
+              <FaBell />
             </a>
             <a
               href="#"

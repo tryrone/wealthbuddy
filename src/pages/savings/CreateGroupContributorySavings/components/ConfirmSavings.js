@@ -65,7 +65,7 @@ const ConfirmSavings = ({
                       Interest Rate
                     </h5>
                     <h1 className="savings-inner--title mt-3 font-medium">
-                      {`${savingsConfiguration.interestRate}%`}
+                     N/A {/*{`${savingsConfiguration.interestRate}%`} */}
                     </h1>
                   </div>
                   <div className="savings-inner--item">

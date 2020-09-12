@@ -5,8 +5,9 @@ import moment from 'moment';
 import { connect, useDispatch } from 'react-redux';
 import { getAllInvestments } from '../../../../state/slices/investments';
 // import { Redirect } from "react-router-dom";
-import Chart from '../Chart';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import Chart from "../Chart";
+import { Link, Redirect, useHistory } from "react-router-dom";
+import { formatCurrency } from "utils";
 
 const InvestmentInfo = (props) => {
   const dispatch = useDispatch();
@@ -50,7 +51,7 @@ const InvestmentInfo = (props) => {
     3: {
       name: 'MERISTEM MTLIP',
       summary:
-        'Treasury bills, also known as "T-bills," are investment options issued by the Nigerian government. Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice. This investment also offers you the opportunity to get your interest upfront or re-invest your capital plus interest after your investment tenure is over. T-bills is a great way to save for rent, school fees and other capital-intensive cost you may have.',
+        'Treasury Bills, also known as "T-bills," are investment options issued by the Nigerian government. Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice. This investment also offers you the opportunity to get your interest upfront or re-invest your capital plus interest after your investment tenure is over. T-bills is a great way to save for rent, school fees and other capital-intensive cost you may have.',
       earnings:
         'Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice.',
       auction: true,
@@ -58,7 +59,7 @@ const InvestmentInfo = (props) => {
     3: {
       name: 'TREASURY BILLS(ASSET)',
       summary:
-        'Treasury bills, also known as "T-bills," are investment options issued by the Nigerian government. Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice. This investment also offers you the opportunity to get your interest upfront or re-invest your capital plus interest after your investment tenure is over. T-bills is a great way to save for rent, school fees and other capital-intensive cost you may have.',
+        'Treasury Bills, also known as "T-bills," are investment options issued by the Nigerian government. Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice. This investment also offers you the opportunity to get your interest upfront or re-invest your capital plus interest after your investment tenure is over. T-bills is a great way to save for rent, school fees and other capital-intensive cost you may have.',
       earnings:
         'Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice.',
       auction: true,
@@ -77,6 +78,14 @@ const InvestmentInfo = (props) => {
         'The fixed term investment account serves as a better alternative to a savings account, especially for people looking to achieve set short-term projects. It affords individuals the opportunity to set aside money and get higher interest than a typical savings account in 30days. Are you looking to get a new phone? House? Or just a better way to save? FIXTIP makes all that easy.',
       earnings:
         'Fixed income broadly refers to those types of investment security that pay investors fixed interest or dividend payments until its maturity date.',
+      auction: false,
+    },
+    45149135: {
+      name: "REAP-ARENA (REAP)",
+      summary:
+        "This is a British pound denominated investment, designed to offer investors the actual advantage of currency appreciation and rental income. Through this product, investors have the opportunity to co-own real estate and generate income via short let rental and full-term tenancy arrangement.",
+      earnings:
+        "Through this product, investors have the opportunity to co-own real estate and generate income via short let rental and full-term tenancy arrangement.",
       auction: false,
     },
   };
@@ -166,7 +175,7 @@ const InvestmentInfo = (props) => {
             </p>
 
             <p className="text-lg text-black sm:text-base text-hairline  leading-loose mt-3">
-              {investmentDetail[InvestmentName[0].investmentType].summary}
+              {investmentDetail[InvestmentName[0].investmentID].summary}
             </p>
           </div>
           {/* box one end */}
@@ -186,7 +195,7 @@ const InvestmentInfo = (props) => {
             </p>
 
             <p className="text-lg text-black sm:text-base text-hairline leading-loose  mt-3">
-              {investmentDetail[InvestmentName[0].investmentType].earnings}
+              {investmentDetail[InvestmentName[0].investmentID].earnings}
             </p>
           </div>
           {/* box two end */}
@@ -371,7 +380,7 @@ const InvestmentInfo = (props) => {
               Minimun Deposit
             </p>
             <p className="font-hairline text-right text-black text-base sm:text-sm">
-              {` ₦ ${InvestmentName[0].minimumAmount}`}
+              {` ${formatCurrency(InvestmentName[0].minimumAmount)}`}
             </p>
           </div>
 

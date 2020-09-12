@@ -5,6 +5,9 @@ import { connect } from "react-redux";
 import { formatCurrency } from "utils";
 import moment from "moment";
 import PersonalSavingsIcon from "assets/img/personalIcon.png";
+import FixedLockSavingsIcon from "assets/img/fixedIcon.png";
+import FixedFlexibleSavingsIcon from "assets/img/fixedFlex.png";
+import GroupSavingsIcon from "assets/img/groupIcon.png";
 
 const TransactionHistory = ({ savingsTransactions }) => {
   const transactionGroups = savingsTransactions.reduce(
@@ -25,6 +28,19 @@ const TransactionHistory = ({ savingsTransactions }) => {
       transactions: transactionGroups[date],
     };
   });
+
+  const savingsIcon = (savingsType) => {
+    switch (savingsType) {
+      case 1:
+        return PersonalSavingsIcon;
+      case 2:
+        return FixedLockSavingsIcon;
+      case 3:
+        return FixedFlexibleSavingsIcon;
+      default:
+        return GroupSavingsIcon;
+    }
+  };
 
   return (
     <div className="card card-padding w-full has-scrollBar">
@@ -54,7 +70,9 @@ const TransactionHistory = ({ savingsTransactions }) => {
                     >
                       <div className="left-tran--summary flex align-items-center">
                         <div className="trans-image">
-                          <img src={PersonalSavingsIcon} alt="" />
+                        {
+                             <img style={{width:"30px", height:"30px"}} src={savingsIcon(items.savingsType)} alt="" />
+                          }
                         </div>
                         <div className="flex flex-col justify-center">
                           <p className="tran-single--title mb-1 font-medium">

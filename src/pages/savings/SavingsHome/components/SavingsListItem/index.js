@@ -6,12 +6,17 @@ import groupSavings from "assets/img/groupIcon.png";
 import fixedFlexSavings from "assets/img/fixedFlex.png";
 import { formatCurrency } from "utils";
 import moment from "moment";
-import { GroupSavingsStatus, SavingsType } from "../../../../constants/enums";
+import { SavingsStatus, SavingsType } from "constants/enums";
+import classNames from "classnames";
+import "./styles.scss";
+import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 
 const SavingsListItem = ({ savings }) => {
   const progressPercentage = (savings.amountSaved / savings.amountToSave) * 100;
   const interestRate =
     savings.interestRate === 0 ? "N/A" : savings.interestRate + "%";
+  const maturityDateReached =
+    new Date() > new Date(savings.estimatedTerminationDate);
 
   const getIcon = (savings) => {
     switch (savings.savingsType) {
@@ -35,20 +40,32 @@ const SavingsListItem = ({ savings }) => {
         <div className=" flex justify-between items-center w-full">
           <div className="text-savings--summary w-full flex align-items-center">
             <div className="left-tran--summary w-full flex flex-col align-items-center">
-              <div className="flex align-items-center">
-                <div className="trans-image">
-                  <img src={getIcon(savings)} alt="" />
-                </div>
-                <div className="flex flex-col justify-center">
+              <div className="flex flex-row justify-between items-center">
+                <div className="flex align-items-center">
+                  <div className="trans-image">
+                    <img src={getIcon(savings)} alt="" />
+                  </div>
                   <p className="tran-single--title font-medium">
                     {savings.name}
                   </p>
                 </div>
+                {maturityDateReached && (
+                  <span className="font-medium color-green ml-2">
+                    {savings.status === SavingsStatus.Finished ? (
+                      <FaCheckCircle />
+                    ) : (
+                      <FaExclamationCircle />
+                    )}
+                  </span>
+                )}
               </div>
               <div className="summary-progress w-full">
                 <div className="progress">
                   <div
-                    className="progress-meter"
+                    className={classNames({
+                      "progress-meter": true,
+                      "progress-meter-green": progressPercentage >= 100,
+                    })}
                     style={{ width: `${progressPercentage}%` }}
                   />
                 </div>
@@ -110,25 +127,44 @@ const SavingsListItem = ({ savings }) => {
         <div className="text-black flex">
           <div>
             <h5 className="text-xs mb-2">Start Date</h5>
-            <h2 className="summary-balance font-medium">
-              {savings.status !== GroupSavingsStatus.Pending
-                ? moment(savings.startDate).format("MMM Do YYYY")
-                : "N/A"}
-            </h2>
+            {savings.savingsType === SavingsType.PersonalTargetSavings ||
+            savings.savingsType === SavingsType.FixedLockSavings ||
+            savings.savingsType === SavingsType.FixedFlexibleSavings ? (
+              <h2 className="summary-balance font-medium">
+                {moment(savings.startDate).format("MMM Do YYYY")}
+              </h2>
+            ) : (
+              <h2 className="summary-balance font-medium">
+                {savings.status !== SavingsStatus.Pending
+                  ? moment(savings.startDate).format("MMM Do YYYY")
+                  : "N/A"}
+              </h2>
+            )}
           </div>
         </div>
         <div className="text-black flex">
           <div>
             <h5 className="text-xs mb-2">Maturity Date</h5>
-            <h2 className="summary-balance font-medium">
-              {savings.status !== GroupSavingsStatus.Pending
-                ? moment(savings.estimatedTerminationDate).format("MMM Do YYYY")
-                : "N/A"}
-            </h2>
+            {savings.savingsType === SavingsType.PersonalTargetSavings ||
+            savings.savingsType === SavingsType.FixedLockSavings ||
+            savings.savingsType === SavingsType.FixedFlexibleSavings ? (
+              <h2 className="summary-balance font-medium">
+                {moment(savings.estimatedTerminationDate).format("MMM Do YYYY")}
+              </h2>
+            ) : (
+              <h2 className="summary-balance font-medium">
+                {savings.status !== SavingsStatus.Pending
+                  ? moment(savings.estimatedTerminationDate).format(
+                      "MMM Do YYYY"
+                    )
+                  : "N/A"}
+              </h2>
+            )}
           </div>
         </div>
       </div>
     </Link>
   );
 };
+
 export default SavingsListItem;

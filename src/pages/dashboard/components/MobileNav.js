@@ -36,7 +36,7 @@ const MobileNav = ({ account }) => {
         <nav className="w-72 mobile-nav h-screen flex flex-col bg-wb-primary justify-between items-center py-20">
           <div className="flex flex-col w-full justify-center items-center mb-12 text-white">
             <figure className="flex flex-col items-center justify-center">
-              {customerDetails.picture !== null ? (
+              {customerDetails.picture !== null && customerDetails.picture !== undefined ? (
                 <img src={customerDetails.picture} alt="" className="mb-4" />
               ) : (
                 <div className="user-no--picture mb-4">

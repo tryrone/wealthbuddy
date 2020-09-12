@@ -13,6 +13,7 @@ const AddDescriptionModal = ({
 }) => {
   useEffect(() => {
     isVisible && closeModalOnOutsideClick(close);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible]);
 
   const initialValues = {
