@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { connect, useDispatch } from "react-redux";
-import { getInvestmentValuation } from "../../../../state/slices/investments";
+import React, { useEffect, useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { getInvestmentValuation } from '../../../../state/slices/investments';
 import {
   smallDollar,
   addInvestment,
   fundInvestment,
   investBars,
-} from "../../imageLinks";
-import { Link } from "react-router-dom";
-import Switch from "react-switch";
-import { formatCurrency } from "utils";
-import Loading from "shared-components/Loading";
+} from '../../imageLinks';
+import { Link } from 'react-router-dom';
+import Switch from 'react-switch';
+import { formatCurrency } from 'utils';
+import Loading from 'shared-components/Loading';
 
 const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
   const [mySwicth, setMySwicth] = useState(false);
@@ -43,7 +43,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
       // style={{ borderRadius: "2px" }}
       className="card-padding card h-auto  card-black  flex-column  text-white"
     >
-      <div className={`${mySwicth ? "hidden" : null}`}>
+      <div className={`${mySwicth ? 'hidden' : null}`}>
         <div className="flex flex-row items-center justify-between content-center">
           <div className="flex items-center">
             <p className="text-white text-opacity-25 self-center pt-1 pl-3">
@@ -60,18 +60,18 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
             src={investBars}
             alt="wealth-buddy"
             style={{
-              height: "45px",
-              width: "45px",
-              position: "relative",
-              top: "10px",
+              height: '45px',
+              width: '45px',
+              position: 'relative',
+              top: '10px',
             }}
           />
         </div>
 
         <p className="text-gray-100 text-4xl font-bold pl-6">
-          {" "}
+          {' '}
           {investmentValuationLoading
-            ? "₦0"
+            ? '₦0'
             : `₦${formatCurrency(
                 !investmentValuationData
                   ? null
@@ -84,14 +84,14 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
               )}`}
         </p>
 
-        <div className="flex flex-summary card-margin--x flex-wrap justify-between items-center content-center pt-6">
-          <div className="text-left pl-6">
+        <div className="flex flex-summary card-margin--x  justify-between items-center content-center pt-6">
+          <div className="text-left sm:pl-6">
             <p className="text-base text-white text-opacity-25 ">
               Investment Capital
             </p>
             <p className="text-gray-100 text-2xl font-bold text-right">
               {investmentValuationLoading
-                ? "₦0"
+                ? '₦0'
                 : `₦${formatCurrency(
                     !investmentValuationData.totalPortfolioValue
                       ? null
@@ -100,15 +100,15 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
             </p>
           </div>
           <div
-            style={{ width: "2px", height: "50px", backgroundColor: "#222222" }}
+            style={{ width: '2px', height: '50px', backgroundColor: '#222222' }}
           />
-          <div className="text-left card-margin--y ml-6 sm:ml-0 pr-6">
+          <div className="text-left card-margin--y ml-2 sm:ml-0 sm:pr-6">
             <p className="text-base text-white text-opacity-25">
               Total Interests
             </p>
             <p className="ext-gray-100 text-2xl font-bold">
               {investmentValuationLoading
-                ? "₦0"
+                ? '₦0'
                 : `+ ₦${formatCurrency(
                     !investmentValuationData
                       ? null
@@ -120,17 +120,17 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
           </div>
         </div>
 
-        <div className="flex flex-summary flex-col sm:flex-row justify-between items-center content-center pt-6">
+        <div className="flex flex-summary flex-row sm:flex-row justify-between items-center content-center pt-6">
           <Link
             to="/dashboard/investment/fund-investment"
-            className="pl-6 flex items-center content-center"
+            className="pl-2 flex items-center content-center"
           >
             <img src={fundInvestment} alt="wealth-buddy" className="pr-3" />
             <p className="text-white text-base self-center">Fund Investment</p>
           </Link>
           <Link
             to="/dashboard/investment/add-investment"
-            className="pl-6 flex mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
+            className="pl-6 flex sm:mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
           >
             <img src={addInvestment} alt="wealth-buddy" className="pr-3" />
             <p className="text-white text-base self-center">Add Investment</p>
@@ -140,7 +140,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
 
       {/* SECOND TOTAL SCREEN */}
 
-      <div className={`${!mySwicth ? "hidden" : null}`}>
+      <div className={`${!mySwicth ? 'hidden' : null}`}>
         {/* TOP SECTION */}
         <div className="flex justify-between items-center">
           <p className="text-white text-opacity-25 self-center">
@@ -155,7 +155,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
         </div>
 
         <p className="text-gray-100 text-base font-bold">
-          Purchase Cost:{" "}
+          Purchase Cost:{' '}
           {investmentValuationLoading
             ? null
             : `N${formatCurrency(
@@ -165,7 +165,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
               )} `}
         </p>
         <p className="text-gray-100 text-base font-bold">
-          Total Returns:{" "}
+          Total Returns:{' '}
           {investmentValuationLoading
             ? null
             : `N${formatCurrency(
@@ -181,7 +181,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
               FIXED DEPOSIT
             </p>
             <p className="text-gray-100 text-base font-bold">
-              Purchase Cost{" "}
+              Purchase Cost{' '}
               {investmentValuationLoading
                 ? null
                 : `N${formatCurrency(
@@ -193,7 +193,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
 
             {/* PART TWO */}
             <p className="text-gray-100 text-base font-bold">
-              Total Returns:{" "}
+              Total Returns:{' '}
               {investmentValuationLoading
                 ? null
                 : `N${formatCurrency(
@@ -206,14 +206,14 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
           </div>
 
           <div
-            style={{ width: "2px", height: "50px", backgroundColor: "#222222" }}
+            style={{ width: '2px', height: '50px', backgroundColor: '#222222' }}
           />
           <div className="text-left">
             <p className="text-white text-opacity-25 self-center">
               TBILLS INVESTMENT
             </p>
             <p className="text-gray-100 text-base font-bold text-right">
-              Purchase Cost:{" "}
+              Purchase Cost:{' '}
               {investmentValuationLoading
                 ? null
                 : `N${Math.sign(
@@ -223,7 +223,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
                   )}`}
             </p>
             <p className="text-gray-100 text-base font-bold text-right">
-              Total Returns:{" "}
+              Total Returns:{' '}
               {investmentValuationLoading
                 ? null
                 : `N${Math.sign(

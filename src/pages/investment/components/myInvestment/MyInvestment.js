@@ -1,20 +1,21 @@
-import React from "react";
-import { addBtn } from "../../imageLinks";
-import dollBox from "../../../../assets/img/investbars.svg";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { addBtn } from '../../imageLinks';
+import dollBox from '../../../../assets/img/investbars.svg';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import './invest.css';
 
-import { formatCurrency } from "utils";
+import { formatCurrency } from 'utils';
 
 const MyInvestment = (props) => {
   return props.investmentValuationLoading ? null : (
     <div className="flex flex-row flex-wrap  scroll-container ps">
-      <Link to={`/dashboard/investment/add-investment`}>
+      <Link to={`/dashboard/investment/add-investment`} className="full">
         <div
           style={{
-            border: "1px solid #F1F1F1",
-            borderRadius: "2px",
-            padding: "43px 62px",
+            border: '1px solid #F1F1F1',
+            borderRadius: '2px',
+            padding: '43px 62px',
           }}
           className="card  flex mr-3 justify-center content-center items-center flex-col"
         >
@@ -29,11 +30,11 @@ const MyInvestment = (props) => {
               <Link
                 key={index}
                 to={{
-                  pathname: "/dashboard/investment/view-investment",
+                  pathname: '/dashboard/investment/view-investment',
                   investmentId: item.securityId,
                 }}
-                style={{ border: " 1px solid #F1F1F1", borderRadius: "2px" }}
-                className="card px-4 py-4  flex mr-4 flex-col"
+                style={{ border: ' 1px solid #F1F1F1', borderRadius: '2px' }}
+                className="card px-4 py-4 full  flex mr-4 flex-col"
               >
                 <div className="flex flex-row content-center items-center">
                   <img
@@ -41,10 +42,10 @@ const MyInvestment = (props) => {
                     src={dollBox}
                     alt=""
                     className="rounded-sm"
-                    style={{ height: "78.41px", width: "90.71px" }}
+                    style={{ height: '78.41px', width: '90.71px' }}
                   />
                   <p
-                    style={{ width: "100px" }}
+                    style={{ width: '100px' }}
                     className="text-black font-bold text-base ml-2 "
                   >
                     {item.companyName}
@@ -52,7 +53,7 @@ const MyInvestment = (props) => {
                 </div>
 
                 <div
-                  style={{ borderTop: "1px solid #F1F1F1" }}
+                  style={{ borderTop: '1px solid #F1F1F1' }}
                   className="flex flex-row mt-2 pt-2 justify-between"
                 >
                   <div>
@@ -65,7 +66,7 @@ const MyInvestment = (props) => {
                   <div>
                     <p className="text-black text-sm">Returns</p>
                     <p
-                      style={{ color: "#8CB13D" }}
+                      style={{ color: '#8CB13D' }}
                       className="font-bold mt-1 text-right text-base"
                     >
                       {item.portPercentage.toFixed(2)}%
@@ -85,12 +86,12 @@ const MyInvestment = (props) => {
               <Link
                 key={index}
                 to={{
-                  pathname: "/dashboard/investment/view-investment",
+                  pathname: '/dashboard/investment/view-investment',
                   investmentId: item.typeId,
                   fixedId: item.instrumentId,
                 }}
-                style={{ border: " 1px solid #F1F1F1", borderRadius: "2px" }}
-                className="card px-4 py-4  flex mr-4 flex-col"
+                style={{ border: ' 1px solid #F1F1F1', borderRadius: '2px' }}
+                className="card px-4 py-4 full flex mr-4 flex-col"
               >
                 <div className="flex flex-row content-center items-center">
                   <img
@@ -98,10 +99,10 @@ const MyInvestment = (props) => {
                     src={dollBox}
                     alt=""
                     className="rounded-sm"
-                    style={{ height: "78.41px", width: "90.71px" }}
+                    style={{ height: '78.41px', width: '90.71px' }}
                   />
                   <p
-                    style={{ width: "100px" }}
+                    style={{ width: '100px' }}
                     className="text-black font-bold text-base ml-2 "
                   >
                     {item.productLabel}
@@ -109,13 +110,13 @@ const MyInvestment = (props) => {
                 </div>
 
                 <div
-                  style={{ borderTop: "1px solid #F1F1F1" }}
+                  style={{ borderTop: '1px solid #F1F1F1' }}
                   className="flex flex-row mt-2 pt-2 justify-between"
                 >
                   <div>
                     <p className="text-black text-sm">Current Value</p>
                     <p className="text-black mt-1 font-bold text-base">
-                      ₦{" "}
+                      ₦{' '}
                       {formatCurrency(
                         item.netInstrumentValue.amount.toFixed(2)
                       )}
@@ -125,7 +126,7 @@ const MyInvestment = (props) => {
                   <div>
                     <p className="text-black text-sm">Returns</p>
                     <p
-                      style={{ color: "#8CB13D" }}
+                      style={{ color: '#8CB13D' }}
                       className="font-bold mt-1 text-right text-base"
                     >
                       {item.interestRate.toFixed(2)}%
@@ -145,12 +146,12 @@ const MyInvestment = (props) => {
               <Link
                 key={index}
                 to={{
-                  pathname: "/dashboard/investment/view-investment",
+                  pathname: '/dashboard/investment/view-investment',
                   investmentId: item.typeId,
                   tBillId: item.id,
                 }}
-                style={{ border: " 1px solid #F1F1F1", borderRadius: "2px" }}
-                className="card px-4 py-4  flex mr-4 flex-col"
+                style={{ border: ' 1px solid #F1F1F1', borderRadius: '2px' }}
+                className="card px-4 py-4 full  flex mr-4 flex-col"
               >
                 <div className="flex flex-row content-center items-center">
                   <img
@@ -158,10 +159,10 @@ const MyInvestment = (props) => {
                     src={dollBox}
                     alt=""
                     className="rounded-sm"
-                    style={{ height: "78.41px", width: "90.71px" }}
+                    style={{ height: '78.41px', width: '90.71px' }}
                   />
                   <p
-                    style={{ width: "100px" }}
+                    style={{ width: '100px' }}
                     className="text-black font-bold text-base ml-2 "
                   >
                     {item.typeLabel}
@@ -169,7 +170,7 @@ const MyInvestment = (props) => {
                 </div>
 
                 <div
-                  style={{ borderTop: "1px solid #F1F1F1" }}
+                  style={{ borderTop: '1px solid #F1F1F1' }}
                   className="flex flex-row mt-2 pt-2 justify-between"
                 >
                   <div>
@@ -182,7 +183,7 @@ const MyInvestment = (props) => {
                   <div>
                     <p className="text-black text-sm">Returns</p>
                     <p
-                      style={{ color: "#8CB13D" }}
+                      style={{ color: '#8CB13D' }}
                       className="font-bold mt-1 text-right text-base"
                     >
                       {item.interestRate.toFixed(2)}%

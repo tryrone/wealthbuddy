@@ -55,7 +55,7 @@ const TransactHistory = (props) => {
         border: '1px solid #F1F1F1',
         borderRadius: '14px',
       }}
-      className="shadow-2xl w-full bg-white border px-8 py-5 hide-scroll overflow-y-scroll h-screen"
+      className="shadow-2xl w-full bg-white border  px-6 sm:px-8 py-5 overflow-hidden h-screen"
     >
       <p className={`text-black text-base text-center mb-4 font-light`}>
         Transaction History
@@ -115,7 +115,7 @@ const TransactHistory = (props) => {
         )}
       </div>
 
-      <div className="hide-scroll overflow-y-scroll hide-scroll h-screen">
+      <div className="hide-scroll overflow-y-scroll hide-scroll pb-64 h-screen">
         <div style={{ display: activeTwo ? 'block' : 'none' }}>
           {/* invest content */}
           {props.investmentTransactionsForFundsLoading
@@ -127,9 +127,9 @@ const TransactHistory = (props) => {
                     className="flex flex-row justify-between content-center items-center mt-8"
                   >
                     <div className="flex flex-col sm:flex-row content-center items-center">
-                      <img src={investBars} />
+                      <img src={investBars} className="hidden sm:flex" />
 
-                      <div className="ml-5 mt-4 sm:mt-0">
+                      <div className="sm:ml-5 mt-4 sm:mt-0">
                         <p className="text-black text-base font-light">
                           {num.description}
                         </p>
@@ -142,14 +142,14 @@ const TransactHistory = (props) => {
                       </div>
                     </div>
 
-                    <div className="mt-10 sm:mt-0">
+                    <div className=" sm:mt-0">
                       <p className="text-black font-bold text-right font-light">
                         {num.currency === 'NGN' ? naira : dollar}
                         {formatCurrency(num.transAmount)}
                       </p>
                       <p
                         style={{ color: '#999999' }}
-                        className="text-sm text-right w-full mt-2"
+                        className="text-sm text-right w-full sm:mt-2"
                       >
                         {moment(parseInt(num.orderDate)).format('L')}
                       </p>
@@ -171,9 +171,9 @@ const TransactHistory = (props) => {
                     className="flex flex-row justify-between content-center items-center mt-8"
                   >
                     <div className="flex flex-col sm:flex-row content-center items-center">
-                      <img src={investBars} />
+                      <img src={investBars} className="hidden sm:flex" />
 
-                      <div className="ml-5 mt-4 sm:mt-0">
+                      <div className="sm:ml-5 mt-4 sm:mt-0">
                         <p className="text-black text-sm font-light">
                           {num.portfolioLabel}
                         </p>
@@ -193,14 +193,14 @@ const TransactHistory = (props) => {
                       </div>
                     </div>
 
-                    <div className="mt-10 sm:mt-0">
+                    <div className="sm:mt-0">
                       <p className="text-black font-bold text-right font-light">
                         {num.currency === 'NGN' ? naira : dollar}
                         {formatCurrency(num.faceValue)}
                       </p>
                       <p
                         style={{ color: '#999999' }}
-                        className="text-sm mt-2 w-full text-right"
+                        className="text-sm sm:mt-2 w-full text-right"
                       >
                         {moment(num.startDate).format('L')}
                       </p>
@@ -226,9 +226,9 @@ const TransactHistory = (props) => {
                   className="flex flex-row justify-between content-center items-center mt-8"
                 >
                   <div className="flex flex-col sm:flex-row content-center items-center">
-                    <img src={investBars} />
+                    <img src={investBars} className="hidden sm:flex" />
 
-                    <div className="ml-5 mt-4 sm:mt-0">
+                    <div className="sm:ml-5 mt-4 sm:mt-0">
                       <p className="text-black text-base font-light">
                         {num.instrumentTypeLabel}
                       </p>
@@ -247,14 +247,14 @@ const TransactHistory = (props) => {
                     </div>
                   </div>
 
-                  <div className="mt-10 sm:mt-0">
+                  <div className=" sm:mt-0">
                     <p className="text-black text-right font-bold font-light">
                       {num.currency === 'NGN' ? naira : dollar}
                       {formatCurrency(num.faceValue)}
                     </p>
                     <p
                       style={{ color: '#999999' }}
-                      className="text-sm text-right mt-2"
+                      className="text-sm text-right sm:mt-2"
                     >
                       {moment(num.orderDate).format('L')}
                     </p>

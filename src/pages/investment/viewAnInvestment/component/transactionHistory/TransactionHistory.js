@@ -25,7 +25,7 @@ const TransactionHistory = (props) => {
         border: '1px solid #F1F1F1',
         borderRadius: '14px',
       }}
-      className="shadow-2xl mt-6 w-full bg-white border px-8 py-5"
+      className="shadow-2xl mt-6 w-full bg-white border px-4 sm:px-8 py-5"
     >
       {/* <div className="flex justify-center content-center items-center">
         <p className="text-xs font-bold text-teal-700">+324,442.88</p>
@@ -96,9 +96,9 @@ const TransactionHistory = (props) => {
                   className="flex flex-row justify-between content-center items-center mt-8"
                 >
                   <div className="flex flex-col sm:flex-row content-center items-center">
-                    <img src={investBars} />
+                    <img src={investBars} className="hidden sm:flex" />
 
-                    <div className="ml-5 mt-4 sm:mt-0">
+                    <div className="sm:ml-5 sm:mt-0">
                       <p className="text-black text-xs font-light">
                         {num.description}
                       </p>
@@ -108,7 +108,7 @@ const TransactionHistory = (props) => {
                     </div>
                   </div>
 
-                  <div className="mt-10 sm:mt-0">
+                  <div className=" sm:mt-0">
                     <p className="text-black font-bold text-right font-light">
                       {num.currency === 'NGN' ? naira : dollar}
                       {formatCurrency(num.transAmount)}
@@ -138,9 +138,9 @@ const TransactionHistory = (props) => {
                   className="flex flex-row justify-between content-center items-center mt-8"
                 >
                   <div className="flex flex-col sm:flex-row content-center items-center">
-                    <img src={investBars} />
+                    <img src={investBars} className="hidden sm:flex" />
 
-                    <div className="ml-5 mt-4 sm:mt-0">
+                    <div className="sm:ml-5  sm:mt-0">
                       <p className="text-black text-base font-light">
                         {num.portfolioLabel}
                       </p>
@@ -150,7 +150,7 @@ const TransactionHistory = (props) => {
                     </div>
                   </div>
 
-                  <div className="mt-10 sm:mt-0">
+                  <div className=" sm:mt-0">
                     <p className="text-black font-bold text-right font-light">
                       {num.currency === 'NGN' ? naira : dollar}
                       {formatCurrency(num.faceValue)}
@@ -184,9 +184,9 @@ const TransactionHistory = (props) => {
                   className="flex flex-row justify-between content-center items-center mt-8"
                 >
                   <div className="flex flex-col sm:flex-row content-center items-center">
-                    <img src={investBars} />
+                    <img src={investBars} className="hidden sm:flex" />
 
-                    <div className="ml-5 mt-4 sm:mt-0">
+                    <div className="sm:ml-5  sm:mt-0">
                       <p className="text-black text-base font-light">
                         {num.instrumentTypeLabel}
                       </p>
@@ -196,7 +196,7 @@ const TransactionHistory = (props) => {
                     </div>
                   </div>
 
-                  <div className="mt-10 sm:mt-0">
+                  <div className=" sm:mt-0">
                     <p className="text-black font-bold text-right font-light">
                       {num.currency === 'NGN' ? naira : dollar}
                       {formatCurrency(num.faceValue)}

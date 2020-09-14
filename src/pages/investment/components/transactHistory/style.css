@@ -20,3 +20,9 @@
   border: 1px solid #dae1bf;
   border-radius: 7px;
 }
+
+@media screen and (max-width: 800px) {
+  .hide_me {
+    display: none;
+  }
+}
