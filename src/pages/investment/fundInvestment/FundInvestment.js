@@ -56,7 +56,7 @@ const FundInvestment = (props) => {
 
   const fundData = {
     transAmount: parseInt(amount),
-    securityID: Id,
+    securityId: Id,
     description: `${investSymbol}`,
     currency: `${investCurrency == "undefined" ? "NGN" : investCurrency}`,
     fundName: `${investName}`,
@@ -103,7 +103,7 @@ const FundInvestment = (props) => {
             </label>
             <NumberFormat
               thousandSeparator={true}
-              placeholder="Min 20,000"
+              placeholder="ex. 10,000"
               autoComplete="off"
               type="text"
               id="amount"

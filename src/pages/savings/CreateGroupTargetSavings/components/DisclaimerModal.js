@@ -45,24 +45,21 @@ const DisclaimerModal = ({
               )}
 
               <div className="disclaimer-text">
-                <p className="mb-6 text-gray-300">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
+              <p className="mb-6 text-gray-300">
+                  I agree that this savings instance therein shall be locked-in 
+                  for the period we have specified in the setup of this savings 
+                  instance.
                 </p>
-                <p className="text-gray-300">
-                  Consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                  ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                  ea commodo consequat. Duis aute irure dolor in reprehenderit
-                  in voluptate velit esse cillum dolore eu fugiat nulla
-                  pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                  in culpa qui officia deserunt mollit anim id est laborum.
+                <p className="mb-6 text-gray-300">
+                  Apart from the job of a collecting agent, Meristem shall not be
+                  liable for any actions that anybody in this group savings takes
+                  with regards to the money saved herein.
+                </p> 
+                <p className="mb-6 text-gray-300">
+                	I agree that I know, and I am willing to enter a group savings
+                  plan with the members of this group as stated in the setup of
+                  this savings plan
+
                 </p>
               </div>
 

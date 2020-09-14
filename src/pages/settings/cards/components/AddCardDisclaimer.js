@@ -10,6 +10,7 @@ const AddCardDisclaimerModal = ({
 }) => {
   useEffect(() => {
     isVisible && closeModalOnOutsideClick(handleClose);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible]);
 
   return (

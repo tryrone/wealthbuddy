@@ -1,6 +1,11 @@
 .text-left-f {
-    text-align: left !important;
+  text-align: left !important;
 }
+
+.animate-fade--hover {
+  transition: color 0.3s ease-in;
+}
+
 .member-email {
-    max-width: 220px;
+  max-width: 220px;
 }

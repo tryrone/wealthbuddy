@@ -21,7 +21,7 @@ const momentUnits = {
   [SavingsFrequency.Monthly.toString()]: "months",
 };
 
-const ConfirmPersonalSavings = ({
+const ConfirmSavings = ({
   savingsConfiguration,
   formValues,
   isVisible,
@@ -148,4 +148,4 @@ const ConfirmPersonalSavings = ({
   );
 };
 
-export default ConfirmPersonalSavings;
+export default ConfirmSavings;

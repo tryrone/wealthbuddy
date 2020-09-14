@@ -61,7 +61,7 @@ const FundExistingInvestment = (props) => {
 
   const fundData = {
     transAmount: parseInt(amount),
-    securityID: `${
+    securityId: `${
       setInvestmentTypeOne.length == 0 && setInvestmentTypeTwo.length == 0
         ? makeArray[0].typeId
         : setInvestmentTypeTwo.length == 0 && setInvestmentTypeThree.length == 0
@@ -152,7 +152,7 @@ const FundExistingInvestment = (props) => {
             </label>
             <NumberFormat
               thousandSeparator={true}
-              placeholder="Min 20,000"
+              placeholder="ex 10,000"
               autoComplete="off"
               type="text"
               id="amount"

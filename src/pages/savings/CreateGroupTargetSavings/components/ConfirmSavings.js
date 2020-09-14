@@ -54,10 +54,12 @@ const ConfirmSavings = ({
                     </h5>
                     <h1 className="savings-inner--title mt-3 font-medium">
                       {`₦${formatCurrency(
-                        formValues.amount / formValues.duration
+                        formValues.amount / formValues.duration /(formValues.participants.length + 1) 
                       )}
                           /
-                          ${savingsFrequencies[formValues.frequency]}`}
+                          ${savingsFrequencies[formValues.frequency]}
+                          `}
+                          
                     </h1>
                   </div>
                   <div className="savings-inner--item">
@@ -96,7 +98,7 @@ const ConfirmSavings = ({
                     <span className="capitalize">
                       {converter.toWords(formValues.participants.length)}
                     </span>{" "}
-                    people have been added to this group and will be sent a mail
+                    person(s) have been added to this group and will be sent a mail
                     to confirm the agree
                   </div>
                 </div>

@@ -1,18 +1,20 @@
 import React, { Fragment, useState } from "react";
-import CreatePersonalSavings from "./CreatePersonalSavings";
-import ConfirmPersonalSavings from "./ConfirmPersonalSavings";
+import CreateSavings from "./CreateSavings";
+import ConfirmSavings from "./ConfirmSavings";
 import { SavingsFrequency, SavingsType } from "constants/enums";
 import { useLocation } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import FundSavingsModal from "./FundSavingsModal";
-import produce from "immer";
 import DisclaimerModal from "./DisclaimerModal";
 import { createPersonalTargetSavings } from "state/slices/savings";
-import moment from "moment";
 import CreateSavingsSuccessModal from "./CreateSavingsSuccessModal";
+import moment from "moment";
+import produce from "immer";
+import "./styles.css";
+import { convertYmdJsonToIsoDate } from "utils";
+import FundSavingsModal from "./FundSavingsModal";
 
-const PersonalSavings = ({ savingsConfiguration }) => {
+const CreatePersonalTargetSavings = ({ savingsConfiguration }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { state: locationState } = useLocation();
@@ -103,7 +105,6 @@ const PersonalSavings = ({ savingsConfiguration }) => {
     setState(
       produce((draft) => {
         draft.showDisclaimerModal = false;
-        draft.showFundSavingsModal = true;
       })
     );
   };
@@ -114,7 +115,9 @@ const PersonalSavings = ({ savingsConfiguration }) => {
       amount: state.formValues.amount,
       duration: state.formValues.duration,
       schedule: state.formValues.frequency,
-      startDate: moment(state.formValues.startDate).toISOString(),
+      startDate: moment(
+        convertYmdJsonToIsoDate(state.formValues.startDate)
+      ).toISOString(),
       allowCardDebit: state.formValues.allowCardDebit,
       cardId: state.formValues.cardId,
       savingsType: SavingsType.PersonalTargetSavings,
@@ -161,14 +164,14 @@ const PersonalSavings = ({ savingsConfiguration }) => {
   return (
     <Fragment>
       <div className="px-12 ">
-        <CreatePersonalSavings
+        <CreateSavings
           savingsConfiguration={selectedSavingsConfiguration}
           initialFormValues={state.formValues}
           isVisible={state.showCreationPage}
           onSubmit={onSubmitCreatePersonalSavings}
         />
 
-        <ConfirmPersonalSavings
+        <ConfirmSavings
           savingsConfiguration={selectedSavingsConfiguration}
           formValues={state.formValues}
           isVisible={state.showConfirmationPage}
@@ -205,4 +208,4 @@ const mapStateToProps = (state) => ({
   savingsConfiguration: state.savingsConfiguration.data,
 });
 
-export default connect(mapStateToProps)(PersonalSavings);
+export default connect(mapStateToProps)(CreatePersonalTargetSavings);

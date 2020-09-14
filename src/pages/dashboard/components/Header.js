@@ -9,14 +9,7 @@ const Header = ({ dashboard }) => {
 
   return (
     <Fragment>
-      <div className="flex justify-between px-12 pb-12 header-wrap items-center">
-        <div className="search-field">
-          <input className="header-search" type="search" placeholder="Search" />
-          <span
-            className="search-header"
-            dangerouslySetInnerHTML={{ __html: searchIcon }}
-          />
-        </div>
+      <div className="flex justify-end px-12 pb-12 header-wrap items-center">
         <div className="notification-icon flex justify-between items-center">
           <div className="status-progress">
             <h2 className="font-medium text-normal text-xs">
@@ -32,10 +25,6 @@ const Header = ({ dashboard }) => {
               {`${dashboard.profileUpdateStatus}%`}
             </h2>
           </div>
-          <span
-            className={`notification-icon--inline`}
-            dangerouslySetInnerHTML={{ __html: notificationIcon }}
-          />
         </div>
       </div>
 

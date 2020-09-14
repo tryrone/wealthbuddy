@@ -4,7 +4,7 @@ import { pencil } from "assets/exports";
 import { connect, useDispatch } from "react-redux";
 import { Field, useFormikContext } from "formik";
 import { uploadProfilePicture } from "state/slices/account";
-import DatePicker, { utils } from "react-modern-calendar-datepicker";
+import DatePicker from "react-modern-calendar-datepicker";
 
 const gender = [
   { title: "Male", value: 1 },
@@ -58,7 +58,7 @@ const BasicInformation = ({ account }) => {
   return (
     <Fragment>
       <figure className="basic-profile mb-5 flex items-center">
-        {values.picture !== null ? (
+        {values.picture !== null && values.picture !== undefined ? (
           <img src={values.picture} alt="" className="mb-4" />
         ) : (
           <div className="user-no--picture mb-4 text-white">

@@ -6,3 +6,9 @@
 .group-savings-image {
   max-height: 150px;
 }
+
+.progress-meter {
+  &.progress-meter-green {
+    background-color: #48bb78;
+  }
+}

@@ -21,7 +21,7 @@ const savingsFrequenciesPluralized = {
   [SavingsFrequency.Monthly.toString()]: "Months",
 };
 
-const CreatePersonalSavings = ({
+const CreateSavings = ({
   savingsConfiguration,
   initialFormValues,
   isVisible,
@@ -336,13 +336,13 @@ const CreatePersonalSavings = ({
                           </div>
                           <div className="flex items-center justify-between pt-6">
                             <div className="confirm-automation flex items-center">
-                              <p className="text-black">
-                                {`${
-                                  values.applyInterest
-                                    ? "Uncheck if you would not lke to get interests?"
-                                    : "Will you like to get interests?"
-                                }`}
-                              </p>
+                            <p className="text-black">
+                              {`${
+                                values.applyInterest
+                                  ? "Uncheck if you are an Ethical Investor"
+                                  : "Are you an Ethical Investor?"
+                              }`}
+                            </p>
                             </div>
                             <div className="pretty p-switch p-fill ">
                               <Field type="checkbox" name="applyInterest" />
@@ -381,4 +381,4 @@ const CreatePersonalSavings = ({
   );
 };
 
-export default CreatePersonalSavings;
+export default CreateSavings;

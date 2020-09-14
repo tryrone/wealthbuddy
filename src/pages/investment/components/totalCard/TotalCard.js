@@ -89,7 +89,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
             <p className="text-base text-white text-opacity-25 ">
               Investment Capital
             </p>
-            <p className="text-gray-100 text-2xl font-bold text-right">
+            <p className="text-gray-100 text-2xl font-bold text-left">
               {investmentValuationLoading
                 ? '₦0'
                 : `₦${formatCurrency(
