@@ -130,7 +130,7 @@ const TotalCard = ({ investmentValuationData, investmentValuationLoading }) => {
           </Link>
           <Link
             to="/dashboard/investment/add-investment"
-            className="pl-6 flex sm:mt-6 sm:mt-0 relative ml-2 sm:ml-0 items-center content-center pr-5"
+            className="pl-6 Flexible flex flex-row  relative ml-2 sm:ml-0 items-center content-center pr-5"
           >
             <img src={addInvestment} alt="wealth-buddy" className="pr-3" />
             <p className="text-white text-base self-center">Add Investment</p>

@@ -5,9 +5,9 @@ import moment from 'moment';
 import { connect, useDispatch } from 'react-redux';
 import { getAllInvestments } from '../../../../state/slices/investments';
 // import { Redirect } from "react-router-dom";
-import Chart from "../Chart";
-import { Link, Redirect, useHistory } from "react-router-dom";
-import { formatCurrency } from "utils";
+import Chart from '../Chart';
+import { Link, Redirect, useHistory } from 'react-router-dom';
+import { formatCurrency } from 'utils';
 
 const InvestmentInfo = (props) => {
   const dispatch = useDispatch();
@@ -64,7 +64,7 @@ const InvestmentInfo = (props) => {
         'Treasury Bills afford you the opportunity to lend money to the government and get paid back with interest after a period time usually 91days, 182 days or 364days subject to your choice.',
       auction: true,
     },
-    2: {
+    4: {
       name: 'MERISTEM DOLLAR INVESTMENT PORTFOLIO (MDIP)',
       summary:
         ' This investment offers you a shield from currency risk. It is a great way to spread your investment and reduce your risk exposure. The Meristem Dollar investment creates a platform for you to earn interest in foreign currency and invest in dollar denominated instruments.',
@@ -80,12 +80,12 @@ const InvestmentInfo = (props) => {
         'Fixed income broadly refers to those types of investment security that pay investors fixed interest or dividend payments until its maturity date.',
       auction: false,
     },
-    45149135: {
-      name: "REAP-ARENA (REAP)",
+    2: {
+      name: 'REAP-ARENA (REAP)',
       summary:
-        "This is a British pound denominated investment, designed to offer investors the actual advantage of currency appreciation and rental income. Through this product, investors have the opportunity to co-own real estate and generate income via short let rental and full-term tenancy arrangement.",
+        'This is a British pound denominated investment, designed to offer investors the actual advantage of currency appreciation and rental income. Through this product, investors have the opportunity to co-own real estate and generate income via short let rental and full-term tenancy arrangement.',
       earnings:
-        "Through this product, investors have the opportunity to co-own real estate and generate income via short let rental and full-term tenancy arrangement.",
+        'Through this product, investors have the opportunity to co-own real estate and generate income via short let rental and full-term tenancy arrangement.',
       auction: false,
     },
   };
@@ -175,7 +175,7 @@ const InvestmentInfo = (props) => {
             </p>
 
             <p className="text-lg text-black sm:text-base text-hairline  leading-loose mt-3">
-              {investmentDetail[InvestmentName[0].investmentID].summary}
+              {investmentDetail[InvestmentName[0].investmentType].summary}
             </p>
           </div>
           {/* box one end */}
@@ -195,7 +195,7 @@ const InvestmentInfo = (props) => {
             </p>
 
             <p className="text-lg text-black sm:text-base text-hairline leading-loose  mt-3">
-              {investmentDetail[InvestmentName[0].investmentID].earnings}
+              {investmentDetail[InvestmentName[0].investmentType].earnings}
             </p>
           </div>
           {/* box two end */}

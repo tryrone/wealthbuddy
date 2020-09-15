@@ -8,12 +8,12 @@ import {
   moneyBag,
   pigCoin,
   storeCoin,
-} from "../../imageLinks";
-import { getAllInvestments } from "../../../../state/slices/investments";
-import { connect, useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import Loading from "shared-components/Loading";
-import { formatCurrency } from "utils";
+} from '../../imageLinks';
+import { getAllInvestments } from '../../../../state/slices/investments';
+import { connect, useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import Loading from 'shared-components/Loading';
+import { formatCurrency } from 'utils';
 
 const AddInvestment = ({
   getAllInvestmentsData,
@@ -123,14 +123,14 @@ const AddInvestment = ({
     45149135: handCoin,
   };
   const assetType = {
-    1: "Funds",
-    1: "Funds",
-    3: "Treasury Bills",
-    3: "Treasury Bills",
-    2: "Fixed Deposit",
-    2: "Fixed Deposit",
-    2: "Fixed Deposit",
-    4: "Dollar Investment"
+    1: 'Funds',
+    1: 'Funds',
+    3: 'Treasury Bills',
+    3: 'Treasury Bills',
+    2: 'Fixed Deposit',
+    2: 'Fixed Deposit',
+    2: 'Fixed Deposit',
+    4: 'Dollar Investment',
   };
 
   const availInvest = getAllInvestmentsData.filter(
@@ -184,6 +184,7 @@ const AddInvestment = ({
                     investmentId: `${items.investmentID}`,
                     // investName: `${items.textHead}`,
                   }}
+                  className="full"
                 >
                   <div className="flex card rounded flex-col sm:flex-row  bg-white ">
                     <div
@@ -212,10 +213,9 @@ const AddInvestment = ({
                         </p>
                         <p className="font-bold text-black mt-5 text-base">
                           {/* N{items.minimumAmount} */}
-                          { formatCurrency(items.minimumAmount)}
+                          {formatCurrency(items.minimumAmount)}
                         </p>
-                        <p className="text-xs ">
-                          Minimum Capital</p>
+                        <p className="text-xs ">Minimum Capital</p>
                       </div>
                       <div className="flex justify-between flex-col">
                         <div

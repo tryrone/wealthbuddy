@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Chart from '../Chart';
 import moment from 'moment';
 import { connect, useDispatch } from 'react-redux';
 import { investBars } from '../../imageLinks';
@@ -9,6 +8,7 @@ import {
   getAllFixedTransactions,
 } from '../../../../state/slices/investments';
 import Loading from 'shared-components/Loading';
+import { logo } from 'assets/exports';
 import { formatCurrency } from 'utils';
 import LinesEllipsis from 'react-lines-ellipsis';
 import './style.css';
@@ -46,8 +46,11 @@ const TransactHistory = (props) => {
   // console.log(fixedTransactions, "maa nigger");
 
   return props.investmentTransactionsForFundsLoading ? (
-    <div className="shadow-2xl w-full bg-white border px-8 py-5 hide-scroll overflow-y-scroll h-screen">
-      <Loading text="" />
+    <div className="flex flex-col justify-center min-screen items-center">
+      <div className="flex flex-col justify-center items-center">
+        <i className="w-10 mb-4" dangerouslySetInnerHTML={{ __html: logo }} />
+        <Loading text="" />
+      </div>
     </div>
   ) : (
     <div
